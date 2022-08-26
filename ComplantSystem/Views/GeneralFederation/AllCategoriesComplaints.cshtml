@@ -1,0 +1,141 @@
+﻿@model IEnumerable<TypeComplaint>
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="breadcrumb-wrapper py-3 mb-4">
+        <span class="text-muted fw-light">الأصناف /</span> أصناف الشكاوى
+    </h4>
+
+
+    <div class="card">
+
+        <div class="row mx-2  ">
+            <div class="col-6">
+                <div class="t-d">
+                    <h5 class="card-header title-t" style=" margin-left: 10px;"> اصناف الشكوى</h5>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-datatable table-responsive">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <div class="row mx-2 border-bottom ">
+
+                    @*<div class="dt-buttons ">
+            <button asp-action="addcategory" class="dt-button add-new btn btn-primary create-new btn-add float-end" type="button" data-bs-toggle="modal"
+                    data-bs-target="#input_transaction_filds">
+                <span>
+                    <i class="bx bx-plus me-0 me-lg-2"></i><span class="d-none d-lg-inline-block">إضافة صنف</span>
+                </span>
+            </button>
+
+            <div class="btn-group">
+
+                <a asp-action="AddCategory" class="btn btn-primary btn-sm accent-blue" role="button" aria-pressed="true"> إضافة صنف</a>
+
+            </div>
+        </div>*@
+
+
+
+
+                    <div class="col-12 col-md-3  d-flex justify-content-center justify-content-md-end ">
+                       
+                            <button  class="btn btn-primary btn-add">
+                            <a asp-action="AddCategory" class="btn btn-primary btn-sm accent-blue" role="button" aria-pressed="true"> <i class="bx bx-plus me-0 me-lg-2">إضافة شكوى</i> </a>
+                            </button>
+                    </div>
+                 
+                </div>
+                <div class="card-datatable text-nowrap">
+                    <table class="table table-bordered table table-bordered" id="dataTable">
+
+                        <thead>
+                            <tr>
+                              
+                                <th>
+                                  اسم الصنف
+                                </th>
+                                <th>
+                                 تاريخ الاضافة
+                                </th>
+                                <th>
+                                  اسم مضيف الصنف 
+                                </th>
+                                <th>تعديل</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @if (Model.Count() == 0)
+                            {
+                                <tr>
+                                    <td colspan="3" style="color:red">
+                                        لا يوجد نتائج
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                       
+                                        <td> @Html.DisplayFor(modelItem => item.Type)</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                                        </td>
+                                        <td> @Html.DisplayFor(modelItem => item.UsersNameAddType)</td>
+                                        <td>
+
+                                      
+
+                                            <div class="dropdown">
+                                                <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" asp-action="DetailsCategoriesComplaints" asp-route-id="@item.Id">
+                                                        <i class="bi bi-eye icon-padding icon-color"></i>
+
+                                                        عرض
+                                                    </a>
+                                                    <a class="dropdown-item" asp-action="EditCategoryComplaint"  asp-route-id="@item.Id">
+                                                        <i class="bi bi-pencil-square icon-padding icon-color"></i>
+
+                                                        تعديل
+                                                    </a>
+
+                                                    <a class="dropdown-item" asp-action="DeleteCategoryComplainty"  asp-route-id="@item.Id">
+                                                        <i class="bi bi-trash icon-padding icon-color"></i>
+
+                                                        حذف
+                                                    </a>
+
+
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div class="content-backdrop fade"></div>

@@ -1,0 +1,49 @@
+﻿
+@model IEnumerable<Proposal>
+
+@{
+    ViewData["Title"] = "الاقتراحات";
+}
+<!-- Borderless Table -->
+<div class="card">
+    <h5 class="card-header">قائمة الاقتراحات المقدمة منك</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th> الرقم</th>
+                    <th>عنوان الاقتراح</th>
+                    <th>المحتوى </th>
+                    <th>التاريخ</th>
+                    <th>تفاصيل</th>
+
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach (var proposal in Model)
+                {
+                    <tr>
+                        <td> <strong> @Html.DisplayFor(modelItem => proposal.Id) </strong></td>
+                        <td> <strong> @Html.DisplayFor(modelItem => proposal.TitileProposal) </strong></td>
+                        <td> <strong> @Html.DisplayFor(modelItem => proposal.DescProposal) </strong></td>
+                        <td> <strong> @Html.DisplayFor(modelItem => proposal.DateSubmeted) </strong></td>
+
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-controller="Beneficiarie" asp-action="DetailsProposal" asp-route-id="@proposal.Id"><i class="fa-solid fa-eye"></i> عرض</a>
+         
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Borderless Table -->

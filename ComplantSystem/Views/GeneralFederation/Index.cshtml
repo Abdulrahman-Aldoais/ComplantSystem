@@ -1,0 +1,428 @@
+﻿   <!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="breadcrumb-wrapper py-3 mb-4">
+        <span class="text-muted fw-light">UI elements /</span> Dropdowns
+    </h4>
+
+    <div class="row">
+
+
+
+        <!-- Referral, conversion, impression & income charts -->
+        <div class="col-md-12 col-lg-6">
+            <div class="row">
+
+
+                <!-- Impression Radial Chart-->
+                <div class="col-12 col-sm-6 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div id="impressionDonutChart"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Growth Chart-->
+                <div class="col-12 col-sm-6">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="gap-3 d-flex align-items-center">
+                                            <div class="avatar">
+                                                <span class="avatar-initial bg-label-primary rounded-circle">
+                                                    <i class="bx bx-user fs-4"></i>
+                                                </span>
+                                            </div>
+                                            <div class="card-info">
+                                                <h5 class="card-title me-2 mb-0">38</h5>
+                                                <small class="text-muted">عدد التعميمات</small>
+                                            </div>
+                                        </div>
+                                        <div id="conversationChart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="gap-3 d-flex align-items-center">
+                                            <div class="avatar">
+                                                <span class="avatar-initial bg-label-primary rounded-circle">
+                                                    <i class="bx bx-user fs-4"></i>
+                                                </span>
+                                            </div>
+                                            <div class="card-info">
+                                                <h5 class="card-title me-2 mb-0">@ViewBag.totalUsers</h5>
+                                                <small class="text-muted">عدد المستخدمين الكلي</small>
+                                            </div>
+                                        </div>
+                                        <div id="conversationChart"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="gap-3 d-flex align-items-center">
+                                            <div class="avatar">
+                                                <span class="avatar-initial bg-label-warning rounded-circle">
+                                                    <i class="bx bx-dollar fs-4"></i>
+                                                </span>
+                                            </div>
+                                            <div class="card-info">
+                                                <h5 class="card-title me-2 mb-0">@ViewBag.totalComp</h5>
+                                                <small class="text-muted">عدد الشكاوي</small>
+                                            </div>
+                                        </div>
+                                        <div id="incomeChart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ Referral, conversion, impression & income charts -->
+        <!-- Activity -->
+        <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">النشاطات</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="p-0 m-0">
+                        <li class="d-flex pb-2 mb-4">
+                            <div class="avatar avatar-sm flex-shrink-0 me-3">
+                                <span class="avatar-initial bg-label-primary rounded-circle">
+                                    <i class="bx bx-cube"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column w-100">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span> الشكاوي المرفوعة</span>
+                                    <span class="text-muted">@ViewBag.totalUsers</span>
+                                </div>
+                                <div class="progress" style="height: 6px">
+                                    <div class="progress-bar bg-primary"
+                                         style="width: 40%"
+                                         role="progressbar"
+                                         aria-valuenow="40"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="d-flex pb-2 mb-4">
+                            <div class="avatar avatar-sm flex-shrink-0 me-3">
+                                <span class="avatar-initial bg-label-success rounded-circle">
+                                    <i class="bx bx-dollar"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column w-100">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>البلاغات على النوظف</span>
+                                    <span class="text-muted">@ViewBag.totalcompSolv</span>
+                                </div>
+                                <div class="progress" style="height: 6px">
+                                    <div class="progress-bar bg-success"
+                                         style="width: 80%"
+                                         role="progressbar"
+                                         aria-valuenow="80"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="d-flex pb-2 mb-4">
+                            <div class="avatar avatar-sm flex-shrink-0 me-3">
+                                <span class="avatar-initial bg-label-warning rounded-circle">
+                                    <i class="bx bx-trending-up"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column w-100">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>الشكاوي المرفوعة</span>
+                                    <span class="text-muted">55</span>
+                                </div>
+                                <div class="progress" style="height: 6px">
+                                    <div class="progress-bar bg-warning"
+                                         style="width: 80%"
+                                         role="progressbar"
+                                         aria-valuenow="80"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="d-flex mb-2">
+                            <div class="avatar avatar-sm flex-shrink-0 me-3">
+                                <span class="avatar-initial bg-label-danger rounded-circle">
+                                    <i class="bx bx-check"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column w-100">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>عدد البلاغات</span>
+                                    <span class="text-muted">12</span>
+                                </div>
+                                <div class="progress" style="height: 6px">
+                                    <div class="progress-bar bg-danger"
+                                         style="width: 25%"
+                                         role="progressbar"
+                                         aria-valuenow="25"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--/ Activity -->
+        <!-- Growth Chart-->
+        <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="dropdown mb-4">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                type="button"
+                                id="dropdownMenuButtonSec"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            المحافظة
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButtonSec">
+                            <a class="dropdown-item" href="javascript:void(0);">المحويت</a>
+                            <a class="dropdown-item" href="javascript:void(0);">صنعاء</a>
+                            <a class="dropdown-item" href="javascript:void(0);">تعز</a>
+                        </div>
+                    </div>
+                    <div id="growthRadialChart"></div>
+                    <h6 class="mt-5 mb-0">عدد الشكاوي المرفوعة</h6>
+                </div>
+            </div>
+        </div>
+        <!-- Growth Chart-->
+        <!--user all-->
+        <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mb-xl-0">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-2"> عدد الشكاوي في المحافظات</h5>
+                    <h1 class="display-6 fw-normal mb-0">240</h1>
+                </div>
+                <div class="card-body">
+                    <span class="d-block mb-2">شكوى</span>
+                    <div class="progress progress-stacked mb-3 mb-xl-5" style="height: 8px">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <ul class="p-0 m-0">
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-success me-2"></span> تعز
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>29</span>
+                                <span class="fw-semibold">56%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-danger me-2"></span> صنعاء
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>25</span>
+                                <span class="fw-semibold">26%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-info me-2"></span> المحويت
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>11</span>
+                                <span class="fw-semibold">34%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-primary me-2"></span> عمران
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>48</span>
+                                <span class="fw-semibold">45%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-1">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-warning me-2"></span> عدن
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>22</span>
+                                <span class="fw-semibold">7%</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--user all-->
+        <!--user all-->
+        <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mb-xl-0">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-2"> عدد الشكاوي في العزل</h5>
+                    <h1 class="display-6 fw-normal mb-0">240</h1>
+                </div>
+                <div class="card-body">
+                    <span class="d-block mb-2">شكوى</span>
+                    <div class="progress progress-stacked mb-3 mb-xl-5" style="height: 8px">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <ul class="p-0 m-0">
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-success me-2"></span> تعز
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>29</span>
+                                <span class="fw-semibold">56%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-danger me-2"></span> صنعاء
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>25</span>
+                                <span class="fw-semibold">26%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-info me-2"></span> المحويت
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>11</span>
+                                <span class="fw-semibold">34%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-primary me-2"></span> عمران
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>48</span>
+                                <span class="fw-semibold">45%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-1">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-warning me-2"></span> عدن
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>22</span>
+                                <span class="fw-semibold">7%</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--user all-->
+        <!--user all-->
+        <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mb-xl-0">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-2"> عدد الشكاوي في القرية</h5>
+                    <h1 class="display-6 fw-normal mb-0">240</h1>
+                </div>
+                <div class="card-body">
+                    <span class="d-block mb-2">شكوى</span>
+                    <div class="progress progress-stacked mb-3 mb-xl-5" style="height: 8px">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <ul class="p-0 m-0">
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-success me-2"></span> تعز
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>29</span>
+                                <span class="fw-semibold">56%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-danger me-2"></span> صنعاء
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>25</span>
+                                <span class="fw-semibold">26%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-info me-2"></span> المحويت
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>11</span>
+                                <span class="fw-semibold">34%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-3">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-primary me-2"></span> عمران
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>48</span>
+                                <span class="fw-semibold">45%</span>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-between mb-1">
+                            <div class="lh-1 d-flex align-items-center me-3">
+                                <span class="badge badge-dot bg-warning me-2"></span> عدن
+                            </div>
+                            <div class="gap-3 d-flex">
+                                <span>22</span>
+                                <span class="fw-semibold">7%</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--user all-->
+
+
+
+
+    </div>
+</div>
+<!-- / Content -->

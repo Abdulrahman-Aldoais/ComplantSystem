@@ -1,0 +1,98 @@
+﻿<ul style="font-family: 'Cairo'; font-size:18px" class="menu-inner py-1">
+    <!-- الرئيسة -->
+    <li class="menu-header small text-uppercase"><span class="menu-header-text"> قائمة النظام</span></li>
+    <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="Index"?"active":"")" " >
+        <a asp-action="Index" class="menu-link">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <div data-i18n="الرئيسية" style="margin-right: 14px;">الرئيسية</div>
+        </a>
+    </li>
+    <!-- الشكاوي -->
+
+    <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="Index"?"open":"")
+                            @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"open":"")
+                                                        @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"open":"")
+
+
+                        @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"open active":"")
+            @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"open active":"")
+                                       @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintDetails"?"open":"")
+
+">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="fa fa-indent" aria-hidden="true"></i>
+            <div data-i18n="الشكاوي" style="margin-right: 14px;">الشكاوي</div>
+        </a>
+        <ul class="menu-sub">
+
+            <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="شكاوي_المرفوعة"?"active":"")
+                                                                        @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintDetails"?"active":"")
+" " >
+                <a asp-controller="Beneficiarie" asp-action="Index" class="menu-link">
+                    <div data-i18n="المرفوعة">المرفوعة</div>
+                </a>
+            </li>
+            <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"active":"")
+                                                                                        @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintDetails"?"active":"")
+" " >
+                <a asp-controller="Beneficiarie" asp-action="ViewRejectedComplaints" class="menu-link">
+                    <div data-i18n="المرفوضة">المرفوضة</div>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <!-- البلاغات -->
+    <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="البلاغات"?"open":"")
+                        @(ViewContext.RouteData.Values["Action"].ToString()=="إضافة_بلاغ_على_الموظف"?"open active":"")
+                                                @(ViewContext.RouteData.Values["Action"].ToString()=="عرض_بلاغ"?"open active":"")
+
+                        ">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="fa fa-flag" aria-hidden="true"></i>                <div data-i18n="البلاغات" style="margin-right: 14px;">البلاغات</div>
+        </a>
+
+        <ul class="menu-sub">
+            <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="البلاغات"?"active":"")
+                                                                @(ViewContext.RouteData.Values["Action"].ToString()=="عرض_بلاغ"?" active":"")
+" " >
+                <a href="/Home/البلاغات" class="menu-link">
+                    <div data-i18n="البلاغات" style="margin-right: 14px;">البلاغات</div>
+                </a>
+            </li>
+            <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="إضافة_بلاغ_على_الموظف"?"active":"")" " >
+                <a href="/Home/إضافة_بلاغ_على_الموظف" class="menu-link">
+                    <div data-i18n="إضافة بلاغ على موظف"> إضافة بلاغ على موظف</div>
+                </a>
+            </li>
+
+        </ul>
+    </li>
+    <li class="menu-item">
+        <a class="menu-link menu-toggle">
+            <i class="fa fa-indent" aria-hidden="true"></i>
+            <div style="margin-right: 14px;">الاقتراحات</div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item">
+                <a asp-controller="Beneficiarie" asp-action="AllProposals" class="menu-link">
+                    <div>الاقتراحات المقدمة </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a asp-controller="Beneficiarie" asp-action="AddProposals" class="menu-link">
+                    <div>تقديم إقتراح</div>
+                </a>
+            </li>
+
+        </ul>
+    </li>
+
+</ul>
+
+<!-- الشكاوي -->
+
+
+
+
+

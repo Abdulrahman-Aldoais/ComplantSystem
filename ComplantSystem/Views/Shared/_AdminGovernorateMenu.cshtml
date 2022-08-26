@@ -1,0 +1,130 @@
+﻿
+
+
+
+<ul style="font-family: 'Cairo'; font-size:18px" class="menu-inner py-1">
+    <!-- الرئيسة -->
+    <li class="menu-header small text-uppercase"><span class="menu-header-text"> قائمة النظام</span></li>
+    <li class="menu-item">
+        <a asp-controller="ContentManagementsGeneralFederation" asp-action="Index" class="menu-link">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <div data-i18n="الرئيسية" style="margin-right: 14px;">الرئيسية</div>
+        </a>
+    </li>
+    <!-- الشكاوي -->
+
+
+
+    <li class="menu-item">
+        <a class="menu-link menu-toggle">
+            <i class="fa fa-indent" aria-hidden="true"></i>
+            <div style="margin-right: 14px;">الشكاوي</div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item">
+                <a asp-controller="ContentManagementsGeneralFederation" asp-action="AllComplaints" class="menu-link">
+                    <div>عرض كافة الشكاوي </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a asp-controller="ContentManagementsGeneralFederation" asp-action="AllComplaints" class="menu-link">
+                    <div>المرفوعة</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a asp-controller="ContentManagementsGeneralFederation" asp-action="AllComplaints" class="menu-link">
+                    <div>المرفوضة</div>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <!-- البلاغات -->
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="fa fa-flag" aria-hidden="true"></i>
+            <div data-i18n="البلاغات" style="margin-right: 14px;">البلاغات</div>
+        </a>
+
+        <ul class="menu-sub">
+            <li class="menu-item">
+                <a href="البلاغات.html" class="menu-link">
+                    <div data-i18n="البلاغات" style="margin-right: 14px;">البلاغات</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="تقديم بلاغ على موظف.html" class="menu-link">
+                    <div data-i18n="إضافة بلاغ على موظف"> إضافة بلاغ على موظف</div>
+                </a>
+            </li>
+
+        </ul>
+    </li>
+    <!-- التعميمات -->
+    <li class="menu-item">
+        <a asp-controller="ContentManagementsGeneralFederation" asp-action="AllCirculars" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-food-menu"></i>
+            <div>التعميمات</div>
+        </a>
+    </li>
+
+
+    <!-- إدارةالنظام -->
+
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class='bx bx-list-check'></i>
+            <div data-i18n="إدارةالنظام" style="margin-right: 14px;">إدارةالنظام</div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item">
+                <a href="الشكاوي.html" class="menu-link">
+                    <div data-i18n="إدارةالشكاوي">إدارة الشكاوي</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="ادارة الموظفين.html" class="menu-link">
+                    <div data-i18n="إدارةالموظفين">إدارةالموظفين</div>
+                </a>
+            </li>
+
+
+
+
+        </ul>
+    </li>
+    <!-- الحسابات -->
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-user"></i>
+            <div data-i18n="الحسابات">الحسابات</div>
+        </a>
+        <ul class="menu-sub">
+            <li class="menu-item">
+                <a asp-action="BeneficiariesAccount" class="menu-link">
+                    <div>حسابات المستفيدين</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a asp-controller="ManageUsers" asp-action="Create" class="menu-link">
+                    <div>اضافة حساب موظف </div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a asp-controller="ManageUsers" asp-action="ViewUsers" class="menu-link">
+                    <div>حسابات المدراء</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a asp-controller="ManageUsers" asp-action="AccountRestriction" class="menu-link">
+                    <div>الحسابات المقيدة </div>
+                </a>
+            </li>
+
+
+
+        </ul>
+    </li>
+ 
+ 
+</ul>

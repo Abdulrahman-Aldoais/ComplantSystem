@@ -1,0 +1,283 @@
+﻿@model AdminUserViewModel
+
+@{
+    ViewData["Title"] = "Regster";
+
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="breadcrumb-wrapper py-3 mb-4">
+        <span class="text-muted fw-light">الحسابات   /</span> إضافة حساب موظف
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-pills flex-column flex-md-row mb-3">
+            </ul>
+            <div class="card mb-4">
+                <h5 class="card-header">إضافة حساب موظف </h5>
+                <!-- Account -->
+                <form asp-action="Create" method="POST" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <hr class="my-0" />
+                    <div class="card-body">
+
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="FullName" class="form-label">الاسم الاول</label>
+                                <input asp-for="FullName" class="form-control"
+                                       type="text" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="IdentityNumber" for="lastName" class="form-label">الرقم الوطني</label>
+                                <input asp-for="IdentityNumber" class="form-control" type="text"  />
+                                <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="phoneNumber">رقم التلفون</label>
+                                <input asp-for="PhoneNumber" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+                                <label for="address" class="form-label">الفعالية</label>
+                                <input class="form-check-input" asp-for="IsBlocked" /> @Html.DisplayNameFor(model => model.IsBlocked)
+                            </div>
+
+                            <div class=" form-group form-check col-md-6 mb-3">
+                                <label for="state" class="form-label">تاريخ الميلاد</label>
+                                <input asp-for="DateOfBirth" class="form-control" type="datetime" placeholder="19/05/2022" />
+                            </div>
+
+                            <div class="form-group form-password-toggle col-md-6 mb-3">
+                                @if (User.IsInRole("AdminGeneralFederation"))
+                                {
+                                    <label asp-for="userRoles" class="control-label"></label>
+                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = true, Text = "مدير إتحاد عام", Value = 1.ToString() }, new SelectListItem { Selected = false, Text = " مدير محافظة", Value = 2.ToString() }, new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 3.ToString() }, new SelectListItem { Selected = false, Text = " مدير عزلة", Value = 4.ToString() }, new SelectListItem { Selected = false, Text = " مدير قرية", Value = 5.ToString() }, new SelectListItem { Selected = false, Text = " مزارع ", Value = 6.ToString() } }, "Value", "Text", 6))"> </select>
+                                    <span asp-validation-for="userRoles" class="text-danger"></span>
+                                }
+                                else if (User.IsInRole("AdminGovernorate"))
+                                {
+                                    <label asp-for="userRoles" class="control-label"></label>
+                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 3.ToString() } }, "Value", "Text", 6))"> </select>
+                                    <span asp-validation-for="userRoles" class="text-danger"></span>
+
+                                }
+                                else if (User.IsInRole("AdminDirectorate"))
+                                {
+                                    <label asp-for="userRoles" class="control-label"></label>
+                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = false, Text = " مدير عزلة", Value = 4.ToString() }, new SelectListItem { Selected = false, Text = " مزارع ", Value = 6.ToString() } }, "Value", "Text", 6))"> </select>
+                                    <span asp-validation-for="userRoles" class="text-danger"></span>
+
+                                }
+                                else if (User.IsInRole("AdminSubDirectorate"))
+                                {
+                                    <label asp-for="userRoles" class="control-label"></label>
+                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = false, Text = " مدير قرية", Value = 5.ToString() }, new SelectListItem { Selected = false, Text = " مزارع ", Value = 6.ToString() } }, "Value", "Text", 6))"> </select>
+
+                                    <span asp-validation-for="userRoles" class="text-danger"></span>
+
+                                }
+                            </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="col-form-label">المحافظة</label>
+                                    <select id="addlCategories" class="form-control" asp-for="GovernorateId" asp-items="@(new SelectList(ViewBag.ViewGover,"Id","Name"))">
+                                        <option value="0">حدد المحافظة</option>
+
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="col-form-label ">المديرية</label>
+                                    <select id="addiSubCategories" class="form-control " asp-for="DirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
+                                        <option value="0">حدد المديرية</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="col-form-label">العزل</label>
+                                    <select id="SubDirectorat" class="form-control" asp-for="SubDirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
+                                        <option value="0">حدد العزلة</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+                        <div class="form-group form-password-toggle">
+                            <label class="form-label" for="password">كلمة المرور</label>
+                            <div class="input-group input-group-merge">
+                                <input id="password" asp-for="Password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-password-toggle">
+                            <label class="form-label" for="password"> تاكيد كلمة المرور </label>
+                            <div class="input-group input-group-merge">
+                                <input asp-for="PasswordConfirm" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                            </div>
+                            <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                        </div>
+                      
+                            <div class="mt-2">
+                                <button type="submit" value="Create" class="btn btn-primary me-2">حفظ </button>
+
+                                <button type="reset" class="btn btn-label-secondary">إلغاء</button>
+                            </div>
+</form>
+            </div>
+            <!-- /Account -->
+        </div>
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function upateSubCategoriesList() {
+            var selectedCategory = document.getElementById("addlCategories").value;
+            $list = $('#addiSubCategories');
+            $.ajax({
+                url: '/ManageUsers/GetDirectorateies/' + selectedCategory,
+                teyp: 'GET',
+                dataType: 'text',
+                success: function (data) {
+                    results = JSON.parse(data);
+                    $list.html('');
+                    var items = '';
+                    for (i in results) {
+                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
+                    }
+                    $list.html(items);
+
+                }
+
+
+            }
+            );
+
+        }
+        $(document).ready(function () {
+            upateSubCategoriesList();
+        });
+        $("#addlCategories").on("change", function () {
+            upateSubCategoriesList();
+        });
+
+    </script>
+    <script>
+        function upateSubSubDirectorat() {
+            var selectedSubDirectorat = document.getElementById("addiSubCategories").value;
+            $list = $('#SubDirectorat');
+            $.ajax({
+                url: '/ManageUsers/GetSubDirectorat/' + selectedSubDirectorat,
+                teyp: 'GET',
+                dataType: 'text',
+                success: function (data) {
+                    results = JSON.parse(data);
+                    $list.html('');
+                    var items = '';
+                    for (i in results) {
+                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
+                    }
+                    $list.html(items);
+
+                }
+
+
+            }
+            );
+
+        }
+        $(document).ready(function () {
+            upateSubSubDirectorat();
+        });
+        $("#addiSubCategories").on("change", function () {
+            upateSubSubDirectorat();
+        });
+
+
+
+
+
+    </script>
+    <script>
+        $(".subored").change(function () {
+            let id = $(".subored option:selected").val();
+            $.ajax({
+                url: "/Admin/Accounts/Getval",
+                teyp: "GET",
+                data: { SubDirectorate_Id: id },
+                success: function (data) {
+                    let items = '';
+                    $.each(data, function (i, val) {
+                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
+                    });
+
+                    $(".val").html(items);
+
+
+
+                }
+
+
+            })
+
+        })
+    </script>
+
+    <script>
+        function SubDirvalges() {
+            var selected = document.getElementById("SubDirectorat").value;
+            $list = $('#Valleige');
+            $.ajax({
+                url: '/Admin/Accounts/GetValleigeseies/' + selected,
+                teyp: 'GET',
+                dataType: 'text',
+                success: function (data) {
+                    results = JSON.parse(data);
+                    $list.html('');
+                    var items = '';
+                    for (i in results) {
+                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
+                    }
+                    $list.html(items);
+
+                }
+
+
+            }
+            );
+
+        }
+        $(document).ready(function () {
+            SubDirvalges();
+        });
+        $("#SubDirectorat").on("change", function () {
+            SubDirvalges();
+        });
+
+
+
+
+
+    </script>
+
+    <script>
+        tinymce.init(
+            {
+                selector: 'textarea',
+                plugins: 'lists',
+                menubar: 'file edite format'
+            }
+        );
+    </script>
+
+}

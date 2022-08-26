@@ -1,0 +1,193 @@
+﻿@model ComplantSystem.Data.ViewModels.EditUserViewModel
+   
+
+ @if (!ViewContext.ModelState.IsValid)
+    {
+    <div asp-validation-summary="ModelOnly" class="text-danger alert alert-danger"></div>
+    }
+    <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="breadcrumb-wrapper py-3 mb-4">
+                <span class="text-muted fw-light">الملف الشخصي  /</span> الحساب
+            </h4>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                  
+                    <div class="card mb-4">
+                        <h5 class="card-header">مدراء المحافظة</h5>
+                        <!-- Account -->
+                        <div class="card-body">
+                            <div class="gap-4 d-flex align-items-start align-items-sm-center">
+                                <img src="../../assets/img/avatars/1.png"
+                                     alt="user-avatar"
+                                     class="d-block rounded"
+                                     height="100"
+                                     width="100"
+                                     id="uploadedAvatar" />
+                                <div class="button-wrapper">
+                                    <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                        <span class="d-none d-sm-block">إدراج صورة</span>
+                                        <i class="bx bx-upload d-sm-none d-block"></i>
+                                        <input type="file"
+                                               id="upload"
+                                               class="account-file-input"
+                                               hidden
+                                               accept="image/png, image/jpeg" />
+                                    </label>
+                                    <button type="button" class="btn btn-label-secondary account-image-reset mb-4">
+                                        <i class="bx bx-reset d-sm-none d-block"></i>
+                                        <span class="d-none d-sm-block">حذف</span>
+                                    </button>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-0" />
+                        <div class="card-body">
+                            <form  asp-controller="ManageUsers" asp-action="Edit" >
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="FullName" class="form-label">الاسم </label>
+                                        <input asp-for="FullName" class="form-control" placeholder="ادخل اسمك كاملا" autofocus />
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="PhoneNumber">رقم الهاتف</label>
+
+                                        <input asp-for="PhoneNumber" class="form-control" placeholder="ادخل رقم الهاتف  " />
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="PhoneNumber"> تاريخ الميلاد</label>
+
+                                        <input asp-for="DateOfBirth" class="form-control" type="datetime" />
+                                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="IdentityNumber" class="form-label">الرقم الوطني</label>
+                                        <input asp-for="IdentityNumber" class="form-control" placeholder="ادخل رقم البطاقة " autofocus />
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" asp-for="IsBlocked" />
+                                            <label asp-for="IsBlocked" class="form-label">الحالة (تنشيط /توقيف)</label>
+
+                                        </label>
+                                    </div>
+                                    <div class="form-group form-password-toggle">
+                                        <label asp-for="UserRoles" class="control-label"></label>
+                                        @if (User.IsInRole("AdminGeneralFederation"))
+                                        {
+                                            <select asp-for="UserRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = true, Text = "مدير إتحاد عام", Value = 1.ToString() }, new SelectListItem { Selected = false, Text = " مدير محافظة", Value = 2.ToString() } , new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 2.ToString() }},"Value","Text",2))"> </select>
+                                        }
+                                        else if (User.IsInRole("AdminGovernorate"))
+                                        {
+                                            <select asp-for="UserRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = true, Text = "مدير إتحاد عام", Value = 1.ToString() }, new SelectListItem { Selected = false, Text = " مدير محافظة", Value = 2.ToString() } , new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 2.ToString() }},"Value","Text",2))"> </select>
+
+                                        }
+                                        else if (User.IsInRole("AdminGovernorate"))
+                                        {
+                                            <select asp-for="UserRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = true, Text = "مدير إتحاد عام", Value = 1.ToString() }, new SelectListItem { Selected = false, Text = " مدير محافظة", Value = 2.ToString() } , new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 2.ToString() }},"Value","Text",2))"> </select>
+
+                                        }
+                                        else if (User.IsInRole("AdminGovernorate"))
+                                        {
+                                            <select asp-for="UserRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = true, Text = "مدير إتحاد عام", Value = 1.ToString() }, new SelectListItem { Selected = false, Text = " مدير محافظة", Value = 2.ToString() } , new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 2.ToString() }},"Value","Text",2))"> </select>
+
+                                        }
+                                        <span asp-validation-for="UserRoles" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="country">المحافظة</label>
+                                        <select id="country" class="select2 form-select">
+                                            <option value="">تحديد</option>
+                                            <option value="Australia">تعز</option>
+                                            <option value="Bangladesh">صنعاء</option>
+                                            <option value="Belarus">عمران</option>
+                                            <option value="Brazil">المحويت</option>
+                                            <option value="Canada">اب</option>
+                                            <option value="China">المهرة</option>
+                                            <option value="France">حضرموت</option>
+                                            <option value="Germany">صعدة</option>
+                                            <option value="India">ذمار</option>
+                                            <option value="Indonesia">عدن</option>
+                                            <option value="Israel">البيضاء</option>
+                                            <option value="Italy">الضالع</option>
+                                            <option value="Japan">الحديدة</option>
+                                            <option value="Korea">أمانة العاصمة</option>
+                                            <option value="Mexico">ابين</option>
+                                            <option value="Philippines">مأرب</option>
+                                            <option value="Russia">شبوة</option>
+                                            <option value="South Africa">الجوف</option>
+                                            <option value="Thailand">ريمة</option>
+                                            <option value="Turkey">حجة</option>
+                                            <option value="Ukraine">لحج</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="language" class="form-label">المديرية</label>
+                                        <select id="language" class="select2 form-select">
+                                            <option value="">تحديد</option>
+                                            <option value="en">السبعين</option>
+                                            <option value="fr">الوحدة</option>
+                                            <option value="de">شعوب</option>
+                                            <option value="pt">التحرير</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="timeZones" class="form-label">العزلة</label>
+                                        <select id="timeZones" class="select2 form-select">
+                                            <option value="">تحديد</option>
+                                            <option value="-12">عزلة 888</option>
+                                            <option value="-11">عزلة 888</option>
+                                            <option value="-10">عزلة 888</option>
+                                            <option value="-9">عزلة 888</option>
+                                            <option value="-8">عزلة 888</option>
+                                            <option value="-8">عزلة 888</option>
+                                            <option value="-7">عزلة 888</option>
+                                            <option value="-7">عزلة 888</option>
+                                            <option value="-6">عزلة 888</option>
+                                            <option value="-6">عزلة 888</option>
+                                            <option value="-6">عزلة 888</option>
+                                            <option value="-6">عزلة 888</option>
+                                            <option value="-5">عزلة 888</option>
+                                            <option value="-5">عزلة 888</option>
+                                            <option value="-5">عزلة 888</option>
+                                            <option value="-4">عزلة 888</option>
+                                            <option value="-4">عزلة 888</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="currency" class="form-label">القرية</label>
+                                        <select id="currency" class="select2 form-select">
+                                            <option value="">تحديد</option>
+                                            <option value="usd">الهجرة</option>
+                                            <option value="euro">سنحان</option>
+                                            <option value="pound">ضبعات</option>
+                                            <option value="bitcoin">بني حشيش</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="submit" class="btn btn-primary me-2">حفظ التغير</button>
+                                    <button type="reset" asp-action="Index" class="btn btn-label-secondary">إلغاء</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /Account -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- / Content -->
+
+        <div class="content-backdrop fade"></div>
+    </div>

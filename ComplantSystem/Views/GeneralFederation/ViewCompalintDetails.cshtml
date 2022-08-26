@@ -1,0 +1,388 @@
+﻿
+@model ComplantSystem.Models.UploadsComplainte
+
+@{
+    ViewData["Title"] = "تفاصيل الشكوى";
+
+}
+
+
+
+
+
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row invoice-preview">
+            <!-- Invoice -->
+            <div class="col-12 col-md-8 col-xl-9 mb-4 mb-md-0">
+                <div class="card invoice-preview-card">
+                    <div class="card-body">
+                        <div class="row p-0 p-sm-3">
+                            <div class="col-md-6 mb-4 mb-md-0">
+                                <div class="svg-illustration gap-2 d-flex mb-4">
+                                    <svg width="26px"
+                                         height="26px"
+                                         viewBox="0 0 26 26"
+                                         version="1.1"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <title>icon</title>
+                                        <defs>
+                                            <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+                                                <stop stop-color="#5A8DEE" offset="0%"></stop>
+                                                <stop stop-color="#699AF9" offset="100%"></stop>
+                                            </linearGradient>
+                                            <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-2">
+                                                <stop stop-color="#FDAC41" offset="0%"></stop>
+                                                <stop stop-color="#E38100" offset="100%"></stop>
+                                            </linearGradient>
+                                        </defs>
+                                        <g id="Pages" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <g id="Login---V2" transform="translate(-667.000000, -290.000000)">
+                                                <g id="Login" transform="translate(519.000000, 244.000000)">
+                                                    <g id="Logo" transform="translate(148.000000, 42.000000)">
+                                                        <g id="icon" transform="translate(0.000000, 4.000000)">
+                                                            <path d="M13.8863636,4.72727273 C18.9447899,4.72727273 23.0454545,8.82793741 23.0454545,13.8863636 C23.0454545,18.9447899 18.9447899,23.0454545 13.8863636,23.0454545 C8.82793741,23.0454545 4.72727273,18.9447899 4.72727273,13.8863636 C4.72727273,13.5423509 4.74623858,13.2027679 4.78318172,12.8686032 L8.54810407,12.8689442 C8.48567157,13.19852 8.45300462,13.5386269 8.45300462,13.8863636 C8.45300462,16.887125 10.8856023,19.3197227 13.8863636,19.3197227 C16.887125,19.3197227 19.3197227,16.887125 19.3197227,13.8863636 C19.3197227,10.8856023 16.887125,8.45300462 13.8863636,8.45300462 C13.5386269,8.45300462 13.19852,8.48567157 12.8689442,8.54810407 L12.8686032,4.78318172 C13.2027679,4.74623858 13.5423509,4.72727273 13.8863636,4.72727273 Z"
+                                                                  id="Combined-Shape"
+                                                                  fill="#4880EA"></path>
+                                                            <path d="M13.5909091,1.77272727 C20.4442608,1.77272727 26,7.19618701 26,13.8863636 C26,20.5765403 20.4442608,26 13.5909091,26 C6.73755742,26 1.18181818,20.5765403 1.18181818,13.8863636 C1.18181818,13.540626 1.19665566,13.1982714 1.22574292,12.8598734 L6.30410592,12.859962 C6.25499466,13.1951893 6.22958398,13.5378796 6.22958398,13.8863636 C6.22958398,17.8551125 9.52536149,21.0724191 13.5909091,21.0724191 C17.6564567,21.0724191 20.9522342,17.8551125 20.9522342,13.8863636 C20.9522342,9.91761479 17.6564567,6.70030817 13.5909091,6.70030817 C13.2336969,6.70030817 12.8824272,6.72514561 12.5388136,6.77314791 L12.5392575,1.81561642 C12.8859498,1.78721495 13.2366963,1.77272727 13.5909091,1.77272727 Z"
+                                                                  id="Combined-Shape2"
+                                                                  fill="url(#linearGradient-1)"></path>
+                                                            <rect id="Rectangle"
+                                                                  fill="url(#linearGradient-2)"
+                                                                  x="0"
+                                                                  y="0"
+                                                                  width="7.68181818"
+                                                                  height="7.68181818"></rect>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+
+                                    <span class="app-brand-text h3 fw-bold mb-0">عرض الشكوى</span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <dl class="row mb-2">
+                                    <dt class="col-sm-6 text-md-end mb-2 mt-2 mb-sm-0">
+                                        <span class="h4 text-nowrap text-capitalize  "> رقم </span>
+                                    </dt>
+                                    <dd class="d-flex col-sm-6 justify-content-md-end">
+                                        <div class="w-px-150">
+                                            <input type="text"
+                                                   class="form-control text-center"
+                                                   disabled
+                                                   placeholder="3492"
+                                                   value=" @Model.Id"
+                                                   id="TransactionId" />
+                                        </div>
+                                    </dd>
+                                    <dt class="col-sm-6 text-md-end mt-2 mb-2 mb-sm-0">
+                                        <span class="fw-normal"> تاريخ الوصول : </span>
+                                    </dt>
+                                    <dd class="d-flex col-sm-6 col-6 justify-content-md-end">
+                                        <div class="w-px-150">
+                                            <input type="text" class="form-control text-center" disabled placeholder="2202/8/2" value="@Model.UploadDate" id="DateOfArrival" />
+                                        </div>
+                                    </dd>
+
+                                </dl>
+                            </div>
+
+                           <div class="table-responsive">
+                                    <table class="table border-top m-0">
+
+                                        <thead>
+                                            <tr>
+                                                <th>اسم مقدم الحل</th>
+
+                                                <th>الصلاحية </th>
+                                                <th>الرقم الوطني</th>
+                                                <th> إجراء</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-nowrap">محمد سعيد صالح</td>
+
+
+                                                <td>مدير عزلة</td>
+                                                <td class="text-nowrap">000002324234234</td>
+
+                                            </tr>
+                                        <td>
+                                            @*<a  asp-action="ViewCompalintDetails" asp-controller="ContentManagementsGeneralFederation"   asp-route-id="@item.CompalintId">
+                                                    <i> عرض</i>
+                                                </a>*@
+                                        </td>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+
+                        </div>
+
+
+
+                        <div class="row p-0 p-sm-3">
+                            <div class="col-12 col-sm-12 col-md-12 col-xl-12 mb-4 mb-sm-0 mb-md-4 mb-xl-0  ">
+                                <h3 class="pb-2"> بيانات الشكوى:</h3>
+                                <table>
+                                    <tbody>
+
+                                        <tr class="pb-2">
+                                            <td class="col-md-4">عنوان الشكوى:</td>
+                                            <td>  @Model.TitleComplaint </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pe-3">الموضوع:</td>
+                                            <td>  @Model.DescComplaint </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>تاريخ النشر:</td>
+                                            <td> @Model.UploadDate</td>
+                                        </tr>
+                                        <tr>
+                                            <td>  صنف الشكوى: </td>
+                                            <td> @Model.TypeComplaint.Type  </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="card-body  col-lg-12 ">
+
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <label class="control-label"> حالة الشكوى  :</label>
+
+                                            @if (Model.StatusCompalint?.Name == "مرفوضة")
+                                            {
+                                                <span class="badge bg-danger text-white"> @Model.StatusCompalint.Name</span>
+
+                                            }
+                                            else
+                                            {
+
+                                                <span class="badge bg-success text-white"> @Model.StatusCompalint?.Name</span>
+                                            }
+
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <label class="control-label"> تاريخ النشر  :</label>
+
+                                            <p class="card-text"> @Model.UploadDate</p>
+                                        </div>
+
+                                        <div class="col-md-4">
+
+                                            <label class="control-label"> الجهة المستلمة  :</label>
+
+
+                                            <p> @Model.StagesComplaint?.Name</p>
+
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-xl-12 ">
+                                <h3 class="pb-2"> بيانات المشتكي:</h3>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="pe-3">اسم المشتكي :</td>
+                                            <td>   </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pe-3">الرقم الوطني:</td>
+                                            <td>   </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pe-3">رقم الموظف:</td>
+                                            <td>  </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pe-3">رقم البطاقة :</td>
+                                            <td>562022</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="pe-3"> المنطقة :</td>
+                                            <td>  </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-body  col-lg-12  ">
+                            <h3 style="margin-bottom:30px;">   المنظقة الصادر منها الشكوى</h3>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>المحافظة</label>
+
+                                    <p>@Model.Governorate.Name</p>
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>المديرية</label>
+                                    <p>@Model.Directorate.Name</p>
+
+
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>العزلة</label>
+                                    <p>@Model.SubDirectorate?.Name</p>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <label>القرية</label>
+                                    <p>@Model.Villages?.Name</p>
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="card-body  col-lg-12 ">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    @if (Model.ContentType.ToLower().StartsWith("image"))
+
+                                    {
+                                        <img width="100%" height="100%" src="/Uploads/@Model.FileName" class="card-img lazyload" alt="...">
+                                    }
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h5 class="card-title">
+                                                    @Model.OriginalFileName
+                                                </h5>
+                                            </div>
+                                            <div class="col-3">
+                                                <strong>Size : </strong>
+                                                @{
+                                                    var size = Model.Size / 1024; //KB
+                                                    if (size < 1024)  //2048
+                                                    {
+                                                        <span>@Math.Floor(size) Kb</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@(Math.Floor(size) / 1024) Mb</span>
+                                                    }
+                                                }
+                                            </div>
+
+                                        </div>
+                                        @*<p class="card-text"></p>*@
+                                        <p class="card-text"><small class="text-muted">@Model.UploadDate</small></p>
+                                        <div class="text-right">
+                                            <a asp-action="Download" asp-controller="ContentManagementsGeneralFederation" asp-route-id="@Model.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+
+
+
+                </div>
+            </div>
+            <!-- /Invoice -->
+            <!-- Invoice Actions -->
+            <div class="invoice-actions col-12 col-md-4 col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <button class="btn btn-primary d-grid w-100 mb-3"
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasAddAsset">
+                            <span class="d-flex justify-content-center align-items-center text-nowrap" data-bs-toggle="modal" data-bs-target="#answerModal"><i class="bx bx-plus bx-xs me-3"></i>تقديم حل</span>
+                        </button>
+                        @*<button onclick="location.href='@Url.Action("UpCompalint", "ContentManagementsGeneralFederation")'" class="btn btn-primary d-grid w-100 mb-3"
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasAddAsset">
+                            <span asp class="d-flex justify-content-center align-items-center text-nowrap" data-bs-target=""><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
+                        </button>*@
+                        <div class="mt-2">
+                            <button asp-area="" asp-controller="ContentManagementsGeneralFederation" asp-action="UpCompalint" asp-route-id="@Model.Id" class="btn btn-primary me-2">
+                                
+                            <span asp class="d-flex justify-content-center align-items-center text-nowrap" data-bs-target=""><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
+                            </button>
+
+                        </div>
+
+                        <button class="btn btn-label-secondary d-grid w-100 mb-3" data-bs-target="">خروج</button>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /Invoice Actions -->
+
+            <div class="modal-onboarding modal fade animate__animated"
+                 id="answerModal"
+                 tabindex="-1"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-sm " role="document">
+                    <div class="modal-content ">
+                        <div class="modal-header">
+                            <h5 class="h5 ">مقترح جديد</h5>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body onboarding-horizontal ">
+                            <form asp-action="AddSolutionForCompalint" class="add-new-record row g-2 pt-0" id=" formValidationExamples">
+
+                                <div class="col-12 col-md-12  text-start">
+                                    <label for="exampleFormControlTextarea2" class="form-label">نص الحل المقترح</label>
+                                    @*<textarea @Html.TextBoxFor(model => model.ContentSolution) class="form-control"
+                                              rows="3"></textarea>*@
+                                </div>
+                                <div class="col-sm-12">
+
+                                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">إلغاء</button>
+                                    <button type="submit" class="btn btn-primary data-submit me-1 me-sm-3">إرسال</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+    <!-- / Content -->
