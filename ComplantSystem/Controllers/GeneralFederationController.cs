@@ -246,6 +246,12 @@ namespace ComplantSystem
         }
 
 
+        public async Task<IActionResult> ViewCompalintDetails(string id)
+        {
+            var compalintDetails = await _compReop.FindAsync(id);
+            return View(compalintDetails);
+        }
+
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> AddSolution(string id, UploadsComplainte data)

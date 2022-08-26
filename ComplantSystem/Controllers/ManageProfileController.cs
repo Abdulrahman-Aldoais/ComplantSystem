@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using ComplantSystem.Data;
 using ComplantSystem.Data.Base;
-using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using ComplantSystem.Service;
 using Microsoft.AspNetCore.Identity;
@@ -55,7 +53,7 @@ namespace ComplantSystem.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser != null)
             {
-                var model = mapper.Map<UsersViewModel>(currentUser);
+                var model = mapper.Map<UserViewModels>(currentUser);
 
                 return View(model);
             }
@@ -64,7 +62,7 @@ namespace ComplantSystem.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Profile(UsersViewModel model)
+        public async Task<IActionResult> Profile(UserViewModels model)
         {
             if (ModelState.IsValid)
             {

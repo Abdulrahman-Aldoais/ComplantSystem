@@ -45,7 +45,7 @@ namespace ComplantSystem.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> AddUser(AdminUserViewModel userVM)
+        public async Task<IActionResult> AddUser(AddUserViewModel userVM)
         {
             if (ModelState.IsValid)
             {

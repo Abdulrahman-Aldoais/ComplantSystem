@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ComplantSystem.Data.Base;
-using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using ComplantSystem.Service;
@@ -248,7 +247,7 @@ namespace ComplantSystem.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var currentName = currentUser.FullName;
-            var model = new AdminUserViewModel()
+            var model = new AddUserViewModel()
             {
 
                 GovernoratesList = await _context.Governorates.ToListAsync()
@@ -259,7 +258,7 @@ namespace ComplantSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AdminUserViewModel model)
+        public async Task<IActionResult> Create(AddUserViewModel model)
         {
             model.GovernoratesList = await _context.Governorates.ToListAsync();
             var currentUser = await _userManager.GetUserAsync(User);
@@ -303,7 +302,7 @@ namespace ComplantSystem.Controllers
 
         [AllowAnonymous]
 
-        public async Task<IActionResult> CheckingIdentityNumber(AdminUserViewModel model)
+        public async Task<IActionResult> CheckingIdentityNumber(AddUserViewModel model)
         {
             var user = _userManager.FindByEmailAsync(model.IdentityNumber);
 
@@ -321,7 +320,7 @@ namespace ComplantSystem.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> CheckingPhoneNumber(AdminUserViewModel model)
+        public async Task<IActionResult> CheckingPhoneNumber(AddUserViewModel model)
         {
 
 

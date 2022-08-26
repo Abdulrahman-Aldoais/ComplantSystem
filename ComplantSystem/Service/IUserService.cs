@@ -1,5 +1,4 @@
 ﻿using ComplantSystem.Data;
-using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -16,8 +15,8 @@ namespace ComplantSystem.Service
         Task<IEnumerable<ApplicationUser>> GetAllAsync(string identityUser);
         Task<IEnumerable<ApplicationUser>> GetAllBenefAsync();
         Task<IEnumerable<ApplicationUser>> GetAllBenefAsync(params Expression<Func<ApplicationUser, object>>[] includeProperties);
-        Task AddAsync(AdminUserViewModel entity, string CurrentUserLoginId);
-        Task AddAsync(AdminUserViewModel entity, string originatorName, string userId);
+        Task AddAsync(AddUserViewModel entity, string CurrentUserLoginId);
+        Task AddAsync(AddUserViewModel entity, string originatorName, string userId);
         Task<IEnumerable<ApplicationUser>> GetAllAsync(params Expression<Func<ApplicationUser, object>>[] includeProperties);
         Task<ApplicationUser> GetByIdAsync(string id);
         Task<ApplicationUser> GetByIdAsync(string id, params Expression<Func<ApplicationUser, object>>[] includeProperties);
@@ -29,7 +28,7 @@ namespace ComplantSystem.Service
 
         Task<ApplicationUser> GetUserByIdAsync(string userId);
         //Task<ApplicationUser> GetByIdAsync(string id, params Expression<Func<ApplicationUser, object>>[] includeProperties);
-        IQueryable<AdminUserViewModel> Search(string term);
+        IQueryable<UserViewModels> Search(string term);
         Task<OperationResult> TogelBlockUserAsync(string UserId);
         Task<int> UserRegistrationCountAsync();
         Task ChaingeStatusAsync(string id, bool status);

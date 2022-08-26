@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 using ComplantSystem.Const;
 using ComplantSystem.Data;
-using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +43,7 @@ namespace ComplantSystem.Service
 
 
 
-        public async Task AddAsync(AdminUserViewModel userVM, string CurrentUserLoginId)
+        public async Task AddAsync(AddUserViewModel userVM, string CurrentUserLoginId)
         {
             var currentuser = _userManager.Users.First(u => u.Id == CurrentUserLoginId);
 
@@ -100,7 +99,7 @@ namespace ComplantSystem.Service
 
 
         }
-        public async Task AddAsync(AdminUserViewModel userVM, string currentName, string currentId)
+        public async Task AddAsync(AddUserViewModel userVM, string currentName, string currentId)
         {
 
             var newUser = new ApplicationUser()
@@ -208,11 +207,11 @@ namespace ComplantSystem.Service
             return result;
         }
 
-        public IQueryable<AdminUserViewModel> Search(string term)
+        public IQueryable<AddUserViewModel> Search(string term)
         {
             var result = contex.Users.Where(
                 u => u.IdentityNumber == term
-                || u.UserName == term).ProjectTo<AdminUserViewModel>(
+                || u.UserName == term).ProjectTo<AddUserViewModel>(
                 mapper.ConfigurationProvider);
             return result;
         }
@@ -338,6 +337,11 @@ namespace ComplantSystem.Service
         }
 
         public IQueryable<ApplicationUser> GetAllUserBlockedAsync(params Expression<Func<ApplicationUser, object>>[] includeProperties)
+        {
+            throw new NotImplementedException();
+        }
+
+        IQueryable<UserViewModels> IUserService.Search(string term)
         {
             throw new NotImplementedException();
         }

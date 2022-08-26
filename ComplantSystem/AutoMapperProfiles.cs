@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using ComplantSystem.Data;
-using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 
 namespace ComplantSystem
@@ -25,12 +23,12 @@ namespace ComplantSystem
         public UserProfile()
         {
 
-            CreateMap<ApplicationUser, AdminUserViewModel>()
+            CreateMap<ApplicationUser, AddUserViewModel>()
                 .ForMember(u => u.Password, op => op.MapFrom(u => u.PasswordHash != null));
 
 
             CreateMap<ApplicationUser, UserProfileEditVM>();
-            CreateMap<ApplicationUser, UsersViewModel>();
+            CreateMap<ApplicationUser, UserViewModels>();
 
         }
 

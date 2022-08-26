@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ComplantSystem.Const;
 using ComplantSystem.Data.Base;
-using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using ComplantSystem.Service;
 using Microsoft.AspNetCore.Identity;
@@ -50,7 +49,7 @@ namespace ComplantSystem.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddUser(AdminUserViewModel userVM)
+        public async Task<IActionResult> AddUser(AddUserViewModel userVM)
         {
             if (ModelState.IsValid)
             {
