@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -68,7 +69,25 @@ namespace ComplantSystem
             }
         }
 
+        public async Task<IActionResult> UpCompalint(string id, UploadsComplainte complainte)
+        {
 
+            var upComp = await _compReop.FindAsync(id);
+            var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+            if (dbComp != null)
+            {
+
+                dbComp.Id = complainte.Id;
+                dbComp.StagesComplaintId = dbComp.StagesComplaintId + 1;
+
+
+                await _context.SaveChangesAsync();
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AllComplaints));
+
+        }
 
         public async Task<IActionResult> ReportManagement()
         {

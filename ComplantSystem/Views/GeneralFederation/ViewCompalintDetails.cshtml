@@ -298,7 +298,7 @@
                                         @*<p class="card-text"></p>*@
                                         <p class="card-text"><small class="text-muted">@Model.UploadDate</small></p>
                                         <div class="text-right">
-                                            <a asp-action="Download" asp-controller="ContentManagementsGeneralFederation" asp-route-id="@Model.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
+                                            <a asp-action="Download" asp-controller="GeneralFederation" asp-route-id="@Model.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
                                         </div>
                                     </div>
                                 </div>
@@ -322,22 +322,29 @@
                             <span class="d-flex justify-content-center align-items-center text-nowrap" data-bs-toggle="modal" data-bs-target="#answerModal"><i class="bx bx-plus bx-xs me-3"></i>تقديم حل</span>
                         </button>
                         @*<button onclick="location.href='@Url.Action("UpCompalint", "ContentManagementsGeneralFederation")'" class="btn btn-primary d-grid w-100 mb-3"
-                                data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasAddAsset">
-                            <span asp class="d-flex justify-content-center align-items-center text-nowrap" data-bs-target=""><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
-                        </button>*@
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasAddAsset">
+            <span asp class="d-flex justify-content-center align-items-center text-nowrap" data-bs-target=""><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
+        </button>*@
                         <div class="mt-2">
-                            <button asp-area="" asp-controller="ContentManagementsGeneralFederation" asp-action="UpCompalint" asp-route-id="@Model.Id" class="btn btn-primary me-2">
-                                
-                            <span asp class="d-flex justify-content-center align-items-center text-nowrap" data-bs-target=""><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
-                            </button>
+                            @*<button asp-controller="GeneralFederation" asp-action="UpCompalint" asp-route-id="@Model.Id" class="btn btn-primary me-2">
 
+                <span class="d-flex justify-content-center align-items-center text-nowrap"><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
+            </button>*@
+                            @using (Html.BeginForm("UpCompalint", "GeneralFederation", new { Id = Model.Id }, FormMethod.Post))
+                            {
+                                <button class="btn btn-primary me-2">
+
+                                    <span class="d-flex justify-content-center align-items-center text-nowrap"><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
+                                </button>
+                            }
                         </div>
+                        @using (Html.BeginForm("AllComplaints", "GeneralFederation", new { Id = Model.Id }, FormMethod.Post))
+                        {
+                            <button class="btn btn-label-secondary d-grid w-100 mb-3" data-bs-target="">خروج</button>
 
-                        <button class="btn btn-label-secondary d-grid w-100 mb-3" data-bs-target="">خروج</button>
-
-
-                    </div>
+                        }
+                        </div>
                 </div>
             </div>
             <!-- /Invoice Actions -->
