@@ -1,4 +1,5 @@
 ﻿using ComplantSystem.Data.Base;
+using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using ComplantSystem.Service;
@@ -267,56 +268,61 @@ namespace ComplantSystem
 
         public async Task<IActionResult> ViewCompalintDetails(string id)
         {
-            var compalintDetails = await _compReop.FindAsync(id);
-            return View(compalintDetails);
+            //var ComplantList = await _context.UploadsComplainte.Include(a => a.Governorates).Include(a => a.Directorates).Include(a => a.SubDirectorates).Include(a => a.Villages).Include(a => a.TypeComplaint).Where(m => m.Id == id).FirstOrDefaultAsync();
+
+            //var ComplantList = await _context.UploadsComplainte.Include(a => a.Governorates).Include(a => a.Directorates).Include(a => a.SubDirectorates).Include(a => a.Villages).Include(a => a.TypeComplaint).Where(m => m.Id == id).FirstOrDefaultAsync();
+            var ComplantList = await _compReop.FindAsync(id);
+            AddSolutionVM addsoiationView = new AddSolutionVM()
+            {
+                UploadsComplainteId = id,
+
+
+            };
+            ProvideSolutionsVM MV = new ProvideSolutionsVM
+            {
+                compalint = ComplantList,
+                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                AddSolution = addsoiationView
+            };
+            return View(MV);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddSolution(string id, UploadsComplainte data)
-        //{
 
-        //    if (id == null) return View("Emoty");
-        //    if (id != data.Id)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddSolutions(ProvideSolutionsVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                string UserId = claim.Value;
+                var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+                var solution = new Compalints_Solution()
+                {
+                    UserId = subuser.Id,
+                    SolutionProvName = subuser.FullName,
+                    UploadsComplainteId = model.AddSolution.UploadsComplainteId,
 
-        //    if (ModelState.IsValid)
-        //    {
-
-        //        var AddSolutionComplainte = await _context.UploadsComplaintes.FindAsync(id);
-        //        var newSolution = new Compalints_Solution()
-        //        {
-        //            ContentSolution = ,
-
-        //        };
-        //        await _context.AddAsync(newSolution);
-        //        await _context.SaveChangesAsync();
-
-        //        // Add Movie Actor 
-
-        //        foreach (var Users in data.UsersIds)
-        //        {
-
-        //            var newComplaintSolution = new Compalints_Solution()
-        //            {
-        //                CompalintId = newSolution.Id,
-        //                UserId = UserId,
-        //            };
-        //            await _context.Compalints_Solutions.AddAsync(newComplaintSolution);
-        //        }
-        //        await _context.SaveChangesAsync();
-
-
-        //        return RedirectToAction(nameof(AllComplaints));
+                    SolutionProvIdentity = 1,
+                    ContentSolution = model.AddSolution.ContentSolution,
+                    DateSolution = DateTime.Now
 
 
 
-        //    }
-        //    return null;
-        //}
+                };
 
+                _context.Compalints_Solutions.Add(solution);
+                await _context.SaveChangesAsync();
+
+
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            return NotFound();
+
+        }
 
 
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComplantSystem.Migrations
 {
     [DbContext(typeof(AppCompalintsContextDB))]
-    [Migration("20220824201101_new4")]
-    partial class new4
+    [Migration("20220827000028_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,14 +51,17 @@ namespace ComplantSystem.Migrations
                     b.Property<DateTime>("DateSolution")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("SolutionProvIdentity")
+                        .HasColumnType("float");
+
+                    b.Property<string>("SolutionProvName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UploadsComplainteId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserAddSolutionId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -66,7 +69,7 @@ namespace ComplantSystem.Migrations
 
                     b.HasIndex("UploadsComplainteId");
 
-                    b.HasIndex("UserAddSolutionId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Compalints_Solutions");
                 });
@@ -100,43 +103,43 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ad01d0f3-7216-487a-9ca6-870082a19218",
-                            ConcurrencyStamp = "67e65c81-4113-419d-9a10-93698c6b41f7",
+                            Id = "b87c5533-e91c-441c-89d3-8693f60e6e35",
+                            ConcurrencyStamp = "915c8c92-d51e-4af5-820d-cd5e09eddc92",
                             Name = "AdminGeneralFederation",
                             NormalizedName = "ADMINGENERALFEDERATION"
                         },
                         new
                         {
-                            Id = "d50b3050-7ca8-4066-8834-1ca856339fae",
-                            ConcurrencyStamp = "30137725-f310-4d72-9bf2-0fad76d19a58",
+                            Id = "d8102000-c2b6-4871-b291-896d5f9539e5",
+                            ConcurrencyStamp = "1ed4251d-821b-4413-be4f-c2c5565472de",
                             Name = "AdminGovernorate",
                             NormalizedName = "ADMINGOVERNORATE"
                         },
                         new
                         {
-                            Id = "23849cc6-e2ce-4d22-8500-2ab055e29163",
-                            ConcurrencyStamp = "13f85dc4-f00c-4512-8ea8-b77807097578",
+                            Id = "a489be78-d2c8-4548-a4b7-240d6285689c",
+                            ConcurrencyStamp = "41958c1a-10a2-40e3-90c3-a99c6ea60811",
                             Name = "AdminDirectorate",
                             NormalizedName = "ADMINDIRECTORATE"
                         },
                         new
                         {
-                            Id = "6f2f6dd1-cbab-4c23-8339-09cfb435f61f",
-                            ConcurrencyStamp = "451410a4-44f4-4e82-8c77-aa7091b6874b",
+                            Id = "7dac404d-81b2-4dc5-8096-6c7ac1ac0376",
+                            ConcurrencyStamp = "623509d8-ad39-444d-a0d0-380fecbc24ec",
                             Name = "AdminSubDirectorate",
                             NormalizedName = "ADMINSUBDIRECTORATE"
                         },
                         new
                         {
-                            Id = "2fd37af7-3bd2-42a6-9c44-1b7259a3dba2",
-                            ConcurrencyStamp = "8ff0b20d-6db2-44bf-835a-aaeac8750c57",
+                            Id = "d3b36d5b-41b6-45e7-8c56-238ec7b44dc9",
+                            ConcurrencyStamp = "7888303a-96a7-436d-bb16-065be1a4a0ad",
                             Name = "AdminVillages",
                             NormalizedName = "ADMINVILLAGES"
                         },
                         new
                         {
-                            Id = "eaab8f23-d643-4d6f-9d34-78c1e7d392cd",
-                            ConcurrencyStamp = "cc671c7d-5b8d-4351-9d02-098c0c41fc73",
+                            Id = "5d4512da-154f-49e4-805e-15992c88ce61",
+                            ConcurrencyStamp = "71a5a327-4c56-4c7b-a78f-caf4bc1f98d6",
                             Name = "Beneficiarie",
                             NormalizedName = "BENEFICIARIE"
                         });
@@ -924,27 +927,17 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "95601674-3690-40a5-b918-d9e4de8c40b5",
-                            CreatedDate = new DateTime(2022, 8, 24, 23, 11, 0, 412, DateTimeKind.Local).AddTicks(6825),
-                            Type = "زراعية"
+                            Id = "1aa66343-0327-428c-bc79-4843999a80bb",
+                            CreatedDate = new DateTime(2022, 8, 27, 3, 0, 27, 553, DateTimeKind.Local).AddTicks(6195),
+                            Type = "زراعية",
+                            UsersNameAddType = "قيمة افتراضية من النضام"
                         },
                         new
                         {
-                            Id = "f541e325-f544-4332-8d5c-ec399637f476",
-                            CreatedDate = new DateTime(2022, 8, 24, 23, 11, 0, 412, DateTimeKind.Local).AddTicks(7617),
-                            Type = "فساد"
-                        },
-                        new
-                        {
-                            Id = "f990403e-d059-4e3a-ae59-f5d5fbac7f7d",
-                            CreatedDate = new DateTime(2022, 8, 24, 23, 11, 0, 412, DateTimeKind.Local).AddTicks(7632),
-                            Type = "مماطلة"
-                        },
-                        new
-                        {
-                            Id = "9c8059a4-e483-4430-a467-33e0aceeff5f",
-                            CreatedDate = new DateTime(2022, 8, 24, 23, 11, 0, 412, DateTimeKind.Local).AddTicks(7649),
-                            Type = "إرتشاء"
+                            Id = "8e258009-a9f8-4980-b3fe-545670efba44",
+                            CreatedDate = new DateTime(2022, 8, 27, 3, 0, 27, 553, DateTimeKind.Local).AddTicks(6866),
+                            Type = "فساد",
+                            UsersNameAddType = "قيمة افتراضية من النضام"
                         });
                 });
 
@@ -1106,7 +1099,7 @@ namespace ComplantSystem.Migrations
 
                     b.HasOne("ComplantSystem.Models.ApplicationUser", "UserAddSolution")
                         .WithMany("Compalints_Solutions")
-                        .HasForeignKey("UserAddSolutionId");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("CompalintsHasSolution");
 

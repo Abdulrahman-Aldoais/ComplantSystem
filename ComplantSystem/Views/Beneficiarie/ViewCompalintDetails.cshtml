@@ -1,5 +1,5 @@
 ﻿
-@model ComplantSystem.Models.UploadsComplainte
+@model ComplantSystem.Data.ViewModels.ProvideSolutionsVM
 
 @{
     ViewData["Title"] = "تفاصيل الشكوى";
@@ -69,7 +69,7 @@
                                        class="form-control text-center"
                                        disabled
                                        placeholder="3492"
-                                       value=" @Model.Id"
+                                       value=" @Model.compalint.Id"
                                        id="TransactionId" />
                             </div>
                         </dd>
@@ -78,7 +78,7 @@
                         </dt>
                         <dd class="d-flex col-sm-6 justify-content-md-end">
                             <div class="w-px-150">
-                                <input type="text" class="form-control text-center" disabled placeholder="2202/8/2" value="@Model.UploadDate" id="DateOfArrival" />
+                                <input type="text" class="form-control text-center" disabled placeholder="2202/8/2" value="@Model.compalint.UploadDate" id="DateOfArrival" />
                             </div>
                         </dd>
 
@@ -93,27 +93,27 @@
                     <h3 class="pb-2"> بيانات الشكوى:</h3>
                     <table>
                         <tbody>
-                            
+
                             <li class="pb-2">
                                 <span class="col-md-4">عنوان الشكوى:</span>
                                 <hr />
-                                <span>  @Model.TitleComplaint </span>
+                                <span>  @Model.compalint.TitleComplaint </span>
 
                             </li>
                             <li>
                                 <span class="pe-3">الموضوع:</span>
-                                
-                                <span>  @Model.DescComplaint </span>
+
+                                <span>  @Model.compalint.DescComplaint </span>
 
                             </li>
                             <tr>
-                                <td >تاريخ النشر:</td>
-                                <td> @Model.UploadDate</td>
-                            <hr />
+                                <td>تاريخ النشر:</td>
+                                <td> @Model.compalint.UploadDate</td>
+                                <hr />
                             </tr>
                             <tr>
                                 <td>  صنف الشكوى: </td>
-                                <td> @Model.TypeComplaint.Type  </td>
+                                <td> @Model.compalint.TypeComplaint.Type  </td>
                             </tr>
                         </tbody>
                     </table>
@@ -124,15 +124,15 @@
                             <div class="col-md-4">
                                 <label class="control-label"> حالة الشكوى  :</label>
 
-                                @if (Model.StatusCompalint?.Name == "مرفوضة")
+                                @if (Model.compalint.StatusCompalint?.Name == "مرفوضة")
                                 {
-                                    <span class="badge bg-danger text-white"> @Model.StatusCompalint.Name</span>
+                                    <span class="badge bg-danger text-white"> @Model.compalint.TypeComplaint?.Type</span>
 
                                 }
                                 else
                                 {
 
-                                    <span class="badge bg-success text-white"> @Model.StatusCompalint?.Name</span>
+                                    <span class="badge bg-success text-white"> @Model.compalint.StatusCompalint?.Name</span>
                                 }
 
                             </div>
@@ -141,16 +141,16 @@
                             <div class="col-md-4">
                                 <label class="control-label"> تاريخ النشر  :</label>
 
-                                <p class="card-text"> @Model.UploadDate</p>
+                                <p class="card-text"> @Model.compalint.UploadDate</p>
                             </div>
 
                             <div class="col-md-4">
-                              
-                                    <label class="control-label"> الجهة المستلمة  :</label>
+
+                                <label class="control-label"> الجهة المستلمة  :</label>
 
 
-                                    <p> @Model.StagesComplaint?.Name</p>
-                                
+                                <p> @Model.compalint.StagesComplaint?.Name</p>
+
                             </div>
 
 
@@ -161,47 +161,111 @@
 
 
                 </div>
-                <div class="col-12 col-sm-12 col-md-12 col-xl-12 ">
-                    <h3 class="pb-2"> بيانات المشتكي:</h3>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td class="pe-3">اسم المشتكي :</td>
-                                <td>   </td>
-                            </tr>
-                            <tr>
-                                <td class="pe-3">الرقم الوطني:</td>
-                                <td>   </td>
-                            </tr>
-                            <tr>
-                                <td class="pe-3">رقم الموظف:</td>
-                                <td>  </td>
-                            </tr>
-                            <tr>
-                                <td class="pe-3">رقم البطاقة :</td>
-                                <td>562022</td>
-                            </tr>
-                            <tr>
-                                <td class="pe-3"> المنطقة :</td>
-                                <td>  </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+
+                    <div class="table-responsive text-nowrap">
+
+                        <table id="example" class="datatables-users table border-top   ">
+
+                            <thead>
+                                <tr>
+                                    <th class="row-cols-md-4">
+                                        اسم صاحب الحل
+                                    </th>
+                                    <th class="col-sm-2">
+                                        رقم التلفون
+                                    </th>
+                                    <th class="col-sm-1">
+                                        الحل المقترح
+                                    </th>
+
+                                    <th class="col-sm-1">
+                                        تاريخ الحل
+                                    </th>
+
+                                    <th class="col-sm-1">اجراء</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @if (Model.Compalints_SolutionList.Count() == 0)
+                                {
+                                    <tr>
+                                        <td colspan="3" style="color:red">
+                                            لا يوجد نتائج
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @foreach (var item in Model.Compalints_SolutionList)
+                                    {
+                                        <tr>
+                                            <td class="width content">
+                                                @Html.DisplayFor(modelItem => item.SolutionProvIdentity)
+                                            </td>
+                                            
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ContentSolution)
+                                            </td>
+
+                                            <td> @Html.DisplayFor(modelItem => item.DateSolution)</td>
+
+                                            <td>
+                                                @if (item.SolutionProvIdentity == 1)
+                                                {
+                                                    <a asp-action="Yes" asp-route-idS="@item.Id">
+                                                        <i> قبول</i>
+                                                    </a>
+
+                                                    <hr />
+                                                    <a asp-action="No" asp-route-idS="@item.Id">
+                                                        <i> رفض</i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    @if (item.SolutionProvIdentity == 3)
+                                                    {
+                                                        <span class="badge bg-danger text-white"> مرفوضة</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button>
+                                                            <span class="badge bg-success text-white"> مقبولة</span>
+                                                        </button>
+                                                    }
+
+
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
                 </div>
             </div>
+            <hr />
+        </div>
             <div class="card-body  col-lg-12  ">
                 <h3 style="margin-bottom:30px;">   المنظقة الصادر منها الشكوى</h3>
                 <div class="row">
                     <div class="col-md-3">
                         <label>المحافظة</label>
 
-                        <p>@Model.Governorate?.Name</p>
+                        <p>@Model.compalint.Governorate?.Name</p>
 
                     </div>
 
                     <div class="col-md-3">
                         <label>المديرية</label>
-                        <p>@Model.Directorate?.Name</p>
+                        <p>@Model.compalint.Directorate?.Name</p>
 
 
 
@@ -209,14 +273,7 @@
 
                     <div class="col-md-3">
                         <label>العزلة</label>
-                        <p>@Model.SubDirectorate?.Name</p>
-
-                    </div>
-                    <div class="col-md-3">
-                        <label>القرية</label>
-                        <p>@Model.Villages?.Name</p>
-
-
+                        <p>@Model.compalint.SubDirectorate?.Name</p>
 
                     </div>
 
@@ -226,10 +283,10 @@
             <div class="card-body  col-lg-12 ">
                 <div class="row no-gutters">
                     <div class="col-md-4">
-                        @if (Model.ContentType.ToLower().StartsWith("image"))
+                        @if (Model.compalint.ContentType.ToLower().StartsWith("image"))
 
                         {
-                            <img width="100%" height="100%" src="/Uploads/@Model.FileName" class="card-img lazyload" alt="...">
+                            <img width="100%" height="100%" src="/Uploads/@Model.compalint.FileName" class="card-img lazyload" alt="...">
                         }
                     </div>
                     <div class="col-md-8">
@@ -237,13 +294,13 @@
                             <div class="row">
                                 <div class="col-6">
                                     <h5 class="card-title">
-                                        @Model.OriginalFileName
+                                        @Model.compalint.OriginalFileName
                                     </h5>
                                 </div>
                                 <div class="col-3">
                                     <strong>Size : </strong>
                                     @{
-                                        var size = Model.Size / 1024; //KB
+                                        var size = Model.compalint.Size / 1024; //KB
                                         if (size < 1024)  //2048
                                         {
                                             <span>@Math.Floor(size) Kb</span>
@@ -257,9 +314,9 @@
 
                             </div>
                             @*<p class="card-text"></p>*@
-                            <p class="card-text"><small class="text-muted">@Model.UploadDate</small></p>
+                            <p class="card-text"><small class="text-muted">@Model.compalint.UploadDate</small></p>
                             <div class="text-right">
-                                <a asp-action="Download" asp-controller="Beneficiarie" asp-route-id="@Model.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
+                                <a asp-action="Download" asp-controller="Beneficiarie" asp-route-id="@Model.compalint.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
                             </div>
                         </div>
                     </div>

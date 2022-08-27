@@ -1,4 +1,5 @@
 ﻿using ComplantSystem.Data.Base;
+using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using ComplantSystem.Service;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -91,24 +93,76 @@ namespace ComplantSystem.Controllers
 
         public async Task<IActionResult> ViewCompalintDetails(string id)
         {
-            var compalintDetails = await _compReop.FindAsync(id);
-            return View(compalintDetails);
+            var ComplantList = await _compReop.FindAsync(id);
+            AddSolutionVM addsoiationView = new AddSolutionVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ProvideSolutionsVM VM = new ProvideSolutionsVM
+            {
+                compalint = ComplantList,
+                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                AddSolution = addsoiationView
+            };
+            return View(VM);
         }
 
         public async Task<IActionResult> UpCompalint(string id, UploadsComplainte complainte)
         {
-            var upComp = await _compReop.FindAsync(id);
-            if (upComp == null) return View("Empty");
 
-            var response = new UploadsComplainte()
+            var upComp = await _compReop.FindAsync(id);
+            var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+            if (dbComp != null)
             {
-                Id = complainte.Id,
-                StagesComplaintId = +1,
-            };
-            await _compReop.UpdatedbCompAsync(complainte);
+
+                dbComp.Id = complainte.Id;
+                dbComp.StagesComplaintId = dbComp.StagesComplaintId + 1;
+
+
+                await _context.SaveChangesAsync();
+            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllComplaints));
+
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddSolutions(ProvideSolutionsVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                string UserId = claim.Value;
+                var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+                var solution = new Compalints_Solution()
+                {
+                    UserId = subuser.Id,
+                    SolutionProvName = subuser.FullName,
+                    UploadsComplainteId = model.AddSolution.UploadsComplainteId,
+
+                    SolutionProvIdentity = 1,
+                    ContentSolution = model.AddSolution.ContentSolution,
+                    DateSolution = DateTime.Now
+
+
+
+                };
+
+                _context.Compalints_Solutions.Add(solution);
+                await _context.SaveChangesAsync();
+
+
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            return NotFound();
 
         }
 

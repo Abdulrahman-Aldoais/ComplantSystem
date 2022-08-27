@@ -286,14 +286,9 @@ namespace ComplantSystem.Controllers
                     return View(model);
                 }
 
-                if (User.IsInRole("Beneficiarie"))
-                {
-                    await _userService.AddAsync(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
-                }
-                else
-                {
-                    await _userService.AddAsync(model, currentName, currentId);
-                }
+
+                await _userService.AddAsync(model, currentName, currentId);
+
                 return RedirectToAction(nameof(ViewUsers));
             }
             return View(model);

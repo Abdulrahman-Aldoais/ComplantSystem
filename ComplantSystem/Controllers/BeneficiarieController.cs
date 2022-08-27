@@ -1,4 +1,5 @@
 ﻿using ComplantSystem.Data.Base;
+using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using Microsoft.AspNetCore.Authorization;
@@ -221,8 +222,67 @@ namespace ComplantSystem
 
         public async Task<IActionResult> ViewCompalintDetails(string id)
         {
-            var compalintDetails = await _service.FindAsync(id);
-            return View(compalintDetails);
+            //var compalintDetails = await _service.FindAsync(id);
+            //var ComplantList = await _context.UploadsComplainte.Include(a => a.Governorates).Include(a => a.Directorates).Include(a => a.SubDirectorates).Include(a => a.Villages).Include(a => a.TypeComplaint).Where(m => m.Id == id).FirstOrDefaultAsync();
+            var ComplantList = await _service.FindAsync(id);
+            ProvideSolutionsVM VM = new ProvideSolutionsVM
+            {
+                compalint = ComplantList,
+                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync()
+
+            };
+            return View(VM);
+
+
+        }
+
+        public async Task<IActionResult> Yes(string idS)
+        {
+            if (idS == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                var so = await _context.Compalints_Solutions.Where(a => a.Id == idS).FirstOrDefaultAsync();
+
+                //if(cc.StagesComplaintId==1)
+                //  {
+                //      cc.StagesComplaintId = 2;
+                //  }
+                //elseIf(cc.StagesComplaintId=2)
+                //      {
+                //      cc.StagesComplaintId = 3;
+                //  }
+                so.SolutionProvIdentity = 2;
+                _context.Compalints_Solutions.Update(so);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+
+            }
+        }
+
+        public async Task<IActionResult> No(string idS)
+        {
+            if (idS == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                var so = await _context.Compalints_Solutions.Where(a => a.Id == idS).FirstOrDefaultAsync();
+                var cc = await _context.UploadsComplainte.Where(m => m.Id == so.UploadsComplainteId).FirstOrDefaultAsync();
+                cc.StagesComplaintId += 1;
+                so.SolutionProvIdentity = 3;
+                _context.Compalints_Solutions.Update(so);
+                await _context.SaveChangesAsync();
+                _context.UploadsComplainte.Update(cc);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+            }
         }
 
 

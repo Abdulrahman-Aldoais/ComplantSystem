@@ -43,15 +43,72 @@ namespace ComplantSystem.Service
 
 
 
-        public async Task AddAsync(AddUserViewModel userVM, string CurrentUserLoginId)
+        //public async Task AddAsync(AddUserViewModel userVM, string CurrentUserLoginId)
+        //{
+        //    var currentuser = _userManager.Users.First(u => u.Id == CurrentUserLoginId);
+
+        //    var newUser = new ApplicationUser()
+        //    {
+        //        FullName = userVM.FullName,
+        //        UserName = userVM.IdentityNumber,
+        //        Email = userVM.IdentityNumber,
+        //        PhoneNumber = userVM.PhoneNumber,
+        //        GovernorateId = userVM.GovernorateId,
+        //        DirectorateId = userVM.DirectorateId,
+        //        SubDirectorateId = userVM.SubDirectorateId,
+        //        IsBlocked = userVM.IsBlocked,
+        //        SocietyId = userVM.SocietyId,
+        //        ProfilePicture = userVM.ProfilePicture,
+
+        //        RoleId = 2,
+
+
+        //    };
+
+
+
+        //    var user = await _userManager.FindByEmailAsync(newUser.IdentityNumber);
+        //    if (user != null)
+        //    {
+        //        returntype = 1;
+        //        Error = "المستخدم موجود مسبقا بهذا الايميل";
+        //        return;
+        //    }
+
+        //    var newUserResponse = await _userManager.CreateAsync(newUser, userVM.Password);
+
+        //    if (newUserResponse.Succeeded)
+        //    {
+
+        //        await _userManager.AddToRoleAsync(newUser, UserRoles.Beneficiarie);
+
+
+        //        await _userManager.AddPasswordAsync(newUser, userVM.Password);
+
+
+
+        //    }
+
+        //    else
+        //    {
+        //        returntype = 2;
+
+        //        Error = "كلمة السر يجب ان تكون ارقام و حروف و رموز";
+        //        return;
+        //    }
+
+
+        //}
+
+        public async Task AddBenefAsync(AddUserViewModel userVM, string currentName, string currentId)
         {
-            var currentuser = _userManager.Users.First(u => u.Id == CurrentUserLoginId);
 
             var newUser = new ApplicationUser()
             {
                 FullName = userVM.FullName,
                 UserName = userVM.IdentityNumber,
                 Email = userVM.IdentityNumber,
+                IdentityNumber = userVM.IdentityNumber,
                 PhoneNumber = userVM.PhoneNumber,
                 GovernorateId = userVM.GovernorateId,
                 DirectorateId = userVM.DirectorateId,
@@ -59,8 +116,12 @@ namespace ComplantSystem.Service
                 IsBlocked = userVM.IsBlocked,
                 SocietyId = userVM.SocietyId,
                 ProfilePicture = userVM.ProfilePicture,
+                RoleId = userVM.userRoles,
+                EmailConfirmed = userVM.IsBlocked,
+                PhoneNumberConfirmed = userVM.IsBlocked,
+                UserId = currentId,
+                originatorName = currentName,
 
-                RoleId = 2,
 
 
             };
@@ -71,7 +132,7 @@ namespace ComplantSystem.Service
             if (user != null)
             {
                 returntype = 1;
-                Error = "المستخدم موجود مسبقا بهذا الايميل";
+                Error = "المستخدم موجود مسبقا برقم البطاقة هذه ";
                 return;
             }
 
@@ -79,10 +140,35 @@ namespace ComplantSystem.Service
 
             if (newUserResponse.Succeeded)
             {
+                if (userVM.userRoles == 1)
+                {
+                    await _userManager.AddToRoleAsync(newUser, UserRoles.AdminGeneralFederation);
 
-                await _userManager.AddToRoleAsync(newUser, UserRoles.Beneficiarie);
+                }
+                else if (userVM.userRoles == 2)
+                {
+                    await _userManager.AddToRoleAsync(newUser, UserRoles.AdminGovernorate);
+                }
+                else if (userVM.userRoles == 3)
+                {
 
+                    await _userManager.AddToRoleAsync(newUser, UserRoles.AdminDirectorate);
+                }
+                else if (userVM.userRoles == 4)
+                {
 
+                    await _userManager.AddToRoleAsync(newUser, UserRoles.AdminSubDirectorate);
+                }
+                else if (userVM.userRoles == 5)
+                {
+
+                    await _userManager.AddToRoleAsync(newUser, UserRoles.AdminVillages);
+                }
+                else if (userVM.userRoles == 6)
+                {
+
+                    await _userManager.AddToRoleAsync(newUser, UserRoles.Beneficiarie);
+                }
                 await _userManager.AddPasswordAsync(newUser, userVM.Password);
 
 
@@ -99,6 +185,7 @@ namespace ComplantSystem.Service
 
 
         }
+
         public async Task AddAsync(AddUserViewModel userVM, string currentName, string currentId)
         {
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ComplantSystem.Migrations
 {
-    public partial class new4 : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -825,12 +825,13 @@ namespace ComplantSystem.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserAddSolutionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CompalintId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UploadsComplainteId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SolutionProvName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SolutionProvIdentity = table.Column<double>(type: "float", nullable: false),
                     ContentSolution = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateSolution = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateSolution = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CompalintId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -850,8 +851,8 @@ namespace ComplantSystem.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Compalints_Solutions_User_UserAddSolutionId",
-                        column: x => x.UserAddSolutionId,
+                        name: "FK_Compalints_Solutions_User_UserId",
+                        column: x => x.UserId,
                         principalSchema: "Identity",
                         principalTable: "User",
                         principalColumn: "Id",
@@ -875,12 +876,12 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad01d0f3-7216-487a-9ca6-870082a19218", "67e65c81-4113-419d-9a10-93698c6b41f7", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
-                    { "d50b3050-7ca8-4066-8834-1ca856339fae", "30137725-f310-4d72-9bf2-0fad76d19a58", "AdminGovernorate", "ADMINGOVERNORATE" },
-                    { "23849cc6-e2ce-4d22-8500-2ab055e29163", "13f85dc4-f00c-4512-8ea8-b77807097578", "AdminDirectorate", "ADMINDIRECTORATE" },
-                    { "6f2f6dd1-cbab-4c23-8339-09cfb435f61f", "451410a4-44f4-4e82-8c77-aa7091b6874b", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" },
-                    { "2fd37af7-3bd2-42a6-9c44-1b7259a3dba2", "8ff0b20d-6db2-44bf-835a-aaeac8750c57", "AdminVillages", "ADMINVILLAGES" },
-                    { "eaab8f23-d643-4d6f-9d34-78c1e7d392cd", "cc671c7d-5b8d-4351-9d02-098c0c41fc73", "Beneficiarie", "BENEFICIARIE" }
+                    { "b87c5533-e91c-441c-89d3-8693f60e6e35", "915c8c92-d51e-4af5-820d-cd5e09eddc92", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
+                    { "d8102000-c2b6-4871-b291-896d5f9539e5", "1ed4251d-821b-4413-be4f-c2c5565472de", "AdminGovernorate", "ADMINGOVERNORATE" },
+                    { "a489be78-d2c8-4548-a4b7-240d6285689c", "41958c1a-10a2-40e3-90c3-a99c6ea60811", "AdminDirectorate", "ADMINDIRECTORATE" },
+                    { "7dac404d-81b2-4dc5-8096-6c7ac1ac0376", "623509d8-ad39-444d-a0d0-380fecbc24ec", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" },
+                    { "d3b36d5b-41b6-45e7-8c56-238ec7b44dc9", "7888303a-96a7-436d-bb16-065be1a4a0ad", "AdminVillages", "ADMINVILLAGES" },
+                    { "5d4512da-154f-49e4-805e-15992c88ce61", "71a5a327-4c56-4c7b-a78f-caf4bc1f98d6", "Beneficiarie", "BENEFICIARIE" }
                 });
 
             migrationBuilder.InsertData(
@@ -889,9 +890,9 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "جمعية البن" },
                     { 2, "جمعية الالبان" },
-                    { 3, "جمعية الحبوب" }
+                    { 3, "جمعية الحبوب" },
+                    { 1, "جمعية البن" }
                 });
 
             migrationBuilder.InsertData(
@@ -900,11 +901,11 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 5, "الإتحاد العام" },
-                    { 4, "المحافظة" },
                     { 1, "القرية" },
                     { 2, "العزلة" },
-                    { 3, "المديرية" }
+                    { 3, "المديرية" },
+                    { 4, "المحافظة" },
+                    { 5, "الإتحاد العام" }
                 });
 
             migrationBuilder.InsertData(
@@ -925,10 +926,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "f990403e-d059-4e3a-ae59-f5d5fbac7f7d", new DateTime(2022, 8, 24, 23, 11, 0, 412, DateTimeKind.Local).AddTicks(7632), "مماطلة", null, null },
-                    { "95601674-3690-40a5-b918-d9e4de8c40b5", new DateTime(2022, 8, 24, 23, 11, 0, 412, DateTimeKind.Local).AddTicks(6825), "زراعية", null, null },
-                    { "f541e325-f544-4332-8d5c-ec399637f476", new DateTime(2022, 8, 24, 23, 11, 0, 412, DateTimeKind.Local).AddTicks(7617), "فساد", null, null },
-                    { "9c8059a4-e483-4430-a467-33e0aceeff5f", new DateTime(2022, 8, 24, 23, 11, 0, 412, DateTimeKind.Local).AddTicks(7649), "إرتشاء", null, null }
+                    { "1aa66343-0327-428c-bc79-4843999a80bb", new DateTime(2022, 8, 27, 3, 0, 27, 553, DateTimeKind.Local).AddTicks(6195), "زراعية", null, "قيمة افتراضية من النضام" },
+                    { "8e258009-a9f8-4980-b3fe-545670efba44", new DateTime(2022, 8, 27, 3, 0, 27, 553, DateTimeKind.Local).AddTicks(6866), "فساد", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -1034,10 +1033,10 @@ namespace ComplantSystem.Migrations
                 column: "UploadsComplainteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Compalints_Solutions_UserAddSolutionId",
+                name: "IX_Compalints_Solutions_UserId",
                 schema: "Identity",
                 table: "Compalints_Solutions",
-                column: "UserAddSolutionId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Directorates_GovernorateId",

@@ -1,5 +1,5 @@
 ﻿
-@model ComplantSystem.Models.UploadsComplainte
+@model ComplantSystem.Data.ViewModels.ProvideSolutionsVM
 
 @{
     ViewData["Title"] = "تفاصيل الشكوى";
@@ -78,7 +78,7 @@
                                                    class="form-control text-center"
                                                    disabled
                                                    placeholder="3492"
-                                                   value=" @Model.Id"
+                                                   value=" @Model.compalint.Id"
                                                    id="TransactionId" />
                                         </div>
                                     </dd>
@@ -87,45 +87,88 @@
                                     </dt>
                                     <dd class="d-flex col-sm-6 col-6 justify-content-md-end">
                                         <div class="w-px-150">
-                                            <input type="text" class="form-control text-center" disabled placeholder="2202/8/2" value="@Model.UploadDate" id="DateOfArrival" />
+                                            <input type="text" class="form-control text-center" disabled placeholder="2202/8/2" value="@Model.compalint.UploadDate" id="DateOfArrival" />
                                         </div>
                                     </dd>
 
                                 </dl>
                             </div>
 
-                           <div class="table-responsive">
-                                    <table class="table border-top m-0">
+                            <div class="table-responsive">
+                                <table class="table border-top m-0">
 
-                                        <thead>
+                                    <thead>
+                                        <tr>
+                                            <th>اسم مقدم الحل</th>
+
+                                            <th>الصلاحية </th>
+                                            <th>الرقم الوطني</th>
+                                            <th> إجراء</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @if (Model.Compalints_SolutionList.Count() == 0)
+                                        {
                                             <tr>
-                                                <th>اسم مقدم الحل</th>
-
-                                                <th>الصلاحية </th>
-                                                <th>الرقم الوطني</th>
-                                                <th> إجراء</th>
-
+                                                <td colspan="3" style="color:red">
+                                                    لا يوجد نتائج
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-nowrap">محمد سعيد صالح</td>
+                                        }
+                                        else
+                                        {
+                                            @foreach (var item in Model.Compalints_SolutionList)
+                                            {
+                                                <tr>
+                                                    <td class="width content">
+                                                        @Html.DisplayFor(modelItem => item.SolutionProvName)
+                                                    </td>
+
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.ContentSolution)
+                                                    </td>
+
+                                                    <td> @Html.DisplayFor(modelItem => item.DateSolution)</td>
+
+                                                    <td>
+                                                        @if (item.SolutionProvIdentity == 1)
+                                                        {
+                                                            <a asp-action="Yes" asp-route-idS="@item.Id">
+                                                                <i> قبول</i>
+                                                            </a>
+
+                                                            <hr />
+                                                            <a asp-action="No" asp-route-idS="@item.Id">
+                                                                <i> رفض</i>
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            @if (item.SolutionProvIdentity == 3)
+                                                            {
+                                                                <span class="badge bg-danger text-white"> مرفوضة</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button>
+                                                                    <span class="badge bg-success text-white"> مقبولة</span>
+                                                                </button>
+                                                            }
 
 
-                                                <td>مدير عزلة</td>
-                                                <td class="text-nowrap">000002324234234</td>
+                                                        }
 
-                                            </tr>
-                                        <td>
-                                            @*<a  asp-action="ViewCompalintDetails" asp-controller="ContentManagementsGeneralFederation"   asp-route-id="@item.CompalintId">
-                                                    <i> عرض</i>
-                                                </a>*@
-                                        </td>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            
+                                    </tbody>
+                                </table>
+                            </div>
+
 
                         </div>
 
@@ -139,20 +182,20 @@
 
                                         <tr class="pb-2">
                                             <td class="col-md-4">عنوان الشكوى:</td>
-                                            <td>  @Model.TitleComplaint </td>
+                                            <td>  @Model.compalint.TitleComplaint </td>
                                         </tr>
                                         <tr>
                                             <td class="pe-3">الموضوع:</td>
-                                            <td>  @Model.DescComplaint </td>
+                                            <td>  @Model.compalint.DescComplaint </td>
                                         </tr>
 
                                         <tr>
                                             <td>تاريخ النشر:</td>
-                                            <td> @Model.UploadDate</td>
+                                            <td> @Model.compalint.UploadDate</td>
                                         </tr>
                                         <tr>
                                             <td>  صنف الشكوى: </td>
-                                            <td> @Model.TypeComplaint.Type  </td>
+                                            <td> @Model.compalint.TypeComplaint.Type  </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -163,15 +206,15 @@
                                         <div class="col-md-4">
                                             <label class="control-label"> حالة الشكوى  :</label>
 
-                                            @if (Model.StatusCompalint?.Name == "مرفوضة")
+                                            @if (Model.compalint.StatusCompalint?.Name == "مرفوضة")
                                             {
-                                                <span class="badge bg-danger text-white"> @Model.StatusCompalint.Name</span>
+                                                <span class="badge bg-danger text-white"> @Model.compalint.StatusCompalint.Name</span>
 
                                             }
                                             else
                                             {
 
-                                                <span class="badge bg-success text-white"> @Model.StatusCompalint?.Name</span>
+                                                <span class="badge bg-success text-white"> @Model.compalint.StatusCompalint?.Name</span>
                                             }
 
                                         </div>
@@ -180,7 +223,7 @@
                                         <div class="col-md-4">
                                             <label class="control-label"> تاريخ النشر  :</label>
 
-                                            <p class="card-text"> @Model.UploadDate</p>
+                                            <p class="card-text"> @Model.compalint.UploadDate</p>
                                         </div>
 
                                         <div class="col-md-4">
@@ -188,7 +231,7 @@
                                             <label class="control-label"> الجهة المستلمة  :</label>
 
 
-                                            <p> @Model.StagesComplaint?.Name</p>
+                                            <p> @Model.compalint.StagesComplaint?.Name</p>
 
                                         </div>
 
@@ -234,13 +277,13 @@
                                 <div class="col-md-3">
                                     <label>المحافظة</label>
 
-                                    <p>@Model.Governorate.Name</p>
+                                    <p>@Model.compalint.Governorate.Name</p>
 
                                 </div>
 
                                 <div class="col-md-3">
                                     <label>المديرية</label>
-                                    <p>@Model.Directorate.Name</p>
+                                    <p>@Model.compalint.Directorate.Name</p>
 
 
 
@@ -248,16 +291,10 @@
 
                                 <div class="col-md-3">
                                     <label>العزلة</label>
-                                    <p>@Model.SubDirectorate?.Name</p>
+                                    <p>@Model.compalint.SubDirectorate?.Name</p>
 
                                 </div>
-                                <div class="col-md-3">
-                                    <label>القرية</label>
-                                    <p>@Model.Villages?.Name</p>
 
-
-
-                                </div>
 
                             </div>
                         </div>
@@ -265,10 +302,10 @@
                         <div class="card-body  col-lg-12 ">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    @if (Model.ContentType.ToLower().StartsWith("image"))
+                                    @if (Model.compalint.ContentType.ToLower().StartsWith("image"))
 
                                     {
-                                        <img width="100%" height="100%" src="/Uploads/@Model.FileName" class="card-img lazyload" alt="...">
+                                        <img width="100%" height="100%" src="/Uploads/@Model.compalint.FileName" class="card-img lazyload" alt="...">
                                     }
                                 </div>
                                 <div class="col-md-8">
@@ -276,13 +313,13 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <h5 class="card-title">
-                                                    @Model.OriginalFileName
+                                                    @Model.compalint.OriginalFileName
                                                 </h5>
                                             </div>
                                             <div class="col-3">
                                                 <strong>Size : </strong>
                                                 @{
-                                                    var size = Model.Size / 1024; //KB
+                                                    var size = Model.compalint.Size / 1024; //KB
                                                     if (size < 1024)  //2048
                                                     {
                                                         <span>@Math.Floor(size) Kb</span>
@@ -296,9 +333,9 @@
 
                                         </div>
                                         @*<p class="card-text"></p>*@
-                                        <p class="card-text"><small class="text-muted">@Model.UploadDate</small></p>
+                                        <p class="card-text"><small class="text-muted">@Model.compalint.UploadDate</small></p>
                                         <div class="text-right">
-                                            <a asp-action="Download" asp-controller="GeneralFederation" asp-route-id="@Model.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
+                                            <a asp-action="Download" asp-controller="GeneralFederation" asp-route-id="@Model.compalint.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
                                         </div>
                                     </div>
                                 </div>
@@ -314,77 +351,91 @@
             <!-- /Invoice -->
             <!-- Invoice Actions -->
             <div class="invoice-actions col-12 col-md-4 col-xl-3">
-                <div class="card">
-                    <div class="card-body">
-                        <button class="btn btn-primary d-grid w-100 mb-3"
-                                data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasAddAsset">
-                            <span class="d-flex justify-content-center align-items-center text-nowrap" data-bs-toggle="modal" data-bs-target="#answerModal"><i class="bx bx-plus bx-xs me-3"></i>تقديم حل</span>
+
+                @*<div class="card">
+            <div class="card-body">
+                <button class="btn btn-primary d-grid w-100 mb-3"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasAddAsset">
+                    <span class="d-flex justify-content-center align-items-center text-nowrap" data-bs-toggle="modal" data-bs-target="#answerModal"><i class="bx bx-plus bx-xs me-3"></i>تقديم حل</span>
+
+                <div class="mt-2">
+
+                    @using (Html.BeginForm("UpCompalint", "GeneralFederation", new { Id = Model.compalint.Id }, FormMethod.Post))
+                    {
+                        <button class="btn btn-primary me-2">
+
+                            <span class="d-flex justify-content-center align-items-center text-nowrap"><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
                         </button>
-                        @*<button onclick="location.href='@Url.Action("UpCompalint", "ContentManagementsGeneralFederation")'" class="btn btn-primary d-grid w-100 mb-3"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasAddAsset">
-            <span asp class="d-flex justify-content-center align-items-center text-nowrap" data-bs-target=""><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
-        </button>*@
-                        <div class="mt-2">
-                            @*<button asp-controller="GeneralFederation" asp-action="UpCompalint" asp-route-id="@Model.Id" class="btn btn-primary me-2">
-
-                <span class="d-flex justify-content-center align-items-center text-nowrap"><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
-            </button>*@
-                            @using (Html.BeginForm("UpCompalint", "GeneralFederation", new { Id = Model.Id }, FormMethod.Post))
-                            {
-                                <button class="btn btn-primary me-2">
-
-                                    <span class="d-flex justify-content-center align-items-center text-nowrap"><i class="bx bx-upload bx-xs me-3"></i> رفع</span>
-                                </button>
-                            }
-                        </div>
-                        @using (Html.BeginForm("AllComplaints", "GeneralFederation", new { Id = Model.Id }, FormMethod.Post))
-                        {
-                            <button class="btn btn-label-secondary d-grid w-100 mb-3" data-bs-target="">خروج</button>
-
-                        }
-                        </div>
+                    }
                 </div>
+                @using (Html.BeginForm("AllComplaints", "GeneralFederation", new { Id = Model.compalint.Id }, FormMethod.Post))
+                {
+                    <button class="btn btn-label-secondary d-grid w-100 mb-3" data-bs-target="">خروج</button>
+
+                }
             </div>
-            <!-- /Invoice Actions -->
+        </div>*@
 
-            <div class="modal-onboarding modal fade animate__animated"
-                 id="answerModal"
-                 tabindex="-1"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-sm " role="document">
-                    <div class="modal-content ">
-                        <div class="modal-header">
-                            <h5 class="h5 ">مقترح جديد</h5>
-                            <button type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body onboarding-horizontal ">
-                            <form asp-action="AddSolutionForCompalint" class="add-new-record row g-2 pt-0" id=" formValidationExamples">
 
-                                <div class="col-12 col-md-12  text-start">
-                                    <label for="exampleFormControlTextarea2" class="form-label">نص الحل المقترح</label>
-                                    @*<textarea @Html.TextBoxFor(model => model.ContentSolution) class="form-control"
-                                              rows="3"></textarea>*@
-                                </div>
-                                <div class="col-sm-12">
-
-                                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">إلغاء</button>
-                                    <button type="submit" class="btn btn-primary data-submit me-1 me-sm-3">إرسال</button>
-                                </div>
-                            </form>
-                        </div>
+                <!-- /Invoice Actions -->
+      
+                    <div class="offcanvas-header border-bottom">
+                        <h6 class="offcanvas-title">حل الشكوى </h6>
+                        <button type="button"
+                                class="btn-close text-reset"
+                                data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
                     </div>
+                    <div class="offcanvas-body flex-grow-1">
+                        <form asp-action="AddSolutions" method="post">
 
+                            <input type="hidden" asp-for="@Model.AddSolution.UploadsComplainteId" />
+
+                            <div class="mb-3">
+                                <label for="invoice-message" class="form-label">  حل الشكوى</label>
+
+                                <input asp-for="@Model.AddSolution.ContentSolution" class="form-control" />
+                                <span class="text-danger" asp-validation-for="@Model.AddSolution.ContentSolution"></span>
+                            </div>
+
+                            <div class="d-flex flex-wrap mb-3">
+                                <button type="submit" class="btn btn-primary me-3" data-bs-dismiss="offcanvas">إرسال</button>
+                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">إالغاء</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /Send Invoice Sidebar -->
+                <!-- Add Payment Sidebar -->
+                <div class="offcanvas offcanvas-end" id="addPaymentOffcanvas" aria-hidden="true">
+                    <div class="offcanvas-header border-bottom">
+                        <h6 class="offcanvas-title"> رفع الشكوى</h6>
+                        <button type="button"
+                                class="btn-close text-reset"
+                                data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body flex-grow-1">
+
+                        <form>
+
+
+                            <div class="mb-4">
+                                <label class="form-label" for="payment-note">  سبب رفع الشكوى</label>
+                                <textarea class="form-control" id="payment-note" rows="2"></textarea>
+                            </div>
+                            <div class="d-flex flex-wrap mb-3">
+                                <button type="button" class="btn btn-primary me-3" data-bs-dismiss="offcanvas">إرسال </button>
+                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">إالغاء</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+         
 
-
-
-        </div>
+    
 
 
 

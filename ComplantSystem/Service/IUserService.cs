@@ -15,7 +15,7 @@ namespace ComplantSystem.Service
         Task<IEnumerable<ApplicationUser>> GetAllAsync(string identityUser);
         Task<IEnumerable<ApplicationUser>> GetAllBenefAsync();
         Task<IEnumerable<ApplicationUser>> GetAllBenefAsync(params Expression<Func<ApplicationUser, object>>[] includeProperties);
-        Task AddAsync(AddUserViewModel entity, string CurrentUserLoginId);
+        Task AddBenefAsync(AddUserViewModel entity, string originatorName, string CurrentUserLoginId);
         Task AddAsync(AddUserViewModel entity, string originatorName, string userId);
         Task<IEnumerable<ApplicationUser>> GetAllAsync(params Expression<Func<ApplicationUser, object>>[] includeProperties);
         Task<ApplicationUser> GetByIdAsync(string id);
