@@ -28,7 +28,7 @@ namespace ComplantSystem.Configuration
                 {
                     var newAdminUser = new ApplicationUser()
                     {
-                        FullName = "علي سرحان الدعيس عبدالرحمن",
+                        FullName = "عبدالرحمن علي سرحان الدعيس ",
                         IdentityNumber = IdentityAdmin,
                         Email = IdentityAdmin,
                         UserName = IdentityAdmin,

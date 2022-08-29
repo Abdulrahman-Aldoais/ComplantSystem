@@ -322,7 +322,8 @@ namespace ComplantSystem.Service
             var selectedItem = await contex.Users.FindAsync(id);
             if (selectedItem != null)
             {
-                selectedItem.IsBlocked = isBlocked;
+                selectedItem.EmailConfirmed = isBlocked;
+
                 contex.Update(selectedItem);
                 await contex.SaveChangesAsync();
             }

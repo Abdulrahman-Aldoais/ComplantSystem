@@ -11,18 +11,11 @@ $(function () {
     select2 = $('.select2'),
     userView = 'app-user-view-account.html',
     statusObj = {
-      1: { title: 'Pending', class: 'bg-label-warning' },
-      2: { title: 'Active', class: 'bg-label-success' },
-      3: { title: 'Inactive', class: 'bg-label-secondary' }
+      1: { title: 'قيد الانتظار', class: 'bg-label-warning' },
+      2: { title: 'نشط', class: 'bg-label-success' },
+      3: { title: 'غير نشط', class: 'bg-label-secondary' }
     };
 
-  if (select2.length) {
-    var $this = select2;
-    $this.wrap('<div class="position-relative"></div>').select2({
-      placeholder: 'Select Country',
-      dropdownParent: $this.parent()
-    });
-  }
 
   // Users datatable
   if (dt_user_table.length) {
@@ -100,15 +93,16 @@ $(function () {
           render: function (data, type, full, meta) {
             var $role = full['role'];
             var roleBadgeObj = {
-              Subscriber:
-                '<span class="badge badge-center rounded-pill bg-label-warning w-px-30 h-px-30 me-2"><i class="bx bx-user bx-xs"></i></span>',
-              Author:
-                '<span class="badge badge-center rounded-pill bg-label-success w-px-30 h-px-30 me-2"><i class="bx bx-cog bx-xs"></i></span>',
-              Maintainer:
-                '<span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2"><i class="bx bx-pie-chart-alt bx-xs"></i></span>',
-              Editor:
+              مستخدم:
+              '<span class="badge badge-center rounded-pill bg-label-warning w-px-30 h-px-30 me-2"><i class="bx bx-user bx-xs"></i></span>',
+            مشرف:
+              '<span class="badge badge-center rounded-pill bg-label-success w-px-30 h-px-30 me-2"><i class="bx bx-cog bx-xs"></i></span>',
+              مستثمر:
+              '<span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2"><i class="bx bx-pie-chart-alt bx-xs"></i></span>',
+            
+              موظف:
                 '<span class="badge badge-center rounded-pill bg-label-info w-px-30 h-px-30 me-2"><i class="bx bx-edit bx-xs"></i></span>',
-              Admin:
+                إداري:
                 '<span class="badge badge-center rounded-pill bg-label-secondary w-px-30 h-px-30 me-2"><i class="bx bx-mobile-alt bx-xs"></i></span>'
             };
             return "<span class='text-truncate d-flex align-items-center'>" + roleBadgeObj[$role] + $role + '</span>';
@@ -135,7 +129,7 @@ $(function () {
         {
           // Actions
           targets: -1,
-          title: 'Actions',
+          title: 'الاجراءات',
           searchable: false,
           orderable: false,
           render: function (data, type, full, meta) {
@@ -145,10 +139,10 @@ $(function () {
               '<div class="dropdown-menu dropdown-menu-end">' +
               '<a href="' +
               userView +
-              '" class="dropdown-item">View</a>' +
-              '<a href="javascript:;" class="dropdown-item">Suspend</a>' +
+              '" class="dropdown-item">عرض</a>' +
+              '<a href="javascript:;" class="dropdown-item">موقف </a>' +
               '<div class="dropdown-divider"></div>' +
-              '<a href="javascript:;" class="dropdown-item text-danger delete-record">Delete</a></div>' +
+              '<a href="javascript:;" class="dropdown-item text-danger delete-record">حذف</a></div>' +
               '</div>' +
               '</div>'
             );
@@ -168,14 +162,14 @@ $(function () {
       language: {
         sLengthMenu: '_MENU_',
         search: '',
-        searchPlaceholder: 'Search..'
+        searchPlaceholder: 'بحث....'
       },
       // Buttons with Dropdown
       buttons: [
         {
           extend: 'collection',
           className: 'btn btn-label-secondary dropdown-toggle mx-3',
-          text: '<i class="bx bx-upload me-2"></i>Export',
+          text: '<i class="bx bx-upload me-2"></i>تصدير',
           buttons: [
             {
               extend: 'print',
@@ -210,7 +204,7 @@ $(function () {
           ]
         },
         {
-          text: '<i class="bx bx-plus me-0 me-lg-2"></i><span class="d-none d-lg-inline-block">Add New User</span>',
+          text: '<i class="bx bx-plus me-0 me-lg-2"></i><span class="d-none d-lg-inline-block">إضافة مستخدم</span>',
           className: 'add-new btn btn-primary',
           attr: {
             'data-bs-toggle': 'offcanvas',
@@ -258,7 +252,7 @@ $(function () {
           .every(function () {
             var column = this;
             var select = $(
-              '<select id="UserRole" class="form-select text-capitalize"><option value=""> Select Role </option></select>'
+              '<select id="UserRole" class="form-select text-capitalize"><option value=""> نوع المستخدم </option></select>'
             )
               .appendTo('.user_role')
               .on('change', function () {
@@ -296,13 +290,16 @@ $(function () {
                 select.append('<option value="' + d + '">' + d + '</option>');
               });
           });
+
+
+       
         // Adding status filter once table initialized
         this.api()
           .columns(5)
           .every(function () {
             var column = this;
             var select = $(
-              '<select id="FilterTransaction" class="form-select text-capitalize"><option value=""> Select Status </option></select>'
+              '<select id="FilterTransaction" class="form-select text-capitalize"><option value=""> حدد الحالة </option></select>'
             )
               .appendTo('.user_status')
               .on('change', function () {
@@ -351,7 +348,7 @@ $(function () {
     phoneMaskList.forEach(function (phoneMask) {
       new Cleave(phoneMask, {
         phone: true,
-        phoneRegionCode: 'US'
+        phoneRegionCode: 'Yemen'
       });
     });
   }
@@ -361,17 +358,17 @@ $(function () {
       userFullname: {
         validators: {
           notEmpty: {
-            message: 'Please enter fullname '
+            message: 'الرجاء ادخال الاسم '
           }
         }
       },
       userEmail: {
         validators: {
           notEmpty: {
-            message: 'Please enter your email'
+            message: 'الرجاء ادخال الايمل'
           },
           emailAddress: {
-            message: 'The value is not a valid email address'
+            message: 'هذه القيمة لاتصلح كعنوان بريد'
           }
         }
       }

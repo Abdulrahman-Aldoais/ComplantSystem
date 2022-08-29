@@ -90,8 +90,6 @@ namespace ComplantSystem.Controllers
             var result = await _userService.GetAllAsync(currentIdUser);
 
 
-
-
             int totalUsers = result.Count();
 
             ViewBag.totalUsers = totalUsers;
@@ -107,40 +105,15 @@ namespace ComplantSystem.Controllers
 
 
 
-        public async Task<IActionResult> BeneficiariesAccount(
-         string currentFilter,
-         string searchString,
-         int? pageNumber)
+        public async Task<IActionResult> BeneficiariesAccount()
         {
-            if (searchString != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewData["CurrentFilter"] = searchString;
-
-
             var result = await _userService.GetAllBenefAsync();
-
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-
-            }
 
             int totalUsers = result.Count();
 
             ViewBag.totalUsers = totalUsers;
 
-            int pageSize = 3;
 
-
-
-            //return View(await PaginatedList<ApplicationUser>.CreateAsync(result.AsNoTracking(), pageNumber ?? 1, pageSize));
             return View(result.ToList());
 
         }
@@ -257,6 +230,7 @@ namespace ComplantSystem.Controllers
         }
 
         [HttpPost]
+
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AddUserViewModel model)
         {

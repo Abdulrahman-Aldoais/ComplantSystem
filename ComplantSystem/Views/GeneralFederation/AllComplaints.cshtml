@@ -31,7 +31,7 @@
 
 
                             <div class="btn-group">
-<span class="badge bg-label-primary badgess " style="    padding-left: 36px;
+                                <span class="badge bg-label-primary badgess " style="    padding-left: 36px;
                         line-height: 1.99;
                         width: 152.35px;">العدد الكلي @ViewBag.totaleComp</span>
                     </div>
@@ -52,7 +52,7 @@
                             <div class="row align-items-start">
                                 <div class="col-md-4" style="width:150px">
                                     <select id="FilterType"
-                                          name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
+                                            name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
                                             class="select2 form-select select2-hidden-accessible"
                                             tabindex="-1" aria-hidden="true" data-select2-id="10">
                                         <option value="0" data-select2-id="12">عرض</option>
@@ -76,11 +76,20 @@
 
 
 
-                                <div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
+                                @*<div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
                                     <div class="me-3 table-type search-paddind">
                                         <span class="table-span">بحث</span>
                                         <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                             <label><input type="search" id="CustomSearchTextField" class="form-controls" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                                <div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
+                                    <div class="me-3 table-type search-paddind">
+                                       
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                            <label><input type="search" id="CustomSearchTextField" class="form-control" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
                                         </div>
                                     </div>
                                 </div>
@@ -92,10 +101,10 @@
 
 
                     </div>
-                 
-                        <div class="table-responsive text-nowrap">
-                            <table id="example"  class="datatables-users table border-top ">
 
+                    <div class="table-responsive text-nowrap">
+                        <table id="example" class="datatables-users table border-top ">
+                            @*<table id="example" class="datatables-basic">*@
                                 <thead>
                                     <tr>
                                         <th>
@@ -151,35 +160,35 @@
 
                                 </tbody>
                             </table>
-                        </div>
+</div>
 
-                    </div>
-                 
                 </div>
+
             </div>
-
         </div>
+
     </div>
+</div>
 
 
 
-    @section Scripts{
+@section Scripts{
 
-      
 
-            <script>
 
-             
-                    $('#CustomSearchTextField').keyup(function () {
+    <script>
 
-                        oTable.search($(this).val()).draw();
 
-                    });
+        $('#CustomSearchTextField').keyup(function () {
 
-                var oTable = $('#example').DataTable({
+            oTable.search($(this).val()).draw();
 
-                    language: {
-                    "loadingRecords": "جارٍ التحميل...",
+        });
+
+        var oTable = $('#example').DataTable({
+
+            language: {
+                "loadingRecords": "جارٍ التحميل...",
                 "lengthMenu": "أظهر _MENU_ مدخلات",
                 "zeroRecords": "لم يعثر على أي شكوى",
                 "info": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
@@ -187,61 +196,61 @@
                 "searchPlaceholder": "بحث عن شكوى",
                 "paginate": {
                     "first": "الأول",
-                "previous": "السابق",
-                "next": "التالي",
-                "last": "الأخير"
-                        }
+                    "previous": "السابق",
+                    "next": "التالي",
+                    "last": "الأخير"
+                }
 
-                    },
+            },
 
-                "paging": true,
-                "lengthChange": false,
-                /*"searching": true,*/
-                "ordering": false,
-                "info": false,
-                "autoWidth": false,
-                "responsive": false,
-                "searching": true,
-                    //dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                displayLength: 4,
-                    //lengthMenu: [5, 10, 25, 50, 75, 100],
-                    //"columnDefs": [
-                    //    target: 1,
-                    //    ordering: true
-                    //],
-                });   //using Capital D, which is mandatory to retrieve "api" datatables' object, latest jquery Datatable
-
-             
-              
-
-
-        </script>
+            "paging": true,
+            "lengthChange": false,
+            /*"searching": true,*/
+            "ordering": false,
+            "info": false,
+            "autoWidth": false,
+            "responsive": false,
+            "searching": true,
+            //dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            displayLength: 4,
+            //lengthMenu: [5, 10, 25, 50, 75, 100],
+            //"columnDefs": [
+            //    target: 1,
+            //    ordering: true
+            //],
+        });   //using Capital D, which is mandatory to retrieve "api" datatables' object, latest jquery Datatable
 
 
 
-        <script>
-            //فلترة نوع الشاكي
-            $("#FilterType").change(function () {
-                var value = $(this).val().toLowerCase();
+
+
+    </script>
+
+
+
+    <script>
+        //فلترة نوع الشاكي
+        $("#FilterType").change(function () {
+            var value = $(this).val().toLowerCase();
             $(".table tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
             });
-            //
-        </script>
-        <script>
+        });
+        //
+    </script>
+    <script>
 
-            $(document).ready(function () {
-                $("#typeComp").change(function () {
-                    $('#tableComp').childern("tr").remove();
-                    $.get("/UploadsComplainte/ViewCompalintsByStutas", { id: $('#typeComp').val() }, function (data) {
-                        $.each(data, function (Index, row) {
-                            $('#tableComp').oppend("<tr><td>" + row.Id + "</td><td>" + row.TitleComplaint + "</td><td>"
-                                + row.CompDate + "</td><tr>");
-                        });
+        $(document).ready(function () {
+            $("#typeComp").change(function () {
+                $('#tableComp').childern("tr").remove();
+                $.get("/UploadsComplainte/ViewCompalintsByStutas", { id: $('#typeComp').val() }, function (data) {
+                    $.each(data, function (Index, row) {
+                        $('#tableComp').oppend("<tr><td>" + row.Id + "</td><td>" + row.TitleComplaint + "</td><td>"
+                            + row.CompDate + "</td><tr>");
                     });
                 });
             });
-        </script>
+        });
+    </script>
 
-    }
+}

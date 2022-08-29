@@ -316,7 +316,7 @@ html:not([dir=rtl]) table.table-bordered.dataTable td:last-child {
   }
 }
 [dir=rtl] div.dataTables_wrapper .dataTables_filter {
-  display:none ;
+  display: flex;
   justify-content: flex-end;
 }
 [dir=rtl] div.dataTables_wrapper .dataTables_filter input {

@@ -20,18 +20,12 @@ namespace ComplantSystem
         public virtual ApplicationUser UserAddSolution { get; set; }
         public string UploadsComplainteId { get; set; }
         [ForeignKey("UploadsComplainteId")]
-
         public virtual UploadsComplainte CompalintsHasSolution { get; set; }
-
         public string SolutionProvName { get; set; }
-
-
-
-        public double SolutionProvIdentity { get; set; }
-
-        //public int State { get; set; }
-
-
+        public string SolutionProvIdentity { get; set; }
+        public bool IsAccept { get; set; }
+        //public int status { get; set; }
+        public string Role { get; set; }
         public string ContentSolution { get; set; } = "";
         public DateTime DateSolution { get; set; } = DateTime.Now;
 

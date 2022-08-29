@@ -11,70 +11,81 @@ document.addEventListener('DOMContentLoaded', function (e) {
     if (formAuthentication) {
       const fv = FormValidation.formValidation(formAuthentication, {
         fields: {
-          username: {
+          name: {
             validators: {
               notEmpty: {
-                message: 'Please enter username'
+                message: 'يرجى ادخال الاسم '
               },
               stringLength: {
                 min: 6,
-                message: 'Username must be more than 6 characters'
+                message: 'يجب ان يتكون اسم المستخدم اكثر من 6 احرف '
+              }
+            }
+          },
+          username: {
+            validators: {
+              notEmpty: {
+                message: 'يرجى ادخال اسم المستخدم'
+              },
+              stringLength: {
+                min: 6,
+                message: 'يجب ان يتكون اسم المستخدم اكثر من 6 احرف '
               }
             }
           },
           email: {
             validators: {
               notEmpty: {
-                message: 'Please enter your email'
+                message: 'يرجى ادخال البريد الالكتروني'
               },
               emailAddress: {
-                message: 'Please enter valid email address'
+                message: 'يرجى ادخال عنوان بريد الكتروني صالح'
               }
             }
           },
           'email-username': {
             validators: {
               notEmpty: {
-                message: 'Please enter email / username'
+                message: 'يرجى ادخال اسم المستخدم او البريد الالكتروني'
               },
               stringLength: {
                 min: 6,
-                message: 'Username must be more than 6 characters'
+                message: 'يجب ان يتكون اسم المستخدم اكثر من 6 احرف  '
               }
             }
           },
           password: {
             validators: {
               notEmpty: {
-                message: 'Please enter your password'
+                message: 'من فضلك ادخل كلمة المرور'
               },
               stringLength: {
                 min: 6,
-                message: 'Password must be more than 6 characters'
+                message: 'يجب ان تتكون كلمة المرور اكثر من 6 احرف او ارقام'
               }
             }
           },
           'confirm-password': {
             validators: {
               notEmpty: {
-                message: 'Please confirm password'
+                message: 'يرجى التأكد من كلمة المرور'
               },
               identical: {
                 compare: function () {
                   return formAuthentication.querySelector('[name="password"]').value;
                 },
-                message: 'The password and its confirm are not the same'
+                message: 'كلمة المرور وتأكيدها ليست هي نفسها'
               },
               stringLength: {
                 min: 6,
-                message: 'Password must be more than 6 characters'
+                message: 'يجب ان تتكون كلمة المرور اكثر من 6 احرف او ارقام'
               }
             }
           },
           terms: {
             validators: {
               notEmpty: {
-                message: 'Please agree terms & conditions'
+                message: 'يرجى توافق الشروط والاحكام'
               }
             }
           }

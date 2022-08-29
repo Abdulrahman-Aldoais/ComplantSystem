@@ -90,6 +90,56 @@ namespace ComplantSystem
 
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddSolutions(ProvideSolutionsVM model, string id)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var role = currentUser.RoleId;
+                string UserId = claim.Value;
+                var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+                var solution = new Compalints_Solution()
+                {
+                    UserId = subuser.Id,
+                    SolutionProvName = subuser.FullName,
+                    UploadsComplainteId = model.AddSolution.UploadsComplainteId,
+                    SolutionProvIdentity = subuser.IdentityNumber,
+                    ContentSolution = model.AddSolution.ContentSolution,
+                    DateSolution = DateTime.Now,
+                    //status = model.compalint.StatusCompalintId == 2,
+                    Role = role.ToString(),
+
+                };
+
+                _context.Compalints_Solutions.Add(solution);
+                await _context.SaveChangesAsync();
+
+                //var comp = await _context.UploadsComplainte.Where(a => a.Id == id).FirstOrDefaultAsync();
+
+                //var returnCompalint = new UploadsComplainte()
+                //{
+                //    StagesComplaintId = 2,
+
+                //};
+
+                //_context.UploadsComplaintes.Add(returnCompalint);
+                //await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            return NotFound();
+
+        }
+
+
+
         public async Task<IActionResult> ReportManagement()
         {
             return View();
@@ -286,44 +336,6 @@ namespace ComplantSystem
             };
             return View(MV);
         }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddSolutions(ProvideSolutionsVM model)
-        {
-            if (ModelState.IsValid)
-            {
-                var claimsIdentity = (ClaimsIdentity)User.Identity;
-                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-                string UserId = claim.Value;
-                var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
-                var solution = new Compalints_Solution()
-                {
-                    UserId = subuser.Id,
-                    SolutionProvName = subuser.FullName,
-                    UploadsComplainteId = model.AddSolution.UploadsComplainteId,
-
-                    SolutionProvIdentity = 1,
-                    ContentSolution = model.AddSolution.ContentSolution,
-                    DateSolution = DateTime.Now
-
-
-
-                };
-
-                _context.Compalints_Solutions.Add(solution);
-                await _context.SaveChangesAsync();
-
-
-                return RedirectToAction(nameof(Index));
-
-            }
-
-            return NotFound();
-
-        }
-
 
 
 

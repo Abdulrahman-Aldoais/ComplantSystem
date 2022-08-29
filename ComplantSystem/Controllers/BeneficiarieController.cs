@@ -68,10 +68,7 @@ namespace ComplantSystem
 
 
 
-        public async Task<IActionResult> Index(
-            string currentFilter,
-            string searchString,
-            int? pageNumber)
+        public async Task<IActionResult> Index()
         {
             var currentUser = await userManager.GetUserAsync(User);
             var Identity = currentUser.IdentityNumber;
@@ -81,40 +78,31 @@ namespace ComplantSystem
             ViewBag.TypeComplaints = new SelectList(compalintDropdownsData.TypeComplaints, "Id", "Type");
 
 
-            if (searchString != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewData["CurrentFilter"] = searchString;
-
-
             var result = _service.GetBy(Identity);
-
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-
-            }
 
             int totalCompalints = result.Count();
 
             ViewBag.totalCompalints = totalCompalints;
 
-
-            int pageSize = 3;
-
-
-
-            return View(await PaginatedList<UploadsComplainte>.CreateAsync(result.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(result.ToList());
 
         }
 
 
+        public async Task<IActionResult> ViewResolvedComplaints()
+        {
+            var currentUser = await userManager.GetUserAsync(User);
+            var Identity = currentUser.IdentityNumber;
+            var compalintDropdownsData = await _service.GetNewCompalintsDropdownsValues();
+            ViewBag.StatusCompalints = new SelectList(compalintDropdownsData.StatusCompalints, "Id", "Name");
+            ViewBag.TypeComplaints = new SelectList(compalintDropdownsData.TypeComplaints, "Id", "Type");
+
+            ViewBag.status = ViewBag.StatusCompalints;
+
+            var rejectedComplaints = _service.GetAllResolvedComplaints(Identity);
+            return View(rejectedComplaints.ToList());
+
+        }
 
         public async Task<IActionResult> ViewRejectedComplaints()
         {
@@ -254,7 +242,7 @@ namespace ComplantSystem
                 //      {
                 //      cc.StagesComplaintId = 3;
                 //  }
-                so.SolutionProvIdentity = 2;
+                so.IsAccept = true;
                 _context.Compalints_Solutions.Update(so);
 
                 await _context.SaveChangesAsync();
@@ -274,8 +262,8 @@ namespace ComplantSystem
             {
                 var so = await _context.Compalints_Solutions.Where(a => a.Id == idS).FirstOrDefaultAsync();
                 var cc = await _context.UploadsComplainte.Where(m => m.Id == so.UploadsComplainteId).FirstOrDefaultAsync();
-                cc.StagesComplaintId += 1;
-                so.SolutionProvIdentity = 3;
+                cc.StagesComplaintId += 3;
+                so.SolutionProvIdentity = so.SolutionProvIdentity;
                 _context.Compalints_Solutions.Update(so);
                 await _context.SaveChangesAsync();
                 _context.UploadsComplainte.Update(cc);

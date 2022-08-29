@@ -370,11 +370,11 @@ $(function () {
           },
           {
             text: 'page-one.html',
-            type: 'edit'
+            type: 'html'
           },
           {
             text: 'page-two.html',
-            type: 'edit'
+            type: 'html'
           }
         ]
       },
@@ -394,10 +394,6 @@ $(function () {
         },
         js: {
           icon: 'bx bxl-nodejs text-warning'
-        },
-        edit:
-        {
-          icon:'fas fa-edit text-info'
         }
       }
     });
@@ -437,10 +433,6 @@ $(function () {
         },
         js: {
           icon: 'bx bxl-nodejs text-warning'
-        },
-        edit:
-        {
-          icon:'bx bxl-interface text-info'
         }
       }
     });

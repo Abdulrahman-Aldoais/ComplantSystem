@@ -15,14 +15,16 @@ $(function () {
 
   if (dt_scrollable_table.length) {
     var dt_scrollableTable = dt_scrollable_table.DataTable({
-        url:'/UploadsComplainte/GetAllAsync',
-
+      ajax: assetsPath + 'json/table-datatable.json',
       columns: [
-          { data: 'Id' },
-          { data: 'TitleComplaint' },
-          { data: 'CompDate' },
-          { data: 'StatusCompalint' },
-      
+        { data: 'full_name' },
+        { data: 'post' },
+        { data: 'email' },
+        { data: 'city' },
+        { data: 'start_date' },
+        { data: 'salary' },
+        { data: 'age' },
+        { data: 'experience' },
         { data: '' },
         { data: '' }
       ],

@@ -50,13 +50,8 @@ namespace ComplantSystem.Models
 
         public virtual SubDirectorate SubDirectorate { get; set; }
 
-        //[Required(ErrorMessage = "يجب ان تقوم بإختبار المنطقة المحددة ")]
-
-        public virtual Village Villages { get; set; }
-
         public virtual ICollection<Compalints_Solution> Compalints_Solutions { get; set; }
         public string UserId { get; set; }
-        public virtual ApplicationUser HoUser { get; set; }
         public string OriginalFileName { get; set; }
         public string FileName { get; set; }
         public decimal Size { get; set; }

@@ -92,93 +92,12 @@ namespace ComplantSystem.Controllers
             return View(new LoginViewModel());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginVM, string returnUrl)
-        {
-            TempData["Error"] = null;
-
-            if (!ModelState.IsValid)
-            {
-                _ = loginVM.IdentityNumber;
-                var user = await _userManager.FindByEmailAsync(loginVM.IdentityNumber);
-                if (user != null)
-                {
-                    _ = user.UserName;
-                    var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
-                    if (passwordCheck)
-                    {
-                        if (await _userManager.IsEmailConfirmedAsync(user))
-                        {
-                            var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, loginVM.RememberMe, false);
-                            if (result.Succeeded)
-                            {
-                                if (!string.IsNullOrEmpty(returnUrl))
-                                {
-
-                                    return LocalRedirect(returnUrl);
-                                }
-                                else if (User.IsInRole(UserRoles.AdminGeneralFederation))
-                                {
-                                    return RedirectToAction("Index", "GeneralFederation");
-
-                                }
-                                else if (User.IsInRole(UserRoles.Beneficiarie))
-                                {
-                                    return RedirectToAction("Index", "Beneficiarie");
-
-                                }
-                                else if (User.IsInRole(UserRoles.AdminGovernorate))
-                                {
-                                    return RedirectToAction("Index", "ManageComplaints");
-
-                                }
-                                else if (User.IsInRole(UserRoles.AdminDirectorate))
-                                {
-                                    return RedirectToAction("Index", "ManageComplaints");
-
-                                }
-                                else if (User.IsInRole(UserRoles.AdminSubDirectorate))
-                                {
-                                    return RedirectToAction("Index", "ManageComplaints");
-
-                                }
 
 
-                            }
-
-                        }
-                        else
-                        {
-                            TempData["Error"] = "الرجاء تنشيط الحساب من قبل المسؤول ";
-                            return View(loginVM);
-
-                        }
-
-                    }
-                    TempData["Error"] = "خطا في كلمة السر او الايميل ";
-
-                    return View(loginVM);
-                }
-                TempData["Error"] = "خطا في كلمة السر او الايميل ";
-
-
-                return View(loginVM);
-            }
-            return View();
-        }
-
-
-
-
-        //[HttpGet]
-        //public ActionResult Login()
-        //{
-        //    return View();
-        //}
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public ActionResult Login(UserLogin signinentity, Userdb sessin, string ReturnUrl)
+        //public ActionResult Login(LoginViewModel signinentity, Userdb sessin, string ReturnUrl)
         //{
         //    string message = "";
 
@@ -223,18 +142,77 @@ namespace ComplantSystem.Controllers
         //}
 
 
-        //   //     and Index Action in Dashboard controller:
 
-        //[Authorize]
-        //        public ActionResult Index()
-        //        {
-        //            Userdb userdb = (Userdb)TempData["UserProfileData"];
-        //            ViewBag.firstname = userdb.firstname;
-        //            ViewBag.lastname = userdb.lastname;
-        //            ViewBag.discription = userdb.discription;
-        //            //.......................
-        //            return View();
-        //        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginVM)
+        {
+            TempData["Error"] = null;
+            if (!ModelState.IsValid)
+            {
+                _ = loginVM.IdentityNumber;
+                var user = await _userManager.FindByEmailAsync(loginVM.IdentityNumber);
+                if (user != null)
+                {
+                    _ = user.UserName;
+                    var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
+                    if (passwordCheck)
+                    {
+                        if (await _userManager.IsEmailConfirmedAsync(user))
+                        {
+                            var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, loginVM.RememberMe, false);
+                            if (result.Succeeded)
+                            {
+                                if (User.IsInRole(UserRoles.AdminGeneralFederation))
+                                {
+                                    return RedirectToAction("Index", "GeneralFederation");
+
+                                }
+                                else if (User.IsInRole(UserRoles.Beneficiarie))
+                                {
+                                    return RedirectToAction("Index", "Beneficiarie");
+
+                                }
+                                else if (User.IsInRole(UserRoles.AdminGovernorate))
+                                {
+                                    return RedirectToAction("Index", "GovManageComplaints");
+
+                                }
+                                else if (User.IsInRole(UserRoles.AdminDirectorate))
+                                {
+                                    return RedirectToAction("Index", "DirManageComplaints");
+
+                                }
+                                else if (User.IsInRole(UserRoles.AdminSubDirectorate))
+                                {
+                                    return RedirectToAction("Index", "SubManageComplaints");
+
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            TempData["Error"] = "الرجاء تنشيط الحساب من قبل المسؤول ";
+                            return View(loginVM);
+
+                        }
+
+                    }
+                    TempData["Error"] = "خطا في كلمة السر او الايميل ";
+
+                    return View(loginVM);
+                }
+                TempData["Error"] = "خطا في كلمة السر او الايميل ";
+
+
+                return View(loginVM);
+            }
+            return View();
+
+        }
+
+
 
 
 

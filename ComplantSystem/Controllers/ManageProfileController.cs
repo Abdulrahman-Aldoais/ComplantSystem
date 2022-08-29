@@ -80,7 +80,7 @@ namespace ComplantSystem.Controllers
                     var result = await _userManager.UpdateAsync(currentUser);
                     if (result.Succeeded)
                     {
-                        //TempData["Success"] = stringLocalizer["SuccessMessage"]?.Value;
+
                         return RedirectToAction("Profile");
                     }
 

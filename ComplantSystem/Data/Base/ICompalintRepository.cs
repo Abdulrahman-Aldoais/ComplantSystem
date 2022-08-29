@@ -21,6 +21,7 @@ namespace ComplantSystem.Data.Base
 
 
         IQueryable<UploadsComplainte> GetAllRejectedComplaints(string userId);
+        IQueryable<UploadsComplainte> GetAllResolvedComplaints(string userId);
         //Task CreateAsync(InputCompmallintVM model);
         Task CreateAsync2(InputCompmallintVM model);
 

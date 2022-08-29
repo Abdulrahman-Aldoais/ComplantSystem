@@ -54,6 +54,18 @@ namespace ComplantSystem.Data.Base
             return result;
         }
 
+
+        public IQueryable<UploadsComplainte> GetAllResolvedComplaints(string identity)
+        {
+            var result = _context.UploadsComplaintes.Where(j => j.StatusCompalintId == 2 && j.UserId == identity)
+               .OrderByDescending(u => u.UploadDate)
+               .Include(s => s.StatusCompalint)
+               .Include(f => f.TypeComplaint)
+               .Include(g => g.Governorate)
+               .Include(d => d.Directorate);
+            return result;
+        }
+
         public Task GetAllGategoryCompAsync()
         {
             throw new NotImplementedException();
@@ -141,7 +153,6 @@ namespace ComplantSystem.Data.Base
                 .Include(g => g.Governorate)
                 .Include(d => d.Directorate)
                 .Include(su => su.SubDirectorate)
-                .Include(v => v.Villages)
                 .Include(st => st.StagesComplaint)
                 //.Include(so => so.HoUser.UserName)
                 //.Include(cs => cs.Compalints_Solutions)
@@ -163,7 +174,6 @@ namespace ComplantSystem.Data.Base
                 .Include(g => g.Governorate)
                 .Include(d => d.Directorate)
                 .Include(su => su.SubDirectorate)
-                .Include(v => v.Villages)
                 .Include(st => st.StagesComplaint)
                 //.Include(so => so.HoUser.UserName)
                 //.Include(cs => cs.Compalints_Solutions)

@@ -67,10 +67,10 @@ namespace ComplantSystem
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Identity/Account/Login";
-            });
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.LoginPath = "/Identity/Account/Login";
+            //});
 
             services.AddMemoryCache();
             services.AddSession();
@@ -105,9 +105,10 @@ namespace ComplantSystem
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
             app.UseStaticFiles();
-            //app.UseHttpsRedirection();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -626,8 +626,7 @@ progress {
   margin-right: auto;
   margin-left: auto;
 }
-/*
-عند التصغير يكبر العرض
+
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 540px;
@@ -652,7 +651,7 @@ progress {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1440px;
   }
-}*/
+}
 .row {
   --bs-gutter-x: 1.625rem;
   --bs-gutter-y: 0;

@@ -9,7 +9,6 @@
     <h4 class="breadcrumb-wrapper py-3 mb-4">
         <span class="text-muted fw-light">الحسابات   /</span> إضافة حساب موظف
     </h4>
-
     <div class="row">
         <div class="col-md-12">
             <ul class="nav nav-pills flex-column flex-md-row mb-3">
@@ -33,7 +32,7 @@
 
                             <div class="col-md-6 mb-3">
                                 <label asp-for="IdentityNumber" for="lastName" class="form-label">الرقم الوطني</label>
-                                <input asp-for="IdentityNumber" class="form-control" type="text"  />
+                                <input asp-for="IdentityNumber" class="form-control" type="text" />
                                 <span asp-validation-for="IdentityNumber" class="text-danger"></span>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -50,7 +49,8 @@
 
                             <div class=" form-group form-check col-md-6 mb-3">
                                 <label for="state" class="form-label">تاريخ الميلاد</label>
-                                <input asp-for="DateOfBirth" class="form-control" type="datetime" placeholder="19/05/2022" />
+                                <input asp-for="DateOfBirth" class="form-control datepicker" />
+
                             </div>
 
                             <div class="form-group form-password-toggle col-md-6 mb-3">
@@ -84,28 +84,28 @@
                                 }
                             </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label class="col-form-label">المحافظة</label>
-                                    <select id="addlCategories" class="form-control" asp-for="GovernorateId" asp-items="@(new SelectList(ViewBag.ViewGover,"Id","Name"))">
-                                        <option value="0">حدد المحافظة</option>
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label">المحافظة</label>
+                                <select id="addlCategories" class="form-control" asp-for="GovernorateId" asp-items="@(new SelectList(ViewBag.ViewGover,"Id","Name"))">
+                                    <option value="0">حدد المحافظة</option>
 
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="col-form-label ">المديرية</label>
-                                    <select id="addiSubCategories" class="form-control " asp-for="DirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
-                                        <option value="0">حدد المديرية</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="col-form-label">العزل</label>
-                                    <select id="SubDirectorat" class="form-control" asp-for="SubDirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
-                                        <option value="0">حدد العزلة</option>
-                                    </select>
-                                </div>
-
-
+                                </select>
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label ">المديرية</label>
+                                <select id="addiSubCategories" class="form-control " asp-for="DirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
+                                    <option value="0">حدد المديرية</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="col-form-label">العزل</label>
+                                <select id="SubDirectorat" class="form-control" asp-for="SubDirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
+                                    <option value="0">حدد العزلة</option>
+                                </select>
+                            </div>
+
+
+                        </div>
                         <div class="form-group form-password-toggle">
                             <label class="form-label" for="password">كلمة المرور</label>
                             <div class="input-group input-group-merge">
@@ -122,13 +122,13 @@
                             </div>
                             <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
                         </div>
-                      
-                            <div class="mt-2">
-                                <button type="submit" value="Create" class="btn btn-primary me-2">حفظ </button>
 
-                                <button type="reset" class="btn btn-label-secondary">إلغاء</button>
-                            </div>
-</form>
+                        <div class="mt-2">
+                            <button type="submit" value="Create" class="btn btn-primary me-2">حفظ </button>
+
+                            <button type="reset" class="btn btn-label-secondary">إلغاء</button>
+                        </div>
+                </form>
             </div>
             <!-- /Account -->
         </div>
@@ -139,7 +139,7 @@
 
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+
     <script>
         function upateSubCategoriesList() {
             var selectedCategory = document.getElementById("addlCategories").value;
@@ -208,67 +208,7 @@
 
 
     </script>
-    <script>
-        $(".subored").change(function () {
-            let id = $(".subored option:selected").val();
-            $.ajax({
-                url: "/Admin/Accounts/Getval",
-                teyp: "GET",
-                data: { SubDirectorate_Id: id },
-                success: function (data) {
-                    let items = '';
-                    $.each(data, function (i, val) {
-                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
-                    });
-
-                    $(".val").html(items);
-
-
-
-                }
-
-
-            })
-
-        })
-    </script>
-
-    <script>
-        function SubDirvalges() {
-            var selected = document.getElementById("SubDirectorat").value;
-            $list = $('#Valleige');
-            $.ajax({
-                url: '/Admin/Accounts/GetValleigeseies/' + selected,
-                teyp: 'GET',
-                dataType: 'text',
-                success: function (data) {
-                    results = JSON.parse(data);
-                    $list.html('');
-                    var items = '';
-                    for (i in results) {
-                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
-                    }
-                    $list.html(items);
-
-                }
-
-
-            }
-            );
-
-        }
-        $(document).ready(function () {
-            SubDirvalges();
-        });
-        $("#SubDirectorat").on("change", function () {
-            SubDirvalges();
-        });
-
-
-
-
-
-    </script>
+ 
 
     <script>
         tinymce.init(
@@ -279,5 +219,15 @@
             }
         );
     </script>
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFomat: "yy-mm-dd"
+            });
+        });
+    </script>
+
+
+
 
 }

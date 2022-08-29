@@ -133,8 +133,7 @@
                                                     <td> @Html.DisplayFor(modelItem => item.DateSolution)</td>
 
                                                     <td>
-                                                        @if (item.SolutionProvIdentity == 1)
-                                                        {
+                                                      
                                                             <a asp-action="Yes" asp-route-idS="@item.Id">
                                                                 <i> قبول</i>
                                                             </a>
@@ -143,22 +142,7 @@
                                                             <a asp-action="No" asp-route-idS="@item.Id">
                                                                 <i> رفض</i>
                                                             </a>
-                                                        }
-                                                        else
-                                                        {
-                                                            @if (item.SolutionProvIdentity == 3)
-                                                            {
-                                                                <span class="badge bg-danger text-white"> مرفوضة</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <button>
-                                                                    <span class="badge bg-success text-white"> مقبولة</span>
-                                                                </button>
-                                                            }
-
-
-                                                        }
+                                                      
 
                                                     </td>
                                                 </tr>
@@ -400,7 +384,7 @@
                             </div>
 
                             <div class="d-flex flex-wrap mb-3">
-                                <button type="submit" class="btn btn-primary me-3" data-bs-dismiss="offcanvas">إرسال</button>
+                                <button type="submit" class="btn btn-primary me-3"  data-bs-dismiss="offcanvas">إرسال</button>
                                 <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">إالغاء</button>
                             </div>
                         </form>
