@@ -5,95 +5,84 @@
         <span class="text-muted fw-light">UI elements /</span> Dropdowns
     </h4>
 
-    <div class="row">
 
+    <div class="row g-4 mb-4">
 
-
-        <!-- Referral, conversion, impression & income charts -->
-        <div class="col-md-12 col-lg-6">
-            <div class="row">
-
-
-                <!-- Impression Radial Chart-->
-                <div class="col-12 col-sm-6 mb-4">
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <div id="impressionDonutChart"></div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Growth Chart-->
-                <div class="col-12 col-sm-6">
-                    <div class="row">
-                        <div class="col-12 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="gap-3 d-flex align-items-center">
-                                            <div class="avatar">
-                                                <span class="avatar-initial bg-label-primary rounded-circle">
-                                                    <i class="bx bx-user fs-4"></i>
-                                                </span>
-                                            </div>
-                                            <div class="card-info">
-                                                <h5 class="card-title me-2 mb-0">38</h5>
-                                                <small class="text-muted">عدد التعميمات</small>
-                                            </div>
-                                        </div>
-                                        <div id="conversationChart"></div>
-                                    </div>
-                                </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="content-left">
+                            <span>عدد التعميمات </span>
+                            <div class="d-flex align-items-end mt-2">
+                                <h4 class="me-2 mb-0">23</h4>
                             </div>
                         </div>
-                        <div class="col-12 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="gap-3 d-flex align-items-center">
-                                            <div class="avatar">
-                                                <span class="avatar-initial bg-label-primary rounded-circle">
-                                                    <i class="bx bx-user fs-4"></i>
-                                                </span>
-                                            </div>
-                                            <div class="card-info">
-                                                <h5 class="card-title me-2 mb-0">@ViewBag.totalUsers</h5>
-                                                <small class="text-muted">عدد المستخدمين الكلي</small>
-                                            </div>
-                                        </div>
-                                        <div id="conversationChart"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-12 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="gap-3 d-flex align-items-center">
-                                            <div class="avatar">
-                                                <span class="avatar-initial bg-label-warning rounded-circle">
-                                                    <i class="bx bx-dollar fs-4"></i>
-                                                </span>
-                                            </div>
-                                            <div class="card-info">
-                                                <h5 class="card-title me-2 mb-0">@ViewBag.totalComp</h5>
-                                                <small class="text-muted">عدد الشكاوي</small>
-                                            </div>
-                                        </div>
-                                        <div id="incomeChart"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <span class="badge bg-label-danger rounded p-2">
+                            <i class="bx bx-user-plus bx-sm"></i>
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
-        <!--/ Referral, conversion, impression & income charts -->
-        <!-- Activity -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="content-left">
+                            <span> عدد المستخدمين الكلي </span>
+                            <div class="d-flex align-items-end mt-2">
+                                <h4 class="me-2 mb-0">@ViewBag.totalUsers</h4>
+                            </div>
+                        </div>
+                        <span class="badge bg-label-success rounded p-2">
+                            <i class="bx bx-group bx-sm"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="content-left">
+                            <span> عدد الشكاوي  </span>
+                            <div class="d-flex align-items-end mt-2">
+                                <h4 class="me-2 mb-0"> @ViewBag.totalComp</h4>
+                            </div>
+                        </div>
+                        <span class="badge bg-label-warning rounded p-2">
+                            <i class="bx bx-user-voice bx-sm"></i>
+                        </span>
+                    </div>
+                </div>
+                <div id="incomeChart"></div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="content-left">
+                            <span> عدد الشكاوي  </span>
+                            <div class="d-flex align-items-end mt-2">
+                                <h4 class="me-2 mb-0"> @ViewBag.totalComp</h4>
+                            </div>
+                        </div>
+                        <span class="badge bg-label-warning rounded p-2">
+                            <i class="bx bx-user-voice bx-sm"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--/ Referral, conversion, impression & income charts -->
+    <!-- Activity -->
+    <div class="row g-4 mb-4">
         <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
             <div class="card">
                 <div class="card-header">
@@ -130,7 +119,7 @@
                             </div>
                             <div class="d-flex flex-column w-100">
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span>البلاغات على النوظف</span>
+                                    <span>البلاغات على الموظف</span>
                                     <span class="text-muted">@ViewBag.totalcompSolv</span>
                                 </div>
                                 <div class="progress" style="height: 6px">
@@ -189,36 +178,43 @@
                 </div>
             </div>
         </div>
-        <!--/ Activity -->
-        <!-- Growth Chart-->
         <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
             <div class="card">
                 <div class="card-body text-center">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">  اجمالي الشكاوى حسب المحافظة</h5>
+                    </div>
+                </div>
+                <div class="card-body text-center">
                     <div class="dropdown mb-4">
-                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                                type="button"
-                                id="dropdownMenuButtonSec"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                            المحافظة
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButtonSec">
-                            <a class="dropdown-item" href="javascript:void(0);">المحويت</a>
-                            <a class="dropdown-item" href="javascript:void(0);">صنعاء</a>
-                            <a class="dropdown-item" href="javascript:void(0);">تعز</a>
+                    
+                        <div class="dropdown mb-4">
+                            <select id="FilterType"
+                                    name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
+                                    class="select2 form-select select2-hidden-accessible"
+                                    tabindex="-1" aria-hidden="true" data-select2-id="10">
+                                <option value="0" data-select2-id="12">المحافظة</option>
+                                <option value="جديدة">جديدة</option>
+                                <option value="محلولة">محلولة</option>
+                                <option value="غير محلولة">غير محلولة</option>
+                                <option value="مرفوعة">مرفوعة</option>
+                            </select>
                         </div>
+                        <p>21</p>
                     </div>
                     <div id="growthRadialChart"></div>
                     <h6 class="mt-5 mb-0">عدد الشكاوي المرفوعة</h6>
                 </div>
             </div>
         </div>
-        <!-- Growth Chart-->
-     
-
-
-
     </div>
+    <!--/ Activity -->
+    <!-- Growth Chart-->
+    <!-- Growth Chart-->
+
+
+
+
+</div>
 </div>
 <!-- / Content -->

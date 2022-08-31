@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ComplantSystem
 {
@@ -55,7 +56,10 @@ namespace ComplantSystem
         [Display(Name = "نوع المستخدم")]
         public int UserRoles { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
 
@@ -75,25 +79,35 @@ namespace ComplantSystem
         //public virtual ApplicationRole Role { get; set; }
         public byte[] ProfilePicture { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
 
     }
 
     public class UserViewModels
     {
+        public string Id { get; set; }
         public string FullName { get; set; }
 
         public string IdentityNumber { get; set; }
         public string PhoneNumber { get; set; }
-
+        public int GovernorateId { get; set; }
+        [ForeignKey("GovernorateId")]
         public virtual Governorate Governorates { get; set; }
+        public int DirectorateId { get; set; }
+        [ForeignKey("DirectorateId")]
+
         public virtual Directorate Directorates { get; set; }
+        public int SubDirectorateId { get; set; }
+        [ForeignKey("SubDirectorateId")]
+
         public virtual SubDirectorate SubDirectorate { get; set; }
-        public virtual Village Village { get; set; }
+
         public bool IsBlocked { get; set; }
 
-        public string UserId { get; set; }
+        // public string UserId { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }

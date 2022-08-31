@@ -20,7 +20,7 @@ namespace ComplantSystem.Controllers
     {
 
         private readonly ICompalintRepository _compReop;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ISolveCompalintService solveCompalintService;
         private readonly IWebHostEnvironment _env;
         private readonly ICategoryService _service;
@@ -39,7 +39,7 @@ namespace ComplantSystem.Controllers
         {
 
             _compReop = compReop;
-            this.userManager = userManager;
+            _userManager = userManager;
             this.solveCompalintService = solveCompalintService;
             _service = service;
             _context = context;
@@ -106,10 +106,15 @@ namespace ComplantSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                var currentUser = await _userManager.GetUserAsync(User);
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var role = claimsIdentity.FindFirst(ClaimTypes.Role);
+                string userRole = role.Value;
                 string UserId = claim.Value;
+
                 var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+                var idComp = model.AddSolution.UploadsComplainteId;
                 var solution = new Compalints_Solution()
                 {
                     UserId = subuser.Id,
@@ -118,7 +123,7 @@ namespace ComplantSystem.Controllers
                     SolutionProvIdentity = subuser.IdentityNumber,
                     ContentSolution = model.AddSolution.ContentSolution,
                     DateSolution = DateTime.Now,
-                    Role = subuser.UserRoles.ToString(),
+                    Role = userRole,
 
 
                 };
@@ -126,18 +131,18 @@ namespace ComplantSystem.Controllers
                 _context.Compalints_Solutions.Add(solution);
                 await _context.SaveChangesAsync();
 
-                var comp = await _context.UploadsComplainte.Where(a => a.Id == id).FirstOrDefaultAsync();
 
-                var returnCompalint = new UploadsComplainte()
+                var upComp = await _compReop.FindAsync(idComp);
+                var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+                if (dbComp != null)
                 {
-                    StagesComplaintId = 2,
+                    dbComp.StatusCompalintId = 2;
+                    dbComp.StagesComplaintId = 2;
+                    await _context.SaveChangesAsync();
+                }
 
-                };
-
-                _context.UploadsComplaintes.Add(returnCompalint);
                 await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AllComplaints");
 
             }
 
@@ -145,10 +150,9 @@ namespace ComplantSystem.Controllers
 
         }
 
-
         public async Task<IActionResult> ViewRejectedComplaints(int? page)
         {
-            var currentUser = await userManager.GetUserAsync(User);
+            var currentUser = await _userManager.GetUserAsync(User);
 
             var rejectedComplaints = await _compReop.GetAllAsync(g => g.Governorate, n => n.StatusCompalint);
             var Getrejected = rejectedComplaints.Where(g => g.Governorate.Id == currentUser.GovernorateId

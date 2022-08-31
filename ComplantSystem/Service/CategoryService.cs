@@ -17,13 +17,13 @@ namespace ComplantSystem.Service
 
 
         public async Task<IEnumerable<TypeComplaint>> GetAllGategoryCompAsync() => await _context.TypeComplaints.ToListAsync();
-        public async Task<IEnumerable<TypeComplaint>> GetAllGategoryCommAsync() => await _context.TypeComplaints.ToListAsync();
+        public async Task<IEnumerable<TypeCommunication>> GetAllGategoryCommAsync() => await _context.TypeCommunications.ToListAsync();
 
         //public async Task<TypeComplaint> GetByIdAsync(string id) => await _context.Set<TypeComplaint>().FirstOrDefaultAsync(n => n.Id == id);
 
-        public async Task AddCategoruComm(TypeComplaint entity)
+        public async Task AddCategoruComm(TypeCommunication entity)
         {
-            await _context.TypeComplaints.AddAsync(entity);
+            await _context.TypeCommunications.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
@@ -35,6 +35,7 @@ namespace ComplantSystem.Service
 
         public async Task<TypeComplaint> GetByIdAsync(string id) => await _context.TypeComplaints.FirstOrDefaultAsync(n => n.Id == id);
 
+        public async Task<TypeCommunication> GetCommunicationByIdAsync(string id) => await _context.TypeCommunications.FirstOrDefaultAsync(n => n.Id == id);
 
 
         public async Task DeleteAsync(string id)

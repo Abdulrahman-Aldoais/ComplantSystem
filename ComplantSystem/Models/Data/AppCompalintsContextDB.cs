@@ -168,8 +168,9 @@ namespace ComplantSystem.Models
         public DbSet<StatusCompalint> StatusCompalints { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<UploadsComplainte> UploadsComplaintes { get; set; }
+        public DbSet<TypeCommunication> TypeCommunications { get; set; }
 
-        //public DbSet<TypeCommunication> TypeCommunications { get; set; }
+
 
 
 

@@ -41,8 +41,6 @@ namespace ComplantSystem.Models
         public DateTime CreatedDate { get; set; }
         public int RoleId { get; set; }
 
-
-
         public virtual ICollection<ApplicationUserClaim> Claims { get; set; }
         public virtual ICollection<ApplicationUserLogin> Logins { get; set; }
         public virtual ICollection<ApplicationUserToken> Tokens { get; set; }

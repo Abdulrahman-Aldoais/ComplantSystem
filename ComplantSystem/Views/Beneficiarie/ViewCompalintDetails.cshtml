@@ -61,7 +61,7 @@
                 <div class="col-md-6">
                     <dl class="row mb-2">
                         <dt class="col-sm-6 text-md-end mb-2 mt-2 mb-sm-0">
-                            <span class="h4 text-nowrap text-capitalize  "> رقم </span>
+                            <span class="h4 text-nowrap text-capitalize  "> رقم الشكوى</span>
                         </dt>
                         <dd class="d-flex col-sm-6 justify-content-md-end">
                             <div class="w-px-150">
@@ -109,7 +109,7 @@
                             <tr>
                                 <td>تاريخ النشر:</td>
                                 <td> @Model.compalint.UploadDate</td>
-                                <hr />
+                              
                             </tr>
                             <tr>
                                 <td>  صنف الشكوى: </td>
@@ -172,13 +172,13 @@
                                     <th class="row-cols-md-4">
                                         اسم صاحب الحل
                                     </th>
-                                    <th class="col-sm-2">
-                                        رقم التلفون
-                                    </th>
+
                                     <th class="col-sm-1">
                                         الحل المقترح
                                     </th>
-
+                                    <th class="col-sm-2">
+                                        الصلاحية
+                                    </th>
                                     <th class="col-sm-1">
                                         تاريخ الحل
                                     </th>
@@ -202,29 +202,51 @@
                                     {
                                         <tr>
                                             <td class="width content">
-                                                @Html.DisplayFor(modelItem => item.SolutionProvIdentity)
+                                                @Html.DisplayFor(modelItem => item.SolutionProvName)
                                             </td>
-                                            
+
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.ContentSolution)
                                             </td>
 
-                                            <td> @Html.DisplayFor(modelItem => item.DateSolution)</td>
 
                                             <td>
-                                              
-                                                    <a asp-action="Yes" asp-route-idS="@item.Id">
-                                                        <i> قبول</i>
-                                                    </a>
+                                                @if (@item.Role == "AdminGeneralFederation")
+                                                {
+                                                    <span class="badge bg-label-success">مدير اتحاد</span>
+                                                }
+                                                else if (@item.Role == "AdminGovernorate")
+                                                {
+                                                    <span class="badge bg-label-warning"> مدير محافظة</span>
+                                                }
+                                                else if (@item.Role == "AdminDirectorate")
+                                                {
+                                                    <span class="badge bg-label-warning"> مدير مديرة</span>
+                                                }
+                                                else if (@item.Role == "AdminSubDirectorate")
+                                                {
+                                                    <span class="badge bg-label-warning"> مدير عزلة</span>
+                                                }
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateSolution)
+                                            </td>
 
-                                                    <hr />
-                                                    <a asp-action="No" asp-route-idS="@item.Id">
-                                                        <i> رفض</i>
-                                                    </a>
-                                              
+                                           
+
+                                            <td>
+
+                                                <a asp-action="Yes" asp-route-idS="@item.Id">
+                                                    <i> قبول</i>
+                                                </a>
+
+                                                <hr />
+                                                <a asp-action="No" asp-route-idS="@item.Id">
+                                                    <i> رفض</i>
+                                                </a>
 
 
-                                                
+
+
 
                                             </td>
                                         </tr>

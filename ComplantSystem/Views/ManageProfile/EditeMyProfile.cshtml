@@ -1,88 +1,129 @@
-﻿@model ComplantSystem.EditUserViewModel
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager;
+@inject SignInManager<ApplicationUser> signInManager;
+@model ComplantSystem.UserProfileEditVM
 
-
-@if (!ViewContext.ModelState.IsValid)
-{
-    <div asp-validation-summary="ModelOnly" class="text-danger alert alert-danger"></div>
+@{
+    ViewData["Title"] = " البيانات الشخصة ";
 }
+
+
 <div class="content-wrapper">
-    <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="breadcrumb-wrapper py-3 mb-4">
-            <span class="text-muted fw-light">الملف الشخصي  /</span> الحساب
+            <span class="text-muted fw-light"></span> الملف الشخصي
+
+
         </h4>
+        <ul class="nav nav-pills flex-column flex-md-row mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" asp-controller="ManageProfile" asp-action="Profile"><i class="bx bx-user me-1"></i> الملف الشخصي</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="ManageProfile" asp-action="EditMyProfile"><i class="bx bx-user me-1"></i> تعديل الملف الشخصي</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="ManageProfile" asp-action="ChangePassword"><i class="bx bx-lock-alt me-1"></i> تغير كلمة المرور</a>
+            </li>
 
+        </ul>
         <div class="row">
-            <div class="col-md-12">
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="row invoice-add">
+                    <!-- Invoice Add-->
+                    <div class="col-12 col-lg-9 mb-4 mb-lg-0">
+                        <div class="card invoice-preview-card">
+                            <div class="card-body">
+                              
+                              
+                                <h5 style="font-family:Cairo;font-size:18px" class="border-bottom pb-2 mb-4">البيانات</h5>
+                                <div class="info-container">
+                                    <div class="info-container">
+                                        <form asp-action="Profile" asp-controller="ManageProfile" method="post">
+                                            <ul class="list-unstyled">
+                                                <li class="mb-3">
+                                                    <span class="fw-bold me-2">اسم المستخدم:</span>
+
+                                                    <div class="form-group">
+                                                        <input type="text" asp-for="FullName" class="form-control" placeholder="" id="name" required>
+                                                        <span asp-validation-for="FullName"></span>
+                                                    </div>
+                                                </li>
+                                                <li class="mb-3">
+                                                    <span class="fw-bold me-2">رقم البطاقة الشخصية :</span>
+                                                    <div class="form-group">
+                                                        <input type="text" asp-for="IdentityNumber" class="form-control" placeholder="" id="name" required>
+                                                        <span asp-validation-for="IdentityNumber"></span>
+                                                    </div>
+                                                </li>
+                                               
+                                                <li class="mb-3">
+
+                                                    <div class="form-group">
+                                                        <span class="fw-bold me-2">تاريخ الميلاد:</span>
+                                                        <input type="text" asp-for="DateOfBirth" class="form-control" placeholder="" id="name" required>
+                                                        <span asp-validation-for="DateOfBirth"></span>
+                                                    </div>
+                                                </li>
+
+                                                <li class="mb-3">
+                                                    <span class="fw-bold me-2">رقم الهاتف:</span>
+                                                    <div class="form-group">
+
+                                                        <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="" id="name" required>
+                                                        <span asp-validation-for="PhoneNumber"></span>
+                                                    </div>
+                                                </li>
+                                           
+                                                @*<li class="mb-3">
+                                                        <span class="fw-bold me-2">المحافظة:</span>
+                                                        <span>@Html.DisplayFor(model => model.Governorates.Name)</span>
+                                                    </li>
+                                                    <li class="mb-3">
+                                                        <span class="fw-bold me-2">المديرية:</span>
+                                                        <span>@Html.DisplayFor(model => model.Directorates.Name)</span>
+                                                    </li>
+                                                    <li class="mb-3">
+                                                        <span class="fw-bold me-2">العزلة:</span>
+                                                        <span>@Html.DisplayFor(model => model.SubDirectorate.Name)</span>
+                                                    </li>*@
 
 
-                <div class="card mb-4">
-                    <h5 class="card-header">مدراء المحافظة</h5>
-                    <!-- Account -->
-                    <div class="card-body">
-                        <div class="gap-4 d-flex align-items-start align-items-sm-center">
-                            <img src="../../assets/img/avatars/1.png"
-                                 alt="user-avatar"
-                                 class="d-block rounded"
-                                 height="100"
-                                 width="100"
-                                 id="uploadedAvatar" />
-                            <div class="button-wrapper">
-                                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                                    <span class="d-none d-sm-block">إدراج صورة</span>
-                                    <i class="bx bx-upload d-sm-none d-block"></i>
-                                    <input type="file"
-                                           id="upload"
-                                           class="account-file-input"
-                                           hidden
-                                           accept="image/png, image/jpeg" />
-                                </label>
-                                <button type="button" class="btn btn-label-secondary account-image-reset mb-4">
-                                    <i class="bx bx-reset d-sm-none d-block"></i>
-                                    <span class="d-none d-sm-block">حذف</span>
-                                </button>
+                                            </ul>
+                                            <button type="submit" class="mu-send-msg-btn"><span>حفظ التغير</span></button>
+                                        </form>
 
 
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <hr class="my-0" />
-                    <div class="card-body">
-                        <form asp-controller="ManageUsers" asp-action="Edit">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="FullName" class="form-label">الاسم </label>
-                                    <input asp-for="FullName" class="form-control" placeholder="ادخل اسمك كاملا" autofocus />
-                                </div>
+                    <!-- /Invoice Add-->
+                    <!-- Invoice Actions -->
+                    <div class="invoice-actions col-12 col-lg-3">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <button onclick="location.href='@Url.Action("Index", "ManageProfile")'" class="btn btn-primary d-grid w-100 mb-3">
+                                    <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>خروج</span>
+                                </button>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="PhoneNumber">رقم الهاتف</label>
-
-                                    <input asp-for="PhoneNumber" class="form-control" placeholder="ادخل رقم الهاتف  " />
-                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="PhoneNumber"> تاريخ الميلاد</label>
-
-                                    <input asp-for="DateOfBirth" class="form-control" type="datetime" />
-                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-                                </div>
-                             
                             </div>
-                            <div class="mt-2">
-                                <button type="submit" class="btn btn-primary me-2">حفظ التغير</button>
-                                <button type="reset" asp-action="Index" class="btn btn-label-secondary">إلغاء</button>
-                            </div>
-                        </form>
+                        </div>
+
                     </div>
-                    <!-- /Account -->
+                    <!-- /Invoice Actions -->
                 </div>
 
             </div>
-        </div>
-    </div>
-    <!-- / Content -->
+            <!-- / Content -->
 
-    <div class="content-backdrop fade"></div>
+            <div class="content-backdrop fade"></div>
+        </div>
+
+    </div>
 </div>

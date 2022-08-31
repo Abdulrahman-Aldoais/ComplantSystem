@@ -70,6 +70,31 @@ namespace ComplantSystem
             }
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var allComp = await _compReop.GetAllAsync(h => h.Governorate);
+            var result = await _userService.GetAllAsync(h => h.Governorate);
+            var compSolv = allComp.Where(r => r.StatusCompalintId == 2);
+
+            int totalcompSolv = compSolv.Count();
+            int totalUsers = result.Count();
+            int totalComp = allComp.Count();
+
+            ViewBag.totalcompSolv = totalcompSolv;
+            ViewBag.totalUsers = totalUsers;
+            ViewBag.totalComp = totalComp;
+            return View();
+        }
+
+
+        public async Task<IActionResult> AllComplaints()
+        {
+            var allComp = _compReop.GetAll();
+            var totaleComp = allComp.Count(); ;
+            ViewBag.totaleComp = totaleComp;
+            return View(allComp);
+        }
+
         public async Task<IActionResult> UpCompalint(string id, UploadsComplainte complainte)
         {
 
@@ -90,7 +115,22 @@ namespace ComplantSystem
 
         }
 
+        public async Task<IActionResult> ChaingStatusComp(string id)
+        {
 
+            var upComp = await _compReop.FindAsync(id);
+            var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+            if (dbComp != null)
+            {
+                dbComp.StatusCompalintId = 2;
+
+                await _context.SaveChangesAsync();
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AllComplaints));
+
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddSolutions(ProvideSolutionsVM model, string id)
@@ -100,9 +140,11 @@ namespace ComplantSystem
                 var currentUser = await _userManager.GetUserAsync(User);
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-                var role = currentUser.RoleId;
+                var role = claimsIdentity.FindFirst(ClaimTypes.Role);
+                string userRole = role.Value;
                 string UserId = claim.Value;
                 var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+                var idComp = model.AddSolution.UploadsComplainteId;
                 var solution = new Compalints_Solution()
                 {
                     UserId = subuser.Id,
@@ -111,89 +153,77 @@ namespace ComplantSystem
                     SolutionProvIdentity = subuser.IdentityNumber,
                     ContentSolution = model.AddSolution.ContentSolution,
                     DateSolution = DateTime.Now,
-                    //status = model.compalint.StatusCompalintId == 2,
-                    Role = role.ToString(),
+                    Role = userRole,
+
 
                 };
 
                 _context.Compalints_Solutions.Add(solution);
                 await _context.SaveChangesAsync();
 
-                //var comp = await _context.UploadsComplainte.Where(a => a.Id == id).FirstOrDefaultAsync();
 
-                //var returnCompalint = new UploadsComplainte()
-                //{
-                //    StagesComplaintId = 2,
+                var upComp = await _compReop.FindAsync(idComp);
+                var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+                if (dbComp != null)
+                {
+                    dbComp.StatusCompalintId = 2;
+                    dbComp.StagesComplaintId = 4;
+                    await _context.SaveChangesAsync();
+                }
 
-                //};
-
-                //_context.UploadsComplaintes.Add(returnCompalint);
-                //await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(AllComplaints));
 
             }
 
             return NotFound();
 
         }
-
-
-
-        public async Task<IActionResult> ReportManagement()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            var allComp = await _compReop.GetAllAsync(h => h.Governorate);
-            var result = await _userService.GetAllAsync(h => h.Governorate);
-            var compSolv = allComp.Where(r => r.StatusCompalintId == 2);
-
-            int totalcompSolv = compSolv.Count();
-            int totalUsers = result.Count();
-            int totalComp = allComp.Count();
-
-            ViewBag.totalcompSolv = totalcompSolv;
-            ViewBag.totalUsers = totalUsers;
-            ViewBag.totalComp = totalComp;
-            return View();
-        }
-
         public async Task<IActionResult> AllCategoriesCommunications()
         {
+            var allCategoriesComplaints = await _service.GetAllGategoryCommAsync();
 
+            return View(allCategoriesComplaints);
+        }
+        [HttpGet]
+        public async Task<IActionResult> AddCategoryComm()
+        {
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentName = currentUser.FullName;
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCategoryComm([Bind("Type,UsersNameAddType")] TypeCommunication typecomm)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentName = currentUser.FullName;
+            TypeCommunication type = new TypeCommunication
+            {
+                Type = typecomm.Type,
+                UsersNameAddType = currentName,
+                UserId = currentUser.Id,
+
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return View(type);
+            }
+            await _context.TypeCommunications.AddAsync(type);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(AllCategoriesComplaints));
+
         }
 
         public async Task<IActionResult> AllCategoriesComplaints()
         {
-            var allCategoriesComplaints = await _service.GetAllGategoryCompAsync();
+            var allCategoriesComplaints = await _service.GetAllGategoryCommAsync();
 
             return View(allCategoriesComplaints);
         }
-
-        public async Task<IActionResult> AllComplaints()
-        {
-            var allComp = _compReop.GetAll();
-            var totaleComp = allComp.Count(); ;
-            ViewBag.totaleComp = totaleComp;
-            return View(allComp);
-        }
-
-
-
-        public IActionResult AllCirculars()
-        {
-            return View();
-        }
-
-        public IActionResult AddCirculars()
-        {
-            return View();
-        }
-
         [HttpGet]
         public async Task<IActionResult> AddCategory()
         {
@@ -226,41 +256,34 @@ namespace ComplantSystem
             return RedirectToAction(nameof(AllCategoriesComplaints));
 
         }
-
-
-
-        [HttpGet]
-        public async Task<IActionResult> AddCategoryComm()
+        public async Task<IActionResult> ViewCompalintDetails(string id)
         {
-
-            var currentUser = await _userManager.GetUserAsync(User);
-            var currentName = currentUser.FullName;
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddCategoryComm([Bind("Type,UsersNameAddType")] TypeComplaint typeComplaint)
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var currentName = currentUser.FullName;
-            TypeComplaint type = new TypeComplaint
+            var ComplantList = await _compReop.FindAsync(id);
+            AddSolutionVM addsoiationView = new AddSolutionVM()
             {
-                Type = typeComplaint.Type,
-                UsersNameAddType = currentName,
-                UserId = currentUser.Id,
+                UploadsComplainteId = id,
 
             };
-
-            if (!ModelState.IsValid)
+            ProvideSolutionsVM MV = new ProvideSolutionsVM
             {
-                return View(type);
-            }
-            await _context.TypeComplaints.AddAsync(type);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(AllCategoriesComplaints));
-
+                compalint = ComplantList,
+                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                AddSolution = addsoiationView
+            };
+            return View(MV);
         }
+
+        public async Task<IActionResult> DetailsCategoriesComplaints(string id)
+        {
+            var categorieDetails = await _service.GetByIdAsync(id);
+            if (categorieDetails == null)
+            {
+                return View("Empty");
+
+            }
+            return View(categorieDetails);
+        }
+
 
         //Get: Category/Edit/1
         public async Task<IActionResult> EditCategoryComplaint(string id)
@@ -303,55 +326,91 @@ namespace ComplantSystem
             return View(selectedCategory);
 
         }
-
         [HttpPost]
         [ActionName("DeleteCategoryComplainty")]
         public async Task<IActionResult> DeleteConfirmedCategoryComplaint(string id)
         {
-            var actorDetails = await _service.GetByIdAsync(id);
-            if (actorDetails == null) return View("Empty");
+            try
+            {
+                var actorDetails = await _service.GetByIdAsync(id);
+                if (actorDetails == null) return View("Empty");
 
-            await _service.DeleteAsync(id);
+                await _service.DeleteAsync(id);
+            }
+            catch
+            {
+
+            }
+            return RedirectToAction(nameof(AllCategoriesComplaints));
+        }
+        //Get: Category/Delete/1
+        public async Task<IActionResult> DeleteCategoryComm(string id)
+        {
+            var selectedCategory = await _service.GetCommunicationByIdAsync(id);
+            if (selectedCategory == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(selectedCategory);
+
+        }
+        [ActionName("DeleteCategoryComplainty")]
+        public async Task<IActionResult> DeleteConfirmedCategoryComm(string id)
+        {
+            try
+            {
+                var actorDetails = await _service.GetCommunicationByIdAsync(id);
+                if (actorDetails == null) return View("Empty");
+
+                await _service.DeleteAsync(id);
+            }
+            catch
+            {
+
+            }
+            return RedirectToAction(nameof(AllCategoriesComplaints));
+        }
+        //Get: Category/Edit/1
+        public async Task<IActionResult> EditCategoryComm(string id)
+        {
+            var categoryDetails = await _service.GetByIdAsync(id);
+            if (categoryDetails == null) return View("Empty");
+            return View(categoryDetails);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCategoryComm(string id, [Bind("Id,Type,UsersNameAddType")] TypeComplaint typeComplaint)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentName = currentUser.FullName;
+            TypeComplaint type = new TypeComplaint
+            {
+                Type = typeComplaint.Type,
+                UsersNameAddType = currentName,
+                UserId = currentUser.Id,
+
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return View(type);
+            }
+            await _service.UpdateAsync(id, type);
             return RedirectToAction(nameof(AllCategoriesComplaints));
         }
 
 
-        public async Task<IActionResult> ViewCompalintDetails(string id)
+        public IActionResult AllCirculars()
         {
-            //var ComplantList = await _context.UploadsComplainte.Include(a => a.Governorates).Include(a => a.Directorates).Include(a => a.SubDirectorates).Include(a => a.Villages).Include(a => a.TypeComplaint).Where(m => m.Id == id).FirstOrDefaultAsync();
-
-            //var ComplantList = await _context.UploadsComplainte.Include(a => a.Governorates).Include(a => a.Directorates).Include(a => a.SubDirectorates).Include(a => a.Villages).Include(a => a.TypeComplaint).Where(m => m.Id == id).FirstOrDefaultAsync();
-            var ComplantList = await _compReop.FindAsync(id);
-            AddSolutionVM addsoiationView = new AddSolutionVM()
-            {
-                UploadsComplainteId = id,
-
-
-            };
-            ProvideSolutionsVM MV = new ProvideSolutionsVM
-            {
-                compalint = ComplantList,
-                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
-                AddSolution = addsoiationView
-            };
-            return View(MV);
+            return View();
         }
 
-
-
-
-
-        public async Task<IActionResult> DetailsCategoriesComplaints(string id)
+        public IActionResult AddCirculars()
         {
-            var categorieDetails = await _service.GetByIdAsync(id);
-            if (categorieDetails == null)
-            {
-                return View("Empty");
-
-            }
-            return View(categorieDetails);
+            return View();
         }
-
         [HttpGet]
         public async Task<IActionResult> Download(string id)
         {
@@ -368,6 +427,14 @@ namespace ComplantSystem
             Response.Headers.Add("Cache-Control", "no-cache");
             return File(path, selectedFile.ContentType, selectedFile.OriginalFileName);
         }
+
+
+        public async Task<IActionResult> ReportManagement()
+        {
+            return View();
+        }
+
+
 
 
     }

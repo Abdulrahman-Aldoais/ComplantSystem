@@ -14,19 +14,12 @@ namespace ComplantSystem.Models.Data.Base
     {
         private readonly AppCompalintsContextDB _context;
 
-
         public EntityBaseRepository(AppCompalintsContextDB context)
         {
             _context = context;
         }
 
-
-
-
-
-
         public async Task<IEnumerable<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();
-
 
         public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeproperties)
         {
@@ -48,41 +41,6 @@ namespace ComplantSystem.Models.Data.Base
             await _context.SaveChangesAsync();
         }
 
-        //public async Task<Beneficiarie> GetBeneficiarieById(string id)
-        //{
-        //    var beneficiarieDetails = _context.Beneficiaries
-        //       .Include(s => s.TypeBeneficiaris)
-        //       .Include(g => g.Admin)
-        //       .Include(d => d.Governorate)
-        //       .Include(d => d.Directorate)
-        //       .Include(su => su.SubDirectorate)
-        //       .Include(v => v.Village)
-        //       .FirstOrDefaultAsync(c => c.Id == id);
-        //    return await beneficiarieDetails;
-        //}
-
-
-
-        //public async Task<T> GetCompalintById(string id)
-        //{
-        //    var compalintDetails = _context.UploadsComplainte
-        //        .Include(s => s.StatusCompalint)
-        //        .Include(f => f.TypeComplaint)
-        //        .Include(g => g.Governorates)
-        //        .Include(d => d.Directorates)
-        //        .Include(su => su.SubDirectorates)
-        //        .Include(v => v.Villages)
-        //        .Include(st => st.StagesComplaint)
-        //        //.Include(so => so.HoUser.UserName)
-        //        //.Include(cs => cs.Compalints_Solutions)
-        //        //.ThenInclude(a => a.UserAddSolution)
-        //        .FirstOrDefaultAsync(c => c.Id == id);
-        //    //var compalintDetails = from m in _context.UploadsComplainte select m;
-        //    return await compalintDetails;
-        //}
-
-
-
 
         public async Task<T> GetByIdAsync(string id) => await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
 
@@ -100,20 +58,6 @@ namespace ComplantSystem.Models.Data.Base
             return response;
 
         }
-        //public async Task<SelectDataLocationDropdownsVM> GetLocationDropdownsValues()
-        //{
-        //    var response = new SelectDataLocationDropdownsVM()
-        //    {
-
-        //        Governorates = await _context.Governorates.OrderBy(n => n.GovernorateName).ToListAsync(),
-        //        Directorates = await _context.Directorates.OrderBy(n => n.DirectorateName).ToListAsync(),
-        //        SubDirectorates = await _context.SubDirectorates.OrderBy(n => n.SubDirectorateName).ToListAsync(),
-        //    };
-        //    return response;
-        //}
-
-        // Beneficiarie
-
 
 
 

@@ -120,101 +120,6 @@ namespace ComplantSystem.Controllers
 
 
 
-
-        // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _userService.GetByIdAsync((string)id, u => u.Governorate, d => d.Directorate, n => n.SubDirectorate);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            await _compalintService.DeleteAsync(id);
-            return RedirectToAction(nameof(ViewUsers));
-        }
-
-        public async Task<IActionResult> Block()
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var currentIdUser = currentUser.IdentityNumber;
-
-
-            var result = _userService.GetAllUserBlockedAsync(currentIdUser);
-            return View(result);
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> Block(string userId)
-        {
-            if (!string.IsNullOrEmpty(userId))
-            {
-                var result = await _userService.TogelBlockUserAsync(userId);
-                if (result.Success)
-                {
-                    TempData["Succes"] = result.Message;
-                }
-                else
-                {
-                    TempData["Error"] = result.Message;
-                }
-                return RedirectToAction("Index");
-            }
-            TempData["Error"] = "لم يتم العثور على رقم المستخدم";
-            return RedirectToAction("Index");
-
-        }
-
-        [HttpPost]
-        public IActionResult Search(InputSearch input)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = _userService.Search(input.Term);
-                return View(result);
-            }
-            return View();
-        }
-        public async Task<IActionResult> AccountRestriction()
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var currentIdUser = currentUser.IdentityNumber;
-            var result = _userService.GetAllUserBlockedAsync(currentIdUser);
-
-
-
-            return View(result.ToList());
-
-        }
-
-
-
-        public async Task<IActionResult> UsersCounts()
-        {
-            var totalUsersCount = await _userService.UserRegistrationCountAsync();
-            var month = DateTime.Today.Month;
-            var monthUsersCount = await _userService.UserRegistrationCountAsync(month);
-
-            return Json(new { tota = totalUsersCount, month = monthUsersCount });
-
-        }
-
-
         // GET: Users/Create
         public async Task<IActionResult> Create()
         {
@@ -267,67 +172,6 @@ namespace ComplantSystem.Controllers
             }
             return View(model);
         }
-
-
-        [AllowAnonymous]
-
-        public async Task<IActionResult> CheckingIdentityNumber(AddUserViewModel model)
-        {
-            var user = _userManager.FindByEmailAsync(model.IdentityNumber);
-
-            var userr = _context.Users.Where(a => a.IdentityNumber == model.IdentityNumber).FirstOrDefault();
-            if (userr == null)
-            {
-                return Json(true);
-            }
-            else
-            {
-                return Json($"  من قبل بهذا الرقم {model.IdentityNumber}  يوجد رقم بطاقة");
-            }
-
-
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> CheckingPhoneNumber(AddUserViewModel model)
-        {
-
-
-            if (model.PhoneNumber.Length == 9)
-            {
-                return Json(true);
-            }
-
-            else
-            {
-                return Json($"  موجود من قبل {model.IdentityNumber}  رقم الهاتف هذا ");
-            }
-
-
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> GetDirectorateies(int id)
-        {
-            List<Directorate> directorate = new List<Directorate>();
-            directorate = await _context.Directorates.Where(m => m.GovernorateId == id).ToListAsync();
-            return Json(new SelectList(directorate, "Id", "Name"));
-        }
-
-
-        public async Task<IActionResult> GetSubDirectorat(int id)
-        {
-            List<SubDirectorate> subdirectorate = new List<SubDirectorate>();
-            subdirectorate = await _context.SubDirectorates.Where(m => m.DirectorateId == id).ToListAsync();
-            return Json(new SelectList(subdirectorate, "Id", "Name"));
-        }
-
-
-
-
-
-
         // GET: Users/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -340,7 +184,7 @@ namespace ComplantSystem.Controllers
                 return NotFound();
             }
 
-            return View(user);
+            return View(users);
         }
 
         // GET: Users/Edit/5
@@ -401,6 +245,158 @@ namespace ComplantSystem.Controllers
             }
             return View();
         }
+        [AllowAnonymous]
+
+        public async Task<IActionResult> CheckingIdentityNumber(AddUserViewModel model)
+        {
+            var user = _userManager.FindByEmailAsync(model.IdentityNumber);
+
+            var userr = _context.Users.Where(a => a.IdentityNumber == model.IdentityNumber).FirstOrDefault();
+            if (userr == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"  من قبل بهذا الرقم {model.IdentityNumber}  يوجد رقم بطاقة");
+            }
+
+
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> CheckingPhoneNumber(AddUserViewModel model)
+        {
+
+
+            if (model.PhoneNumber.Length == 9)
+            {
+                return Json(true);
+            }
+
+            else
+            {
+                return Json($"  موجود من قبل {model.IdentityNumber}  رقم الهاتف هذا ");
+            }
+
+
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetDirectorateies(int id)
+        {
+            List<Directorate> directorate = new List<Directorate>();
+            directorate = await _context.Directorates.Where(m => m.GovernorateId == id).ToListAsync();
+            return Json(new SelectList(directorate, "Id", "Name"));
+        }
+
+
+        public async Task<IActionResult> GetSubDirectorat(int id)
+        {
+            List<SubDirectorate> subdirectorate = new List<SubDirectorate>();
+            subdirectorate = await _context.SubDirectorates.Where(m => m.DirectorateId == id).ToListAsync();
+            return Json(new SelectList(subdirectorate, "Id", "Name"));
+        }
+
+        // GET: Users/Delete/5
+        public async Task<IActionResult> Delete(string id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userService.GetByIdAsync((string)id, u => u.Governorate, d => d.Directorate, n => n.SubDirectorate);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // POST: Users/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            await _compalintService.DeleteAsync(id);
+            return RedirectToAction(nameof(ViewUsers));
+        }
+
+
+        public async Task<IActionResult> Block()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentIdUser = currentUser.IdentityNumber;
+
+
+            var result = _userService.GetAllUserBlockedAsync(currentIdUser);
+            return View(result);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Block(string userId)
+        {
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var result = await _userService.TogelBlockUserAsync(userId);
+                if (result.Success)
+                {
+                    TempData["Succes"] = result.Message;
+                }
+                else
+                {
+                    TempData["Error"] = result.Message;
+                }
+                return RedirectToAction("Index");
+            }
+            TempData["Error"] = "لم يتم العثور على رقم المستخدم";
+            return RedirectToAction("Index");
+
+        }
+
+
+
+        [HttpPost]
+        public IActionResult Search(InputSearch input)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = _userService.Search(input.Term);
+                return View(result);
+            }
+            return View();
+        }
+        public async Task<IActionResult> AccountRestriction()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentIdUser = currentUser.IdentityNumber;
+            var result = _userService.GetAllUserBlockedAsync(currentIdUser);
+
+
+
+            return View(result.ToList());
+
+        }
+
+
+
+        public async Task<IActionResult> UsersCounts()
+        {
+            var totalUsersCount = await _userService.UserRegistrationCountAsync();
+            var month = DateTime.Today.Month;
+            var monthUsersCount = await _userService.UserRegistrationCountAsync(month);
+
+            return Json(new { tota = totalUsersCount, month = monthUsersCount });
+
+        }
+
+
+
 
 
         private bool UserExists(string id)
@@ -409,6 +405,11 @@ namespace ComplantSystem.Controllers
         }
 
 
+        //public async Task<IActionResult> ChaingeStatusAsync(string id, bool IsBlocked)
+        //{
+        //    await _userService.EnableAndDisbleUser(id);
+        //    return RedirectToAction("ViewUsers");
+        //}
         public async Task<IActionResult> ChaingeStatusAsync(string id, bool IsBlocked)
         {
             await _userService.ChaingeStatusAsync(id, IsBlocked);

@@ -12,10 +12,6 @@ namespace ComplantSystem.Models
         {
             Id = Guid.NewGuid().ToString();
             UploadDate = DateTime.Now;
-
-
-            //CompalintsHasSolutions = new List<Compalints_Solution>();
-
         }
         public string Id { set; get; }
         [Required(ErrorMessage = "يجب ان تقوم بكتابة هذه الحقل ")]
@@ -58,6 +54,7 @@ namespace ComplantSystem.Models
 
         public string ContentType { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
         public DateTime UploadDate { get; set; }
 
 

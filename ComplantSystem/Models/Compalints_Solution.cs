@@ -24,9 +24,10 @@ namespace ComplantSystem
         public string SolutionProvName { get; set; }
         public string SolutionProvIdentity { get; set; }
         public bool IsAccept { get; set; }
-        //public int status { get; set; }
         public string Role { get; set; }
-        public string ContentSolution { get; set; } = "";
+        [Required(ErrorMessage = "يجب ان تقوم بكتابة الحل المقدم ")]
+        public string ContentSolution { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateSolution { get; set; } = DateTime.Now;
 
     }

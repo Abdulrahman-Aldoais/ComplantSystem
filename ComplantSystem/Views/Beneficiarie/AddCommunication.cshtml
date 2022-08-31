@@ -581,7 +581,7 @@
                                                 <select id="Governorate" class="select2 form-select" name="Governorate">
                                                     <option value="">تحديد</option>
                                                     <option value="Australia">تعز</option>
-                                                   
+
 
                                                 </select>
                                             </div>
@@ -589,7 +589,7 @@
                                                 <label for="language" class="form-label">المديرية</label>
                                                 <select id="Directorate" class="select2 form-select" name="Directorate">
                                                     <option value="">تحديد</option>
-                                                  
+
                                                 </select>
                                             </div>
                                             <div class="col-md-6 mb-3">
@@ -597,14 +597,14 @@
                                                 <select id="insulation" class="select2 form-select" name="insulation">
                                                     <option value="">تحديد</option>
                                                     <option value="-12">عزلة 888</option>
-                                               
+
                                                 </select>
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label for="currency" class="form-label">القرية</label>
                                                 <select id="villages" class="select2 form-select" name="villages">
                                                     <option value="">تحديد</option>
-                                               
+
                                                 </select>
                                             </div>
 
@@ -630,8 +630,8 @@
                                     </form>
                                 </div>
 
-                             
-                             
+
+
 
                                 <div class="content-backdrop fade"></div>
                             </div>
@@ -648,4 +648,6 @@
                 </div>
                 <!-- / Layout wrapper -->
                 <!-- Core JS -->
-           
+                @section Scripts{
+                    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                }

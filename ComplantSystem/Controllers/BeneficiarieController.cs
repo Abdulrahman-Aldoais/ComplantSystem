@@ -286,16 +286,6 @@ namespace ComplantSystem
         [AllowAnonymous]
         public async Task<IActionResult> FilterCompalintsBySearch(string term)
         {
-            //var allCompalints = await _service.GetAllAsync();
-            //if (!string.IsNullOrEmpty(term))
-            //{
-            //    var filtterResulteNew = allCompalints.Where(n => string.Equals(n.TitleComplaint,
-            //        term, StringComparison.CurrentCultureIgnoreCase) || string.Equals(n.DescComplaint,
-            //        term, StringComparison.CurrentCultureIgnoreCase)).ToList();
-            //    return View("Index", filtterResulteNew);
-            //}
-            ////return View("Index", allCompalints);
-            //return View("Index", allCompalints);
 
             var allCompalints = await _service.GetAllAsync();
             if (!string.IsNullOrEmpty(term))

@@ -3,6 +3,7 @@ using ComplantSystem.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
 
 namespace ComplantSystem.Configuration
@@ -38,6 +39,7 @@ namespace ComplantSystem.Configuration
                         SubDirectorateId = 1,
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
+                        CreatedDate = DateTime.Now
 
                     };
                     await userManager.CreateAsync(newAdminUser, "Coding@1234?");
@@ -57,11 +59,12 @@ namespace ComplantSystem.Configuration
                         UserName = IdentityUser,
                         IdentityNumber = IdentityUser,
                         PhoneNumber = "773453534",
-                        GovernorateId = 1,
+                        GovernorateId = 2,
                         DirectorateId = 1,
-                        SubDirectorateId = 3,
+                        SubDirectorateId = 2,
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
+                        CreatedDate = DateTime.Now
                     };
                     await userManager.CreateAsync(newAppUser, "B@ww11");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.Beneficiarie);

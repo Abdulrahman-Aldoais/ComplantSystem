@@ -4123,6 +4123,8 @@ textarea.form-control-lg {
   display: flex;
   padding-left: 0;
   list-style: none;
+  float:left;
+  margin-top:20px;
 }
 
 .page-link {
@@ -8141,6 +8143,7 @@ html:not([dir=rtl]) .pagination.pagination-lg .page-item:not(.first) ~ .page-ite
   min-width: calc(
     2.0075rem + 0px
   );
+
 }
 .page-link:focus,
 .page-link > a:focus {

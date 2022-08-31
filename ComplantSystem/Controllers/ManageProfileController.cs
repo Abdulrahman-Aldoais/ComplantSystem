@@ -4,8 +4,6 @@ using ComplantSystem.Models;
 using ComplantSystem.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ComplantSystem.Controllers
@@ -46,14 +44,42 @@ namespace ComplantSystem.Controllers
 
 
 
-
-
         public async Task<IActionResult> Profile(string id)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser != null)
             {
                 var model = mapper.Map<UserViewModels>(currentUser);
+                return View(model);
+            }
+            return NotFound();
+
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> Profile(UserViewModels model)
+        {
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            var userId = currentUser.Id;
+            var user = await _userService.GetByIdAsync((string)userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(model);
+        }
+
+
+
+        public async Task<IActionResult> EditMyProfile()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser != null)
+            {
+                var model = mapper.Map<UserProfileEditVM>(currentUser);
 
                 return View(model);
             }
@@ -61,8 +87,9 @@ namespace ComplantSystem.Controllers
         }
 
 
+
         [HttpPost]
-        public async Task<IActionResult> Profile(UserViewModels model)
+        public async Task<IActionResult> EditMyProfile(UserProfileEditVM model)
         {
             if (ModelState.IsValid)
             {
@@ -72,9 +99,6 @@ namespace ComplantSystem.Controllers
                     currentUser.IdentityNumber = model.IdentityNumber;
                     currentUser.FullName = model.FullName;
                     currentUser.PhoneNumber = model.PhoneNumber;
-                    currentUser.Governorate.Name = model.Governorates.Name;
-                    currentUser.Directorate.Name = model.Directorates.Name;
-                    currentUser.SubDirectorate.Name = model.SubDirectorate.Name;
 
 
                     var result = await _userManager.UpdateAsync(currentUser);
@@ -100,96 +124,6 @@ namespace ComplantSystem.Controllers
 
 
 
-        // GET: Users/EditeMyProfile/5
-        public async Task<IActionResult> EditeMyProfile(string id)
-        {
-
-
-            string username = User.Identity.Name;
-
-            // Fetch the userprofile
-            ApplicationUser user = context.Users.FirstOrDefault(u => u.UserName.Equals(username));
-
-            // Construct the viewmodel
-            ApplicationUser model = new ApplicationUser();
-            model.FullName = user.FullName;
-            model.PhoneNumber = user.PhoneNumber;
-            model.Email = user.Email;
-
-            return View(model);
-
-            //var users = await _userService.GetAllAsync();
-            //ViewBag.UserCount = users.Count();
-            //var user = await _userService.GetByIdAsync(id);
-
-            //if (user == null)
-            //{
-            //    return NotFound();
-            //}
-            //var newUser = new EditUserViewModel
-            //{
-
-            //    PhoneNumber = user.PhoneNumber,
-            //    IsBlocked = user.IsBlocked,
-            //    //userRoles = user.UserRoles,
-
-
-            //};
-            //return View(newUser);
-        }
-
-
-        [HttpPost]
-
-        public async Task<IActionResult> EditeMyProfile(ApplicationUser userprofile)
-        {
-
-
-
-            if (ModelState.IsValid)
-            {
-                string username = User.Identity.Name;
-                // Get the userprofile
-                ApplicationUser user = context.Users.FirstOrDefault(u => u.UserName.Equals(username));
-
-                // Update fields
-                user.FullName = userprofile.FullName;
-                user.PhoneNumber = userprofile.PhoneNumber;
-                user.DateOfBirth = userprofile.DateOfBirth;
-
-                context.Entry(user).State = EntityState.Modified;
-
-                context.SaveChanges();
-
-                return RedirectToAction("Profile", "ManageProfile"); // or whatever
-            }
-
-            return View(userprofile);
-
-
-            //var users = await _userService.GetAllAsync();
-            //ViewBag.UserCount = users.Count();
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        await _userService.UpdateAsync(id, user);
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!UserExists(id))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //return View();
-        }
 
         private bool UserExists(string id)
         {

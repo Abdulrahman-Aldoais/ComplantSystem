@@ -207,6 +207,7 @@ namespace ComplantSystem.Service
                 PhoneNumberConfirmed = userVM.IsBlocked,
                 UserId = currentId,
                 originatorName = currentName,
+                CreatedDate = DateTime.Now,
 
 
 
@@ -316,19 +317,52 @@ namespace ComplantSystem.Service
             return count;
         }
 
-
         public async Task ChaingeStatusAsync(string id, bool isBlocked)
         {
             var selectedItem = await contex.Users.FindAsync(id);
             if (selectedItem != null)
             {
-                selectedItem.EmailConfirmed = isBlocked;
+                if (await _userManager.IsEmailConfirmedAsync(selectedItem))
+                {
+                    selectedItem.EmailConfirmed = false;
+                    selectedItem.IsBlocked = false;
+                }
+                else
+                {
+                    selectedItem.IsBlocked = true;
+                    selectedItem.EmailConfirmed = true;
+
+                }
+
 
                 contex.Update(selectedItem);
                 await contex.SaveChangesAsync();
             }
         }
+        public async Task<ApplicationUser> EnableAndDisbleUser(string id)
+        {
+            var UserEdited = await _userManager.FindByIdAsync(id);
+            if (UserEdited != null)
+            {
+                if (await _userManager.IsEmailConfirmedAsync(UserEdited))
+                {
+                    UserEdited.EmailConfirmed = false;
+                    UserEdited.IsBlocked = false;
+                }
+                else
+                {
+                    UserEdited.IsBlocked = true;
+                    UserEdited.EmailConfirmed = true;
 
+                }
+                await _userManager.UpdateAsync(UserEdited);
+                // _context.SaveChanges();
+                //await _signInManager.RefreshSignInAsync(UserEdited).ConfigureAwait(false);
+                return UserEdited;
+            }
+            else
+                return null;
+        }
 
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
@@ -349,11 +383,11 @@ namespace ComplantSystem.Service
             return null;
         }
 
-
         public async Task<IEnumerable<ApplicationUser>> GetAllAsync(string identityUser)
         {
 
             return await context.Set<ApplicationUser>().Where(i => i.UserId == identityUser)
+                .OrderByDescending(d => d.CreatedDate)
                 .Include(g => g.Governorate)
                 .Include(g => g.Directorate)
                 .Include(g => g.SubDirectorate)
@@ -366,7 +400,6 @@ namespace ComplantSystem.Service
             return await query.ToListAsync();
 
         }
-
         public async Task<ApplicationUser> GetByIdAsync(string id) => await context.Set<ApplicationUser>()
             .Include(g => g.Governorate)
             .Include(g => g.Directorate)

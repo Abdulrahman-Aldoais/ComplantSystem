@@ -140,7 +140,7 @@
                                         </button>
                                     </h2>
                                     <div id="accordionStyle1-3"
-                                         class="accordion-collapse collapse "
+                                         class="accordion-collapse collapse show"
                                          data-bs-parent="#accordionStyle1">
                                         <div class="accordion-body">
                                             @Model.compalint.UploadDate
@@ -166,7 +166,7 @@
                                         </button>
                                     </h2>
 
-                                    <div id="accordionWithIcon-1" class="accordion-collapse collapse show">
+                                    <div id="accordionWithIcon-1" class="accordion-collapse collapse ">
                                         <div class="accordion-body">
                                             @Model.compalint.TypeComplaint.Type
                                         </div>
@@ -184,7 +184,7 @@
                                             حالة الشكوى :
                                         </button>
                                     </h2>
-                                    <div id="accordionWithIcon-2" class="accordion-collapse collapse show">
+                                    <div id="accordionWithIcon-2" class="accordion-collapse collapse">
                                         <div class="accordion-body">
                                             @if (Model.compalint.StatusCompalint?.Name == "مرفوضة")
                                             {
@@ -211,7 +211,7 @@
                                             الجهة المستلمة :
                                         </button>
                                     </h2>
-                                    <div id="accordionWithIcon-3" class="accordion-collapse collapse show">
+                                    <div id="accordionWithIcon-3" class="accordion-collapse collapse">
                                         <div class="accordion-body">
                                             @Model.compalint.StagesComplaint?.Name
                                         </div>
@@ -318,7 +318,7 @@
                                                                 </button>
                                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                                     <li>
-                                                                        <a class="dropdown-item" data-bs-toggle="modal" data-ajax="true" data-bs-target="#onboardHorizontalImageModal" asp-route-id="@item.Id">
+                                                                        <a class="dropdown-item" asp-action="DetailsCategoriesComplaints" asp-route-id="@item.Id">
                                                                             <i class="bi bi-eye icon-padding icon-color"></i>
 
                                                                             عرض
@@ -352,7 +352,7 @@
                                 </div>
 
                             </div>
-
+                         
                         </div>
                     </div>
                 </div>
@@ -510,7 +510,7 @@
         </div>
         <div>
 
-            @*<div class="d-flex justify-content-between mb-2">
+            <div class="d-flex justify-content-between mb-2">
                 <label for="payment-terms" class="mb-0">تم التعامل</label>
                 <label class="switch switch-primary me-0">
                     <input type="checkbox" class="switch-input" id="payment-terms" checked="" />
@@ -524,7 +524,7 @@
                     </span>
                     <span class="switch-label"></span>
                 </label>
-            </div>*@
+            </div>
 
 
         </div>
@@ -534,7 +534,10 @@
     <div class="offcanvas offcanvas-end" id="sendInvoiceOffcanvas" aria-hidden="true">
         <div class="offcanvas-header border-bottom">
             <h6 class="offcanvas-title"> رفع الشكوى</h6>
-            <button type="button" asp-action="UpCompalint"></button>
+            <button type="button"
+                    class="btn-close text-reset"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
         </div>
         <div class="offcanvas-body flex-grow-1">
             <form asp-action="AddSolutions" method="post">
@@ -543,7 +546,7 @@
                 <div class="mb-3">
                     <label for="invoice-message" class="form-label">سبب رفع الشكوى</label>
                     <input type="hidden" asp-for="@Model.AddSolution.UploadsComplainteId" />
-                    <textarea asp-for="@Model.AddSolution.ContentSolution" class="form-control" cols="3" rows="4"></textarea>
+                    <textarea  asp-for="@Model.AddSolution.ContentSolution" class="form-control" cols="3" rows="4"></textarea>
                     <span class="text-danger" asp-validation-for="@Model.AddSolution.ContentSolution"></span>
                 </div>
 
@@ -555,42 +558,5 @@
         </div>
     </div>
     <!-- /حل الشكوى -->
-    <!-- Form with Image horizontal Modal -->
-    <div class="modal-onboarding modal fade animate__animated" id="onboardHorizontalImageModal" tabindex="-1"
-         aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen-sm-down" role="document">
-            <div class="modal-content text-center">
-                <div class="modal-header">
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body onboarding-horizontal p-0">
-
-
-                    <div class="table-responsive">
-                        <table class="table border-top m-0">
-
-                            <thead>
-                                <tr>
-                                    <th>  الحل</th>
-                                   
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-nowrap">@Model.AddSolution.ContentSolution</td>
-                                    
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!--/ Form with Image horizontal Modal -->
 </div>
 
