@@ -213,14 +213,18 @@ namespace ComplantSystem
             //var compalintDetails = await _service.FindAsync(id);
             //var ComplantList = await _context.UploadsComplainte.Include(a => a.Governorates).Include(a => a.Directorates).Include(a => a.SubDirectorates).Include(a => a.Villages).Include(a => a.TypeComplaint).Where(m => m.Id == id).FirstOrDefaultAsync();
             var ComplantList = await _service.FindAsync(id);
-            ProvideSolutionsVM VM = new ProvideSolutionsVM
+            AddSolutionVM addsoiationView = new AddSolutionVM()
             {
-                compalint = ComplantList,
-                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync()
+                UploadsComplainteId = id,
 
             };
-            return View(VM);
-
+            ProvideSolutionsVM MV = new ProvideSolutionsVM
+            {
+                compalint = ComplantList,
+                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                AddSolution = addsoiationView
+            };
+            return View(MV);
 
         }
 
@@ -282,6 +286,20 @@ namespace ComplantSystem
         }
 
 
+        public async Task<IActionResult> AllCommunication()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> AddCommunication()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddCommunication(UsersCommunication communication)
+        {
+            return View();
+        }
 
         [AllowAnonymous]
         public async Task<IActionResult> FilterCompalintsBySearch(string term)

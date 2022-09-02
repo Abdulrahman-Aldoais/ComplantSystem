@@ -35,7 +35,6 @@ $(function () {
     const wizardIconsBtnNextList = [].slice.call(wizardIcons.querySelectorAll('.btn-next')),
       wizardIconsBtnPrevList = [].slice.call(wizardIcons.querySelectorAll('.btn-prev')),
       wizardIconsBtnSubmit = wizardIcons.querySelector('.btn-submit');
-      
 
     const iconsStepper = new Stepper(wizardIcons, {
       linear: false
@@ -56,7 +55,7 @@ $(function () {
     }
     if (wizardIconsBtnSubmit) {
       wizardIconsBtnSubmit.addEventListener('click', event => {
-        alert('تم الارسال..!!');
+        alert('Submitted..!!');
       });
     }
   }
@@ -163,60 +162,3 @@ $(function () {
     }
   }
 })();
-
-
-
-
-
- 
- //////////////////////////////////////////////////////////////////////////////////
- ///////////////////////////////////////////////////////////////////
- var isvalid=true;
-$( document ).ready(function() {
-    $("#test").prop("disabled",true);
-    $(".tabbody input[type=number]").blur(function(){
-        validateSubmit();
-    });
-});
-function validateSubmit()
-{
-    var retval = sumRowVals();
-    $("#test").prop("disabled",!retval);
-    $("#msgdiv").html(retval ? "":"Invalid inputs!!!");
-}
-function sumRowVals()
-{
-    isvalid=true;
-    resetFigs();
-    var rindx=1;
-    $(".tabbody tr").each(function(){
-        var temp=0;
-        var cindx=1;
-        $("input[type=number]",this).each(function(){
-            var elval = !isNaN($(this).val()) ? parseInt($(this).val()):0;
-            var sumcol = $("#ccol"+cindx);
-            $(sumcol).html(parseInt($(sumcol).html())+elval);
-            temp=temp+elval;
-            cindx++;
-            if(elval > 100){isvalid=false;}
-            if(parseInt($(sumcol).html()) > 100){isvalid=false;}
-        });
-        if(rindx != $('.tabbody tr').length)
-        {
-            if(temp != 100){isvalid=false;}
-            $("#rcol"+rindx).html(temp);
-        }
-        rindx++;
-    });
-    return isvalid;
-}
-function resetFigs()
-{
-    $('*[id*=ccol]').each(function() {
-    $(this).html("0");
-});
-}
-function SubmitForm()
-{
-    // your form submit code
-}

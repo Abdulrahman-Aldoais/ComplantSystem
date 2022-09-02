@@ -68,9 +68,9 @@
 
                                     <div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
                                         <div class="me-3 table-type search-paddind">
-                                            <span class="table-span">بحث</span>
+
                                             <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                                <label><input type="search" id="CustomSearchTextField" style="display: block; width: 100%; padding: 0.469rem 0.735rem; font-size: 0.9375rem; font-weight: 400; line-height: 1.4; color: #a1b0cb; background-color: #283144; background-clip: padding-box; border: 1px solid #546990; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0.25rem; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
+                                                <label><input type="search" id="CustomSearchTextField" class="form-control" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -87,7 +87,7 @@
                                 </button>
                             </div>
                         </div>
-                      
+
 
                     </div>
 
@@ -114,7 +114,7 @@
                                         <td>@user.FullName </td>
                                         <td>
                                             @*@foreach (Governorate gov  in Model.)
-                                        {*@
+                                {*@
                                             @user.Governorate.Name
                                         </td>
 
@@ -191,7 +191,9 @@
                                                     <li><a class="dropdown-item" asp-action="Details" asp-route-id="@user.Id">عرض</a></li>
 
                                                     <li>
-                                                        <a class="dropdown-item text-danger delete-record" asp-action="Delete" asp-route-id="@user.Id">حذف</a>
+
+                                                        <a class="dropdown-item text-danger delete-record" onclick="deleteOrder('@user.Id')">حذف</a>
+
                                                     </li>
                                                 </ul>
 
@@ -204,23 +206,60 @@
                             </tbody>
                         </table>
                     </div>
-                 
+
                 </div>
             </div>
 
         </div>
-        </div>
-
-
-
-        <div class="content-backdrop fade"></div>
     </div>
-    <!-- Content wrapper -->
+
+
+
+    <div class="content-backdrop fade"></div>
+</div>
+<!-- Content wrapper -->
 
 
 @section Scripts{
 
-
+    <script type="text/javascript">
+        function deleteOrder(Id) {
+            debugger;
+            swal({
+                title: "هل انت منتأكد من الحذف؟",
+                text: "سيتم حذف هذه المستخدم نهائياً",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: true,
+                confirmButtonText: "نعم , متأكد قم بالحذف",
+                confirmButtonColor: "#ec0062"
+            },
+                function () {
+                    $.ajax({
+                        url: "/ManageUsers/Delete/",
+                        data:
+                        {
+                            "Id": Id
+                        },
+                        type: "DELETE"
+                    })
+                        .done(function (data) {
+                            sweetAlert
+                                ({
+                                    title: "!تم الحذف",
+                                    text: "تمت عملية الحذف بنجاح",
+                                    type: "success"
+                                },
+                                    function () {
+                                        window.location.href = '/ManageUsers/ViewUsers/';
+                                    });
+                        })
+                        .error(function (data) {
+                            swal("اوووه", "هناك خطاء لا يمكننا الاتصال بالخادم", "error");
+                        });
+                });
+        }
+    </script>
 
     <script>
 
@@ -275,16 +314,16 @@
 
 
     <script>
-      
-            //فلترة نوع الشاكي
-            $("#FilterUsers").change(function () {
-                var value = $(this).val().toLowerCase();
+
+        //فلترة نوع الشاكي
+        $("#FilterUsers").change(function () {
+            var value = $(this).val().toLowerCase();
             $(".table tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
             });
+        });
 
-  
+
     </script>
 
 

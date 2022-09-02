@@ -10,19 +10,20 @@ namespace ComplantSystem.Models
     {
 
 
-        [Required(ErrorMessage = "ادخل الاسم ")]
         public string FullName { get; set; }
 
-        [Required(ErrorMessage = "ادخل رقم البطاقة الشخصية"), MaxLength(12, ErrorMessage = "يجب ان لا يكون رقم البطاقة اكثر من اثنا عشر ارقام "), MinLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اقل من تسعة ارقام")]
         public string IdentityNumber { get; set; }
-        [Required(ErrorMessage = "ادخل رقم الهاتف"), MaxLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اكثر من تسعة ارقام "), MinLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اقل من تسعة ارقام")]
-        public string PhoneNumber { get; set; }
+
+        public string PhoneNumber { get; set; } = "";
+
         public virtual int GovernorateId { get; set; }
         [ForeignKey("GovernorateId")]
         public virtual Governorate Governorate { get; set; }
+
         public virtual int DirectorateId { get; set; }
         [ForeignKey("DirectorateId")]
         public virtual Directorate Directorate { get; set; }
+
         public virtual int SubDirectorateId { get; set; }
         [ForeignKey("SubDirectorateId")]
         public virtual SubDirectorate SubDirectorate { get; set; }
@@ -40,6 +41,9 @@ namespace ComplantSystem.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
         public int RoleId { get; set; }
+
+        [NotMapped]
+        public string RoleName { get; set; }
 
         public virtual ICollection<ApplicationUserClaim> Claims { get; set; }
         public virtual ICollection<ApplicationUserLogin> Logins { get; set; }

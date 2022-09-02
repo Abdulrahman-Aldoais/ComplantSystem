@@ -4,6 +4,7 @@ using ComplantSystem.Models;
 using ComplantSystem.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ComplantSystem.Controllers
@@ -50,6 +51,10 @@ namespace ComplantSystem.Controllers
             if (currentUser != null)
             {
                 var model = mapper.Map<UserViewModels>(currentUser);
+                model.Governorates = context.Governorates.FirstOrDefault(g => g.Id == model.GovernorateId);
+                model.Directorates = context.Directorates.FirstOrDefault(g => g.Id == model.DirectorateId);
+                model.SubDirectorate = context.SubDirectorates.FirstOrDefault(g => g.Id == model.SubDirectorateId);
+                //var user = await _userService.GetByIdAsync((string)id);
                 return View(model);
             }
             return NotFound();

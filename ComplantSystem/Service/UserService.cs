@@ -400,6 +400,7 @@ namespace ComplantSystem.Service
             return await query.ToListAsync();
 
         }
+
         public async Task<ApplicationUser> GetByIdAsync(string id) => await context.Set<ApplicationUser>()
             .Include(g => g.Governorate)
             .Include(g => g.Directorate)

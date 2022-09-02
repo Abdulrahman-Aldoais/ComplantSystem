@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+
 namespace ComplantSystem.Controllers
 {
     public class ManageUsersController : Controller
@@ -94,7 +95,7 @@ namespace ComplantSystem.Controllers
 
             ViewBag.totalUsers = totalUsers;
 
-            int pageSize = 3;
+
 
 
 
@@ -184,7 +185,7 @@ namespace ComplantSystem.Controllers
                 return NotFound();
             }
 
-            return View(users);
+            return View(user);
         }
 
         // GET: Users/Edit/5
@@ -258,7 +259,7 @@ namespace ComplantSystem.Controllers
             }
             else
             {
-                return Json($"  من قبل بهذا الرقم {model.IdentityNumber}  يوجد رقم بطاقة");
+                return Json($"يوجد رقم بطاقة   {model.IdentityNumber} من قبل بهذا الرقم ");
             }
 
 
@@ -276,7 +277,7 @@ namespace ComplantSystem.Controllers
 
             else
             {
-                return Json($"  موجود من قبل {model.IdentityNumber}  رقم الهاتف هذا ");
+                return Json($"   موجود من قبل {model.PhoneNumber}رقم الهاتف هذا");
             }
 
 
@@ -291,27 +292,30 @@ namespace ComplantSystem.Controllers
             return Json(new SelectList(directorate, "Id", "Name"));
         }
 
-
-        public async Task<IActionResult> GetSubDirectorat(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetSubDirectorate(int id)
         {
             List<SubDirectorate> subdirectorate = new List<SubDirectorate>();
             subdirectorate = await _context.SubDirectorates.Where(m => m.DirectorateId == id).ToListAsync();
             return Json(new SelectList(subdirectorate, "Id", "Name"));
         }
 
+
+
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string Id)
         {
 
-            if (id == null)
+            if (Id == null)
             {
                 return NotFound();
             }
 
-            var user = await _userService.GetByIdAsync((string)id, u => u.Governorate, d => d.Directorate, n => n.SubDirectorate);
-            if (user == null)
+            var user = await _userService.GetByIdAsync((string)Id, u => u.Governorate, d => d.Directorate, n => n.SubDirectorate);
+            if (user != null)
             {
-                return NotFound();
+                await _compalintService.DeleteAsync(Id);
+                return RedirectToAction(nameof(ViewUsers));
             }
 
             return View(user);
@@ -320,9 +324,9 @@ namespace ComplantSystem.Controllers
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string Id)
         {
-            await _compalintService.DeleteAsync(id);
+            await _compalintService.DeleteAsync(Id);
             return RedirectToAction(nameof(ViewUsers));
         }
 

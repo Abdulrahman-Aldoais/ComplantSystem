@@ -108,43 +108,43 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e9257003-6e9a-4fc2-a005-f180a603868e",
-                            ConcurrencyStamp = "0be6e4d0-f87e-448b-92d4-8301b0940b53",
+                            Id = "19a78a39-19b2-4bf2-a199-e721e1d6e8c1",
+                            ConcurrencyStamp = "6a13c768-1704-4bad-b0e6-753a924c6539",
                             Name = "AdminGeneralFederation",
                             NormalizedName = "ADMINGENERALFEDERATION"
                         },
                         new
                         {
-                            Id = "6caa4ff9-f398-4525-8a4d-198b9c2ac17f",
-                            ConcurrencyStamp = "2a67f865-857d-45ca-8785-9a9f0d681bce",
+                            Id = "392afc51-dcf8-43c1-b477-9bc5f4ab21fb",
+                            ConcurrencyStamp = "bb5c50ba-445e-4314-a31a-0bc9fe28884f",
                             Name = "AdminGovernorate",
                             NormalizedName = "ADMINGOVERNORATE"
                         },
                         new
                         {
-                            Id = "d7f7f7ce-e350-4e81-a443-c510e4f1732b",
-                            ConcurrencyStamp = "76c6b905-a62e-4971-bbd6-0047c6fd8b24",
+                            Id = "863bc173-fa57-4fbe-abdc-07da33fd911d",
+                            ConcurrencyStamp = "6fac5943-ae29-42f5-aa64-e77ab3a166c5",
                             Name = "AdminDirectorate",
                             NormalizedName = "ADMINDIRECTORATE"
                         },
                         new
                         {
-                            Id = "51e4af46-5b8d-4b87-a8fb-67786c7304c8",
-                            ConcurrencyStamp = "b69dfce1-df36-4c72-ad35-d4630242efd3",
+                            Id = "bea63c98-d68d-41b8-ab1b-e40652f0777f",
+                            ConcurrencyStamp = "39a8b7a7-0434-4e1f-9b53-f1f55b7178c5",
                             Name = "AdminSubDirectorate",
                             NormalizedName = "ADMINSUBDIRECTORATE"
                         },
                         new
                         {
-                            Id = "6330bc07-3985-4ce5-b5ae-67ea4eb9ed24",
-                            ConcurrencyStamp = "8f0243c9-fe88-4e24-bb5a-c5fe829adbfc",
+                            Id = "e12a910c-cd35-416f-88f2-b1abebb3e151",
+                            ConcurrencyStamp = "b57da93e-4216-4e6b-8458-374c90071c1b",
                             Name = "AdminVillages",
                             NormalizedName = "ADMINVILLAGES"
                         },
                         new
                         {
-                            Id = "0d6f9502-db09-4163-999a-310b507e9dc2",
-                            ConcurrencyStamp = "d4d8dc9b-1bc3-4c87-8847-53f52b634ec3",
+                            Id = "8942f471-65b8-43c4-9a6a-e0cc7c10519c",
+                            ConcurrencyStamp = "b0a2978b-4c7a-41d8-b1b6-0e9b2ee7554e",
                             Name = "Beneficiarie",
                             NormalizedName = "BENEFICIARIE"
                         });
@@ -211,16 +211,13 @@ namespace ComplantSystem.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GovernorateId")
                         .HasColumnType("int");
 
                     b.Property<string>("IdentityNumber")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsBlocked")
                         .HasColumnType("bit");
@@ -243,9 +240,7 @@ namespace ComplantSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(9)
-                        .HasColumnType("nvarchar(9)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -948,15 +943,15 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fe05cbf4-62bd-4657-bc58-770b3cb2298f",
-                            CreatedDate = new DateTime(2022, 8, 31, 17, 28, 27, 687, DateTimeKind.Local).AddTicks(2551),
+                            Id = "f46db8a2-965d-4e6c-8cf3-8ec5a91fa18b",
+                            CreatedDate = new DateTime(2022, 9, 3, 0, 14, 33, 836, DateTimeKind.Local).AddTicks(7378),
                             Type = "زراعية",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         },
                         new
                         {
-                            Id = "c8145422-a2d6-4c6f-b324-a095232d438f",
-                            CreatedDate = new DateTime(2022, 8, 31, 17, 28, 27, 687, DateTimeKind.Local).AddTicks(3117),
+                            Id = "5a838edf-b9a4-4577-a86f-896f5503cd0e",
+                            CreatedDate = new DateTime(2022, 9, 3, 0, 14, 33, 836, DateTimeKind.Local).AddTicks(7893),
                             Type = "فساد",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         });
@@ -1049,21 +1044,50 @@ namespace ComplantSystem.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("BenfDirId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BenfGovId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BenfId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BenfName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BenfPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BenfSubDirId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Titile")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsersHasId")
+                    b.Property<string>("TypeCommuncationId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("reason")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsersHasId");
+                    b.HasIndex("BenfDirId");
+
+                    b.HasIndex("BenfGovId");
+
+                    b.HasIndex("BenfSubDirId");
+
+                    b.HasIndex("TypeCommuncationId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UsersCommunications");
                 });
@@ -1461,9 +1485,39 @@ namespace ComplantSystem.Migrations
 
             modelBuilder.Entity("ComplantSystem.Models.UsersCommunication", b =>
                 {
+                    b.HasOne("ComplantSystem.Models.Directorate", "Directorate")
+                        .WithMany()
+                        .HasForeignKey("BenfDirId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComplantSystem.Models.Governorate", "Governorate")
+                        .WithMany()
+                        .HasForeignKey("BenfGovId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComplantSystem.Models.SubDirectorate", "SubDirectorate")
+                        .WithMany()
+                        .HasForeignKey("BenfSubDirId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComplantSystem.Models.TypeCommunication", "TypeCommunication")
+                        .WithMany()
+                        .HasForeignKey("TypeCommuncationId");
+
                     b.HasOne("ComplantSystem.Models.ApplicationUser", "UsersHas")
                         .WithMany()
-                        .HasForeignKey("UsersHasId");
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Directorate");
+
+                    b.Navigation("Governorate");
+
+                    b.Navigation("SubDirectorate");
+
+                    b.Navigation("TypeCommunication");
 
                     b.Navigation("UsersHas");
                 });
