@@ -39,10 +39,10 @@
     <link rel="stylesheet" href="/assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="/assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="/assets/css/demo.css" />
+    <link href="~/assets/vendor/css/textoverflow.css" rel="stylesheet" />
 
     <link href="~/assets/bootstrap-sweetalert/sweetalert.css" rel="stylesheet" />
     <link href="~/assets/bootstrap-sweetalert/sweetalert.min.css" rel="stylesheet" />
-
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
@@ -482,20 +482,63 @@
 
     <!-- build:js assets/vendor/js/core.js -->
     <!-- build:js assets/vendor/js/core.js -->
+    <!--<script src="~/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="~/assets/vendor/libs/popper/popper.js"></script>
+    <script src="~/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="~/assets/vendor/js/menu.js"></script>
+    <script src="~/assets/js/Cascading/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/assets/js/Cascading/jquery.unobtrusive-ajax.min.js"></script>-->
+    <!-- sweetalert -->
+    <!--<script src="~/assets/bootstrap-sweetalert/sweetalert.js"></script>
+    <script src="~/assets/bootstrap-sweetalert/sweetalert.min.js"></script>-->
+    <!-- sweetalert -->
+    <!-- Vendors JS -->
+    <!--<script src="~/assets/vendor/libs/datatables/jquery.dataTables.js"></script>
+    <script src="~/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="~/assets/vendor/libs/datatables-responsive/datatables.responsive.js"></script>
+    <script src="~/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.js"></script>
+    <script src="~/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.js"></script>
+    <script src="~/assets/vendor/libs/datatables-buttons/datatables-buttons.js"></script>
+    <script src="~/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.js"></script>
+    <script src="~/assets/vendor/libs/jszip/jszip.js"></script>
+    <script src="~/assets/vendor/libs/pdfmake/pdfmake.js"></script>
+    <script src="~/assets/vendor/libs/datatables-buttons/buttons.html5.js"></script>
+
+    <script src="~/assets/vendor/libs/datatables-buttons/buttons.print.js"></script>
+    <script src="~/assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
+    <script src="~/assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
+    <script src="~/assets/vendor/libs/select2/select2.js"></script>
+    <script src="~/assets/vendor/libs/leaflet/leaflet.js"></script>-->
+    <!-- Flat Picker -->
+    <!--<script src="~/assets/vendor/libs/moment/moment.js"></script>
+    <script src="~/assets/vendor/libs/flatpickr/flatpickr.js"></script>-->
+    <!-- Form Validation -->
+    <!--<script src="~/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
+    <script src="~/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>-->
+    <!-- Row Group JS -->
+    <!--<script src="~/assets/vendor/libs/datatables-rowgroup/datatables.rowgroup.js"></script>
+    <script src="~/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.js"></script>-->
+    <!-- Main JS -->
+    <!--<script src="~/assets/js/main.js"></script>-->
+    <!-- Page JS -->
+    <!--<script src="~/assets/js/form-wizard-icons.js"></script>
+    <script src="~/assets/js/tables-datatables-basic.js"></script>
+    <script src="~/assets/js/form-wizard-validation.js"></script>
+    <script src="~/assets/js/maps-leaflet.js"></script>
+    <script src="~/js/site.js"></script>-->
+    <!-- build:js assets/vendor/js/core.js -->
+    <!-- build:js assets/vendor/js/core.js -->
     <script src="~/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="~/assets/vendor/libs/popper/popper.js"></script>
     <script src="~/assets/vendor/js/bootstrap.js"></script>
     <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="~/assets/vendor/libs/hammer/hammer.js"></script>
     <script src="~/assets/vendor/js/menu.js"></script>
-
-
-
-    <!-- sweetalert -->
-    <script src="~/assets/bootstrap-sweetalert/sweetalert.js"></script>
-    <script src="~/assets/bootstrap-sweetalert/sweetalert.min.js"></script>
-    <!-- sweetalert -->
-
+    <!-- endbuild -->
+    <!-- Vendors JS -->
     <!-- Vendors JS -->
     <script src="~/assets/vendor/libs/datatables/jquery.dataTables.js"></script>
     <script src="~/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
@@ -507,7 +550,6 @@
     <script src="~/assets/vendor/libs/jszip/jszip.js"></script>
     <script src="~/assets/vendor/libs/pdfmake/pdfmake.js"></script>
     <script src="~/assets/vendor/libs/datatables-buttons/buttons.html5.js"></script>
-
     <script src="~/assets/vendor/libs/datatables-buttons/buttons.print.js"></script>
     <script src="~/assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
     <script src="~/assets/vendor/libs/bootstrap-select/bootstrap-select.js"></script>
@@ -526,18 +568,14 @@
     <script src="~/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
     <script src="~/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
     <script src="~/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
-
     <!-- Main JS -->
     <script src="~/assets/js/main.js"></script>
-
     <!-- Page JS -->
     <script src="~/assets/js/form-wizard-icons.js"></script>
     <script src="~/assets/js/tables-datatables-basic.js"></script>
     <script src="~/assets/js/form-wizard-validation.js"></script>
     <script src="~/assets/js/maps-leaflet.js"></script>
     <script src="~/js/site.js"></script>
-
-
 
 
 

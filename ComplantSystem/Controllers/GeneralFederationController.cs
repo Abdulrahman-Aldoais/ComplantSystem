@@ -1,13 +1,13 @@
 ﻿using ComplantSystem.Data.Base;
 using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
-using ComplantSystem.Models.Data.Base;
 using ComplantSystem.Service;
 using ComplantSystem.Service.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,41 +22,29 @@ namespace ComplantSystem
     [Authorize(Roles = "AdminGeneralFederation")]
     public class GeneralFederationController : Controller
     {
-        private readonly ILocationRepo<Governorate> governorate;
-        private readonly ILocationRepo<Directorate> directorate;
-        private readonly ILocationRepo<SubDirectorate> subDirectorate;
-        private readonly ILocationRepo<Village> village;
+
         private readonly ICompalintRepository _compReop;
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ISolveCompalintService solveCompalintService;
         private readonly IWebHostEnvironment _env;
         private readonly ICategoryService _service;
         private readonly AppCompalintsContextDB _context;
 
         public GeneralFederationController(
-            ILocationRepo<Governorate> governorate,
-            ILocationRepo<Directorate> directorate,
-            ILocationRepo<SubDirectorate> subDirectorate,
-            ILocationRepo<Village> village,
+
             ICategoryService service,
             ICompalintRepository compReop,
             IUserService userService,
             UserManager<ApplicationUser> userManager,
-            ISolveCompalintService solveCompalintService,
 
             IWebHostEnvironment env,
 
             AppCompalintsContextDB context)
         {
-            this.governorate = governorate;
-            this.directorate = directorate;
-            this.subDirectorate = subDirectorate;
-            this.village = village;
+
             _compReop = compReop;
             _userService = userService;
             _userManager = userManager;
-            this.solveCompalintService = solveCompalintService;
             _service = service;
             _context = context;
             _env = env;
@@ -86,6 +74,9 @@ namespace ComplantSystem
             ViewBag.totalUsers = totalUsers;
             ViewBag.totalComp = totalComp;
 
+
+            //***********************************//
+
             List<ApplicationUser> applicationUsers = await _context.Users.Include(x => x.Governorate).ToListAsync();
             List<ApplicationUser> UsersRoles = await _context.Users.Include(x => x.UserRoles).ToListAsync();
 
@@ -94,7 +85,7 @@ namespace ComplantSystem
 
             ViewBag.TotalCount = TotalCount;
 
-            //totalGovermentuser
+            //total Govermentuser
             ViewBag.totalGovermentuser = applicationUsers.GroupBy(j => j.GovernorateId).Select(g => new gtsg
             {
                 Name = g.First().Governorate.Name,
@@ -103,6 +94,9 @@ namespace ComplantSystem
 
 
             }).ToList();
+
+
+            // show Name Role Rether Than Id
             var Roles = _context.Roles.ToList();
             var x = from r in Globals.RolesLists
                     join u in UsersRoles
@@ -113,22 +107,26 @@ namespace ComplantSystem
                         UserRoles = u.UserRoles
                     };
 
-
-            ViewBag.totalRoles = x.GroupBy(j => j.UserRoles).Select(g => new gtsg
+            //total Users By Role
+            ViewBag.totalRoles = x.GroupBy(j => j.RoleName).Select(g => new gtus
             {
-                Name = g.First().RoleName,
+                RoleName = g.First().RoleName,
                 TotalCount = g.Count().ToString(),
-                nr = (g.Count() * 100) / TotalCount
+                nu = (g.Count() * 100) / TotalCount
 
 
             }).ToList();
 
+
+            List<gtus> gtus = new List<gtus>();
+            gtus = ViewBag.totalRoles;
+
             List<gtsg> gtsg = new List<gtsg>();
-            gtsg = ViewBag.totalRoles;
-            List<gtsg> gtus = new List<gtsg>();
-            gtus = ViewBag.totalGovermentuser;
+            gtsg = ViewBag.totalGovermentuser;
+
 
             List<UploadsComplainte> compalints = await _context.UploadsComplaintes.Include(r => r.TypeComplaint).ToListAsync();
+
             int totalcomplant = compalints.Count();
             ViewBag.comtot = totalcomplant;
 
@@ -150,10 +148,18 @@ namespace ComplantSystem
 
         }
 
+        public class gtus
+        {
+            public string RoleName { get; set; }
+
+            public string TotalCount { get; set; }
+            public double nu { get; set; }
+
+        }
+
         public class Type
         {
             public string Name { get; set; }
-
             public double TotalCount { get; set; }
             public double mm { get; set; }
 
@@ -204,6 +210,8 @@ namespace ComplantSystem
             return RedirectToAction(nameof(AllComplaints));
 
         }
+
+
 
         public async Task<IActionResult> ChaingStatusComp(string id)
         {
@@ -425,6 +433,39 @@ namespace ComplantSystem
             await _service.UpdateAsync(id, type);
             return RedirectToAction(nameof(AllCategoriesComplaints));
         }
+
+
+        public async Task<IActionResult> AllCommunication()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var UserId = currentUser.Id;
+            var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues();
+
+            ViewBag.TypeCommunication = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Name");
+
+            var result = _context.UsersCommunications
+            .OrderByDescending(d => d.CreateDate)
+            .Include(s => s.User)
+            .Include(s => s.TypeCommunication)
+            .Include(g => g.Governorate)
+            .Include(d => d.Directorate)
+            .Include(su => su.SubDirectorate);
+
+
+            //List<ApplicationUser> meeting = _context.Users.Where(m => m.Id == ).ToList<ApplicationUser>();
+
+
+
+
+            int totalCompalints = result.Count();
+
+            ViewBag.totalCompalints = totalCompalints;
+
+            return View(result.ToList());
+        }
+
+
+
         //Get: Category/Delete/1
         public async Task<IActionResult> DeleteCategoryComplainty(string id)
         {
@@ -522,6 +563,25 @@ namespace ComplantSystem
         public IActionResult AddCirculars()
         {
             return View();
+        }
+        public async Task<IActionResult> RejectedThisComplaint(string id, UploadsComplainte complainte)
+        {
+
+            var upComp = await _compReop.FindAsync(id);
+            var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+            if (dbComp != null)
+            {
+
+                dbComp.Id = complainte.Id;
+                dbComp.StatusCompalintId = 3;
+
+
+                await _context.SaveChangesAsync();
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(RejectedComplaints));
+
         }
         [HttpGet]
         public async Task<IActionResult> Download(string id)

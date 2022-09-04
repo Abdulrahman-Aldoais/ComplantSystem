@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 
 namespace ComplantSystem
@@ -9,12 +10,13 @@ namespace ComplantSystem
         {
 
             CreateMap<InputCompmallintVM, UploadsComplainte>()
-    .ForMember(u => u.Id, op => op.Ignore())
-    .ForMember(u => u.UploadDate, op => op.Ignore());
+            .ForMember(u => u.Id, op => op.Ignore())
+            .ForMember(u => u.UploadDate, op => op.Ignore());
 
-
-
+            CreateMap<AddCommunicationVM, UsersCommunication>()
+             .ForMember(u => u.Id, op => op.Ignore());
             CreateMap<UploadsComplainte, InputCompmallintVM>();
+            CreateMap<UsersCommunication, AddCommunicationVM>();
         }
     }
 
@@ -29,6 +31,8 @@ namespace ComplantSystem
 
             CreateMap<ApplicationUser, UserProfileEditVM>();
             CreateMap<ApplicationUser, UserViewModels>();
+
+
 
         }
 

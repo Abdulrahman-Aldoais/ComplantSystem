@@ -111,6 +111,22 @@ namespace ComplantSystem.Models
 
             });
 
+            modelBuilder.Entity<UsersCommunication>(u =>
+            {
+                u.HasOne(e => e.Governorate)
+                 .WithMany(e => e.UsersCommunications)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+                u.HasOne(e => e.Directorate)
+             .WithMany(e => e.UsersCommunications)
+             .OnDelete(DeleteBehavior.Restrict);
+
+                u.HasOne(e => e.SubDirectorate)
+             .WithMany(e => e.UsersCommunications)
+             .OnDelete(DeleteBehavior.Restrict);
+
+            });
+
 
 
 

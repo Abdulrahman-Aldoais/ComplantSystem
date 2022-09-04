@@ -24,6 +24,7 @@ namespace ComplantSystem.Models
 
         //RelationShipes one to many
         public virtual ICollection<SubDirectorate> SubDirectorates { get; set; }
+        public virtual ICollection<UsersCommunication> UsersCommunications { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<Beneficiarie> Beneficiaries { get; set; }

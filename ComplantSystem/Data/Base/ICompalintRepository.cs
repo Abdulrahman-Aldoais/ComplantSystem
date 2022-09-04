@@ -1,4 +1,5 @@
-﻿using ComplantSystem.Models;
+﻿using ComplantSystem.Data.ViewModels;
+using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,12 +19,14 @@ namespace ComplantSystem.Data.Base
         Task AddSolutionForCompalint(UploadsComplainte data);
 
         IQueryable<UploadsComplainte> GetBy(string userId);
+        IQueryable<UsersCommunication> GetCommunicationBy(string userId);
 
 
         IQueryable<UploadsComplainte> GetAllRejectedComplaints(string userId);
         IQueryable<UploadsComplainte> GetAllResolvedComplaints(string userId);
         //Task CreateAsync(InputCompmallintVM model);
         Task CreateAsync2(InputCompmallintVM model);
+        Task CreateCommuncationAsync(AddCommunicationVM model);
 
         Task GetAllGategoryCompAsync();
 

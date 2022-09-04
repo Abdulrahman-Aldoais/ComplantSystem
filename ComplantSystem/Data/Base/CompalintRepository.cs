@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using Microsoft.AspNetCore.Hosting;
@@ -119,6 +120,18 @@ namespace ComplantSystem.Data.Base
 
         }
 
+        public IQueryable<UsersCommunication> GetCommunicationBy(string UserId)
+        {
+            var result = _context.UsersCommunications.Where(u => u.UserId == UserId)
+            //.OrderByDescending(u => u.UploadDate)
+            .Include(s => s.TypeCommunication)
+            //.Include(f => f.NameUserId)
+            .Include(g => g.Governorate)
+            .Include(d => d.Directorate)
+            .Include(su => su.SubDirectorate);
+
+            return result;
+        }
 
         public IQueryable<UploadsComplainte> GetBy(string Identity)
         {
@@ -144,6 +157,8 @@ namespace ComplantSystem.Data.Base
 
             return result;
         }
+
+
 
         public async Task<UploadsComplainte> GetCompalintById(string id)
         {
@@ -192,6 +207,12 @@ namespace ComplantSystem.Data.Base
             await _context.SaveChangesAsync();
         }
 
+        public async Task CreateCommuncationAsync(AddCommunicationVM model)
+        {
+            var mappedObj = _mapper.Map<UsersCommunication>(model);
+            await _context.UsersCommunications.AddAsync(mappedObj);
+            await _context.SaveChangesAsync();
+        }
 
 
         public async Task DeleteAsync(string id)

@@ -51,7 +51,6 @@ namespace ComplantSystem
             services.AddScoped<IManagementUsers, ManagementUsers>();
             services.AddScoped<IRegionsRepo, RegionsRepo>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ISolveCompalintService, SolveCompalintService>();
             services.AddScoped<ILocationRepo<Governorate>, GovernorateRepo>();
             services.AddScoped<ILocationRepo<Directorate>, DirectorateRepo>();
             services.AddScoped<ILocationRepo<SubDirectorate>, SubDirectorateRepo>();

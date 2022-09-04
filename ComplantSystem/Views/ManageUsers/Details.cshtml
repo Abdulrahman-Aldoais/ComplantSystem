@@ -133,14 +133,14 @@
                         </div>
                     </div>
                     <!-- /Invoice Add-->
+
                     <!-- Invoice Actions -->
                     <div class="invoice-actions col-12 col-lg-3">
                         <div class="card mb-4">
                             <div class="card-body">
-
-                                <input onclick="deleteOrder('@Model.Id')" type="button" value="حذف" />
-                                <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>خروج</span>
-
+                                <button onclick="location.href='@Url.Action("ViewUsers", "ManageUsers")'" class="btn btn-primary d-grid w-100 mb-3">
+                                    <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>خروج</span>
+                                </button>
 
                             </div>
                         </div>
@@ -158,44 +158,3 @@
     </div>
 </div>
 
-@section Scripts{
-
-<script type="text/javascript">
-    function deleteOrder(Id) {
-        debugger;
-        swal({
-            title: "Are you sure?",
-            text: "Are you sure that you want to delete this Order?",
-            type: "warning",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            confirmButtonText: "Yes, delete it!",
-            confirmButtonColor: "#ec6c62"
-        },
-            function () {
-                $.ajax({
-                    url: "/ManageUsers/Delete/",
-                    data:
-                    {
-                        "Id": Id
-                    },
-                    type: "DELETE"
-                })
-                    .done(function (data) {
-                        sweetAlert
-                            ({
-                                title: "Deleted!",
-                                text: "Your file was successfully deleted!",
-                                type: "success"
-                            },
-                                function () {
-                                    window.location.href = '/ManageUsers/ViewUsers/';
-                                });
-                    })
-                    .error(function (data) {
-                        swal("Oops", "We couldn't connect to the server!", "error");
-                    });
-            });
-    }
-</script>
-}

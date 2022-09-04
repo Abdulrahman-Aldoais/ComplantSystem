@@ -98,22 +98,22 @@
                             @*<table id="example" class="datatables-basic">*@
                                 <thead>
                                     <tr>
-                                        <th>
+                                        <th class="text-center">
                                             العنوان
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             تاريخ
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             المحافظة
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             المرحلة
                                         </th>
-                                        <th>
+                                        <th class="text-center">
                                             الحالة
                                         </th>
-                                        <th>اجراء</th>
+                                        <th class="text-center">اجراء</th>
                                     </tr>
                                 </thead>
 
@@ -131,16 +131,16 @@
                                         @foreach (var item in Model)
                                         {
                                             <tr>
-                                                <td>
+                                                <td class="overfolwtext-td text-center">
                                                     @Html.DisplayFor(modelItem => item.TitleComplaint)
                                                 </td>
-                                                <td> @Html.DisplayFor(modelItem => item.UploadDate)</td>
-                                                <td>
+                                                <td class="text-center"> @Html.DisplayFor(modelItem => item.UploadDate)</td>
+                                                <td class="text-center">
                                                     @Html.DisplayFor(modelItem => item.Governorate.Name)
                                                 </td>
-                                                <td> @Html.DisplayFor(modelItem => item.StatusCompalint.Name)</td>
-                                                <td> @Html.DisplayFor(modelItem => item.TypeComplaint.Type)</td>
-                                                <td>
+                                                <td class="text-center"> @Html.DisplayFor(modelItem => item.StatusCompalint.Name)</td>
+                                                <td class="text-center"> @Html.DisplayFor(modelItem => item.TypeComplaint.Type)</td>
+                                                <td class="text-center">
                                                     <a href="@Url.Action("ViewCompalintDetails", "GeneralFederation", new { id = item.Id })">
                                                         <i> عرض</i>
                                                     </a>

@@ -27,6 +27,7 @@ namespace ComplantSystem.Models
 
         //RelationShipes noe to many
         public virtual ICollection<Village> Villages { get; set; }
+        public virtual ICollection<UsersCommunication> UsersCommunications { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual List<Beneficiarie> Beneficiaries { get; set; }

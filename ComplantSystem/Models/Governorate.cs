@@ -23,6 +23,8 @@ namespace ComplantSystem.Models
 
         public virtual ICollection<Directorate> Directorates { get; set; }
         //public virtual List<User> Users { get; set; }
+        public virtual ICollection<UsersCommunication> UsersCommunications { get; set; }
+
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<UploadsComplainte> UploadsComplaintes { get; set; }
         public virtual ICollection<Beneficiarie> Beneficiaries { get; set; }

@@ -1,4 +1,5 @@
-﻿using ComplantSystem.Models.Data.ViewModels;
+﻿using ComplantSystem.Data.ViewModels;
+using ComplantSystem.Models.Data.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -52,6 +53,20 @@ namespace ComplantSystem.Models.Data.Base
 
                 StatusCompalints = await _context.StatusCompalints.OrderBy(n => n.Name).ToListAsync(),
                 TypeComplaints = await _context.TypeComplaints.OrderBy(n => n.Type).ToListAsync(),
+
+            };
+
+            return response;
+
+        }
+
+        public async Task<SelectDataCommuncationDropdownsVM> GetAddCommunicationDropdownsValues()
+        {
+            var response = new SelectDataCommuncationDropdownsVM()
+            {
+
+                ApplicationUsers = await _context.Users.OrderBy(n => n.FullName).ToListAsync(),
+                TypeCommunications = await _context.TypeCommunications.OrderBy(n => n.Type).ToListAsync(),
 
             };
 

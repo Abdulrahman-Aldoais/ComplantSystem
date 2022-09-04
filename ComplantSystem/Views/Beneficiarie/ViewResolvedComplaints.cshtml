@@ -10,9 +10,6 @@
 
         <!-- Users List Table -->
 
-
-
-
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="breadcrumb-wrapper py-3 mb-4">
                 <span class="text-muted fw-light">إدارة النظام    /</span> إدارة الشكاوي
@@ -49,15 +46,44 @@
                 <div class="card-datatable table-responsive">
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
 
+                        <div class="row mx-2 border-bottom ">
+                            <div class="row align-items-start">
+                                <label class="form-label"> عرض حسب</label>
+                                <div class="row align-items-start">
+                                    <div class="category-filter" style="width:150px">
+                                        <select id="FilterType"
+                                                class="select2 form-select select2-hidden-accessible"
+                                                tabindex="-1" aria-hidden="true" data-select2-id="10">
+                                            <option value="0" data-select2-id="12">عرض</option>
+                                            <option value="جديدة">جديدة</option>
+                                            <option value="محلولة">محلولة</option>
+                                            <option value="غير محلولة">غير محلولة</option>
+                                            <option value="مرفوعة">مرفوعة</option>
+                                        </select>
+                                    </div>
 
-                        <div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
-                            <div class="me-3 table-type search-paddind">
-                                <span class="table-span">بحث</span>
-                                <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                    <label><input type="search" id="CustomSearchTextField" style="display: block; width: 100%; padding: 0.469rem 0.735rem; font-size: 0.9375rem; font-weight: 400; line-height: 1.4; color: #a1b0cb; background-color: #283144; background-clip: padding-box; border: 1px solid #546990; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0.25rem; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
+                                    <div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
+                                        <div class="me-3 table-type search-paddind">
+
+                                            <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                                <label><input type="search" id="CustomSearchTextField" class="form-control" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class=" col-12 justify-content-between">
+                                    <button style="float:left; border:1px solid green;" class="btn btn-primary me-1" onclick="location.href='@Url.Action("Create", "Beneficiarie")'">
+                                        اضــــافة شكوى  +
+                                    </button>
                                 </div>
                             </div>
+
+
                         </div>
+
                         <div class="table-responsive text-nowrap">
                             <table id="example" class="datatables-users table border-top ">
 
@@ -96,7 +122,7 @@
                                         @foreach (var item in Model)
                                         {
                                             <tr>
-                                                <td>
+                                                <td class="overflow-hidden">
                                                     @Html.DisplayFor(modelItem => item.TitleComplaint)
                                                 </td>
                                                 <td> @Html.DisplayFor(modelItem => item.UploadDate)</td>

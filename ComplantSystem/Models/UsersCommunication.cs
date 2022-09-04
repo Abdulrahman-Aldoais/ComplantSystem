@@ -15,22 +15,22 @@ namespace ComplantSystem.Models
         public int BenfId { get; set; }
         public string BenfName { get; set; }
         public string BenfPhoneNumber { get; set; }
-        public int BenfGovId { get; set; }
-        [ForeignKey("BenfGovId")]
+        public virtual int GovernorateId { get; set; }
+        [ForeignKey("GovernorateId")]
         public virtual Governorate Governorate { get; set; }
-        public int BenfDirId { get; set; }
-        [ForeignKey("BenfDirId")]
+        public virtual int DirectorateId { get; set; }
+        [ForeignKey("DirectorateId")]
         public virtual Directorate Directorate { get; set; }
-        public int BenfSubDirId { get; set; }
-        [ForeignKey("BenfSubDirId")]
+        public virtual int SubDirectorateId { get; set; }
+        [ForeignKey("SubDirectorateId")]
         public virtual SubDirectorate SubDirectorate { get; set; }
         public string UserId { get; set; }
-        [ForeignKey("UserId")]
-        public virtual ApplicationUser UsersHas { get; set; }
+        public string NameUserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
         public string UserName { get; set; }
         public string TypeCommuncationId { get; set; }
-        [ForeignKey("TypeCommuncationId")]
-        public TypeCommunication TypeCommunication { get; set; }
+        public virtual TypeCommunication TypeCommunication { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
         public string Titile { get; set; }
         public string reason { get; set; }
 

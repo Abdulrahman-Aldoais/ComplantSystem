@@ -190,7 +190,7 @@
                                             <div class="accordion-body">
                                                 @if (Model.compalint.StatusCompalint?.Name == "مرفوضة")
                                                 {
-                                                    <span class="badge bg-danger text-white"> @Model.compalint.TypeComplaint?.Type</span>
+                                                    <span class="badge bg-danger text-white"> @Model.compalint.StatusCompalint?.Name</span>
 
                                                 }
                                                 else
@@ -485,7 +485,7 @@
                                         </div>
                                         @*<p class="card-text"></p>*@
                                         <p class="card-text"><small class="text-muted">@Model.compalint.UploadDate</small></p>
-                                        <div class="text-right">
+                                        <div class="text-right ">
                                             <a asp-action="Download" asp-controller="GeneralFederation" asp-route-id="@Model.compalint.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
                                         </div>
                                     </div>
@@ -494,10 +494,15 @@
                         </div>
                     </div>
                     <hr />
-                   
-
+                    <div class="container">
+                        <div class="center border-bottom"style=" margin-left: 35%; margin-right: 35%;" >
+                            <div class="text-right">
+                                <a asp-action="RejectedThisComplaint" asp-controller="GeneralFederation" asp-route-id="@Model.compalint.Id" class="btn btn-outline-danger"> رفض هذه الشكوى</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
 
 
@@ -590,11 +595,13 @@
                     </div>
 
                 </div>
+               
             </div>
         </div>
 
         <!--/ Form with Image horizontal Modal -->
     </div>
+  
 </div>
 @section Scripts{
     <script>

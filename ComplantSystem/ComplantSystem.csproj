@@ -1509,7 +1509,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\ViewModels\NewFolder\" />
     <Folder Include="Models\CompalintInformation\" />
+    <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 
   <ItemGroup>

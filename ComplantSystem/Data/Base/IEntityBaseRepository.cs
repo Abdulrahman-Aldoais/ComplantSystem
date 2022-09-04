@@ -1,4 +1,5 @@
-﻿using ComplantSystem.Models.Data.ViewModels;
+﻿using ComplantSystem.Data.ViewModels;
+using ComplantSystem.Models.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -13,6 +14,8 @@ namespace ComplantSystem.Models.Data.Base
         Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeproperties);
         Task<T> GetByIdAsync(string id);
         Task<SelectDataDropdownsVM> GetNewCompalintsDropdownsValues();
+        Task<SelectDataCommuncationDropdownsVM> GetAddCommunicationDropdownsValues();
+
         Task<ApplicationUser> FindIdentityNumber(string identity);
         Task<ApplicationUser> FindPhoneNumber(string phone);
         Task AddNewSolutionCompalintAsync(string id, T entity);

@@ -345,9 +345,9 @@ namespace ComplantSystem.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdentityNumber = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GovernorateId = table.Column<int>(type: "int", nullable: false),
                     DirectorateId = table.Column<int>(type: "int", nullable: false),
                     SubDirectorateId = table.Column<int>(type: "int", nullable: false),
@@ -593,8 +593,18 @@ namespace ComplantSystem.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    UsersHasId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    BenfId = table.Column<int>(type: "int", nullable: false),
+                    BenfName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BenfPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GovernorateId = table.Column<int>(type: "int", nullable: false),
+                    DirectorateId = table.Column<int>(type: "int", nullable: false),
+                    SubDirectorateId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    NameUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypeCommuncationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypeCommunicationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Titile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     reason = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -602,8 +612,36 @@ namespace ComplantSystem.Migrations
                 {
                     table.PrimaryKey("PK_UsersCommunications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UsersCommunications_User_UsersHasId",
-                        column: x => x.UsersHasId,
+                        name: "FK_UsersCommunications_Directorates_DirectorateId",
+                        column: x => x.DirectorateId,
+                        principalSchema: "Identity",
+                        principalTable: "Directorates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UsersCommunications_Governorates_GovernorateId",
+                        column: x => x.GovernorateId,
+                        principalSchema: "Identity",
+                        principalTable: "Governorates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UsersCommunications_SubDirectorates_SubDirectorateId",
+                        column: x => x.SubDirectorateId,
+                        principalSchema: "Identity",
+                        principalTable: "SubDirectorates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UsersCommunications_TypeCommunications_TypeCommunicationId",
+                        column: x => x.TypeCommunicationId,
+                        principalSchema: "Identity",
+                        principalTable: "TypeCommunications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UsersCommunications_User_UserId",
+                        column: x => x.UserId,
                         principalSchema: "Identity",
                         principalTable: "User",
                         principalColumn: "Id",
@@ -879,12 +917,12 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "e9257003-6e9a-4fc2-a005-f180a603868e", "0be6e4d0-f87e-448b-92d4-8301b0940b53", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
-                    { "6caa4ff9-f398-4525-8a4d-198b9c2ac17f", "2a67f865-857d-45ca-8785-9a9f0d681bce", "AdminGovernorate", "ADMINGOVERNORATE" },
-                    { "d7f7f7ce-e350-4e81-a443-c510e4f1732b", "76c6b905-a62e-4971-bbd6-0047c6fd8b24", "AdminDirectorate", "ADMINDIRECTORATE" },
-                    { "51e4af46-5b8d-4b87-a8fb-67786c7304c8", "b69dfce1-df36-4c72-ad35-d4630242efd3", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" },
-                    { "6330bc07-3985-4ce5-b5ae-67ea4eb9ed24", "8f0243c9-fe88-4e24-bb5a-c5fe829adbfc", "AdminVillages", "ADMINVILLAGES" },
-                    { "0d6f9502-db09-4163-999a-310b507e9dc2", "d4d8dc9b-1bc3-4c87-8847-53f52b634ec3", "Beneficiarie", "BENEFICIARIE" }
+                    { "a4937029-c56c-4663-8934-378d6f46efd9", "bd31e929-2692-4a55-8251-9972f3535774", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
+                    { "719899a2-536c-4577-9b84-8809c630ef8d", "81abcb67-69dc-4417-a973-84f42b42028c", "AdminGovernorate", "ADMINGOVERNORATE" },
+                    { "9698bd6c-624f-4a5d-9b00-a84aafa0949f", "669bea7e-a57c-4309-b9eb-6f64ea9e7ff2", "AdminDirectorate", "ADMINDIRECTORATE" },
+                    { "295cc8ea-7c73-495b-b459-123727da106b", "5d0fe835-591d-44b7-bad5-70a6ca1c8793", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" },
+                    { "b3266bc9-9394-49e1-9804-a1c1226fd3d9", "f5983285-5c20-43b9-b1b6-1defc928dd8d", "AdminVillages", "ADMINVILLAGES" },
+                    { "28a9ffdb-4eff-4006-b5ba-c262bb6542b2", "c38676c3-571c-4d9d-a375-b9ea42c3a90e", "Beneficiarie", "BENEFICIARIE" }
                 });
 
             migrationBuilder.InsertData(
@@ -893,8 +931,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 3, "جمعية الحبوب" },
                     { 2, "جمعية الالبان" },
+                    { 3, "جمعية الحبوب" },
                     { 1, "جمعية البن" }
                 });
 
@@ -924,12 +962,22 @@ namespace ComplantSystem.Migrations
 
             migrationBuilder.InsertData(
                 schema: "Identity",
+                table: "TypeCommunications",
+                columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
+                values: new object[,]
+                {
+                    { "0198b446-8a7a-4ebb-95ac-9d2d5a4d66ad", new DateTime(2022, 9, 4, 1, 15, 34, 82, DateTimeKind.Local).AddTicks(8000), "تماطل", null, "قيمة افتراضية من النضام" },
+                    { "61fb9506-0240-43e0-a8ac-d295994906d8", new DateTime(2022, 9, 4, 1, 15, 34, 82, DateTimeKind.Local).AddTicks(8773), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Identity",
                 table: "TypeComplaints",
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "fe05cbf4-62bd-4657-bc58-770b3cb2298f", new DateTime(2022, 8, 31, 17, 28, 27, 687, DateTimeKind.Local).AddTicks(2551), "زراعية", null, "قيمة افتراضية من النضام" },
-                    { "c8145422-a2d6-4c6f-b324-a095232d438f", new DateTime(2022, 8, 31, 17, 28, 27, 687, DateTimeKind.Local).AddTicks(3117), "فساد", null, "قيمة افتراضية من النضام" }
+                    { "3c6d604f-1570-44a6-bc4f-a4b47abc30ca", new DateTime(2022, 9, 4, 1, 15, 34, 88, DateTimeKind.Local).AddTicks(199), "زراعية", null, "قيمة افتراضية من النضام" },
+                    { "570dc7b7-be5a-4303-9311-b146ec16d04a", new DateTime(2022, 9, 4, 1, 15, 34, 88, DateTimeKind.Local).AddTicks(1071), "فساد", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -1273,10 +1321,34 @@ namespace ComplantSystem.Migrations
                 column: "UserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsersCommunications_UsersHasId",
+                name: "IX_UsersCommunications_DirectorateId",
                 schema: "Identity",
                 table: "UsersCommunications",
-                column: "UsersHasId");
+                column: "DirectorateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersCommunications_GovernorateId",
+                schema: "Identity",
+                table: "UsersCommunications",
+                column: "GovernorateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersCommunications_SubDirectorateId",
+                schema: "Identity",
+                table: "UsersCommunications",
+                column: "SubDirectorateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersCommunications_TypeCommunicationId",
+                schema: "Identity",
+                table: "UsersCommunications",
+                column: "TypeCommunicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersCommunications_UserId",
+                schema: "Identity",
+                table: "UsersCommunications",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserTokens_UserId1",

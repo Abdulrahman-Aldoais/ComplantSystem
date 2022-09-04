@@ -21,7 +21,6 @@ namespace ComplantSystem.Controllers
         private readonly ICompalintRepository _compReop;
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ISolveCompalintService solveCompalintService;
         private readonly IWebHostEnvironment _env;
         private readonly ICategoryService _service;
         private readonly AppCompalintsContextDB _context;
@@ -32,7 +31,6 @@ namespace ComplantSystem.Controllers
             ICompalintRepository compReop,
             IUserService userService,
             UserManager<ApplicationUser> userManager,
-            ISolveCompalintService solveCompalintService,
 
             IWebHostEnvironment env,
 
@@ -42,7 +40,6 @@ namespace ComplantSystem.Controllers
             _compReop = compReop;
             _userService = userService;
             _userManager = userManager;
-            this.solveCompalintService = solveCompalintService;
             _service = service;
             _context = context;
             _env = env;

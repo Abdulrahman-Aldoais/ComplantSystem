@@ -16,10 +16,7 @@
         <!-- Account -->
         @*<div class="card-body">
                 <div class="gap-4 d-flex align-items-start align-items-sm-center">
-
                     <div class="button-wrapper">
-
-
                     </div>
                 </div>
             </div>*@
@@ -64,7 +61,6 @@
                                 <select class="form-control directorate"></select>
                                 <label class="col-form-label">العزل</label>
                                 <select class="form-control subdirectorate"></select>
-
                             </div>*@
 
                         <div class="col-md-6 mb-3">
@@ -104,123 +100,10 @@
     </div>
 
 
-    @section Scripts{
-
-      
-            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-       
-        <script>
 
 
-            $(".governorate").change(function () {
-                let id = $(".governorate option:selected").val();
-                $.ajax({
-                    url: "/Beneficiarie/Complaints/GetDirectorates",
-                    type: "GET",
-                    data: { GovernorateId: id },
-                    success: function (data) {
-                        let items = '';
-                        $.each(data, function (i, directorate) {
-                            items += '<option value="' + directorate.value + '">' + directorate.text + "</option>";
-                        });
-                        $(".directorate").html(items);
-                    }
+    @section Scripts {
 
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-                });
-
-
-                $("#CountryId").change(function () {
-                    $("#StateId option").remove()
-                    var url = "/Address/GetState/?CountryId="   $("#CountryId").val();
-                    $.getJSON(url, function (data) {
-                        $.each(data, function (key, val) {
-                            var ele = $('<option value="'   val.Id   '">'   val.Name   '</option>');
-                            $("#StateId").append(ele);
-                        });
-                    });
-                });
-
-
-                $("#StateId").change(function () {
-                    $("#CityId option").remove()
-                    var url = "/Address/GetCity/?StateId="   $("#StateId").val();
-                    $.getJSON(url, function (data) {
-                        $.each(data, function (key, val) {
-                            var ele = $('<option value="'   val.Id   '">'   val.Name   '</option>');
-                            $("#CityId").append(ele);
-                        });
-                    });
-                });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                //$(".governorate").change(function () {
-                //    let id = $(".governorate option:selected").val();
-                //    $.ajax({
-                //        url: "/Beneficiarie/Complaints/GetDirectorates",
-                //        type: "GET",
-                //        data: { GovernorateId: id },
-                //        success: function (data) {
-                //            let items = '';
-                //            $.each(data, function (i, directorate) {
-                //                items += '<option value="' + directorate.value + '">' + directorate.text + "</option>";
-                //            });
-                //            $(".directorate").html(items);
-                //        }
-
-
-                //    });
-
-
-                //$.ajax({
-                //    url: "/Beneficiarie/Complaints/GetDirectorates",
-                //    type: "GET",
-                //    data: { GovernorateId: id },
-                //    success: function (data) {
-                //        let items = '';
-                //        $.each(data, function (i, directorate) {
-                //            items += '<option value="' + directorate.value + '">' + directorate.text + "</option>";
-                //        });
-                //        $(".directorate").html(items);
-                //    }
-
-
-                //});
-
-
-            })
-
-                    //$(".save").click(function () {
-                    //    let user = $(".user").val();
-                    //    let cityId = $(".city option:selected").val();
-                    //    let cityname = $(".city option:selected").text();
-                    //    let countryname = $(".country option:selected").text();
-                    //    $.ajax({
-                    //        url: "/Ajax/AddUser",
-                    //        type: "POST",
-                    //        data: { username: user, cid: cityId },
-                    //        success: function (data) {
-                    //            let tr = "<tr><td>" + user + "</td> <td>" + cityname + "</td> <td>" + countryname + "</td></tr>";
-                    //            $("tbody").append(tr);
-                    //        }
-                    //    })
-                    //})
-
-        </script>
-    }
-
+}

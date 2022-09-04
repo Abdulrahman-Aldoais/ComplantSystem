@@ -1,7 +1,7 @@
 ﻿using ComplantSystem.Data.Base;
 using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
-using ComplantSystem.Models.Data.Base;
+using ComplantSystem.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -21,32 +21,28 @@ namespace ComplantSystem
     [Authorize(Roles = "Beneficiarie")]
     public class BeneficiarieController : Controller
     {
-        private readonly ILocationRepo<Governorate> governorate;
-        private readonly ILocationRepo<Directorate> directorate;
-        private readonly ILocationRepo<SubDirectorate> subDirectorate;
-        private readonly ILocationRepo<Village> village;
 
         private readonly ICompalintRepository _service;
+        private readonly IUserService userService;
+        private readonly ICompalintRepository compalintRepository;
         private readonly IWebHostEnvironment _env;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly AppCompalintsContextDB _context;
 
         public BeneficiarieController(
-            ILocationRepo<Governorate> governorate,
-            ILocationRepo<Directorate> directorate,
-            ILocationRepo<SubDirectorate> subDirectorate,
-            ILocationRepo<Village> village,
+
             ICompalintRepository service,
+            IUserService userService,
+            ICompalintRepository compalintRepository,
             IWebHostEnvironment env,
               UserManager<ApplicationUser> userManager,
             AppCompalintsContextDB context)
         {
-            this.governorate = governorate;
-            this.directorate = directorate;
-            this.subDirectorate = subDirectorate;
-            this.village = village;
+
 
             _service = service;
+            this.userService = userService;
+            this.compalintRepository = compalintRepository;
             _context = context;
             _env = env;
             this.userManager = userManager;
@@ -124,13 +120,13 @@ namespace ComplantSystem
 
 
 
-        [HttpGet]
-        public JsonResult GetDirectorates(int GovernorateId)
-        {
-            var g = governorate.Find(GovernorateId);
-            var dire = directorate.ListByFilter(cc => cc.Governorate == g);
-            return Json(new SelectList(dire, "Id", "Name"));
-        }
+        //[HttpGet]
+        //public JsonResult GetDirectorates(int GovernorateId)
+        //{
+        //    var g = governorate.Find(GovernorateId);
+        //    var dire = directorate.ListByFilter(cc => cc.Governorate == g);
+        //    return Json(new SelectList(dire, "Id", "Name"));
+        //}
 
 
 
@@ -205,7 +201,75 @@ namespace ComplantSystem
             return View(model);
         }
 
+        public async Task<IActionResult> AllCommunication()
+        {
+            var currentUser = await userManager.GetUserAsync(User);
+            var UserId = currentUser.Id;
+            var communicationDropdownsData = await _service.GetAddCommunicationDropdownsValues();
 
+            ViewBag.TypeCommunication = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Name");
+
+
+            var result = _service.GetCommunicationBy(UserId);
+
+            int totalCompalints = result.Count();
+
+            ViewBag.totalCompalints = totalCompalints;
+
+            return View(result.ToList());
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddCommunication()
+        {
+
+            var currentUser = await userManager.GetUserAsync(User);
+            var currentName = currentUser.FullName;
+            var communicationDropdownsData = await _service.GetAddCommunicationDropdownsValues();
+            ViewBag.typeCommun = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Type");
+            ViewBag.UsersName = new SelectList(communicationDropdownsData.ApplicationUsers, "Id", "FullName");
+
+
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddCommunication(AddCommunicationVM communication)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await userManager.GetUserAsync(User);
+                var communicationDropdownsData = await _service.GetAddCommunicationDropdownsValues();
+                ViewBag.typeCommun = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Type");
+                ViewBag.UsersName = new SelectList(communicationDropdownsData.ApplicationUsers, "Id", "Name");
+
+
+                var currentName = currentUser.FullName;
+                var currentPhone = currentUser.PhoneNumber;
+                var currentGov = currentUser.GovernorateId;
+                var currentDir = currentUser.DirectorateId;
+                var currentSub = currentUser.SubDirectorateId;
+
+                await _service.CreateCommuncationAsync(new AddCommunicationVM
+                {
+                    Titile = communication.Titile,
+                    NameUserId = communication.NameUserId,
+                    reason = communication.reason,
+                    CreateDate = communication.CreateDate,
+                    TypeCommuncationId = communication.TypeCommuncationId,
+                    UserId = currentUser.Id,
+                    BenfName = currentName,
+                    BenfPhoneNumber = currentPhone,
+                    GovernorateId = currentGov,
+                    DirectorateId = currentDir,
+                    SubDirectorateId = currentSub,
+
+                });
+
+                return RedirectToAction(nameof(AllCommunication));
+            }
+            return View(communication);
+        }
 
 
         public async Task<IActionResult> ViewCompalintDetails(string id)
@@ -286,20 +350,7 @@ namespace ComplantSystem
         }
 
 
-        public async Task<IActionResult> AllCommunication()
-        {
-            return View();
-        }
 
-        public async Task<IActionResult> AddCommunication()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddCommunication(UsersCommunication communication)
-        {
-            return View();
-        }
 
         [AllowAnonymous]
         public async Task<IActionResult> FilterCompalintsBySearch(string term)
@@ -328,7 +379,7 @@ namespace ComplantSystem
                 return NotFound();
             }
 
-            //await _compService.IncreamentDownloadCount(id);
+
 
             var path = "~/Uploads/" + selectedFile.FileName;
             Response.Headers.Add("Expires", DateTime.Now.AddDays(-3).ToLongDateString());

@@ -1,6 +1,6 @@
 ﻿namespace ComplantSystem.Service
 {
-    public interface ISolveCompalintService
+    public interface ICompalintService
     {
 
     }
