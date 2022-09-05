@@ -32,6 +32,7 @@ namespace ComplantSystem.Service
         IQueryable<UserViewModels> Search(string term);
         Task<OperationResult> TogelBlockUserAsync(string UserId);
         Task<int> UserRegistrationCountAsync();
+        Task<ApplicationUser> EnableAndDisbleUser(string id);
         Task ChaingeStatusAsync(string id, bool status);
         Task<int> UserRegistrationCountAsync(int month);
         //Task<SelectDataDropdownsVM> GetNewCompalintsDropdownsValues();

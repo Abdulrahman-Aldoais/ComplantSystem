@@ -13,9 +13,11 @@
                 </div>
             </div>
             <div class="d-flex col-12 justify-content-between">
-                <button class="btn btn-primary " onclick="location.href='@Url.Action("AddCategory", "GeneralFederation")'">
+                <button class="btn btn-primary sweet-7" onclick="_gaq.push(['_trackEvent', 'exit', 'footer', 'Lipis']);">
+                    @*onclick="location.href='@Url.Action("AddCategory", "GeneralFederation")'"*@
                     <span class="bx bx-plus me-0 me-lg-2">اضــــافة صنف </span>
                 </button>
+                <button class="btn btn-primary sweet-7" onclick="_gaq.push(['_trackEvent', 'exit', 'footer', 'Lipis']);">Try It</button>
             </div>
             <br />
             <div class="table-responsive text-nowrap">
@@ -60,7 +62,7 @@
                                             @Html.DisplayFor(modelItem => item.CreatedDate)
                                         </td>
                                         <td> @Html.DisplayFor(modelItem => item.UsersNameAddType)</td>
-                         <td>
+                                        <td>
                                             <a class="btn btn-sm btn-icon item-edit" asp-action="Edit" asp-route-id="@item.Id"><i class="bx bxs-edit"></i></a>
                                         </td>
                                         <td style="">
@@ -82,13 +84,13 @@
                                                     <li>
                                                         <a class="dropdown-item text-danger delete-record" asp-action="Delete" asp-route-id="@item.Id">حذف</a>
                                                     </li>
-                                                   
+
                                                 </ul>
 
                                             </div>
-                            
+
                                         </td>
-                                      
+
                                     </tr>
                                 }
                             }
@@ -106,5 +108,25 @@
 
 
 
-
 <div class="content-backdrop fade"></div>
+@section scripts{
+    <script src="https://lipis.github.io/bootstrap-sweetalert/lib/sweet-alert.js"></script>
+    <script>
+        swal({
+            title: "An input!",
+            text: "Write something interesting:",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            inputPlaceholder: "Write something"
+        }, function (inputValue) {
+            if (inputValue === false) return false;
+            if (inputValue === "") {
+                swal.showInputError("You need to write something!");
+                return false
+            }
+            swal("Nice!", "You wrote: " + inputValue, "success");
+
+        });
+</script>
+}

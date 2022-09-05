@@ -30,7 +30,14 @@ namespace ComplantSystem.Configuration
                          Name = "همدان",
                          GovernorateId = 1,
 
-                     }
+                     },
+                      new Directorate
+                      {
+                          Id = 4,
+                          Name = "الحيمة",
+                          GovernorateId = 1,
+
+                      }
                 );
         }
 

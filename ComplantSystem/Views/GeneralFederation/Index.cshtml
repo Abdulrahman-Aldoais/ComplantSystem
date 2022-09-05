@@ -33,7 +33,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="content-left">
-                            <span> عدد المستخدمين الكلي </span>
+                            <span> عدد المستخدمين  </span>
                             <div class="d-flex align-items-end mt-2">
                                 <h4 class="me-2 mb-0">@ViewBag.totalUsers</h4>
                             </div>
@@ -82,137 +82,7 @@
         </div>
     </div>
 
-
-    <!--/ Referral, conversion, impression & income charts -->
-    <!-- Activity -->
-    <div class="row g-4 mb-4">
-        <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">النشاطات</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="p-0 m-0">
-                        <li class="d-flex pb-2 mb-4">
-                            <div class="avatar avatar-sm flex-shrink-0 me-3">
-                                <span class="avatar-initial bg-label-primary rounded-circle">
-                                    <i class="bx bx-cube"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column w-100">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span> الشكاوي المرفوعة</span>
-                                    <span class="text-muted">@ViewBag.totalUsers</span>
-                                </div>
-                                <div class="progress" style="height: 6px">
-                                    <div class="progress-bar bg-primary"
-                                         style="width: 40%"
-                                         role="progressbar"
-                                         aria-valuenow="40"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex pb-2 mb-4">
-                            <div class="avatar avatar-sm flex-shrink-0 me-3">
-                                <span class="avatar-initial bg-label-success rounded-circle">
-                                    <i class="bx bx-dollar"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column w-100">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>البلاغات على الموظف</span>
-                                    <span class="text-muted">@ViewBag.totalcompSolv</span>
-                                </div>
-                                <div class="progress" style="height: 6px">
-                                    <div class="progress-bar bg-success"
-                                         style="width: 80%"
-                                         role="progressbar"
-                                         aria-valuenow="80"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex pb-2 mb-4">
-                            <div class="avatar avatar-sm flex-shrink-0 me-3">
-                                <span class="avatar-initial bg-label-warning rounded-circle">
-                                    <i class="bx bx-trending-up"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column w-100">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>الشكاوي المرفوعة</span>
-                                    <span class="text-muted">55</span>
-                                </div>
-                                <div class="progress" style="height: 6px">
-                                    <div class="progress-bar bg-warning"
-                                         style="width: 80%"
-                                         role="progressbar"
-                                         aria-valuenow="80"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-2">
-                            <div class="avatar avatar-sm flex-shrink-0 me-3">
-                                <span class="avatar-initial bg-label-danger rounded-circle">
-                                    <i class="bx bx-check"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column w-100">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>عدد البلاغات</span>
-                                    <span class="text-muted">12</span>
-                                </div>
-                                <div class="progress" style="height: 6px">
-                                    <div class="progress-bar bg-danger"
-                                         style="width: 25%"
-                                         role="progressbar"
-                                         aria-valuenow="25"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">  اجمالي الشكاوى حسب المحافظة</h5>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <div class="dropdown mb-4">
-
-                        <div class="dropdown mb-4">
-                            <select id="FilterType"
-                                    name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
-                                    class="select2 form-select select2-hidden-accessible"
-                                    tabindex="-1" aria-hidden="true" data-select2-id="10">
-                                <option value="0" data-select2-id="12">المحافظة</option>
-                                <option value="جديدة">جديدة</option>
-                                <option value="محلولة">محلولة</option>
-                                <option value="غير محلولة">غير محلولة</option>
-                                <option value="مرفوعة">مرفوعة</option>
-                            </select>
-                        </div>
-                        <p>21</p>
-                    </div>
-                    <div id="growthRadialChart"></div>
-                    <h6 class="mt-5 mb-0">عدد الشكاوي المرفوعة</h6>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
+    <div class="row mb-5">
 
         <!--user all-->
         <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mb-xl-0">
@@ -328,8 +198,141 @@
 
         <!--user all-->
     </div>
+    <!--/ Referral, conversion, impression & income charts -->
+    <!-- Activity -->
+    <div class="row g-4 mb-4">
+        <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">النشاطات</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="p-0 m-0">
+                        <li class="d-flex pb-2 mb-4">
+                            <div class="avatar avatar-sm flex-shrink-0 me-3">
+                                <span class="avatar-initial bg-label-primary rounded-circle">
+                                    <i class="bx bx-cube"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column w-100">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span> الشكاوي المرفوعة</span>
+                                    <span class="text-muted">@ViewBag.totalUsers</span>
+                                </div>
+                                <div class="progress" style="height: 6px">
+                                    <div class="progress-bar bg-primary"
+                                         style="width: 40%"
+                                         role="progressbar"
+                                         aria-valuenow="40"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="d-flex pb-2 mb-4">
+                            <div class="avatar avatar-sm flex-shrink-0 me-3">
+                                <span class="avatar-initial bg-label-success rounded-circle">
+                                    <i class="bx bx-dollar"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column w-100">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>البلاغات على الموظف</span>
+                                    <span class="text-muted">@ViewBag.totalcompSolv</span>
+                                </div>
+                                <div class="progress" style="height: 6px">
+                                    <div class="progress-bar bg-success"
+                                         style="width: 80%"
+                                         role="progressbar"
+                                         aria-valuenow="80"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="d-flex pb-2 mb-4">
+                            <div class="avatar avatar-sm flex-shrink-0 me-3">
+                                <span class="avatar-initial bg-label-warning rounded-circle">
+                                    <i class="bx bx-trending-up"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column w-100">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>الشكاوي المرفوعة</span>
+                                    <span class="text-muted">55</span>
+                                </div>
+                                <div class="progress" style="height: 6px">
+                                    <div class="progress-bar bg-warning"
+                                         style="width: 80%"
+                                         role="progressbar"
+                                         aria-valuenow="80"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="d-flex mb-2">
+                            <div class="avatar avatar-sm flex-shrink-0 me-3">
+                                <span class="avatar-initial bg-label-danger rounded-circle">
+                                    <i class="bx bx-check"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column w-100">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>عدد البلاغات</span>
+                                    <span class="text-muted">12</span>
+                                </div>
+                                <div class="progress" style="height: 6px">
+                                    <div class="progress-bar bg-danger"
+                                         style="width: 25%"
+                                         role="progressbar"
+                                         aria-valuenow="25"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
+
+
+        <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">  اجمالي الشكاوى حسب المحافظة</h5>
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <div class="dropdown mb-4">
+
+                        <div class="dropdown mb-4">
+                            <select id="FilterType"
+                                    name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
+                                    class="select2 form-select select2-hidden-accessible"
+                                    tabindex="-1" aria-hidden="true" data-select2-id="10">
+                                <option value="0" data-select2-id="12">المحافظة</option>
+                                <option value="جديدة">جديدة</option>
+                                <option value="محلولة">محلولة</option>
+                                <option value="غير محلولة">غير محلولة</option>
+                                <option value="مرفوعة">مرفوعة</option>
+                            </select>
+                        </div>
+                        <p>21</p>
+                    </div>
+                    <div id="growthRadialChart"></div>
+                    <h6 class="mt-5 mb-0">عدد الشكاوي المرفوعة</h6>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
+</div>
 
     <!-- / Content -->
     <script src="~/assets/vendor/libs/apex-charts/apexcharts.js"></script>

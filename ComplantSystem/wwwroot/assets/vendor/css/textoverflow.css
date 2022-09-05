@@ -1,13 +1,14 @@
-/*#OverflowTable {
+#OverflowTable {
 table-layout: fixed;
 
-}*/
-#example {
-    table-layout: fixed;
 }
+/*#example {
+    table-layout: fixed;
+}*/
 
 .overfolwtext-td {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+

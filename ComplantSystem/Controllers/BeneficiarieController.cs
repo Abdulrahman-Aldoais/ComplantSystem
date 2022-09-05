@@ -329,12 +329,12 @@ namespace ComplantSystem
             else
             {
                 var so = await _context.Compalints_Solutions.Where(a => a.Id == idS).FirstOrDefaultAsync();
-                var cc = await _context.UploadsComplainte.Where(m => m.Id == so.UploadsComplainteId).FirstOrDefaultAsync();
+                var cc = await _context.UploadsComplaintes.Where(m => m.Id == so.UploadsComplainteId).FirstOrDefaultAsync();
                 cc.StagesComplaintId += 3;
                 so.SolutionProvIdentity = so.SolutionProvIdentity;
                 _context.Compalints_Solutions.Update(so);
                 await _context.SaveChangesAsync();
-                _context.UploadsComplainte.Update(cc);
+                _context.UploadsComplaintes.Update(cc);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 

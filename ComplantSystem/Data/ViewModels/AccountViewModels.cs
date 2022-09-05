@@ -46,12 +46,19 @@ namespace ComplantSystem
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "ادخل رقم البطاقة الشخصية"), MaxLength(12, ErrorMessage = "يجب ان لا يكون رقم البطاقة اكثر من اثنا عشر ارقام "), MinLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اقل من تسعة ارقام")]
-        [Remote(action: "CheckingIdentityNumber", controller: "ManageUsers")]
+        //[Remote(action: "CheckingIdentityNumber", controller: "ManageUsers")]
         public string IdentityNumber { get; set; }
         [Required(ErrorMessage = "ادخل رقم الهاتف"), MaxLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اكثر من تسعة ارقام "), MinLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اقل من تسعة ارقام")]
         [Remote(action: "CheckingPhoneNumber", controller: "ManageUsers")]
         public string PhoneNumber { get; set; }
         //public virtual ApplicationRole Role { get; set; }
+        public IEnumerable<Governorate> GovernoratesList { get; set; }
+        [Required(ErrorMessage = "اختر المحافظة")]
+        public int GovernorateId { get; set; }
+        [Required(ErrorMessage = "اختر المديرية")]
+        public int DirectorateId { get; set; }
+        [Required(ErrorMessage = "اختر العزلة")]
+        public int SubDirectorateId { get; set; }
         public byte[] ProfilePicture { get; set; }
         public bool IsBlocked { get; set; }
         [Display(Name = "نوع المستخدم")]
@@ -122,7 +129,7 @@ namespace ComplantSystem
         [Required(ErrorMessage = "ادخل الاسم ")]
         public string FullName { get; set; }
         [Required(ErrorMessage = "ادخل رقم البطاقة الشخصية"), MaxLength(12, ErrorMessage = "يجب ان لا يكون رقم البطاقة اكثر من اثنا عشر ارقام "), MinLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اقل من تسعة ارقام")]
-        [Remote(action: "CheckingIdentityNumber", controller: "ManageUsers")]
+        [Remote(action: "CheckingIdentityNumber", controller: "ManageUsers", ErrorMessage = "ksdfsdfsf")]
         public string IdentityNumber { get; set; }
         [Required(ErrorMessage = "ادخل رقم الهاتف"), MaxLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اكثر من تسعة ارقام "), MinLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اقل من تسعة ارقام")]
         [Remote(action: "CheckingPhoneNumber", controller: "ManageUsers")]

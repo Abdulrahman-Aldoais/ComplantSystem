@@ -128,7 +128,6 @@ namespace ComplantSystem.Controllers
                 var role = claimsIdentity.FindFirst(ClaimTypes.Role);
                 string userRole = role.Value;
                 string UserId = claim.Value;
-
                 var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
                 var idComp = model.AddSolution.UploadsComplainteId;
                 var solution = new Compalints_Solution()
@@ -153,7 +152,7 @@ namespace ComplantSystem.Controllers
                 if (dbComp != null)
                 {
                     dbComp.StatusCompalintId = 2;
-                    dbComp.StagesComplaintId = 2;
+                    dbComp.StagesComplaintId = 4;
                     await _context.SaveChangesAsync();
                 }
 
@@ -163,6 +162,7 @@ namespace ComplantSystem.Controllers
             }
 
             return NotFound();
+
 
         }
 
@@ -186,6 +186,56 @@ namespace ComplantSystem.Controllers
             ViewBag.totalCompalints = totalCompalints;
 
             return View(Getrejected);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RejectedThisComplaint(ProvideSolutionsVM model, string id)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var role = claimsIdentity.FindFirst(ClaimTypes.Role);
+                string userRole = role.Value;
+                string UserId = claim.Value;
+                var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+                var idComp = model.RejectedComplaintVM.UploadsComplainteId;
+                var complaintsRejected = new ComplaintsRejected()
+                {
+                    UserId = subuser.Id,
+                    RejectedProvName = subuser.FullName,
+                    UploadsComplainteId = model.RejectedComplaintVM.UploadsComplainteId,
+                    RejectedUserProvIdentity = subuser.IdentityNumber,
+                    reume = model.RejectedComplaintVM.reume,
+                    DateSolution = DateTime.Now,
+                    Role = userRole,
+
+
+                };
+
+                _context.ComplaintsRejecteds.Add(complaintsRejected);
+                await _context.SaveChangesAsync();
+
+
+                var upComp = await _compReop.FindAsync(idComp);
+                var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+                if (dbComp != null)
+                {
+                    dbComp.StatusCompalintId = 2;
+                    dbComp.StagesComplaintId = 4;
+                    await _context.SaveChangesAsync();
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("AllComplaints");
+
+            }
+
+            return NotFound();
+
 
         }
 

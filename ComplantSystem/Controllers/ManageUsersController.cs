@@ -202,6 +202,8 @@ namespace ComplantSystem.Controllers
             }
             var newUser = new EditUserViewModel
             {
+                GovernoratesList = await _context.Governorates.ToListAsync(),
+
 
                 FullName = user.FullName,
                 PhoneNumber = user.PhoneNumber,
@@ -213,6 +215,7 @@ namespace ComplantSystem.Controllers
 
 
             };
+            ViewBag.ViewGover = newUser.GovernoratesList.ToArray();
             return View(newUser);
         }
 
@@ -246,6 +249,7 @@ namespace ComplantSystem.Controllers
             }
             return View();
         }
+
         [AllowAnonymous]
 
         public async Task<IActionResult> CheckingIdentityNumber(AddUserViewModel model)
@@ -420,7 +424,13 @@ namespace ComplantSystem.Controllers
             return RedirectToAction("ViewUsers");
         }
 
+        public async Task<IActionResult> DisbleOrEnableUser(string id)
+        {
+            await _userService.EnableAndDisbleUser(id);
+            return RedirectToAction(nameof(ViewUsers));
 
+
+        }
 
 
     }

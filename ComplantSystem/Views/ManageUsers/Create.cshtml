@@ -17,7 +17,7 @@
             <div class="card mb-4">
                 <h5 class="card-header">إضافة حساب موظف </h5>
                 <!-- Account -->
-                <form asp-action="Create" asp-controller="ManageUsers" id="CreateUser" method="POST" data-ajax="true" enctype="multipart/form-data">
+                <form asp-action="Create" asp-controller="ManageUsers" method="POST" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <hr class="my-0" />
@@ -98,7 +98,7 @@
                                 <span asp-validation-for="GovernorateId" class="text-danger"></span>
 
                             </div>
-                            <div  class="col-md-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <label class="col-form-label ">المديرية</label>
                                 <select id="Directorates" class="form-control " asp-for="DirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
                                     <option value="">حدد المديرية</option>
@@ -106,10 +106,10 @@
                                 <span asp-validation-for="DirectorateId" class="text-danger"></span>
 
                             </div>
-                            <div  class="col-md-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <label class="col-form-label">العزل</label>
                                 <select id="SubDirectorate" class="form-control" asp-for="SubDirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
-                                    <option value="0">حدد العزلة</option>
+                                    <option value="">حدد العزلة</option>
                                 </select>
                                 <span asp-validation-for="SubDirectorateId" class="text-danger"></span>
 
@@ -118,7 +118,7 @@
 
                         </div>
                         <div class="form-group form-password-toggle ">
-                            <label class="form-label" >كلمة المرور</label>
+                            <label class="form-label">كلمة المرور</label>
                             <div class="input-group input-group-merge">
                                 <input id="password" asp-for="Password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
@@ -135,17 +135,17 @@
                         </div>
 
                         <div class="mt-2">
-                            @*<button type="submit" value="Create" class="btn btn-primary me-2">حفظ </button>*@
-                            <input type="submit" id="btnCreate" class="btn btn-label-success me-2" onclick="Validate(this, event);" value="حفظ" />
+                            <button type="submit" value="Create" class="btn btn-primary me-2">حفظ </button>
+                            @* <input type="submit" id="btnCreate" class="btn btn-label-success me-2" onclick="Validate(this, event);" value="حفظ" />*@
                             <button type="reset" class="btn btn-label-primary">إلغاء</button>
                         </div>
                 </form>
             </div>
         </div>
 
-            </div>
-            <!-- /Account -->
-        </div>
+    </div>
+    <!-- /Account -->
+</div>
 
     </div>
 
@@ -153,47 +153,49 @@
 
 
 @section Scripts {
- 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    <partial name="_ValidationScriptsPartial" />
 
     <script type="text/javascript">
-        function validateData() {
+            function validateData() {
 
-            if ($("#OrderCode").val() == "") {
-                swal("Please enter OrderCode !");
-                return false;
-            } else if ($("#OrderPrice").val() == "") {
-                swal("Please enter OrderPrice !");
-                return false;
-            } else {
-                return true;
+                if ($("#OrderCode").val() == "") {
+
+                    swal("Please enter OrderCode !");
+                    return false;
+                } else if ($("#OrderPrice").val() == "") {
+                    swal("Please enter OrderPrice !");
+                    return false;
+                } else {
+                    return true;
+                }
             }
-        }
 
-        function Validate(ctl, event) {
-            event.preventDefault();
-            swal({
-                title: " هل تريد بالفعل حفظ البيانات ؟",
-                text: "تاكد من ان البيانات المدخلة صحيحة !",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "حفظ",
-                cancelButtonText: "إلغاء",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-                function (isConfirm) {
-                    if (isConfirm) {
-                        if (validateData() == true) {
-                            $("#CreateUser").submit();
+            function Validate(ctl, event) {
+                event.preventDefault();
+                swal({
+                    title: " هل تريد بالفعل حفظ البيانات ؟",
+                    text: "تاكد من ان البيانات المدخلة صحيحة !",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "حفظ",
+                    cancelButtonText: "إلغاء",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            if (validateData() == true) {
+                                $("#CreateUser").submit();
+                            }
+                        } else {
+                            swal("تم الالغاء", "! لقد ألغيت عملية الحفظ", "error");
                         }
-                    } else {
-                        swal("تم الالغاء", "! لقد ألغيت عملية الحفظ", "error");
-                    }
-                });
-        }
-    </script>
+                    });
+            }
+        </script>
 
     @*<input type="submit" id="btnCreate" onclick="Validate(this, event);" value="Create" />*@
 

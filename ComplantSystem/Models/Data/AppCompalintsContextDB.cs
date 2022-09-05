@@ -168,10 +168,6 @@ namespace ComplantSystem.Models
         public DbSet<TypeComplaint> TypeComplaints { get; set; }
         //public DbSet<TypeBeneficiari> TypeBeneficiaris { get; set; }
         public DbSet<Beneficiarie> Beneficiaries { get; set; }
-        public DbSet<Compalint> UploadsComplainte { get; set; }
-        //public DbSet<User> Users { get; set; }
-        //public DbSet<Permission> Permissions { get; set; }
-
         public DbSet<Governorate> Governorates { get; set; }
         public DbSet<Directorate> Directorates { get; set; }
         public DbSet<SubDirectorate> SubDirectorates { get; set; }
@@ -179,6 +175,8 @@ namespace ComplantSystem.Models
         public DbSet<LimitationOrder> LimitationOrders { get; set; }
         public DbSet<UsersCommunication> UsersCommunications { get; set; }
         public DbSet<Compalints_Solution> Compalints_Solutions { get; set; }
+        public DbSet<ComplaintsRejected> ComplaintsRejecteds { get; set; }
+
         public DbSet<Society> Societys { get; set; }
         public DbSet<StagesComplaint> StagesComplaints { get; set; }
         public DbSet<StatusCompalint> StatusCompalints { get; set; }

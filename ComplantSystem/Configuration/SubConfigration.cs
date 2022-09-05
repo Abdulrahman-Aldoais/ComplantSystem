@@ -26,7 +26,19 @@ namespace ComplantSystem.Configuration
                             Id = 3,
                             Name = " بني سعد",
                             DirectorateId = 3,
-                        }
+                        },
+                        new SubDirectorate
+                        {
+                            Id = 4,
+                            Name = " الاحبوب",
+                            DirectorateId = 4,
+                        },
+                         new SubDirectorate
+                         {
+                             Id = 5,
+                             Name = "غوبر",
+                             DirectorateId = 4,
+                         }
 
 
                 );

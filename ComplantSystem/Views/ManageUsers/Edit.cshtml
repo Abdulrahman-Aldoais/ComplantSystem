@@ -49,7 +49,7 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                        <form asp-controller="ManageUsers" asp-action="Edit">
+                        <form asp-controller="ManageUsers" asp-action="Edit" id="EditUser">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="FullName" class="form-label">الاسم </label>
@@ -103,80 +103,36 @@
                                     }
                                     <span asp-validation-for="UserRoles" class="text-danger"></span>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="country">المحافظة</label>
-                                    <select id="country" class="select2 form-select">
-                                        <option value="">تحديد</option>
-                                        <option value="Australia">تعز</option>
-                                        <option value="Bangladesh">صنعاء</option>
-                                        <option value="Belarus">عمران</option>
-                                        <option value="Brazil">المحويت</option>
-                                        <option value="Canada">اب</option>
-                                        <option value="China">المهرة</option>
-                                        <option value="France">حضرموت</option>
-                                        <option value="Germany">صعدة</option>
-                                        <option value="India">ذمار</option>
-                                        <option value="Indonesia">عدن</option>
-                                        <option value="Israel">البيضاء</option>
-                                        <option value="Italy">الضالع</option>
-                                        <option value="Japan">الحديدة</option>
-                                        <option value="Korea">أمانة العاصمة</option>
-                                        <option value="Mexico">ابين</option>
-                                        <option value="Philippines">مأرب</option>
-                                        <option value="Russia">شبوة</option>
-                                        <option value="South Africa">الجوف</option>
-                                        <option value="Thailand">ريمة</option>
-                                        <option value="Turkey">حجة</option>
-                                        <option value="Ukraine">لحج</option>
+                                <div class="col-md-4 mb-4">
+                                    <label class="col-form-label">المحافظة</label>
+                                    <select id="Governorates" class="form-control" asp-for="GovernorateId" asp-items="@(new SelectList(ViewBag.ViewGover,"Id","Name"))">
+                                        <option value="">حدد المحافظة</option>
 
                                     </select>
+                                    <span asp-validation-for="GovernorateId" class="text-danger"></span>
+
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="language" class="form-label">المديرية</label>
-                                    <select id="language" class="select2 form-select">
-                                        <option value="">تحديد</option>
-                                        <option value="en">السبعين</option>
-                                        <option value="fr">الوحدة</option>
-                                        <option value="de">شعوب</option>
-                                        <option value="pt">التحرير</option>
+                                <div class="col-md-4 mb-4">
+                                    <label class="col-form-label ">المديرية</label>
+                                    <select id="Directorates" class="form-control " asp-for="DirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
+                                        <option value="">حدد المديرية</option>
                                     </select>
+                                    <span asp-validation-for="DirectorateId" class="text-danger"></span>
+
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="timeZones" class="form-label">العزلة</label>
-                                    <select id="timeZones" class="select2 form-select">
-                                        <option value="">تحديد</option>
-                                        <option value="-12">عزلة 888</option>
-                                        <option value="-11">عزلة 888</option>
-                                        <option value="-10">عزلة 888</option>
-                                        <option value="-9">عزلة 888</option>
-                                        <option value="-8">عزلة 888</option>
-                                        <option value="-8">عزلة 888</option>
-                                        <option value="-7">عزلة 888</option>
-                                        <option value="-7">عزلة 888</option>
-                                        <option value="-6">عزلة 888</option>
-                                        <option value="-6">عزلة 888</option>
-                                        <option value="-6">عزلة 888</option>
-                                        <option value="-6">عزلة 888</option>
-                                        <option value="-5">عزلة 888</option>
-                                        <option value="-5">عزلة 888</option>
-                                        <option value="-5">عزلة 888</option>
-                                        <option value="-4">عزلة 888</option>
-                                        <option value="-4">عزلة 888</option>
+                                <div class="col-md-4 mb-4">
+                                    <label class="col-form-label">العزل</label>
+                                    <select id="SubDirectorate" class="form-control" asp-for="SubDirectorateId" asp-items="@(new SelectList(String.Empty,"Id","Name"))">
+                                        <option value="">حدد العزلة</option>
                                     </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="currency" class="form-label">القرية</label>
-                                    <select id="currency" class="select2 form-select">
-                                        <option value="">تحديد</option>
-                                        <option value="usd">الهجرة</option>
-                                        <option value="euro">سنحان</option>
-                                        <option value="pound">ضبعات</option>
-                                        <option value="bitcoin">بني حشيش</option>
-                                    </select>
+                                    <span asp-validation-for="SubDirectorateId" class="text-danger"></span>
+
                                 </div>
                             </div>
                             <div class="mt-2">
                                 <button type="submit" class="btn btn-primary me-2">حفظ التغير</button>
+                                 <input type="submit" id="btnCreate" class="btn btn-label-success me-2" onclick="Validate(this, event);" value="حفظ" />
+
                                 <button type="reset" asp-action="Index" class="btn btn-label-secondary">إلغاء</button>
                             </div>
                         </form>
@@ -191,6 +147,124 @@
 
     <div class="content-backdrop fade"></div>
 </div>
-@section Scripts{
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts {
+
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript">
+            function validateData() {
+
+                if ($("#OrderCode").val() == "") {
+
+                    swal("Please enter OrderCode !");
+                    return false;
+                } else if ($("#OrderPrice").val() == "") {
+                    swal("Please enter OrderPrice !");
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            function Validate(ctl, event) {
+                event.preventDefault();
+                swal({
+                    title: " هل تريد بالفعل حفظ البيانات ؟",
+                    text: "تاكد من ان البيانات المدخلة صحيحة !",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "حفظ",
+                    cancelButtonText: "إلغاء",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            if (validateData() == true) {
+                                $("#EditUser").submit();
+                            }
+                        } else {
+                            swal("تم الالغاء", "! لقد ألغيت عملية الحفظ", "error");
+                        }
+                    });
+            }
+    </script>
+
+    @*<input type="submit" id="btnCreate" onclick="Validate(this, event);" value="Create" />*@
+
+    <script>
+        function upateSubCategoriesList() {
+            var selectedGovernorates = document.getElementById("Governorates").value;
+            $list = $('#Directorates');
+            $.ajax({
+                url: '/ManageUsers/GetDirectorateies/' + selectedGovernorates,
+                teyp: 'GET',
+                dataType: 'text',
+                success: function (data) {
+                    results = JSON.parse(data);
+                    $list.html('');
+                    var items = '';
+                    for (i in results) {
+                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
+                    }
+                    $list.html(items);
+
+                }
+
+
+            }
+            );
+
+        }
+        $(document).ready(function () {
+            upateSubCategoriesList();
+        });
+        $("#Governorates").on("change", function () {
+            upateSubCategoriesList();
+        });
+
+    </script>
+    <script>
+        function upateSubSubDirectorat() {
+            var selectedSubDirectorat = document.getElementById("Directorates").value;
+            $list = $('#SubDirectorate');
+            $.ajax({
+                url: '/ManageUsers/GetSubDirectorate/' + selectedSubDirectorat,
+                teyp: 'GET',
+                dataType: 'text',
+                success: function (data) {
+                    results = JSON.parse(data);
+                    $list.html('');
+                    var items = '';
+                    for (i in results) {
+                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
+                    }
+                    $list.html(items);
+
+                }
+
+
+            }
+            );
+
+        }
+        $(document).ready(function () {
+            upateSubSubDirectorat();
+        });
+        $("#Directorates").on("change", function () {
+            upateSubSubDirectorat();
+        });
+
+
+
+
+
+    </script>
+
+
+
+
+
 }

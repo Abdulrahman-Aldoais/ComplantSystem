@@ -492,6 +492,47 @@ namespace ComplantSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ComplaintsRejecteds",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UploadsComplainteId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RejectedProvName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RejectedUserProvIdentity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    reume = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateSolution = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ComplaintsRejectedId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ComplaintsRejecteds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ComplaintsRejecteds_ComplaintsRejecteds_ComplaintsRejectedId",
+                        column: x => x.ComplaintsRejectedId,
+                        principalSchema: "Identity",
+                        principalTable: "ComplaintsRejecteds",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ComplaintsRejecteds_UploadsComplaintes_UploadsComplainteId",
+                        column: x => x.UploadsComplainteId,
+                        principalSchema: "Identity",
+                        principalTable: "UploadsComplaintes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ComplaintsRejecteds_User_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserClaims",
                 schema: "Identity",
                 columns: table => new
@@ -737,6 +778,104 @@ namespace ComplantSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Compalint",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TitleComplaint = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TypeComplaintId = table.Column<int>(type: "int", nullable: false),
+                    TypeComplaintId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DescComplaint = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SocietyId = table.Column<int>(type: "int", nullable: true),
+                    StatusCompalintId = table.Column<int>(type: "int", nullable: false),
+                    StagesComplaintId = table.Column<int>(type: "int", nullable: false),
+                    PropBeneficiarie = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GovernorateId = table.Column<int>(type: "int", nullable: false),
+                    DirectorateId = table.Column<int>(type: "int", nullable: true),
+                    SubDirectorateId = table.Column<int>(type: "int", nullable: true),
+                    VillageId = table.Column<int>(type: "int", nullable: true),
+                    CompDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CompDateUp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HoUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    BeneficiarieId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Compalint", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Compalint_Beneficiaries_BeneficiarieId",
+                        column: x => x.BeneficiarieId,
+                        principalSchema: "Identity",
+                        principalTable: "Beneficiaries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Compalint_Directorates_DirectorateId",
+                        column: x => x.DirectorateId,
+                        principalSchema: "Identity",
+                        principalTable: "Directorates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Compalint_Governorates_GovernorateId",
+                        column: x => x.GovernorateId,
+                        principalSchema: "Identity",
+                        principalTable: "Governorates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Compalint_Societys_SocietyId",
+                        column: x => x.SocietyId,
+                        principalSchema: "Identity",
+                        principalTable: "Societys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Compalint_StagesComplaints_StagesComplaintId",
+                        column: x => x.StagesComplaintId,
+                        principalSchema: "Identity",
+                        principalTable: "StagesComplaints",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Compalint_StatusCompalints_StatusCompalintId",
+                        column: x => x.StatusCompalintId,
+                        principalSchema: "Identity",
+                        principalTable: "StatusCompalints",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Compalint_SubDirectorates_SubDirectorateId",
+                        column: x => x.SubDirectorateId,
+                        principalSchema: "Identity",
+                        principalTable: "SubDirectorates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Compalint_TypeComplaints_TypeComplaintId1",
+                        column: x => x.TypeComplaintId1,
+                        principalSchema: "Identity",
+                        principalTable: "TypeComplaints",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Compalint_User_HoUserId",
+                        column: x => x.HoUserId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Compalint_Villages_VillageId",
+                        column: x => x.VillageId,
+                        principalSchema: "Identity",
+                        principalTable: "Villages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Proposals",
                 schema: "Identity",
                 columns: table => new
@@ -761,104 +900,6 @@ namespace ComplantSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UploadsComplainte",
-                schema: "Identity",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TitleComplaint = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TypeComplaintId = table.Column<int>(type: "int", nullable: false),
-                    TypeComplaintId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DescComplaint = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SocietyId = table.Column<int>(type: "int", nullable: true),
-                    StatusCompalintId = table.Column<int>(type: "int", nullable: false),
-                    StagesComplaintId = table.Column<int>(type: "int", nullable: false),
-                    PropBeneficiarie = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GovernorateId = table.Column<int>(type: "int", nullable: false),
-                    DirectorateId = table.Column<int>(type: "int", nullable: true),
-                    SubDirectorateId = table.Column<int>(type: "int", nullable: true),
-                    VillageId = table.Column<int>(type: "int", nullable: true),
-                    CompDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CompDateUp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    BeneficiarieId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UploadsComplainte", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_Beneficiaries_BeneficiarieId",
-                        column: x => x.BeneficiarieId,
-                        principalSchema: "Identity",
-                        principalTable: "Beneficiaries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_Directorates_DirectorateId",
-                        column: x => x.DirectorateId,
-                        principalSchema: "Identity",
-                        principalTable: "Directorates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_Governorates_GovernorateId",
-                        column: x => x.GovernorateId,
-                        principalSchema: "Identity",
-                        principalTable: "Governorates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_Societys_SocietyId",
-                        column: x => x.SocietyId,
-                        principalSchema: "Identity",
-                        principalTable: "Societys",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_StagesComplaints_StagesComplaintId",
-                        column: x => x.StagesComplaintId,
-                        principalSchema: "Identity",
-                        principalTable: "StagesComplaints",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_StatusCompalints_StatusCompalintId",
-                        column: x => x.StatusCompalintId,
-                        principalSchema: "Identity",
-                        principalTable: "StatusCompalints",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_SubDirectorates_SubDirectorateId",
-                        column: x => x.SubDirectorateId,
-                        principalSchema: "Identity",
-                        principalTable: "SubDirectorates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_TypeComplaints_TypeComplaintId1",
-                        column: x => x.TypeComplaintId1,
-                        principalSchema: "Identity",
-                        principalTable: "TypeComplaints",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_User_HoUserId",
-                        column: x => x.HoUserId,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UploadsComplainte_Villages_VillageId",
-                        column: x => x.VillageId,
-                        principalSchema: "Identity",
-                        principalTable: "Villages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Compalints_Solutions",
                 schema: "Identity",
                 columns: table => new
@@ -878,10 +919,10 @@ namespace ComplantSystem.Migrations
                 {
                     table.PrimaryKey("PK_Compalints_Solutions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Compalints_Solutions_UploadsComplainte_CompalintId",
+                        name: "FK_Compalints_Solutions_Compalint_CompalintId",
                         column: x => x.CompalintId,
                         principalSchema: "Identity",
-                        principalTable: "UploadsComplainte",
+                        principalTable: "Compalint",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -917,12 +958,12 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "a4937029-c56c-4663-8934-378d6f46efd9", "bd31e929-2692-4a55-8251-9972f3535774", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
-                    { "719899a2-536c-4577-9b84-8809c630ef8d", "81abcb67-69dc-4417-a973-84f42b42028c", "AdminGovernorate", "ADMINGOVERNORATE" },
-                    { "9698bd6c-624f-4a5d-9b00-a84aafa0949f", "669bea7e-a57c-4309-b9eb-6f64ea9e7ff2", "AdminDirectorate", "ADMINDIRECTORATE" },
-                    { "295cc8ea-7c73-495b-b459-123727da106b", "5d0fe835-591d-44b7-bad5-70a6ca1c8793", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" },
-                    { "b3266bc9-9394-49e1-9804-a1c1226fd3d9", "f5983285-5c20-43b9-b1b6-1defc928dd8d", "AdminVillages", "ADMINVILLAGES" },
-                    { "28a9ffdb-4eff-4006-b5ba-c262bb6542b2", "c38676c3-571c-4d9d-a375-b9ea42c3a90e", "Beneficiarie", "BENEFICIARIE" }
+                    { "348a9070-21da-42ba-97fc-a2759d1bab04", "43100915-2013-4e4e-8e5c-a0c638028439", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
+                    { "da684ab5-47ee-4f2c-8d5c-b2ba7ee9bcf6", "9e68f25a-0724-41d9-a0bd-c6311917ce3c", "AdminGovernorate", "ADMINGOVERNORATE" },
+                    { "e3669cfe-4c94-4df7-b86d-6d945e5a69c1", "7b984cea-6cab-46aa-a577-615176458993", "AdminDirectorate", "ADMINDIRECTORATE" },
+                    { "4360c8cb-961d-42b5-ae58-bbe4b95ef890", "ff485316-4df0-47d7-b636-3afe64496723", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" },
+                    { "c0fea8bb-ca90-4fb0-ac94-a4510c242f0a", "3c5c68ee-d3be-4709-93c8-f1491c30d764", "AdminVillages", "ADMINVILLAGES" },
+                    { "e5e3a8a8-de76-4926-9d21-db5a85645d94", "d0d72590-ddbd-4624-8589-88fa5fd73dab", "Beneficiarie", "BENEFICIARIE" }
                 });
 
             migrationBuilder.InsertData(
@@ -966,8 +1007,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "0198b446-8a7a-4ebb-95ac-9d2d5a4d66ad", new DateTime(2022, 9, 4, 1, 15, 34, 82, DateTimeKind.Local).AddTicks(8000), "تماطل", null, "قيمة افتراضية من النضام" },
-                    { "61fb9506-0240-43e0-a8ac-d295994906d8", new DateTime(2022, 9, 4, 1, 15, 34, 82, DateTimeKind.Local).AddTicks(8773), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" }
+                    { "78b1ee01-6ad9-4098-b308-d67059700f18", new DateTime(2022, 9, 5, 21, 41, 56, 141, DateTimeKind.Local).AddTicks(1078), "تماطل", null, "قيمة افتراضية من النضام" },
+                    { "b1c977dd-aef2-49bb-b5f5-e9c371743cfe", new DateTime(2022, 9, 5, 21, 41, 56, 141, DateTimeKind.Local).AddTicks(1685), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -976,45 +1017,34 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "3c6d604f-1570-44a6-bc4f-a4b47abc30ca", new DateTime(2022, 9, 4, 1, 15, 34, 88, DateTimeKind.Local).AddTicks(199), "زراعية", null, "قيمة افتراضية من النضام" },
-                    { "570dc7b7-be5a-4303-9311-b146ec16d04a", new DateTime(2022, 9, 4, 1, 15, 34, 88, DateTimeKind.Local).AddTicks(1071), "فساد", null, "قيمة افتراضية من النضام" }
+                    { "91eb7b38-4b97-4fae-a596-3d1879973817", new DateTime(2022, 9, 5, 21, 41, 56, 141, DateTimeKind.Local).AddTicks(9324), "زراعية", null, "قيمة افتراضية من النضام" },
+                    { "423625c1-e400-4d2e-b3a2-56e20314bda5", new DateTime(2022, 9, 5, 21, 41, 56, 141, DateTimeKind.Local).AddTicks(9865), "فساد", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
                 schema: "Identity",
                 table: "Directorates",
                 columns: new[] { "Id", "GovernorateId", "Name" },
-                values: new object[] { 3, 1, "همدان" });
-
-            migrationBuilder.InsertData(
-                schema: "Identity",
-                table: "Directorates",
-                columns: new[] { "Id", "GovernorateId", "Name" },
-                values: new object[] { 1, 2, "شرعب السلام" });
-
-            migrationBuilder.InsertData(
-                schema: "Identity",
-                table: "Directorates",
-                columns: new[] { "Id", "GovernorateId", "Name" },
-                values: new object[] { 2, 2, "شرعب الرونة" });
+                values: new object[,]
+                {
+                    { 3, 1, "همدان" },
+                    { 4, 1, "الحيمة" },
+                    { 1, 2, "شرعب السلام" },
+                    { 2, 2, "شرعب الرونة" }
+                });
 
             migrationBuilder.InsertData(
                 schema: "Identity",
                 table: "SubDirectorates",
                 columns: new[] { "Id", "DirectorateId", "Name" },
-                values: new object[] { 3, 3, " بني سعد" });
-
-            migrationBuilder.InsertData(
-                schema: "Identity",
-                table: "SubDirectorates",
-                columns: new[] { "Id", "DirectorateId", "Name" },
-                values: new object[] { 1, 1, " القفاعة" });
-
-            migrationBuilder.InsertData(
-                schema: "Identity",
-                table: "SubDirectorates",
-                columns: new[] { "Id", "DirectorateId", "Name" },
-                values: new object[] { 2, 1, " المخلاف" });
+                values: new object[,]
+                {
+                    { 3, 3, " بني سعد" },
+                    { 4, 4, " الاحبوب" },
+                    { 5, 4, "غوبر" },
+                    { 1, 1, " القفاعة" },
+                    { 2, 1, " المخلاف" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_BenefCommunicationBeneficiarie_BeneficiariesId",
@@ -1071,6 +1101,66 @@ namespace ComplantSystem.Migrations
                 column: "BeneficiariesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Compalint_BeneficiarieId",
+                schema: "Identity",
+                table: "Compalint",
+                column: "BeneficiarieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compalint_DirectorateId",
+                schema: "Identity",
+                table: "Compalint",
+                column: "DirectorateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compalint_GovernorateId",
+                schema: "Identity",
+                table: "Compalint",
+                column: "GovernorateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compalint_HoUserId",
+                schema: "Identity",
+                table: "Compalint",
+                column: "HoUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compalint_SocietyId",
+                schema: "Identity",
+                table: "Compalint",
+                column: "SocietyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compalint_StagesComplaintId",
+                schema: "Identity",
+                table: "Compalint",
+                column: "StagesComplaintId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compalint_StatusCompalintId",
+                schema: "Identity",
+                table: "Compalint",
+                column: "StatusCompalintId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compalint_SubDirectorateId",
+                schema: "Identity",
+                table: "Compalint",
+                column: "SubDirectorateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compalint_TypeComplaintId1",
+                schema: "Identity",
+                table: "Compalint",
+                column: "TypeComplaintId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Compalint_VillageId",
+                schema: "Identity",
+                table: "Compalint",
+                column: "VillageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Compalints_Solutions_CompalintId",
                 schema: "Identity",
                 table: "Compalints_Solutions",
@@ -1086,6 +1176,24 @@ namespace ComplantSystem.Migrations
                 name: "IX_Compalints_Solutions_UserId",
                 schema: "Identity",
                 table: "Compalints_Solutions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComplaintsRejecteds_ComplaintsRejectedId",
+                schema: "Identity",
+                table: "ComplaintsRejecteds",
+                column: "ComplaintsRejectedId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComplaintsRejecteds_UploadsComplainteId",
+                schema: "Identity",
+                table: "ComplaintsRejecteds",
+                column: "UploadsComplainteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComplaintsRejecteds_UserId",
+                schema: "Identity",
+                table: "ComplaintsRejecteds",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -1125,66 +1233,6 @@ namespace ComplantSystem.Migrations
                 schema: "Identity",
                 table: "SubDirectorates",
                 column: "DirectorateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_BeneficiarieId",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "BeneficiarieId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_DirectorateId",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "DirectorateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_GovernorateId",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "GovernorateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_HoUserId",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "HoUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_SocietyId",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "SocietyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_StagesComplaintId",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "StagesComplaintId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_StatusCompalintId",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "StatusCompalintId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_SubDirectorateId",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "SubDirectorateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_TypeComplaintId1",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "TypeComplaintId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UploadsComplainte_VillageId",
-                schema: "Identity",
-                table: "UploadsComplainte",
-                column: "VillageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UploadsComplaintes_DirectorateId",
@@ -1378,6 +1426,10 @@ namespace ComplantSystem.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
+                name: "ComplaintsRejecteds",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
                 name: "LimitationOrders",
                 schema: "Identity");
 
@@ -1414,7 +1466,7 @@ namespace ComplantSystem.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "UploadsComplainte",
+                name: "Compalint",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

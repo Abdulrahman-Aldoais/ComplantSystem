@@ -102,8 +102,8 @@
                                     <th> الصلاحية </th>
                                     <th>تاريخ الانشاء </th>
                                     <th>الفعالية</th>
-                                    <th>تغير الحالة</th>
                                     <th> إجراء</th>
+                                    @*<th>تغير الحالة</th>*@
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
@@ -171,7 +171,7 @@
                                         }
 
 
-                                        <td>
+                                        @*<td>
                                             <form asp-action="ChaingeStatus" id="Status-Form-@user.Id">
                                                 <input type="hidden" name="Id" value="@user.Id" />
                                                 <select class="form-select " onchange="document.getElementById('Status-Form-@user.Id').submit()" name="IsBlocked">
@@ -180,19 +180,35 @@
                                                     <option value="true">توقيف</option>
                                                 </select>
                                             </form>
-                                        </td>
+                                        </td>*@
 
                                         <td style="">
                                             <div class="d-inline-block">
                                                 <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
+                                               
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li><a class="dropdown-item" asp-action="Details" asp-route-id="@user.Id">عرض</a></li>
 
                                                     <li>
 
                                                         <a class="dropdown-item text-danger delete-record" onclick="deleteOrder('@user.Id')">حذف</a>
+
+                                                    </li>
+                                                    <li>
+                                                        @if (user.IsBlocked)
+                                                        {
+                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">تنشيط</a>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">توقيف</a>
+                                                        }
+
+
+
 
                                                     </li>
                                                 </ul>

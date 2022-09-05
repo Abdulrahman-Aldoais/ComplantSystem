@@ -1,11 +1,11 @@
 /* arabic */
 @font-face {
-    font-family: 'Cairo';
+    font-family: 'Tajawal';
     font-style: normal;
     font-weight: 200;
     font-display: swap;
     /*src: src('SLXVc1nY6HkvangtZmpcWmhzfH5lWWgcSCyS4J0.woff2') format('woff2');*/
-    src: src('SLXVc1nY6HkvangtZmpcWmhzfH5lWWgcQyyS4J0.woff2') format('woff2');
+    src: src('Tajawal-Regular.ttf') format('ttf');
     /*src: src('SLXVc1nY6HkvangtZmpcWmhzfH5lWWgcRiyS.woff2') format('woff2');*/
     unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE80-FEFC;
 }

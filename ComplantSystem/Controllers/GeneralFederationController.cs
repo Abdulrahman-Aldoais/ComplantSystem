@@ -564,25 +564,56 @@ namespace ComplantSystem
         {
             return View();
         }
-        public async Task<IActionResult> RejectedThisComplaint(string id, UploadsComplainte complainte)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RejectedThisComplaint(ProvideSolutionsVM model, string id)
         {
-
-            var upComp = await _compReop.FindAsync(id);
-            var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
-            if (dbComp != null)
+            if (ModelState.IsValid)
             {
+                var currentUser = await _userManager.GetUserAsync(User);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var role = claimsIdentity.FindFirst(ClaimTypes.Role);
+                string userRole = role.Value;
+                string UserId = claim.Value;
+                var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+                var idComp = model.RejectedComplaintVM.UploadsComplainteId;
+                var rejected = new ComplaintsRejected()
+                {
+                    UserId = subuser.Id,
+                    RejectedProvName = subuser.FullName,
+                    UploadsComplainteId = model.RejectedComplaintVM.UploadsComplainteId,
 
-                dbComp.Id = complainte.Id;
-                dbComp.StatusCompalintId = 3;
+                    reume = model.RejectedComplaintVM.reume,
+                    DateSolution = DateTime.Now,
+                    Role = userRole,
 
+
+                };
+
+                _context.ComplaintsRejecteds.Add(rejected);
+                await _context.SaveChangesAsync();
+
+
+                var upComp = await _compReop.FindAsync(idComp);
+                var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+                if (dbComp != null)
+                {
+                    dbComp.StatusCompalintId = 3;
+                    dbComp.StagesComplaintId = 4;
+                    await _context.SaveChangesAsync();
+                }
 
                 await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(AllComplaints));
+
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(RejectedComplaints));
+            return NotFound();
 
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Download(string id)
         {

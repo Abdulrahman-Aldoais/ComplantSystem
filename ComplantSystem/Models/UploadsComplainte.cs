@@ -47,6 +47,8 @@ namespace ComplantSystem.Models
         public virtual SubDirectorate SubDirectorate { get; set; }
 
         public virtual ICollection<Compalints_Solution> Compalints_Solutions { get; set; }
+        public virtual ICollection<ComplaintsRejected> ComplaintsRejecteds { get; set; }
+
         public string UserId { get; set; }
         public string OriginalFileName { get; set; }
         public string FileName { get; set; }
