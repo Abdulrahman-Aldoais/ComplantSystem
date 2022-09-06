@@ -114,7 +114,7 @@
                                         <td>@user.FullName </td>
                                         <td>
                                             @*@foreach (Governorate gov  in Model.)
-                                {*@
+                                                {*@
                                             @user.Governorate.Name
                                         </td>
 
@@ -172,28 +172,28 @@
 
 
                                         @*<td>
-                                            <form asp-action="ChaingeStatus" id="Status-Form-@user.Id">
-                                                <input type="hidden" name="Id" value="@user.Id" />
-                                                <select class="form-select " onchange="document.getElementById('Status-Form-@user.Id').submit()" name="IsBlocked">
-                                                    <option value="">اختر</option>
-                                                    <option value="false">تنشيط</option>
-                                                    <option value="true">توقيف</option>
-                                                </select>
-                                            </form>
-                                        </td>*@
+                                                <form asp-action="ChaingeStatus" id="Status-Form-@user.Id">
+                                                    <input type="hidden" name="Id" value="@user.Id" />
+                                                    <select class="form-select " onchange="document.getElementById('Status-Form-@user.Id').submit()" name="IsBlocked">
+                                                        <option value="">اختر</option>
+                                                        <option value="false">تنشيط</option>
+                                                        <option value="true">توقيف</option>
+                                                    </select>
+                                                </form>
+                                            </td>*@
 
                                         <td style="">
                                             <div class="d-inline-block">
                                                 <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
-                                               
+
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li><a class="dropdown-item" asp-action="Details" asp-route-id="@user.Id">عرض</a></li>
 
                                                     <li>
 
-                                                        <a class="dropdown-item text-danger delete-record" onclick="deleteOrder('@user.Id')">حذف</a>
+                                                        <form class="dropdown-item text-danger delete-record" method="post" type="submut" asp-for="Id" asp-action="Delete" asp-route-id="@user.Id" onclick="return functionConfirm(this)">حذف</form>
 
                                                     </li>
                                                     <li>
@@ -238,7 +238,52 @@
 
 @section Scripts{
 
-    <script type="text/javascript">
+    <script>
+        function functionConfirm(event) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'هل انت متأكد من الحذف ؟',
+                text: "سيتم حذف الرسالة بشكل نهائي  !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم  !',
+                cancelButtonText: 'الغاء ',
+                reverseButtons: true,
+                timer: 10000
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("form").submit();
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'تم الحذف !',
+                        text: 'تمت عملية الحذف بنجاح .',
+                        icon: 'success',
+                        timer: '200000'
+                    }
+                    )
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        ' تم إلغاء الحذف',
+                        '',
+                        'error'
+                    )
+                }
+            })
+        }
+    </script>
+
+
+    @*<script type="text/javascript">
         function deleteOrder(Id) {
             debugger;
             swal({
@@ -266,16 +311,17 @@
                                     text: "تمت عملية الحذف بنجاح",
                                     type: "success"
                                 },
-                                    function () {
-                                        window.location.href = '/ManageUsers/ViewUsers/';
-                                    });
+                                    //function () {
+                                    //    window.location.href = '/ManageUsers/ViewUsers/';
+                                    //}
+                                );
                         })
                         .error(function (data) {
                             swal("اوووه", "هناك خطاء لا يمكننا الاتصال بالخادم", "error");
                         });
                 });
         }
-    </script>
+    </script>*@
 
     <script>
 

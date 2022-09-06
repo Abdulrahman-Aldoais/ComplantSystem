@@ -230,7 +230,7 @@
 
 
 
-                    <!-- Bordered Table -->
+                    <!-- الحلول المقدمة للشكوى-->
 
 
 
@@ -374,7 +374,7 @@
                     </div>
 
                     <hr class="container-m-nx my-2" />
-                    <!--/ Bordered Table -->
+                    <!--/ الحلول المقدمة للشكوى -->
 
                     <hr />
                     <!-- Accordion -->
@@ -492,6 +492,118 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <!-- الحلول المقدمة للشكوى-->
+
+
+
+                        <hr class="container-m-nx my-2" />
+                        <div class="card">
+                            <h5 class="card-header bx-font-color" style="color:red; font:600"> الموضف الرافض لهذه الشكوى</h5>
+                            <div class="card-body">
+                                <div class="table-responsive text-nowrap">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+
+                                        <div class="table-responsive text-nowrap">
+
+                                            <table id="example" class="table table-bordered table table-bordered">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th class="row-cols-md-4">
+                                                       الموضف الذي قام برفضها
+                                                        </th>
+
+                                                        <th class="col-sm-1">
+                                                             سبب الرفض
+                                                        </th>
+                                                        <th class="col-sm-2">
+                                                            الصلاحية
+                                                        </th>
+                                                        <th class="col-sm-1">
+                                                            تاريخ الرفض
+                                                        </th>
+
+                                                       
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @if (Model.Compalints_SolutionList.Count() == 0)
+                                                    {
+                                                        <tr>
+                                                            <td colspan="3" style="color:red">
+                                                                لم يتم رفض هذه الشكوى من قبل اي موضف
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        @foreach (var item in Model.ComplaintsRejectedList)
+                                                        {
+                                                            <tr>
+                                                                <td class="width content">
+                                                                    @Html.DisplayFor(modelItem => item.RejectedProvName)
+                                                                </td>
+                                                                <td>
+                                                                    <div class="row demo-vertical-spacing">
+                                                                        <div class="d-inline-block">
+                                                                            <button type="button"
+                                                                                    class="btn btn-secondary text-nowrap"
+                                                                                    data-bs-toggle="popover"
+                                                                                    data-bs-offset="0,14"
+                                                                                    data-bs-placement="top"
+                                                                                    data-bs-html="true"
+                                                                                    data-bs-content="<p> @Html.DisplayFor(modelItem => item.reume)</p> <div class='d-flex justify-content-between'><button type='button' class='btn btn-sm btn-label-secondary'>تخطي</button><button type='button' class='btn btn-sm btn-primary'>إقراء المزيد </button></div>"
+                                                                                    title="الحل المقترح">
+                                                                                انقر هنا لعرض الحل
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+
+
+
+
+                                                                <td>
+                                                                    @if (@item.Role == "AdminGeneralFederation")
+                                                                    {
+                                                                        <span class="badge bg-label-success">مدير اتحاد</span>
+                                                                    }
+                                                                    else if (@item.Role == "AdminGovernorate")
+                                                                    {
+                                                                        <span class="badge bg-label-warning"> مدير محافظة</span>
+                                                                    }
+                                                                    else if (@item.Role == "AdminDirectorate")
+                                                                    {
+                                                                        <span class="badge bg-label-warning"> مدير مديرة</span>
+                                                                    }
+                                                                    else if (@item.Role == "AdminSubDirectorate")
+                                                                    {
+                                                                        <span class="badge bg-label-warning"> مدير عزلة</span>
+                                                                    }
+                                                                <td>
+                                                                    @Html.DisplayFor(modelItem => item.DateSolution)
+                                                                </td>
+
+                                                            </tr>
+                                                        }
+                                                    }
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="container-m-nx my-2" />
+                        <!--/ الحلول المقدمة للشكوى -->
                     </div>
 
 
@@ -592,15 +704,16 @@
         <div class="offcanvas offcanvas-end" id="rejectComplaint" aria-hidden="true">
             <div class="offcanvas-header border-bottom">
                 <h6 class="offcanvas-title"> رفض الشكوى</h6>
-                <button type="button" asp-action="RejectedThisComplaint" asp-controller="ManageComplaints"></button>
+                <button type="button" asp-action="RejectedThisComplaint" asp-controller="GeneralFederation"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
-                <form asp-action="AddSolutions" method="post">
+                <form asp-action="RejectedThisComplaint" asp-controller="ManageComplaints" method="post">
 
 
                     <div class="mb-3">
                         <label for="invoice-message" class="form-label">سبب رفض هذه الشكوى</label>
                         <input type="hidden" asp-for="@Model.RejectedComplaintVM.UploadsComplainteId" />
+                        @*@Html.HiddenFor(m => m.RejectedComplaintVM.UploadsComplainteId)*@
                         <textarea asp-for="@Model.RejectedComplaintVM.reume" class="form-control" cols="3" rows="4"></textarea>
                         <span class="text-danger" asp-validation-for="@Model.RejectedComplaintVM.reume"></span>
                     </div>

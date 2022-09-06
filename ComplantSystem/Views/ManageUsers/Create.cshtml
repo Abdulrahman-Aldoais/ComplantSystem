@@ -17,7 +17,7 @@
             <div class="card mb-4">
                 <h5 class="card-header">إضافة حساب موظف </h5>
                 <!-- Account -->
-                <form asp-action="Create" asp-controller="ManageUsers" method="POST" enctype="multipart/form-data">
+                <form asp-action="Create" asp-controller="ManageUsers" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <hr class="my-0" />
@@ -135,19 +135,21 @@
                         </div>
 
                         <div class="mt-2">
-                            <button type="submit" value="Create" class="btn btn-primary me-2">حفظ </button>
+                            <button type="submit" value="Create" id="createButton" class="btn btn-primary me-2">حفظ </button>
                             @* <input type="submit" id="btnCreate" class="btn btn-label-success me-2" onclick="Validate(this, event);" value="حفظ" />*@
                             <button type="reset" class="btn btn-label-primary">إلغاء</button>
                         </div>
                 </form>
+
             </div>
+        </div>
         </div>
 
     </div>
     <!-- /Account -->
 </div>
 
-    </div>
+
 
 
 
@@ -156,71 +158,134 @@
 
     @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        'use strict';
+        (function () {
+            const createButton = document.querySelector('#createButton');
+            // Alert With Functional Confirm Cancel Button
+            if (createButton) {
+                createButton.onclick = function () {
+                    var inputData = $('form').serializeArray();
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "Create", // Controller/View
+                            data: inputData,
+                            error: function () {
+                                Swal.fire({
+                                    title: 'خطأ!',
+                                    text: ' يرجى ادخال بيانات الدراسه بشكل كامل!',
+                                    icon: 'error',
+                                    customClass: {
+                                        confirmButton: 'btn btn-primary'
+                                    },
+                                    buttonsStyling: false
+                                });
+                                // Error Alert
 
-    <script type="text/javascript">
+                            },
+                        });
+                    Swal.fire({
+                        title: 'هل انت متأكد من حفظ الدراسة؟',
+                        text: "لن تتمكن من العوده الى الدراسة !",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'نعم, حفظ !',
+                        CancelButtonText: 'إلغاء',
+                        customClass: {
+                            confirmButton: 'btn btn-primary me-3',
+                            cancelButton: 'btn btn-label-secondary'
+                        },
+                        buttonsStyling: false
+                    }).then(function (result) {
+                        if (result.value) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'تم الحفظ بنجاح !',
+                                text: 'تم الحفظ في  تقارير الدراسات.   ',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            });
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            Swal.fire({
+                                title: 'الغاء الحفظ',
+                                text: 'لا زالت الدراسة قيد التعديل :)',
+                                icon: 'error',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            });
+                        }
+                    });
+                };
+            }
+        })();
+        </script>
+        <script type="text/javascript">
             function validateData() {
 
-                if ($("#OrderCode").val() == "") {
+                    if ($("#OrderCode").val() == "") {
 
-                    swal("Please enter OrderCode !");
-                    return false;
-                } else if ($("#OrderPrice").val() == "") {
-                    swal("Please enter OrderPrice !");
-                    return false;
-                } else {
-                    return true;
+                swal("Please enter OrderCode !");
+            return false;
+                    } else if ($("#OrderPrice").val() == "") {
+                swal("Please enter OrderPrice !");
+            return false;
+                    } else {
+                        return true;
+                    }
                 }
-            }
 
             function Validate(ctl, event) {
                 event.preventDefault();
-                swal({
-                    title: " هل تريد بالفعل حفظ البيانات ؟",
-                    text: "تاكد من ان البيانات المدخلة صحيحة !",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "حفظ",
-                    cancelButtonText: "إلغاء",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                    function (isConfirm) {
-                        if (isConfirm) {
-                            if (validateData() == true) {
-                                $("#CreateUser").submit();
+            swal({
+                title: " هل تريد بالفعل حفظ البيانات ؟",
+            text: "تاكد من ان البيانات المدخلة صحيحة !",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "حفظ",
+            cancelButtonText: "إلغاء",
+            closeOnConfirm: false,
+            closeOnCancel: false
+                    },
+            function (isConfirm) {
+                            if (isConfirm) {
+                                if (validateData() == true) {
+                $("#CreateUser").submit();
+                                }
+                            } else {
+                swal("تم الالغاء", "! لقد ألغيت عملية الحفظ", "error");
                             }
-                        } else {
-                            swal("تم الالغاء", "! لقد ألغيت عملية الحفظ", "error");
-                        }
-                    });
-            }
-        </script>
+                        });
+                }
+    </script>
 
     @*<input type="submit" id="btnCreate" onclick="Validate(this, event);" value="Create" />*@
 
     <script>
         function upateSubCategoriesList() {
             var selectedGovernorates = document.getElementById("Governorates").value;
-            $list = $('#Directorates');
-            $.ajax({
-                url: '/ManageUsers/GetDirectorateies/' + selectedGovernorates,
-                teyp: 'GET',
-                dataType: 'text',
-                success: function (data) {
-                    results = JSON.parse(data);
-                    $list.html('');
-                    var items = '';
-                    for (i in results) {
-                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
+        $list = $('#Directorates');
+        $.ajax({
+            url: '/ManageUsers/GetDirectorateies/' + selectedGovernorates,
+        teyp: 'GET',
+        dataType: 'text',
+        success: function (data) {
+            results = JSON.parse(data);
+        $list.html('');
+        var items = '';
+        for (i in results) {
+            items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
                     }
-                    $list.html(items);
+        $list.html(items);
 
                 }
 
 
             }
-            );
+        );
 
         }
         $(document).ready(function () {
@@ -234,25 +299,25 @@
     <script>
         function upateSubSubDirectorat() {
             var selectedSubDirectorat = document.getElementById("Directorates").value;
-            $list = $('#SubDirectorate');
-            $.ajax({
-                url: '/ManageUsers/GetSubDirectorate/' + selectedSubDirectorat,
-                teyp: 'GET',
-                dataType: 'text',
-                success: function (data) {
-                    results = JSON.parse(data);
-                    $list.html('');
-                    var items = '';
-                    for (i in results) {
-                        items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
+        $list = $('#SubDirectorate');
+        $.ajax({
+            url: '/ManageUsers/GetSubDirectorate/' + selectedSubDirectorat,
+        teyp: 'GET',
+        dataType: 'text',
+        success: function (data) {
+            results = JSON.parse(data);
+        $list.html('');
+        var items = '';
+        for (i in results) {
+            items += '<option value = "' + results[i].value + '">' + results[i].text + '</option>';
                     }
-                    $list.html(items);
+        $list.html(items);
 
                 }
 
 
             }
-            );
+        );
 
         }
         $(document).ready(function () {

@@ -10,7 +10,7 @@ namespace ComplantSystem.Models
         {
             //DirectorateId = Guid.NewGuid().ToString();
             Users = new List<ApplicationUser>();
-            Beneficiaries = new List<Beneficiarie>();
+            //Beneficiaries = new List<Beneficiarie>();
 
         }
         [Key]
@@ -27,7 +27,7 @@ namespace ComplantSystem.Models
         public virtual ICollection<UsersCommunication> UsersCommunications { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
-        public virtual ICollection<Beneficiarie> Beneficiaries { get; set; }
+        //public virtual ICollection<Beneficiarie> Beneficiaries { get; set; }
         public virtual ICollection<UploadsComplainte> UploadsComplaintes { get; set; }
 
         //public virtual List<User> Users { get; set; }

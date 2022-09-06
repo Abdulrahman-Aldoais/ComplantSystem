@@ -66,10 +66,17 @@ namespace ComplantSystem.Controllers
                 UploadsComplainteId = id,
 
             };
+            ComplaintsRejectedVM rejectView = new ComplaintsRejectedVM()
+            {
+                UploadsComplainteId = id,
+
+            };
             ProvideSolutionsVM VM = new ProvideSolutionsVM
             {
                 compalint = ComplantList,
                 Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                RejectedComplaintVM = rejectView,
                 AddSolution = addsoiationView
             };
             return View(VM);
@@ -203,6 +210,7 @@ namespace ComplantSystem.Controllers
                 string UserId = claim.Value;
                 var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
                 var idComp = model.RejectedComplaintVM.UploadsComplainteId;
+
                 var complaintsRejected = new ComplaintsRejected()
                 {
                     UserId = subuser.Id,
@@ -224,7 +232,7 @@ namespace ComplantSystem.Controllers
                 var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
                 if (dbComp != null)
                 {
-                    dbComp.StatusCompalintId = 2;
+                    dbComp.StatusCompalintId = 3;
                     dbComp.StagesComplaintId = 4;
                     await _context.SaveChangesAsync();
                 }
@@ -238,6 +246,8 @@ namespace ComplantSystem.Controllers
 
 
         }
+
+
 
     }
 }

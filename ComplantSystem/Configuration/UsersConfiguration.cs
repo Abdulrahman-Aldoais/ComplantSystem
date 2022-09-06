@@ -39,7 +39,8 @@ namespace ComplantSystem.Configuration
                         SubDirectorateId = 1,
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
-                        CreatedDate = DateTime.Now
+                        CreatedDate = DateTime.Now,
+                        RoleId = 1,
 
                     };
                     await userManager.CreateAsync(newAdminUser, "Coding@1234?");
@@ -64,7 +65,8 @@ namespace ComplantSystem.Configuration
                         SubDirectorateId = 2,
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
-                        CreatedDate = DateTime.Now
+                        CreatedDate = DateTime.Now,
+                        RoleId = 6,
                     };
                     await userManager.CreateAsync(newAppUser, "B@ww11");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.Beneficiarie);

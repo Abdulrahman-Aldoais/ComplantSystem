@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ComplantSystem.Models
 {
-    public class Proposal:IEntityBase
+    public class Proposal : IEntityBase
     {
         public Proposal()
         {
             Id = Guid.NewGuid().ToString();
         }
-      
+
 
         public string Id { get; set; }
         [Required(ErrorMessage = "يجب ان تقوم بكتابة هذه الحقل ")]
@@ -25,7 +25,7 @@ namespace ComplantSystem.Models
 
         public int BeneficiarieId { get; set; }
 
-        public virtual Beneficiarie Beneficiarie { get; set; }
+        //public virtual Beneficiarie Beneficiarie { get; set; }
 
     }
 }

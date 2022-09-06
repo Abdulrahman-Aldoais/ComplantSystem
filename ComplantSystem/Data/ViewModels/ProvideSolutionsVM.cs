@@ -10,7 +10,7 @@ namespace ComplantSystem.Data.ViewModels
         public IEnumerable<Compalints_Solution> Compalints_SolutionList { get; set; }
 
         public AddSolutionVM AddSolution { get; set; }
-        public IEnumerable<ComplaintsRejected> ComplaintsRejected { get; set; }
+        public IEnumerable<ComplaintsRejected> ComplaintsRejectedList { get; set; }
         public ComplaintsRejectedVM RejectedComplaintVM { get; set; }
     }
 }

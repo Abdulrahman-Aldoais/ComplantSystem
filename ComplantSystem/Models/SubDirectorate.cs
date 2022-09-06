@@ -12,7 +12,7 @@ namespace ComplantSystem.Models
             //SubDirectorateId = Guid.NewGuid().ToString();
 
 
-            Beneficiaries = new List<Beneficiarie>();
+            //Beneficiaries = new List<Beneficiarie>();
             //UploadsComplainte = new List<Compalint>();
         }
 
@@ -26,11 +26,11 @@ namespace ComplantSystem.Models
         public virtual Directorate Directorate { get; set; }
 
         //RelationShipes noe to many
-        public virtual ICollection<Village> Villages { get; set; }
+        //public virtual ICollection<Village> Villages { get; set; }
         public virtual ICollection<UsersCommunication> UsersCommunications { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
-        public virtual List<Beneficiarie> Beneficiaries { get; set; }
+        //public virtual List<Beneficiarie> Beneficiaries { get; set; }
         public virtual ICollection<UploadsComplainte> UploadsComplaintes { get; set; }
 
 

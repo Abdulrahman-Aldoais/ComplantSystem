@@ -31,7 +31,7 @@ namespace ComplantSystem.Models
         public string CommunDescribed { get; set; }
 
         public int BeneficiariesId { get; set; }
-        public virtual ICollection<Beneficiarie> Beneficiaries { get; set; }
+        //public virtual ICollection<Beneficiarie> Beneficiaries { get; set; }
         public virtual ICollection<Communication_Counter> CommunicationCounters { get; set; }
     }
 }

@@ -8,11 +8,11 @@ namespace ComplantSystem
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "يجب ادخال رقم البطاقة")]
-        [EmailAddress(ErrorMessage = "يرجى كتابة رقم البطاقة بشكل صحيح")]
+
+        [Required(ErrorMessage = "يرجى كتابة رقم البطاقة بشكل صحيح")]
         [Display(Name = "رقم البطاقة")]
 
-        public string IdentityNumber { get; set; }
+        public string Email { get; set; }
         [Required(ErrorMessage = "ادخل كلمة المرور ")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

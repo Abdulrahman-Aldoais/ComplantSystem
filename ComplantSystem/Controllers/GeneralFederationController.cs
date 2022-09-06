@@ -362,13 +362,20 @@ namespace ComplantSystem
                 UploadsComplainteId = id,
 
             };
-            ProvideSolutionsVM MV = new ProvideSolutionsVM
+            ComplaintsRejectedVM rejectView = new ComplaintsRejectedVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ProvideSolutionsVM VM = new ProvideSolutionsVM
             {
                 compalint = ComplantList,
                 Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                RejectedComplaintVM = rejectView,
                 AddSolution = addsoiationView
             };
-            return View(MV);
+            return View(VM);
         }
         public async Task<IActionResult> ViewCompalintSolutionDetails(string id)
         {
@@ -378,13 +385,20 @@ namespace ComplantSystem
                 UploadsComplainteId = id,
 
             };
-            ProvideSolutionsVM MV = new ProvideSolutionsVM
+            ComplaintsRejectedVM rejectView = new ComplaintsRejectedVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ProvideSolutionsVM VM = new ProvideSolutionsVM
             {
                 compalint = ComplantList,
                 Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                RejectedComplaintVM = rejectView,
                 AddSolution = addsoiationView
             };
-            return View(MV);
+            return View(VM);
         }
         public async Task<IActionResult> ViewCompalintRejectedDetails(string id)
         {
@@ -394,13 +408,20 @@ namespace ComplantSystem
                 UploadsComplainteId = id,
 
             };
-            ProvideSolutionsVM MV = new ProvideSolutionsVM
+            ComplaintsRejectedVM rejectView = new ComplaintsRejectedVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ProvideSolutionsVM VM = new ProvideSolutionsVM
             {
                 compalint = ComplantList,
                 Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                RejectedComplaintVM = rejectView,
                 AddSolution = addsoiationView
             };
-            return View(MV);
+            return View(VM);
         }
 
 

@@ -147,7 +147,7 @@ namespace ComplantSystem.Models
 
             modelBuilder.Entity<UploadsComplainte>().Property(i => i.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<BenefCommunication>().Property(i => i.Id).HasDefaultValueSql("NEWID()");
-            modelBuilder.Entity<Beneficiarie>().Property(i => i.Id).HasDefaultValueSql("NEWID()");
+            //modelBuilder.Entity<Beneficiarie>().Property(i => i.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<Proposal>().Property(i => i.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<TypeComplaint>().Property(i => i.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<TypeComplaint>().Property(i => i.Id).HasDefaultValueSql("NEWID()");
@@ -167,11 +167,11 @@ namespace ComplantSystem.Models
         public DbSet<ApplicationUserLogin> UserLogins { get; set; }
         public DbSet<TypeComplaint> TypeComplaints { get; set; }
         //public DbSet<TypeBeneficiari> TypeBeneficiaris { get; set; }
-        public DbSet<Beneficiarie> Beneficiaries { get; set; }
+        //public DbSet<Beneficiarie> Beneficiaries { get; set; }
         public DbSet<Governorate> Governorates { get; set; }
         public DbSet<Directorate> Directorates { get; set; }
         public DbSet<SubDirectorate> SubDirectorates { get; set; }
-        public DbSet<Village> Villages { get; set; }
+        //public DbSet<Village> Villages { get; set; }
         public DbSet<LimitationOrder> LimitationOrders { get; set; }
         public DbSet<UsersCommunication> UsersCommunications { get; set; }
         public DbSet<Compalints_Solution> Compalints_Solutions { get; set; }

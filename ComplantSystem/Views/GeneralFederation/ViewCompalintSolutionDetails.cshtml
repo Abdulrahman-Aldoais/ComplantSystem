@@ -190,7 +190,7 @@
                                             <div class="accordion-body">
                                                 @if (Model.compalint.StatusCompalint?.Name == "مرفوضة")
                                                 {
-                                                    <span class="badge bg-danger text-white"> @Model.compalint.TypeComplaint?.Type</span>
+                                                    <span class="badge bg-danger text-white"> @Model.compalint.StatusCompalint?.Name</span>
 
                                                 }
                                                 else
@@ -270,7 +270,7 @@
                                                 {
                                                     <tr>
                                                         <td colspan="3" style="color:red">
-                                                            لا يوجد نتائج
+                                                            لا يوجد بعد حلول لهذه الشكوى
                                                         </td>
                                                     </tr>
                                                 }
@@ -485,7 +485,7 @@
                                         </div>
                                         @*<p class="card-text"></p>*@
                                         <p class="card-text"><small class="text-muted">@Model.compalint.UploadDate</small></p>
-                                        <div class="text-right">
+                                        <div class="text-right ">
                                             <a asp-action="Download" asp-controller="GeneralFederation" asp-route-id="@Model.compalint.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
                                         </div>
                                     </div>
@@ -493,8 +493,7 @@
                             </div>
                         </div>
                     </div>
-                    <hr />
-                   
+
 
                 </div>
             </div>
@@ -508,20 +507,27 @@
         <div class="invoice-actions col-12 col-lg-3">
             <div class="card mb-4">
                 <div class="card-body">
-                    <button class="btn btn-primary d-grid w-100"
+                    <button class="btn btn-primary mb-2 mt-1  d-grid w-100"
                             data-bs-toggle="offcanvas"
                             data-bs-target="#sendInvoiceOffcanvas">
                         <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>رفع الشكوى</span>
                     </button>
-                    <div class="d-flex my-3">
-                        <a href="./app-invoice-preview.html" class="btn btn-label-secondary w-100 me-3">خروج</a>
-                        <button type="button" class="btn btn-label-secondary w-100">إلغاء</button>
-                    </div>
-                    <button class="btn btn-primary d-grid w-100"
+
+                    <button class="btn btn-primary mb-2 mt-2  d-grid w-100"
                             data-bs-toggle="offcanvas"
-                            data-bs-target="#sendInvoiceOffcanvas">
+                            data-bs-target="#complaintResolution">
                         <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i> حل الشكوى</span>
                     </button>
+                    <button class="btn btn-danger mb-2 mt-2 d-grid w-100"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#rejectComplaint">
+                        <span class="d-flex justify-content-center align-items-center text-nowrap"><i>🚫</i>  رفض هذه الشكوى</span>
+                        @* <a asp-action="RejectedThisComplaint" asp-controller="GeneralFederation" asp-route-id="@Model.compalint.Id" class="btn btn-outline-danger"> رفض هذه الشكوى</a>*@
+                    </button>
+                    <div class="d-flex my-3">
+                        <a asp-action="AllComplaints" asp-controller="GeneralFederation" class="btn btn-label-secondary w-100 me-3">خروج</a>
+                        <button type="button" class="btn btn-label-secondary w-100">إلغاء</button>
+                    </div>
                 </div>
             </div>
             <div>
@@ -531,14 +537,14 @@
             </div>
         </div>
         <!-- /Invoice Actions -->
-        <!-- حل الشكوى -->
+        <!-- رفع الشكوى -->
         <div class="offcanvas offcanvas-end" id="sendInvoiceOffcanvas" aria-hidden="true">
             <div class="offcanvas-header border-bottom">
                 <h6 class="offcanvas-title"> رفع الشكوى</h6>
                 <button type="button" asp-action="UpCompalint"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
-                <form asp-action="AddSolutions" method="post">
+                <form asp-action="UpCompalint" method="post">
 
 
                     <div class="mb-3">
@@ -555,7 +561,60 @@
                 </form>
             </div>
         </div>
+        <!-- /رفع الشكوى -->
+        <!-- حل الشكوى -->
+        <div class="offcanvas offcanvas-end" id="complaintResolution" aria-hidden="true">
+            <div class="offcanvas-header border-bottom">
+                <h6 class="offcanvas-title"> حل الشكوى</h6>
+                <button type="button" asp-action="AddSolutions" asp-controller="ManageComplaints"></button>
+            </div>
+            <div class="offcanvas-body flex-grow-1">
+                <form asp-action="AddSolutions" method="post">
+
+
+                    <div class="mb-3">
+                        <label for="invoice-message" class="form-label"> الحل المقدم لهذه الشكوى</label>
+                        <input type="hidden" asp-for="@Model.AddSolution.UploadsComplainteId" />
+                        <textarea asp-for="@Model.AddSolution.ContentSolution" class="form-control" cols="3" rows="4"></textarea>
+                        <span class="text-danger" asp-validation-for="@Model.AddSolution.ContentSolution"></span>
+                    </div>
+
+                    <div class="d-flex flex-wrap mb-3">
+                        <button type="submit" class="btn btn-primary me-3" data-bs-dismiss="offcanvas">إرسال</button>
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">إالغاء</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <!-- /حل الشكوى -->
+        <!-- رفض الشكوى -->
+
+        <div class="offcanvas offcanvas-end" id="rejectComplaint" aria-hidden="true">
+            <div class="offcanvas-header border-bottom">
+                <h6 class="offcanvas-title"> رفض الشكوى</h6>
+                <button type="button" asp-action="RejectedThisComplaint" asp-controller="GeneralFederation"></button>
+            </div>
+            <div class="offcanvas-body flex-grow-1">
+                <form asp-action="RejectedThisComplaint" asp-controller="ManageComplaints" method="post">
+
+
+                    <div class="mb-3">
+                        <label for="invoice-message" class="form-label">سبب رفض هذه الشكوى</label>
+                        <input type="hidden" asp-for="@Model.RejectedComplaintVM.UploadsComplainteId" />
+                        @*@Html.HiddenFor(m => m.RejectedComplaintVM.UploadsComplainteId)*@
+                        <textarea asp-for="@Model.RejectedComplaintVM.reume" class="form-control" cols="3" rows="4"></textarea>
+                        <span class="text-danger" asp-validation-for="@Model.RejectedComplaintVM.reume"></span>
+                    </div>
+
+                    <div class="d-flex flex-wrap mb-3">
+                        <button type="submit" class="btn btn-primary me-3" data-bs-dismiss="offcanvas">إرسال</button>
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">إالغاء</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- /رفض الشكوى -->
         <!-- Form with Image horizontal Modal -->
         <div class="modal-onboarding modal fade animate__animated" id="onboardHorizontalImageModal" tabindex="-1"
              aria-hidden="true">
@@ -590,24 +649,26 @@
                     </div>
 
                 </div>
+
             </div>
         </div>
 
         <!--/ Form with Image horizontal Modal -->
     </div>
+
 </div>
 @section Scripts{
     <script>
 
 
-'use strict';
+        'use strict';
 
-(function () {
-  const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-  const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl, { html: true, sanitize: false });
-  });
-})();
+        (function () {
+            const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl, { html: true, sanitize: false });
+            });
+        })();
 
     </script>
 }

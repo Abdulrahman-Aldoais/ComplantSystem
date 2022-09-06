@@ -28,6 +28,7 @@ namespace ComplantSystem.Models
         [ForeignKey("SubDirectorateId")]
         public virtual SubDirectorate SubDirectorate { get; set; }
         public virtual ICollection<Compalints_Solution> Compalints_Solutions { get; set; }
+        public virtual ICollection<ComplaintsRejected> ComplaintsRejecteds { get; set; }
 
         public int? SocietyId { get; set; }
         public virtual Society Societies { get; set; }

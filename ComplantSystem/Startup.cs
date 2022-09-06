@@ -54,7 +54,6 @@ namespace ComplantSystem
             services.AddScoped<ILocationRepo<Governorate>, GovernorateRepo>();
             services.AddScoped<ILocationRepo<Directorate>, DirectorateRepo>();
             services.AddScoped<ILocationRepo<SubDirectorate>, SubDirectorateRepo>();
-            services.AddScoped<ILocationRepo<Village>, VillageRepo>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAdminServices();
