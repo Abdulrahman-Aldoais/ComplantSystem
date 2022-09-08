@@ -316,6 +316,7 @@ namespace ComplantSystem
 
         }
 
+
         public async Task<IActionResult> AllCategoriesComplaints()
         {
             var allCategoriesComplaints = await _service.GetAllGategoryCompAsync();
@@ -424,7 +425,17 @@ namespace ComplantSystem
             return View(VM);
         }
 
+        public async Task<IActionResult> DetailsCategoriesComplaints(string id)
+        {
 
+            var type = await _service.GetByIdAsync((string)id);
+            if (type == null)
+            {
+                return NotFound();
+            }
+
+            return View(type);
+        }
 
         //Get: Category/Edit/1
         public async Task<IActionResult> EditCategoryComplaint(string id)
@@ -485,39 +496,64 @@ namespace ComplantSystem
             return View(result.ToList());
         }
 
-
-
-        //Get: Category/Delete/1
-        public async Task<IActionResult> DeleteCategoryComplainty(string id)
+        public async Task<IActionResult> DetailsCategoriesComplaint(string id)
         {
-            var selectedCategory = await _compReop.GetByIdAsync(id);
-            if (selectedCategory == null)
+
+            var type = await _service.GetByIdAsync((string)id);
+            if (type == null)
             {
                 return NotFound();
             }
 
-
-            return View(selectedCategory);
-
+            return View(type);
         }
-        [HttpPost]
-        [ActionName("DeleteCategoryComplainty")]
-        public async Task<IActionResult> DeleteConfirmedCategoryComplaint(string id)
-        {
-            try
-            {
-                var actorDetails = await _service.GetByIdAsync(id);
-                if (actorDetails == null) return View("Empty");
 
-                await _service.DeleteAsync(id);
-            }
-            catch
-            {
 
-            }
-            return RedirectToAction(nameof(AllCategoriesComplaints));
-        }
+
         //Get: Category/Delete/1
+        [HttpPost]
+        public async Task<IActionResult> DeleteCategoryComplainty(string id)
+        {
+
+            var actorDetails = await _service.GetByIdAsync(id);
+            if (actorDetails == null) return View("Empty");
+
+            await _service.DeleteAsync(id);
+
+
+            return RedirectToAction(nameof(AllCategoriesComplaints));
+
+        }
+        //[HttpPost]
+        //[ActionName("DeleteCategoryComplainty")]
+        //public async Task<IActionResult> DeleteConfirmedCategoryComplaint(string id)
+        //{
+        //    try
+        //    {
+        //        var actorDetails = await _service.GetByIdAsync(id);
+        //        if (actorDetails == null) return View("Empty");
+
+        //        await _compReop.DeleteAsync(id);
+        //    }
+        //    catch
+        //    {
+
+        //    }
+        //    return RedirectToAction(nameof(AllCategoriesComplaints));
+        //}
+        //Get: Category/Delete/1
+
+        public async Task<IActionResult> DetailsCategoriesComm(string id)
+        {
+
+            var type = await _service.GetCommunicationByIdAsync((string)id);
+            if (type == null)
+            {
+                return NotFound();
+            }
+
+            return View(type);
+        }
         public async Task<IActionResult> DeleteCategoryComm(string id)
         {
             var selectedCategory = await _service.GetCommunicationByIdAsync(id);
@@ -530,7 +566,7 @@ namespace ComplantSystem
             return View(selectedCategory);
 
         }
-        [ActionName("DeleteCategoryComplainty")]
+        [ActionName("DeleteCategoryComm")]
         public async Task<IActionResult> DeleteConfirmedCategoryComm(string id)
         {
             try

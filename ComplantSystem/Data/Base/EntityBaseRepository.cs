@@ -86,13 +86,7 @@ namespace ComplantSystem.Models.Data.Base
 
         }
 
-        public async Task DeleteAsync(string id)
-        {
-            var entity = _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
-            EntityEntry entityEntry = _context.Entry<T>(await entity);
-            entityEntry.State = EntityState.Deleted;
-            await _context.SaveChangesAsync();
-        }
+
 
         public async Task UpdateAsync(string id, T entity)
         {
@@ -123,5 +117,15 @@ namespace ComplantSystem.Models.Data.Base
             }
             return null;
         }
+
+        public async Task DeleteAsync(string id)
+        {
+            var entity = _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
+            EntityEntry entityEntry = _context.Entry<T>(await entity);
+            entityEntry.State = EntityState.Deleted;
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 }

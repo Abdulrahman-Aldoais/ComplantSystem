@@ -46,6 +46,8 @@ namespace ComplantSystem.Service
                 _context.TypeComplaints.Remove(selectedCategory);
                 await _context.SaveChangesAsync();
             }
+
+
         }
 
 

@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace ComplantSystem.Controllers
 {
+    [Authorize]
     public class ManageUsersController : Controller
     {
 
@@ -67,25 +68,13 @@ namespace ComplantSystem.Controllers
 
 
 
+        [Authorize(Roles = "AdminGeneralFederation,AdminGovernorate,AdminDirectorate,AdminSubDirectorate")]
 
-        public async Task<IActionResult> ViewUsers(
-         string currentFilter,
-         string searchString,
-         int? pageNumber)
+        public async Task<IActionResult> ViewUsers()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var currentIdUser = currentUser.IdentityNumber;
 
-            if (searchString != null)
-            {
-                pageNumber = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewData["CurrentFilter"] = searchString;
 
 
             var result = await _userService.GetAllAsync(currentIdUser);
@@ -207,8 +196,13 @@ namespace ComplantSystem.Controllers
 
                 FullName = user.FullName,
                 PhoneNumber = user.PhoneNumber,
+                IdentityNumber = user.IdentityNumber,
                 IsBlocked = user.IsBlocked,
                 DateOfBirth = user.DateOfBirth,
+                GovernorateId = user.Governorate.Id,
+                DirectorateId = user.Directorate.Id,
+                SubDirectorateId = user.SubDirectorate.Id,
+                UserRoles = user.RoleId,
 
 
                 //userRoles = user.UserRoles,
@@ -219,16 +213,13 @@ namespace ComplantSystem.Controllers
             return View(newUser);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, EditUserViewModel user)
         {
             var users = await _userService.GetAllAsync();
             ViewBag.UserCount = users.Count();
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -330,7 +321,7 @@ namespace ComplantSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string Id)
         {
-            await _compalintService.DeleteAsync(Id);
+            await _userService.DeleteAsync(Id);
             return RedirectToAction(nameof(ViewUsers));
         }
 

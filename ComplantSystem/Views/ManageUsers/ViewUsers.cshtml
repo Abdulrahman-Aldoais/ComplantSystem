@@ -36,7 +36,7 @@
                                 <div class="btn-group">
                                     <span class="badge bg-label-primary badgess " style="    padding-left: 36px;
                         line-height: 1.99;
-                        width: 152.35px;">العدد الكلي @ViewBag.totalCompalints</span>
+                        width: 152.35px;">العدد الكلي @ViewBag.totalUsers</span>
                     </div>
 
                             }
@@ -135,10 +135,7 @@
                                             {
                                                 <span class="badge bg-label-warning"> مدير عزلة</span>
                                             }
-                                            else if (await UserManager.IsInRoleAsync(user, UserRoles.AdminVillages))
-                                            {
-                                                <span class="badge bg-label-warning"> مدير قرية</span>
-                                            }
+                                           
                                             else if (await UserManager.IsInRoleAsync(user, UserRoles.Beneficiarie))
                                             {
                                                 <span class="badge bg-label-warning"> مزارع</span>
@@ -149,25 +146,26 @@
 
                                         <td>@user.CreatedDate</td>
 
-                                        @if (user.IsBlocked == true)
+                                        @if (user.EmailConfirmed)
                                         {
 
 
                                             <td>
-                                                <span class="badge bg-danger text-white@(user.IsBlocked)">
+                                                <span class="badge bg-success text-white@(user.EmailConfirmed)">
 
-                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.IsBlocked ?"مقيد": "نشط")</i>
+                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.EmailConfirmed ? "مقيد": "نشط")</i>
                                                 </span>
                                             </td>
                                         }
                                         else
                                         {
-                                            <td>
-                                                <span class="badge bg-success text-white@(user.IsBlocked)">
+                                    <td>
+                                   
+                                        <span class="badge bg-danger text-white@(user.EmailConfirmed)">
 
-                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.IsBlocked ?"مقيد": "نشط")</i>
-                                                </span>
-                                            </td>
+                                            <i class="fa fa-circle" aria-hidden="true"> @(user.EmailConfirmed ? "نشط" : "مقيد")</i>
+                                        </span>
+                                    </td>
                                         }
 
 
@@ -193,18 +191,18 @@
 
                                                     <li>
 
-                                                        <form class="dropdown-item text-danger delete-record" method="post" type="submut" asp-for="Id" asp-action="Delete" asp-route-id="@user.Id" onclick="return functionConfirm(this)">حذف</form>
+                                                        <form class="dropdown-item text-danger delete-record" method="post" type="submit"  asp-action="Delete" asp-route-id="@user.Id" onclick="return functionConfirm(this)">حذف</form>
 
                                                     </li>
                                                     <li>
-                                                        @if (user.IsBlocked)
+                                                        @if (user.EmailConfirmed)
                                                         {
-                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">تنشيط</a>
-
+                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">توقيف</a>
                                                         }
                                                         else
                                                         {
-                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">توقيف</a>
+                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">تنشيط</a>
+
                                                         }
 
 
@@ -250,7 +248,7 @@
 
             swalWithBootstrapButtons.fire({
                 title: 'هل انت متأكد من الحذف ؟',
-                text: "سيتم حذف الرسالة بشكل نهائي  !",
+                text: "سيتم حذف المستخدم بشكل نهائي  !",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'نعم  !',

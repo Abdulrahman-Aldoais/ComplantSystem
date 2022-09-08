@@ -340,7 +340,7 @@ namespace ComplantSystem.Migrations
                         principalSchema: "Identity",
                         principalTable: "TypeComplaints",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -442,7 +442,7 @@ namespace ComplantSystem.Migrations
                         principalSchema: "Identity",
                         principalTable: "UploadsComplaintes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Compalints_Solutions_User_UserId",
                         column: x => x.UserId,
@@ -689,12 +689,12 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "b16c1893-a6b9-4d36-b2fe-bd16fcad842f", "8f09c119-0b27-468a-bc28-c2ffd22f5276", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
-                    { "d11f9224-5cc1-46ae-9027-0858a4dbbd6b", "c8f15d63-150c-4cbf-acb6-63675eb42b98", "AdminGovernorate", "ADMINGOVERNORATE" },
-                    { "5eb37f5c-721b-44d6-9ebb-f21d114d6d7b", "c4f70ec0-279c-4a9a-beed-f1467080911b", "AdminDirectorate", "ADMINDIRECTORATE" },
-                    { "2842ee8a-21c2-41f4-86b1-eed01a6c2a86", "9dc1c2b4-c04d-4aed-822a-8621e6230637", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" },
-                    { "53263da3-1fe8-4866-bb50-feaa1a15e609", "08281bf8-90ff-4495-a710-b7d9bf6d1493", "AdminVillages", "ADMINVILLAGES" },
-                    { "b2fd74d1-39d5-49c4-99f3-f545ee7dd756", "65fdf84d-4b37-4a92-aa64-9515a16bcd74", "Beneficiarie", "BENEFICIARIE" }
+                    { "1348e966-f92d-4c01-80f3-7768c3725dfc", "09f738d2-261a-427d-bc3c-b8b31a6138f5", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
+                    { "a4334f84-558b-455e-ae08-db88897450bf", "9817bc62-ee47-4dd9-9c17-2edc0f5cfba4", "AdminGovernorate", "ADMINGOVERNORATE" },
+                    { "7a5b297f-7989-4cee-80eb-68d04836a75d", "9b0fcfd6-019f-4119-b16c-28a916fe0770", "AdminDirectorate", "ADMINDIRECTORATE" },
+                    { "3e6b1595-b065-484b-bf0a-0f7ee885e30c", "c00302ad-70f7-4471-bada-0650201bfc99", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" },
+                    { "3ad4fca3-105f-41bb-8fcb-c7d04d06d163", "9cc6fb27-18be-4671-948c-4943d3c75c3c", "AdminVillages", "ADMINVILLAGES" },
+                    { "0998c30c-2bdd-42ba-b5e8-55aef13fdf67", "14c5b9ef-f926-4610-b34e-8d7134b80de2", "Beneficiarie", "BENEFICIARIE" }
                 });
 
             migrationBuilder.InsertData(
@@ -738,8 +738,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "2bcab3ef-b226-469b-a24a-73209e93af1d", new DateTime(2022, 9, 5, 23, 9, 13, 382, DateTimeKind.Local).AddTicks(832), "تماطل", null, "قيمة افتراضية من النضام" },
-                    { "ec7936c6-d9e4-4b02-a2db-0d09d4f4ead3", new DateTime(2022, 9, 5, 23, 9, 13, 382, DateTimeKind.Local).AddTicks(1742), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" }
+                    { "83a7ee8d-0f24-408b-9e91-a880a615451a", new DateTime(2022, 9, 7, 2, 9, 18, 847, DateTimeKind.Local).AddTicks(6678), "تماطل", null, "قيمة افتراضية من النضام" },
+                    { "a473b5c4-e77e-4ff2-a009-417ad7eb250a", new DateTime(2022, 9, 7, 2, 9, 18, 847, DateTimeKind.Local).AddTicks(7416), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -748,8 +748,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "6445eff7-523d-4acf-8a80-e2bcaa291b3b", new DateTime(2022, 9, 5, 23, 9, 13, 384, DateTimeKind.Local).AddTicks(375), "زراعية", null, "قيمة افتراضية من النضام" },
-                    { "7d78f62a-b44e-46df-a9fc-ebb088588f5f", new DateTime(2022, 9, 5, 23, 9, 13, 384, DateTimeKind.Local).AddTicks(1312), "فساد", null, "قيمة افتراضية من النضام" }
+                    { "1d4d8b5b-b14a-4a3a-b773-97c3b2029647", new DateTime(2022, 9, 7, 2, 9, 18, 849, DateTimeKind.Local).AddTicks(2185), "زراعية", null, "قيمة افتراضية من النضام" },
+                    { "4c353df8-1a7d-4dfd-ac36-ef6987c8fb50", new DateTime(2022, 9, 7, 2, 9, 18, 849, DateTimeKind.Local).AddTicks(3036), "فساد", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(

@@ -58,35 +58,53 @@
 
                             </div>
 
-                            <div class="form-group form-password-toggle col-md-6 mb-3">
+                            <div class="form-group form-password-toggle">
+                                <label asp-for="userRoles" class="control-label"></label>
                                 @if (User.IsInRole("AdminGeneralFederation"))
                                 {
-                                    <label asp-for="userRoles" class="control-label"></label>
-                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = true, Text = "قم بإختيار الصلاحية الممنوحة"},new SelectListItem { Selected = false, Text = "مدير إتحاد عام", Value = 1.ToString() }, new SelectListItem { Selected = false, Text = " مدير محافظة", Value = 2.ToString() }, new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 3.ToString() }, new SelectListItem { Selected = false, Text = " مدير عزلة", Value = 4.ToString() }, new SelectListItem { Selected = false, Text = " مدير قرية", Value = 5.ToString() }, new SelectListItem { Selected = false, Text = " مزارع ", Value = 6.ToString() } } , "Value", "Text", 6))"> </select>
-                                    <span asp-validation-for="userRoles" class="text-danger"></span>
+                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+                                      {   new SelectListItem { Selected = true, Text = "قم بإختيار الصلاحية الممنوحة"},
+                                          new SelectListItem { Selected = false, Text = "مدير إتحاد عام", Value = 1.ToString() },
+                                          new SelectListItem { Selected = false, Text = " مدير محافظة", Value = 2.ToString() },
+                                          new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 3.ToString() },
+                                          new SelectListItem { Selected = false, Text = " مدير عزلة", Value = 4.ToString() },
+                                          new SelectListItem { Selected = false, Text = " مزارع ", Value = 5.ToString() } } , "Value", "Text", 5))"> </select>
+
                                 }
                                 else if (User.IsInRole("AdminGovernorate"))
                                 {
-                                    <label asp-for="userRoles" class="control-label"></label>
-                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 3.ToString() } }, "Value", "Text", 6))"> </select>
-                                    <span asp-validation-for="userRoles" class="text-danger"></span>
+
+                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+                                      {   new SelectListItem { Selected = true, Text = "قم بإختيار الصلاحية الممنوحة"},
+
+                                          new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 3.ToString() },
+                                          new SelectListItem { Selected = false, Text = " مدير عزلة", Value = 4.ToString() },
+                                          new SelectListItem { Selected = false, Text = " مزارع ", Value = 5.ToString() } } , "Value", "Text", 5))"> </select>
+
+
 
                                 }
                                 else if (User.IsInRole("AdminDirectorate"))
                                 {
-                                    <label asp-for="userRoles" class="control-label"></label>
-                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = false, Text = " مدير عزلة", Value = 4.ToString() }, new SelectListItem { Selected = false, Text = " مزارع ", Value = 6.ToString() } }, "Value", "Text", 6))"> </select>
-                                    <span asp-validation-for="userRoles" class="text-danger"></span>
+
+                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+                                      {   new SelectListItem { Selected = true, Text = "قم بإختيار الصلاحية الممنوحة"},
+
+                                           new SelectListItem { Selected = false, Text = " مدير عزلة", Value = 4.ToString() },
+                                          new SelectListItem { Selected = false, Text = " مزارع ", Value = 5.ToString() } } , "Value", "Text", 5))"> </select>
+
 
                                 }
                                 else if (User.IsInRole("AdminSubDirectorate"))
                                 {
-                                    <label asp-for="userRoles" class="control-label"></label>
-                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem> { new SelectListItem { Selected = false, Text = " مدير قرية", Value = 5.ToString() }, new SelectListItem { Selected = false, Text = " مزارع ", Value = 6.ToString() } }, "Value", "Text", 6))"> </select>
+                                    <select asp-for="userRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+                                      {   new SelectListItem { Selected = true, Text = "قم بإختيار الصلاحية الممنوحة"},
 
-                                    <span asp-validation-for="userRoles" class="text-danger"></span>
+
+                                          new SelectListItem { Selected = false, Text = " مزارع ", Value = 5.ToString() } } , "Value", "Text", 5))"> </select>
 
                                 }
+                                <span asp-validation-for="userRoles" class="text-danger"></span>
                             </div>
 
                             <div class="col-md-4 mb-4">
@@ -174,7 +192,7 @@
                             error: function () {
                                 Swal.fire({
                                     title: 'خطأ!',
-                                    text: ' يرجى ادخال بيانات الدراسه بشكل كامل!',
+                                    text: ' يرجى ادخال بيانات المستخدم بشكل كامل!',
                                     icon: 'error',
                                     customClass: {
                                         confirmButton: 'btn btn-primary'
@@ -186,8 +204,8 @@
                             },
                         });
                     Swal.fire({
-                        title: 'هل انت متأكد من حفظ الدراسة؟',
-                        text: "لن تتمكن من العوده الى الدراسة !",
+                        title: 'هل انت متأكد من حفظ المستخدم؟',
+                        //text: "لن تتمكن من العوده الى المستخدم !",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'نعم, حفظ !',
@@ -202,15 +220,16 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'تم الحفظ بنجاح !',
-                                text: 'تم الحفظ في  تقارير الدراسات.   ',
+                                text: 'تم الحفظ في  جدول المستخدمين.   ',
                                 customClass: {
                                     confirmButton: 'btn btn-success'
-                                }
+                                },
+                                url: 'ManageUsers/ViewUsers/', 
                             });
                         } else if (result.dismiss === Swal.DismissReason.cancel) {
                             Swal.fire({
                                 title: 'الغاء الحفظ',
-                                text: 'لا زالت الدراسة قيد التعديل :)',
+                                text: 'لا زال المستخدم قيد التعديل :)',
                                 icon: 'error',
                                 customClass: {
                                     confirmButton: 'btn btn-success'
@@ -222,46 +241,7 @@
             }
         })();
         </script>
-        <script type="text/javascript">
-            function validateData() {
-
-                    if ($("#OrderCode").val() == "") {
-
-                swal("Please enter OrderCode !");
-            return false;
-                    } else if ($("#OrderPrice").val() == "") {
-                swal("Please enter OrderPrice !");
-            return false;
-                    } else {
-                        return true;
-                    }
-                }
-
-            function Validate(ctl, event) {
-                event.preventDefault();
-            swal({
-                title: " هل تريد بالفعل حفظ البيانات ؟",
-            text: "تاكد من ان البيانات المدخلة صحيحة !",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "حفظ",
-            cancelButtonText: "إلغاء",
-            closeOnConfirm: false,
-            closeOnCancel: false
-                    },
-            function (isConfirm) {
-                            if (isConfirm) {
-                                if (validateData() == true) {
-                $("#CreateUser").submit();
-                                }
-                            } else {
-                swal("تم الالغاء", "! لقد ألغيت عملية الحفظ", "error");
-                            }
-                        });
-                }
-    </script>
-
+    
     @*<input type="submit" id="btnCreate" onclick="Validate(this, event);" value="Create" />*@
 
     <script>

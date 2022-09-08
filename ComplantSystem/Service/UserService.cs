@@ -159,12 +159,8 @@ namespace ComplantSystem.Service
 
                     await _userManager.AddToRoleAsync(newUser, UserRoles.AdminSubDirectorate);
                 }
-                else if (userVM.userRoles == 5)
-                {
 
-                    await _userManager.AddToRoleAsync(newUser, UserRoles.AdminVillages);
-                }
-                else if (userVM.userRoles == 6)
+                else if (userVM.userRoles == 5)
                 {
 
                     await _userManager.AddToRoleAsync(newUser, UserRoles.Beneficiarie);
@@ -246,12 +242,8 @@ namespace ComplantSystem.Service
 
                     await _userManager.AddToRoleAsync(newUser, UserRoles.AdminSubDirectorate);
                 }
-                else if (userVM.userRoles == 5)
-                {
 
-                    await _userManager.AddToRoleAsync(newUser, UserRoles.AdminVillages);
-                }
-                else if (userVM.userRoles == 6)
+                else if (userVM.userRoles == 5)
                 {
 
                     await _userManager.AddToRoleAsync(newUser, UserRoles.Beneficiarie);
@@ -425,8 +417,11 @@ namespace ComplantSystem.Service
 
                 updatedUser.FullName = entity.FullName;
                 updatedUser.PhoneNumber = entity.PhoneNumber;
-
                 updatedUser.IdentityNumber = entity.IdentityNumber;
+                updatedUser.GovernorateId = entity.GovernorateId;
+                updatedUser.DirectorateId = entity.DirectorateId;
+                updatedUser.SubDirectorateId = entity.SubDirectorateId;
+                updatedUser.RoleId = entity.UserRoles;
                 updatedUser.CreatedDate = DateTime.Now;
                 updatedUser.DateOfBirth = entity.DateOfBirth;
                 await _userManager.UpdateAsync(updatedUser);
@@ -468,6 +463,17 @@ namespace ComplantSystem.Service
             throw new NotImplementedException();
         }
 
-
+        public async Task DeleteAsync(string id)
+        {
+            var DeletedUser = await _userManager.FindByIdAsync(id);
+            var roleId = await _userManager.GetRolesAsync(DeletedUser);
+            if (DeletedUser == null)
+            {
+                return;
+            }
+            await _userManager.RemoveFromRolesAsync(DeletedUser, roleId);
+            await _userManager.DeleteAsync(DeletedUser);
+            await context.SaveChangesAsync();
+        }
     }
 }

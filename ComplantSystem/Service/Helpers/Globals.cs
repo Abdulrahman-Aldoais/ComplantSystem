@@ -10,8 +10,7 @@ namespace ComplantSystem.Service.Helpers
             new RolesList{ Id = 2 , Name = "مدير محافظة"},
             new RolesList{ Id = 3 , Name = "مدير مديريه"},
             new RolesList{ Id = 4 , Name = "مدير عزلة"},
-            new RolesList{ Id = 5 , Name = "مدير قرية"},
-            new RolesList{ Id = 6 , Name = "مزارع"}
+            new RolesList{ Id = 5 , Name = "مزارع"}
         };
     }
 }

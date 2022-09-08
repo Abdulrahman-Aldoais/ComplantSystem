@@ -102,10 +102,7 @@
                                                 {
                                                     <span class="badge bg-label-warning"> مدير عزلة</span>
                                                 }
-                                                else if (await UserManager.IsInRoleAsync(user, UserRoles.AdminVillages))
-                                                {
-                                                    <span class="badge bg-label-warning"> مدير قرية</span>
-                                                }
+                                               
                                                 else if (await UserManager.IsInRoleAsync(user, UserRoles.Beneficiarie))
                                                 {
                                                     <span class="badge bg-label-warning">مستخدم عادي</span>

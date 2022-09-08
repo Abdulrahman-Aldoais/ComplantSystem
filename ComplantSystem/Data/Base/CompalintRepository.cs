@@ -50,6 +50,7 @@ namespace ComplantSystem.Data.Base
                .OrderByDescending(u => u.UploadDate)
                .Include(s => s.StatusCompalint)
                .Include(f => f.TypeComplaint)
+               .Include(st => st.StagesComplaint)
                .Include(g => g.Governorate)
                .Include(d => d.Directorate);
             return result;
@@ -61,6 +62,7 @@ namespace ComplantSystem.Data.Base
             var result = _context.UploadsComplaintes.Where(j => j.StatusCompalintId == 2 && j.UserId == identity)
                .OrderByDescending(u => u.UploadDate)
                .Include(s => s.StatusCompalint)
+               .Include(st => st.StagesComplaint)
                .Include(f => f.TypeComplaint)
                .Include(g => g.Governorate)
                .Include(d => d.Directorate);
@@ -111,6 +113,7 @@ namespace ComplantSystem.Data.Base
             .OrderByDescending(u => u.UploadDate)
             .Include(s => s.StatusCompalint)
             .Include(f => f.TypeComplaint)
+            .Include(st => st.StagesComplaint)
             .Include(g => g.Governorate)
             .Include(d => d.Directorate)
             .Include(su => su.SubDirectorate);
@@ -138,6 +141,7 @@ namespace ComplantSystem.Data.Base
             var result = _context.UploadsComplaintes.Where(u => u.UserId == Identity)
                 .OrderByDescending(u => u.UploadDate)
                 .Include(s => s.StatusCompalint)
+                .Include(st => st.StagesComplaint)
                 .Include(f => f.TypeComplaint)
                 .Include(g => g.Governorate)
                 .Include(d => d.Directorate)
@@ -225,7 +229,7 @@ namespace ComplantSystem.Data.Base
             }
             await _userManager.RemoveFromRolesAsync(DeletedUser, roleId);
             await _userManager.DeleteAsync(DeletedUser);
-            // await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public Task<UploadsComplainte> FindAsync(string id, string userId)

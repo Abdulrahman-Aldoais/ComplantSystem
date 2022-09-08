@@ -37,5 +37,7 @@ namespace ComplantSystem.Service
         Task<int> UserRegistrationCountAsync(int month);
         //Task<SelectDataDropdownsVM> GetNewCompalintsDropdownsValues();
         Task InitializeAsync();
+        Task DeleteAsync(string id);
+
     }
 }

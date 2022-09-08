@@ -105,18 +105,23 @@ namespace ComplantSystem
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            app.UseStaticFiles();
 
+            //Http >> Https 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseRouting();
+
             app.UseSession();
 
             //Authentication & Authorization
-            app.UseAuthentication();
-            app.UseAuthorization();
 
+            //Jwt >> JOSN Web TOKEN. 
+            app.UseAuthentication();
+            //Account/Login            >> Url , Route.
+            //Posts/Detials/8/9/2022
+            app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

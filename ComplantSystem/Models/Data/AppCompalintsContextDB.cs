@@ -109,7 +109,26 @@ namespace ComplantSystem.Models
              .WithMany(e => e.UploadsComplaintes)
              .OnDelete(DeleteBehavior.Restrict);
 
+                u.HasOne(e => e.TypeComplaint)
+              .WithMany(e => e.UploadsComplainte)
+              .OnDelete(DeleteBehavior.Restrict);
+
+
+
             });
+
+            modelBuilder.Entity<Compalints_Solution>(u =>
+            {
+                u.HasOne(e => e.CompalintsHasSolution)
+                .WithMany(e => e.Compalints_Solutions)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            });
+
+
+
+
+
 
             modelBuilder.Entity<UsersCommunication>(u =>
             {

@@ -89,132 +89,11 @@ namespace ComplantSystem.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View(new LoginViewModel());
+            return View();
         }
 
 
 
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Login(LoginViewModel signinentity, Userdb sessin, string ReturnUrl)
-        //{
-        //    string message = "";
-
-        //    using (var context = new ApplicantDataEntities())
-        //    {
-        //        var umail = context.Userdbs.Where(x => x.u_Email == signinentity.u_Email).FirstOrDefault();
-
-        //        if (umail != null)
-        //        {
-        //            if (string.Compare(PassHash.Hash(signinentity.u_Password), umail.u_Password) == 0)
-        //            {
-        //                int timeout = signinentity.Rememberme ? 52600 : 20; // 525600 min=1 year
-        //                var ticket = new FormsAuthenticationTicket(signinentity.u_Email, signinentity.Rememberme, timeout);
-        //                string encrypted = FormsAuthentication.Encrypt(ticket);
-        //                var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
-        //                cookie.Expires = DateTime.Now.AddMinutes(timeout);
-        //                cookie.HttpOnly = true;
-        //                Response.Cookies.Add(cookie);
-
-        //                if (Url.IsLocalUrl(ReturnUrl))
-        //                {
-        //                    return Redirect(ReturnUrl);
-        //                }
-        //                else
-        //                {
-        //                    TempData["UserProfileData"] = umail;
-        //                    return RedirectToAction("Index", "Dashboard");
-        //                }
-        //            }
-        //            else
-        //            {
-        //                message = "Invalid credentials";
-        //            }
-        //        }
-        //        else
-        //        {
-        //            message = "User with this email not exists";
-        //        }
-        //        ViewBag.Message = message;
-        //        return View();
-        //    }
-        //}
-
-
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> Login(LoginViewModel loginVM)
-        //{
-        //    TempData["Error"] = null;
-        //    if (ModelState.IsValid)
-        //    {
-        //        _ = loginVM.Email;
-        //        var user = await _userManager.FindByEmailAsync(loginVM.Email);
-        //        if (user != null)
-        //        {
-        //            _ = user.UserName;
-        //            var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
-        //            if (passwordCheck)
-        //            {
-        //                if (await _userManager.IsEmailConfirmedAsync(user))
-        //                {
-        //                    var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, loginVM.RememberMe, false);
-        //                    if (result.Succeeded)
-        //                    {
-        //                        if (User.IsInRole(UserRoles.AdminGeneralFederation))
-        //                        {
-        //                            return RedirectToAction("Index", "GeneralFederation");
-
-        //                        }
-        //                        else if (User.IsInRole(UserRoles.Beneficiarie))
-        //                        {
-        //                            return RedirectToAction("Index", "Beneficiarie");
-
-        //                        }
-        //                        else if (User.IsInRole(UserRoles.AdminGovernorate))
-        //                        {
-        //                            return RedirectToAction("Index", "GovManageComplaints");
-
-        //                        }
-        //                        else if (User.IsInRole(UserRoles.AdminDirectorate))
-        //                        {
-        //                            return RedirectToAction("Index", "DirManageComplaints");
-
-        //                        }
-        //                        else if (User.IsInRole(UserRoles.AdminSubDirectorate))
-        //                        {
-        //                            return RedirectToAction("Index", "SubManageComplaints");
-
-        //                        }
-        //                        else
-        //                        {
-        //                            return View(loginVM);
-        //                        }
-        //                    }
-
-        //                }
-        //                else
-        //                {
-        //                    TempData["Error"] = "الرجاء تنشيط الحساب من قبل المسؤول ";
-        //                    return View(loginVM);
-
-        //                }
-
-        //            }
-        //            TempData["Error"] = "خطا في كلمة السر او الايميل ";
-
-        //            return View(loginVM);
-        //        }
-        //        TempData["Error"] = "خطا في كلمة السر او الايميل ";
-
-
-        //        return View(loginVM);
-        //    }
-        //    return View();
-
-        //}
 
 
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
@@ -225,39 +104,47 @@ namespace ComplantSystem.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, true);
                 if (result.Succeeded)
                 {
-                    //if (await _userManager.IsEmailConfirmedAsync(result))
-                    //{
-                    if (!string.IsNullOrEmpty(returnUrl))
+                    _ = model.Email;
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (await _userManager.IsEmailConfirmedAsync(user))
                     {
-                        return LocalRedirect(returnUrl);
+                        if (!string.IsNullOrEmpty(returnUrl))
+                        {
+                            return LocalRedirect(returnUrl);
+                        }
+                        else if (User.IsInRole(UserRoles.AdminGeneralFederation))
+                        {
+                            return RedirectToAction("Index", "GeneralFederation");
+
+                        }
+                        else if (User.IsInRole(UserRoles.Beneficiarie))
+                        {
+                            return RedirectToAction("Index", "Beneficiarie");
+
+                        }
+                        else if (User.IsInRole(UserRoles.AdminGovernorate))
+                        {
+                            return RedirectToAction("Index", "GovManageComplaints");
+
+                        }
+                        else if (User.IsInRole(UserRoles.AdminDirectorate))
+                        {
+                            return RedirectToAction("Index", "DirManageComplaints");
+
+                        }
+                        else if (User.IsInRole(UserRoles.AdminSubDirectorate))
+                        {
+                            return RedirectToAction("Index", "SubManageComplaints");
+
+                        }
+
                     }
-                    else if (User.IsInRole(UserRoles.AdminGeneralFederation))
+                    else
                     {
-                        return RedirectToAction("Index", "GeneralFederation");
+                        TempData["Error"] = " حسابك موقف!  الرجاء تنشيط الحساب من قبل المسؤول";
+                        return View(model);
 
                     }
-                    else if (User.IsInRole(UserRoles.Beneficiarie))
-                    {
-                        return RedirectToAction("Index", "Beneficiarie");
-
-                    }
-                    else if (User.IsInRole(UserRoles.AdminGovernorate))
-                    {
-                        return RedirectToAction("Index", "GovManageComplaints");
-
-                    }
-                    else if (User.IsInRole(UserRoles.AdminDirectorate))
-                    {
-                        return RedirectToAction("Index", "DirManageComplaints");
-
-                    }
-                    else if (User.IsInRole(UserRoles.AdminSubDirectorate))
-                    {
-                        return RedirectToAction("Index", "SubManageComplaints");
-
-                    }
-
-
 
                 }
 

@@ -41,13 +41,7 @@ namespace ComplantSystem.Configuration
                      NormalizedName = UserRoles.AdminSubDirectorate.ToUpper(),
 
                  },
-                 new ApplicationRole
-                 {
-                     Id = Guid.NewGuid().ToString(),
-                     Name = UserRoles.AdminVillages,
-                     NormalizedName = UserRoles.AdminVillages.ToUpper(),
 
-                 },
                   new ApplicationRole
                   {
                       Id = Guid.NewGuid().ToString(),
