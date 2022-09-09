@@ -81,8 +81,13 @@ namespace ComplantSystem
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
-            var rejectedComplaints = await _compReop.GetAllAsync(g => g.Governorate, n => n.StatusCompalint);
-            var Getrejected = rejectedComplaints.Where(g => g.Governorate.Id == currentUser.GovernorateId
+            var rejectedComplaints = await _compReop.GetAllAsync(
+                 g => g.Governorate,
+                d => d.Directorate,
+                s => s.SubDirectorate,
+                n => n.StatusCompalint,
+                st => st.StagesComplaint);
+            var Getrejected = rejectedComplaints.Where(g => g.Directorate.Id == currentUser.DirectorateId
             && g.StatusCompalint.Id == 3 && g.StagesComplaint.Id == 2);
             var compalintDropdownsData = await _compReop.GetNewCompalintsDropdownsValues();
 
@@ -91,11 +96,32 @@ namespace ComplantSystem
 
             ViewBag.status = ViewBag.StatusCompalints;
             int totalCompalints = Getrejected.Count();
-            ViewBag.TotalCompalints = Convert.ToInt32(page == 0 ? "false" : totalCompalints);
             ViewBag.totalCompalints = totalCompalints;
 
             return View(Getrejected);
 
+        }
+
+        public async Task<IActionResult> SolutionComplaints()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var rejectedComplaints = await _compReop.GetAllAsync(
+                g => g.Governorate,
+                d => d.Directorate,
+                s => s.SubDirectorate,
+                n => n.StatusCompalint,
+                st => st.StagesComplaint);
+
+            var Getrejected = rejectedComplaints.Where(g => g.Directorate.Id == currentUser.DirectorateId
+            && g.StatusCompalint.Id == 2 && g.StagesComplaint.Id == 2);
+            var compalintDropdownsData = await _compReop.GetNewCompalintsDropdownsValues();
+            ViewBag.StatusCompalints = new SelectList(compalintDropdownsData.StatusCompalints, "Id", "Name");
+            ViewBag.TypeComplaints = new SelectList(compalintDropdownsData.TypeComplaints, "Id", "Type");
+            ViewBag.status = ViewBag.StatusCompalints;
+            int totalCompalints = Getrejected.Count();
+            ViewBag.totalCompalints = totalCompalints;
+
+            return View(Getrejected);
         }
 
         public async Task<IActionResult> ViewUsers()
@@ -135,6 +161,18 @@ namespace ComplantSystem
             int totalUsers = result.Count();
 
             ViewBag.totalUsers = totalUsers;
+
+
+            return View(result.ToList());
+
+        }
+
+        public async Task<IActionResult> AccountRestriction()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentIdUser = currentUser.IdentityNumber;
+            var result = _userService.GetAllUserBlockedAsync(currentIdUser);
+
 
 
             return View(result.ToList());
@@ -308,6 +346,65 @@ namespace ComplantSystem
 
 
         }
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddCommunication()
+        {
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentName = currentUser.FullName;
+            var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues();
+            ViewBag.typeCommun = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Type");
+            ViewBag.UsersName = new SelectList(communicationDropdownsData.ApplicationUsers, "Id", "FullName");
+
+
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddCommunication(AddCommunicationVM communication)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues();
+                ViewBag.typeCommun = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Type");
+                ViewBag.UsersName = new SelectList(communicationDropdownsData.ApplicationUsers, "Id", "Name");
+
+
+                var currentName = currentUser.FullName;
+                var currentPhone = currentUser.PhoneNumber;
+                var currentGov = currentUser.GovernorateId;
+                var currentDir = currentUser.DirectorateId;
+                var currentSub = currentUser.SubDirectorateId;
+
+                await _compReop.CreateCommuncationAsync(new AddCommunicationVM
+                {
+                    Titile = communication.Titile,
+                    NameUserId = communication.NameUserId,
+                    reason = communication.reason,
+                    CreateDate = communication.CreateDate,
+                    TypeCommuncationId = communication.TypeCommuncationId,
+                    UserId = currentUser.Id,
+                    BenfName = currentName,
+                    BenfPhoneNumber = currentPhone,
+                    GovernorateId = currentGov,
+                    DirectorateId = currentDir,
+                    SubDirectorateId = currentSub,
+
+                });
+
+                return RedirectToAction("AllCommunication");
+            }
+            return View(communication);
+        }
+        public IActionResult AllCirculars()
+        {
+            return View();
+        }
+
+
+
     }
 }
 

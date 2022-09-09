@@ -5,8 +5,8 @@
 @inject SignInManager<ApplicationUser> signInManager;
 @model IEnumerable<ApplicationUser>
 @{
-    ViewData["Title"] = "حسابات المزارعين";
-    ViewData["subTitle"] = " في القرى";
+    ViewData["Title"] = "كل المستخدمين";
+    ViewData["subTitle"] = " المقيدة";
 }
 
 <div class="content-wrapper">
@@ -15,7 +15,7 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="breadcrumb-wrapper py-3 mb-4">
-                <span class="text-muted fw-light">@ViewData["Title"] /</span>@ViewData["subTitle"] 
+                <span class="text-muted fw-light">الحسابات    /</span> مدراء المحافظة
             </h4>
 
 
@@ -23,7 +23,7 @@
                 <div class="row mx-2  ">
                     <div class="col-md-6">
                         <div class="t-d">
-                            <h5 class="card-header title-t"> المزارعين</h5>
+                            <h5 class="card-header title-t"> الشكاوي</h5>
                         </div>
 
                     </div>
@@ -36,7 +36,7 @@
                                 <div class="btn-group">
                                     <span class="badge bg-label-primary badgess " style="    padding-left: 36px;
                         line-height: 1.99;
-                        width: 152.35px;">العدد الكلي @ViewBag.totalUsers</span>
+                        width: 152.35px;">العدد الكلي @ViewBag.totalCompalints</span>
                     </div>
 
                             }
@@ -54,23 +54,23 @@
                                 <label class="form-label"> عرض حسب</label>
                                 <div class="row align-items-start">
                                     <div class="category-filter" style="width:150px">
-                                        <select id="FilterUsers"
+                                        <select id="FilterType"
                                                 class="select2 form-select select2-hidden-accessible"
                                                 tabindex="-1" aria-hidden="true" data-select2-id="10">
                                             <option value="0" data-select2-id="12">عرض</option>
-                                            <option value="نشط">نشط</option>
-                                            <option value="موقف">موقف</option>
-                                            <option value="مزاعرع">مزاعرع</option>
-                                            <option value="مدير اتحاد">مدير اتحاد</option>
+                                            <option value="جديدة">جديدة</option>
+                                            <option value="محلولة">محلولة</option>
+                                            <option value="غير محلولة">غير محلولة</option>
+                                            <option value="مرفوعة">مرفوعة</option>
                                         </select>
                                     </div>
 
 
                                     <div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
                                         <div class="me-3 table-type search-paddind">
-
+                                            <span class="table-span">بحث</span>
                                             <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                                <label><input type="search" id="CustomSearchTextField" class="form-control" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
+                                                <label><input type="search" id="CustomSearchTextField" style="display: block; width: 100%; padding: 0.469rem 0.735rem; font-size: 0.9375rem; font-weight: 400; line-height: 1.4; color: #a1b0cb; background-color: #283144; background-clip: padding-box; border: 1px solid #546990; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0.25rem; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@
 
                             <div class=" col-12 justify-content-between">
                                 <button style="float:left; border:1px solid green;" class="btn btn-primary me-1" onclick="location.href='@Url.Action("Create", "ManageUsers")'">
-                                    اضــــافة مزارع  +
+                                    اضــــافة مستخدم  +
                                 </button>
                             </div>
                         </div>
@@ -102,8 +102,8 @@
                                     <th> الصلاحية </th>
                                     <th>تاريخ الانشاء </th>
                                     <th>الفعالية</th>
+                                    <th>تغير الحالة</th>
                                     <th> إجراء</th>
-                                    @*<th>تغير الحالة</th>*@
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
@@ -135,10 +135,10 @@
                                             {
                                                 <span class="badge bg-label-warning"> مدير عزلة</span>
                                             }
-
+                                            
                                             else if (await UserManager.IsInRoleAsync(user, UserRoles.Beneficiarie))
                                             {
-                                                <span class="badge bg-label-warning"> مزارع</span>
+                                                <span class="badge bg-label-warning">مستخدم عادي</span>
                                             }
                                         </td>
 
@@ -146,70 +146,49 @@
 
                                         <td>@user.CreatedDate</td>
 
-                                        @if (user.EmailConfirmed)
+                                        @if (user.IsBlocked == true)
                                         {
 
 
                                             <td>
-                                                <span class="badge bg-success text-white@(user.EmailConfirmed)">
+                                                <span class="badge bg-danger text-white@(user.IsBlocked)">
 
-                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.EmailConfirmed ? "نشط": "مقيد")</i>
+                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.IsBlocked ?"مقيد": "نشط")</i>
                                                 </span>
                                             </td>
                                         }
                                         else
                                         {
                                             <td>
+                                                <span class="badge bg-success text-white@(user.IsBlocked)">
 
-                                                <span class="badge bg-danger text-white@(user.EmailConfirmed)">
-
-                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.EmailConfirmed ? "نشط" : "مقيد")</i>
+                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.IsBlocked ?"مقيد": "نشط")</i>
                                                 </span>
                                             </td>
                                         }
 
 
-                                        @*<td>
-                                                <form asp-action="ChaingeStatus" id="Status-Form-@user.Id">
-                                                    <input type="hidden" name="Id" value="@user.Id" />
-                                                    <select class="form-select " onchange="document.getElementById('Status-Form-@user.Id').submit()" name="IsBlocked">
-                                                        <option value="">اختر</option>
-                                                        <option value="false">تنشيط</option>
-                                                        <option value="true">توقيف</option>
-                                                    </select>
-                                                </form>
-                                            </td>*@
+                                        <td>
+                                            <form asp-action="ChaingeStatus" id="Status-Form-@user.Id">
+                                                <input type="hidden" name="Id" value="@user.Id" />
+                                                <select class="form-select " onchange="document.getElementById('Status-Form-@user.Id').submit()" name="IsBlocked">
+                                                    <option value="">اختر</option>
+                                                    <option value="false">تنشيط</option>
+                                                    <option value="true">توقيف</option>
+                                                </select>
+                                            </form>
+                                        </td>
 
                                         <td style="">
                                             <div class="d-inline-block">
                                                 <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
-
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li><a class="dropdown-item" asp-action="Details" asp-route-id="@user.Id">عرض</a></li>
 
                                                     <li>
-
-                                                        @*<form class="dropdown-item text-danger delete-record" type="submit" asp-for="@user.Id" asp-action="Delete" onclick="return functionConfirm(this)">حذف</form>*@
-
-
-
-                                                    </li>
-                                                    <li>
-                                                        @if (user.EmailConfirmed)
-                                                        {
-                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">توقيف</a>
-                                                        }
-                                                        else
-                                                        {
-                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">تنشيط</a>
-
-                                                        }
-
-
-
-
+                                                        <a class="dropdown-item text-danger delete-record" asp-action="Delete" asp-route-id="@user.Id">حذف</a>
                                                     </li>
                                                 </ul>
 
@@ -238,94 +217,7 @@
 
 @section Scripts{
 
-    <script>
-        function functionConfirm(event) {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: false
-            })
 
-            swalWithBootstrapButtons.fire({
-                title: 'هل انت متأكد من الحذف ؟',
-                text: "سيتم حذف المستخدم بشكل نهائي  !",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'نعم  !',
-                cancelButtonText: 'الغاء ',
-                reverseButtons: true,
-                timer: 10000
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $("form").submit();
-
-                    swalWithBootstrapButtons.fire({
-                        title: 'تم الحذف !',
-                        text: 'تمت عملية الحذف بنجاح .',
-                        icon: 'success',
-                        timer: '200000'
-                    }
-                    )
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        ' تم إلغاء الحذف',
-                        '',
-                        'error'
-                    )
-                }
-            })
-        }
-    </script>
-
-
-    @*<script>
-            function functionConfirm(event) {
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                })
-
-                swalWithBootstrapButtons.fire({
-                    title: 'Emin misiniz?',
-                    text: "Bu işlem geri alınamaz!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Evet, sil!',
-                    cancelButtonText: 'Hayır, iptal',
-                    reverseButtons: true,
-                    timer: 3000
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("form").submit();
-
-                        swalWithBootstrapButtons.fire({
-                            title: 'Silindi!',
-                            text: 'Kategori silindi.',
-                            icon: 'success',
-                            timer: '2000'
-                        }
-                        )
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                            'İptal edildi',
-                            '',
-                            'error'
-                        )
-                    }
-                })
-            }
-        </script>*@
 
     <script>
 
@@ -341,7 +233,7 @@
             language: {
                 "loadingRecords": "جارٍ التحميل...",
                 "lengthMenu": "أظهر _MENU_ مدخلات",
-                "zeroRecords": "لم يعثر على أي بيانات",
+                "zeroRecords": "لم يعثر على أي شكوى",
                 "info": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
                 "search": "ابحث:",
                 "searchPlaceholder": "بحث عن شكوى",
@@ -364,7 +256,11 @@
             "searching": true,
             //dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             displayLength: 4,
-
+            //lengthMenu: [5, 10, 25, 50, 75, 100],
+            //"columnDefs": [
+            //    target: 1,
+            //    ordering: true
+            //],
         });   //using Capital D, which is mandatory to retrieve "api" datatables' object, latest jquery Datatable
 
 
@@ -389,5 +285,6 @@
     </script>
 
 
-}
 
+
+}

@@ -5,6 +5,7 @@ using ComplantSystem.Data.Base;
 using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using ComplantSystem.Service;
+using ComplantSystem.Service.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -107,6 +108,8 @@ namespace ComplantSystem
             app.UseAuthentication();
             //Account/Login            >> Url , Route.
             //Posts/Detials/5/11/2020
+
+            app.UseMiddleware<GetRoutingMiddleware>();
             app.UseRouting();
 
             app.UseAuthorization();

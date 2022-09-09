@@ -100,7 +100,17 @@ namespace ComplantSystem.Controllers
         }
 
 
+        public async Task<IActionResult> AccountRestriction()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentIdUser = currentUser.IdentityNumber;
+            var result = _userService.GetAllUserBlockedAsync(currentIdUser);
 
+
+
+            return View(result.ToList());
+
+        }
 
 
         public async Task<IActionResult> ViewRejectedComplaints(int? page)

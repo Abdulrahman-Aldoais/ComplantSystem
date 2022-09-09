@@ -5,8 +5,8 @@
 @inject SignInManager<ApplicationUser> signInManager;
 @model IEnumerable<ApplicationUser>
 @{
-    ViewData["Title"] = "حسابات المزارعين";
-    ViewData["subTitle"] = " في القرى";
+    ViewData["Title"] = " الحسابات المقيدة";
+    ViewData["subTitle"] = " حسابات موضفين العزل ";
 }
 
 <div class="content-wrapper">
@@ -15,7 +15,7 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="breadcrumb-wrapper py-3 mb-4">
-                <span class="text-muted fw-light">@ViewData["Title"] /</span>@ViewData["subTitle"] 
+                <span class="text-muted fw-light">@ViewData["Title"] /</span> @ViewData["subTitle"]
             </h4>
 
 
@@ -23,7 +23,7 @@
                 <div class="row mx-2  ">
                     <div class="col-md-6">
                         <div class="t-d">
-                            <h5 class="card-header title-t"> المزارعين</h5>
+                            <h5 class="card-header title-t"> الحسابات</h5>
                         </div>
 
                     </div>
@@ -83,7 +83,7 @@
 
                             <div class=" col-12 justify-content-between">
                                 <button style="float:left; border:1px solid green;" class="btn btn-primary me-1" onclick="location.href='@Url.Action("Create", "ManageUsers")'">
-                                    اضــــافة مزارع  +
+                                    اضــــافة مستخدم  +
                                 </button>
                             </div>
                         </div>

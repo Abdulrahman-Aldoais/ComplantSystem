@@ -6,7 +6,7 @@
 @model IEnumerable<ApplicationUser>
 @{
     ViewData["Title"] = "حسابات المزارعين";
-    ViewData["subTitle"] = " في القرى";
+    ViewData["subTitle"] = " في المديرية";
 }
 
 <div class="content-wrapper">
@@ -83,7 +83,7 @@
 
                             <div class=" col-12 justify-content-between">
                                 <button style="float:left; border:1px solid green;" class="btn btn-primary me-1" onclick="location.href='@Url.Action("Create", "ManageUsers")'">
-                                    اضــــافة مزارع  +
+                                    اضــــافة مستخدم  +
                                 </button>
                             </div>
                         </div>

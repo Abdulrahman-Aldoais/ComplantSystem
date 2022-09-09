@@ -5,8 +5,8 @@
 @inject SignInManager<ApplicationUser> signInManager;
 @model IEnumerable<ApplicationUser>
 @{
-    ViewData["Title"] = "حسابات المزارعين";
-    ViewData["subTitle"] = " في القرى";
+    ViewData["Title"] = "كل المستخدمين";
+    ViewData["subTitle"] = "حسابات المدراء";
 }
 
 <div class="content-wrapper">
@@ -15,7 +15,7 @@
 
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="breadcrumb-wrapper py-3 mb-4">
-                <span class="text-muted fw-light">@ViewData["Title"] /</span>@ViewData["subTitle"] 
+                <span class="text-muted fw-light">الحسابات    /</span> مدراء المحافظة
             </h4>
 
 
@@ -23,7 +23,7 @@
                 <div class="row mx-2  ">
                     <div class="col-md-6">
                         <div class="t-d">
-                            <h5 class="card-header title-t"> المزارعين</h5>
+                            <h5 class="card-header title-t"> الشكاوي</h5>
                         </div>
 
                     </div>
@@ -83,7 +83,7 @@
 
                             <div class=" col-12 justify-content-between">
                                 <button style="float:left; border:1px solid green;" class="btn btn-primary me-1" onclick="location.href='@Url.Action("Create", "ManageUsers")'">
-                                    اضــــافة مزارع  +
+                                    اضــــافة مستخدم  +
                                 </button>
                             </div>
                         </div>
@@ -239,51 +239,51 @@
 @section Scripts{
 
     <script>
-        function functionConfirm(event) {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: false
-            })
+            function functionConfirm(event) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
 
-            swalWithBootstrapButtons.fire({
-                title: 'هل انت متأكد من الحذف ؟',
-                text: "سيتم حذف المستخدم بشكل نهائي  !",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'نعم  !',
-                cancelButtonText: 'الغاء ',
-                reverseButtons: true,
-                timer: 10000
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $("form").submit();
+                swalWithBootstrapButtons.fire({
+                    title: 'هل انت متأكد من الحذف ؟',
+                    text: "سيتم حذف المستخدم بشكل نهائي  !",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'نعم  !',
+                    cancelButtonText: 'الغاء ',
+                    reverseButtons: true,
+                    timer: 10000
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("form").submit();
 
-                    swalWithBootstrapButtons.fire({
-                        title: 'تم الحذف !',
-                        text: 'تمت عملية الحذف بنجاح .',
-                        icon: 'success',
-                        timer: '200000'
+                        swalWithBootstrapButtons.fire({
+                            title: 'تم الحذف !',
+                            text: 'تمت عملية الحذف بنجاح .',
+                            icon: 'success',
+                            timer: '200000'
+                        }
+                        )
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            ' تم إلغاء الحذف',
+                            '',
+                            'error'
+                        )
                     }
-                    )
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        ' تم إلغاء الحذف',
-                        '',
-                        'error'
-                    )
-                }
-            })
-        }
-    </script>
+                })
+            }
+        </script>
 
-
-    @*<script>
+ 
+        @*<script>
             function functionConfirm(event) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
@@ -327,67 +327,67 @@
             }
         </script>*@
 
-    <script>
+        <script>
 
 
-        $('#CustomSearchTextField').keyup(function () {
+            $('#CustomSearchTextField').keyup(function () {
 
-            oTable.search($(this).val()).draw();
+                oTable.search($(this).val()).draw();
 
-        });
-
-        var oTable = $('#example').DataTable({
-
-            language: {
-                "loadingRecords": "جارٍ التحميل...",
-                "lengthMenu": "أظهر _MENU_ مدخلات",
-                "zeroRecords": "لم يعثر على أي بيانات",
-                "info": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
-                "search": "ابحث:",
-                "searchPlaceholder": "بحث عن شكوى",
-                "paginate": {
-                    "first": "الأول",
-                    "previous": "السابق",
-                    "next": "التالي",
-                    "last": "الأخير"
-                }
-
-            },
-
-            "paging": true,
-            "lengthChange": false,
-            /*"searching": true,*/
-            "ordering": false,
-            "info": false,
-            "autoWidth": false,
-            "responsive": false,
-            "searching": true,
-            //dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            displayLength: 4,
-
-        });   //using Capital D, which is mandatory to retrieve "api" datatables' object, latest jquery Datatable
-
-
-
-
-
-    </script>
-
-
-
-    <script>
-
-        //فلترة نوع الشاكي
-        $("#FilterUsers").change(function () {
-            var value = $(this).val().toLowerCase();
-            $(".table tbody tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
             });
-        });
+
+            var oTable = $('#example').DataTable({
+
+                language: {
+                    "loadingRecords": "جارٍ التحميل...",
+                    "lengthMenu": "أظهر _MENU_ مدخلات",
+                    "zeroRecords": "لم يعثر على أي بيانات",
+                    "info": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "search": "ابحث:",
+                    "searchPlaceholder": "بحث عن شكوى",
+                    "paginate": {
+                        "first": "الأول",
+                        "previous": "السابق",
+                        "next": "التالي",
+                        "last": "الأخير"
+                    }
+
+                },
+
+                "paging": true,
+                "lengthChange": false,
+                /*"searching": true,*/
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
+                "responsive": false,
+                "searching": true,
+                //dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                displayLength: 4,
+
+            });   //using Capital D, which is mandatory to retrieve "api" datatables' object, latest jquery Datatable
 
 
-    </script>
 
 
-}
+
+        </script>
+
+
+
+        <script>
+
+            //فلترة نوع الشاكي
+            $("#FilterUsers").change(function () {
+                var value = $(this).val().toLowerCase();
+                $(".table tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
+
+        </script>
+
+
+    }
 

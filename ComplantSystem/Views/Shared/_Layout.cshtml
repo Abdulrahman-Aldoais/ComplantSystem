@@ -2,6 +2,7 @@
 @inject UserManager<ApplicationUser> UserManager;
 @inject SignInManager<ApplicationUser> signInManager;
 
+
 <!DOCTYPE html>
 
 <html lang="ar"
@@ -126,7 +127,7 @@
                         <i class="bx bx-x bx-sm d-xl-none d-block align-middle"></i>
                     </a>
                 </div>
-              
+
                 <div class="menu-divider mt-0"></div>
 
                 <div class="menu-inner-shadow"></div>
@@ -135,9 +136,21 @@
                     <partial name="../Shared/_AdminGeneralFederationMenu.cshtml" />
                 }
 
-                else if (User.IsInRole("AdminGovernorate") || User.IsInRole("AdminDirectorate") || User.IsInRole("AdminSubDirectorate"))
+                else if (User.IsInRole("AdminGovernorate"))
                 {
                     <partial name="../Shared/_AdminGovernorateMenu.cshtml" />
+
+                }
+                else if (User.IsInRole("AdminDirectorate"))
+                {
+
+                    <partial name="../Shared/_AdminDirectorateMenu.cshtml" />
+
+                }
+                else if (User.IsInRole("AdminSubDirectorate"))
+                {
+
+                    <partial name="../Shared/_AdminSubDirectorateMenu.cshtml" />
 
                 }
                 else if (User.IsInRole("Beneficiarie"))
