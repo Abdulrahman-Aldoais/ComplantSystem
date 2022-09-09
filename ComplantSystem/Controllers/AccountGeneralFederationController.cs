@@ -14,13 +14,13 @@ namespace ComplantSystem.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppCompalintsContextDB context;
 
         public AccountGeneralFederationController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager,
+            RoleManager<IdentityRole> roleManager,
             AppCompalintsContextDB context
             )
         {

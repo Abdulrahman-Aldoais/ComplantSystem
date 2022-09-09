@@ -16,7 +16,7 @@ namespace ComplantSystem.Configuration
             {
 
                 //Roles
-                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
 
                 //Users

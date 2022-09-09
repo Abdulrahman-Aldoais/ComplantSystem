@@ -65,7 +65,7 @@ namespace ComplantSystem.Models.Data.Base
             var response = new SelectDataCommuncationDropdownsVM()
             {
 
-                ApplicationUsers = await _context.Users.OrderBy(n => n.FullName).ToListAsync(),
+                ApplicationUsers = await _context.Users.OrderBy(n => n.FullName).Where(r => r.RoleId != 5).ToListAsync(),
                 TypeCommunications = await _context.TypeCommunications.OrderBy(n => n.Type).ToListAsync(),
 
             };

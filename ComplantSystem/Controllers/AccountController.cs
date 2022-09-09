@@ -9,21 +9,20 @@ using System.Threading.Tasks;
 
 namespace ComplantSystem.Controllers
 {
+
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly ICompalintRepository _compalintService;
-        private readonly IRegionsRepo _regions;
-        private readonly IMapper mapper;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
 
         public AccountController(
             IUserService userService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager,
+            RoleManager<IdentityRole> roleManager,
             ICompalintRepository compalintService,
             IRegionsRepo regions,
             IMapper mapper)
@@ -32,10 +31,7 @@ namespace ComplantSystem.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
-            _compalintService = compalintService;
-            _regions = regions;
-            this.mapper = mapper;
-            _compalintService = compalintService;
+
         }
 
 
@@ -95,7 +91,7 @@ namespace ComplantSystem.Controllers
 
 
 
-
+        [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
             TempData["Error"] = null;

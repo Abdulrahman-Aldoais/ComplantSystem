@@ -1,24 +1,24 @@
 ﻿using ComplantSystem.Const;
-using ComplantSystem.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
 namespace ComplantSystem.Configuration
 {
-    public class RoleSeedConfiguration : IEntityTypeConfiguration<ApplicationRole>
+    public class RoleSeedConfiguration : IEntityTypeConfiguration<IdentityRole>
     {
-        public void Configure(EntityTypeBuilder<ApplicationRole> builder)
+        public void Configure(EntityTypeBuilder<IdentityRole> builder)
         {
             builder.HasData(
-                 new ApplicationRole
+                 new IdentityRole
                  {
                      Id = Guid.NewGuid().ToString(),
                      Name = UserRoles.AdminGeneralFederation,
                      NormalizedName = UserRoles.AdminGeneralFederation.ToUpper(),
 
                  },
-                 new ApplicationRole
+                 new IdentityRole
                  {
                      Id = Guid.NewGuid().ToString(),
                      Name = UserRoles.AdminGovernorate,
@@ -26,7 +26,7 @@ namespace ComplantSystem.Configuration
 
                  }
                  ,
-                 new ApplicationRole
+                 new IdentityRole
                  {
                      Id = Guid.NewGuid().ToString(),
                      Name = UserRoles.AdminDirectorate,
@@ -34,7 +34,7 @@ namespace ComplantSystem.Configuration
 
 
                  },
-                 new ApplicationRole
+                 new IdentityRole
                  {
                      Id = Guid.NewGuid().ToString(),
                      Name = UserRoles.AdminSubDirectorate,
@@ -42,7 +42,7 @@ namespace ComplantSystem.Configuration
 
                  },
 
-                  new ApplicationRole
+                  new IdentityRole
                   {
                       Id = Guid.NewGuid().ToString(),
                       Name = UserRoles.Beneficiarie,

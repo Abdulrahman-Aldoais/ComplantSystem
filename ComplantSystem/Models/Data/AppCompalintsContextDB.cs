@@ -3,20 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ComplantSystem.Models
 {
-    public class AppCompalintsContextDB : IdentityDbContext<
-
-
-
-         ApplicationUser, ApplicationRole, string,
-        ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin,
-        ApplicationRoleClaim, ApplicationUserToken
-
-
-        //ApplicationUser,
-        //ApplicationRole, string
-
-
-        >
+    public class AppCompalintsContextDB : IdentityDbContext<ApplicationUser>
     {
         public AppCompalintsContextDB(DbContextOptions<AppCompalintsContextDB> options)
             : base(options)
@@ -46,35 +33,35 @@ namespace ComplantSystem.Models
                 entity.ToTable(name: "User");
             });
 
-            modelBuilder.Entity<ApplicationRole>(entity =>
-            {
-                entity.ToTable(name: "Roles");
-            });
-            modelBuilder.Entity<ApplicationUserRole>(entity =>
-            {
-                entity.ToTable("UserRoles");
-            });
+            //modelBuilder.Entity<IdentityRole>(entity =>
+            //{
+            //    entity.ToTable(name: "Roles");
+            //});
+            //modelBuilder.Entity<ApplicationUserRole>(entity =>
+            //{
+            //    entity.ToTable("UserRoles");
+            //});
 
-            modelBuilder.Entity<ApplicationUserClaim>(entity =>
-            {
-                entity.ToTable("UserClaims");
-            });
+            //modelBuilder.Entity<ApplicationUserClaim>(entity =>
+            //{
+            //    entity.ToTable("UserClaims");
+            //});
 
-            modelBuilder.Entity<ApplicationUserLogin>(entity =>
-            {
-                entity.ToTable("UserLogins");
-            });
+            //modelBuilder.Entity<ApplicationUserLogin>(entity =>
+            //{
+            //    entity.ToTable("UserLogins");
+            //});
 
-            modelBuilder.Entity<ApplicationRoleClaim>(entity =>
-            {
-                entity.ToTable("RoleClaims");
+            //modelBuilder.Entity<IdentityRoleClaim>(entity =>
+            //{
+            //    entity.ToTable("RoleClaims");
 
-            });
+            //});
 
-            modelBuilder.Entity<ApplicationUserToken>(entity =>
-            {
-                entity.ToTable("UserTokens");
-            });
+            //modelBuilder.Entity<ApplicationUserToken>(entity =>
+            //{
+            //    entity.ToTable("UserTokens");
+            //});
 
 
 
@@ -149,20 +136,20 @@ namespace ComplantSystem.Models
 
 
 
-            modelBuilder.Entity<ApplicationRole>(b =>
-            {
-                // Each Role can have many entries in the UserRole join table
-                b.HasMany(e => e.UserRoles)
-                    .WithOne(e => e.Role)
-                    .HasForeignKey(ur => ur.RoleId)
-                    .IsRequired();
+            //modelBuilder.Entity<IdentityRole>(b =>
+            //{
+            //    // Each Role can have many entries in the UserRole join table
+            //    b.HasMany(e => e.UserRoles)
+            //        .WithOne(e => e.Role)
+            //        .HasForeignKey(ur => ur.RoleId)
+            //        .IsRequired();
 
-                // Each Role can have many associated RoleClaims
-                //b.HasMany(e => e.RoleClaims)
-                //    .WithOne(e => e.Role)
-                //    .HasForeignKey(rc => rc.RoleId)
-                //    .IsRequired();
-            });
+            //    // Each Role can have many associated RoleClaims
+            //    //b.HasMany(e => e.RoleClaims)
+            //    //    .WithOne(e => e.Role)
+            //    //    .HasForeignKey(rc => rc.RoleId)
+            //    //    .IsRequired();
+            //});
 
             modelBuilder.Entity<UploadsComplainte>().Property(i => i.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<BenefCommunication>().Property(i => i.Id).HasDefaultValueSql("NEWID()");
@@ -178,12 +165,12 @@ namespace ComplantSystem.Models
 
 
         public DbSet<ApplicationUser> Users { get; set; }
-        public DbSet<ApplicationRole> Roles { get; set; }
-        public DbSet<ApplicationUserRole> UserRoles { get; set; }
-        public DbSet<ApplicationUserToken> UserTokens { get; set; }
-        public DbSet<ApplicationUserClaim> UserClaims { get; set; }
-        public DbSet<ApplicationRoleClaim> RoleClaims { get; set; }
-        public DbSet<ApplicationUserLogin> UserLogins { get; set; }
+        //public DbSet<IdentityRole> Roles { get; set; }
+        //public DbSet<ApplicationUserRole> UserRoles { get; set; }
+        //public DbSet<ApplicationUserToken> UserTokens { get; set; }
+        //public DbSet<ApplicationUserClaim> UserClaims { get; set; }
+        //public DbSet<IdentityRoleClaim> RoleClaims { get; set; }
+        //public DbSet<ApplicationUserLogin> UserLogins { get; set; }
         public DbSet<TypeComplaint> TypeComplaints { get; set; }
         //public DbSet<TypeBeneficiari> TypeBeneficiaris { get; set; }
         //public DbSet<Beneficiarie> Beneficiaries { get; set; }

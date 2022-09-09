@@ -19,7 +19,7 @@ namespace ComplantSystem.Service
         private readonly IMapper mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppCompalintsContextDB context;
         public string Error { get; set; }
         public int returntype { get; set; }
@@ -28,7 +28,7 @@ namespace ComplantSystem.Service
             AppCompalintsContextDB contex,
             IMapper mapper,
             UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager,
+            RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             AppCompalintsContextDB _context
             )
@@ -414,7 +414,7 @@ namespace ComplantSystem.Service
                 return;
             else
             {
-
+                updatedUser.Id = entity.Id;
                 updatedUser.FullName = entity.FullName;
                 updatedUser.PhoneNumber = entity.PhoneNumber;
                 updatedUser.IdentityNumber = entity.IdentityNumber;
@@ -425,6 +425,36 @@ namespace ComplantSystem.Service
                 updatedUser.CreatedDate = DateTime.Now;
                 updatedUser.DateOfBirth = entity.DateOfBirth;
                 await _userManager.UpdateAsync(updatedUser);
+
+                if (entity.UserRoles == 1)
+                {
+                    await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
+                    await _userManager.AddToRoleAsync(updatedUser, UserRoles.AdminGeneralFederation);
+                }
+                else if (entity.UserRoles == 2)
+                {
+                    await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
+                    await _userManager.AddToRoleAsync(updatedUser, UserRoles.AdminGovernorate);
+                }
+                else if (entity.UserRoles == 3)
+                {
+                    await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
+                    await _userManager.AddToRoleAsync(updatedUser, UserRoles.AdminDirectorate);
+                }
+                else if (entity.UserRoles == 4)
+                {
+                    await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
+                    await _userManager.AddToRoleAsync(updatedUser, UserRoles.AdminSubDirectorate);
+                }
+                else if (entity.UserRoles == 5)
+                {
+                    await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
+                    await _userManager.AddToRoleAsync(updatedUser, UserRoles.Beneficiarie);
+                }
+
+                //Change password 
+                await _userManager.RemovePasswordAsync(updatedUser);
+                //await _userManager.AddPasswordAsync(updatedUser, entity.);
 
             }
 

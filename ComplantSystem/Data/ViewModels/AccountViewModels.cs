@@ -41,6 +41,7 @@ namespace ComplantSystem
 
     public class EditUserViewModel
     {
+        public string Id { get; set; }
         [Display(Name = " الاسم")]
         [Required(ErrorMessage = "يجب ادخال الاسم كاملا")]
         public string FullName { get; set; }
@@ -51,7 +52,7 @@ namespace ComplantSystem
         [Required(ErrorMessage = "ادخل رقم الهاتف"), MaxLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اكثر من تسعة ارقام "), MinLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اقل من تسعة ارقام")]
         [Remote(action: "CheckingPhoneNumber", controller: "ManageUsers")]
         public string PhoneNumber { get; set; }
-        //public virtual ApplicationRole Role { get; set; }
+        //public virtual IdentityRole Role { get; set; }
         public IEnumerable<Governorate> GovernoratesList { get; set; }
         [Required(ErrorMessage = "اختر المحافظة")]
         public int GovernorateId { get; set; }
@@ -84,7 +85,7 @@ namespace ComplantSystem
         public string IdentityNumber { get; set; }
         [Required(ErrorMessage = "ادخل رقم الهاتف"), MaxLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اكثر من تسعة ارقام "), MinLength(9, ErrorMessage = "يجب ان لا يكون رقم الهاتف اقل من تسعة ارقام")]
         public string PhoneNumber { get; set; }
-        //public virtual ApplicationRole Role { get; set; }
+        //public virtual IdentityRole Role { get; set; }
         public byte[] ProfilePicture { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

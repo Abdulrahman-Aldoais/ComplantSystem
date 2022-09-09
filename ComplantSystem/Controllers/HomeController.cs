@@ -2,28 +2,33 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace ComplantSystem.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-       
-            private readonly UserManager<ApplicationUser> userManager;
 
-            public HomeController(UserManager<ApplicationUser> userManager)
-            {
-                this.userManager = userManager;
-            }
-            [Authorize(Roles = "User")]
-            public IActionResult Index()
-            {
-                string userName = userManager.GetUserName(User);
-                return View("Index", userName);
-            }
-            public IActionResult Logins()
+        private readonly ILogger<HomeController> _logger;
+
+        public ILogger<HomeController> Logger => _logger;
+        public HomeController(UserManager<ApplicationUser> userManager, ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
+        public IActionResult Index()
         {
             return View();
+        }
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

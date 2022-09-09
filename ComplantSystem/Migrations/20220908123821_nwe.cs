@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ComplantSystem.Migrations
 {
-    public partial class @new : Migration
+    public partial class nwe : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,21 +69,6 @@ namespace ComplantSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Proposals", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Roles",
-                schema: "Identity",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,37 +188,6 @@ namespace ComplantSystem.Migrations
                         principalTable: "Governorates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RoleClaims",
-                schema: "Identity",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RoleClaims_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalSchema: "Identity",
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RoleClaims_Roles_RoleId1",
-                        column: x => x.RoleId1,
-                        principalSchema: "Identity",
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -363,7 +317,6 @@ namespace ComplantSystem.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationRoleId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -396,13 +349,6 @@ namespace ComplantSystem.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_User_Roles_ApplicationRoleId",
-                        column: x => x.ApplicationRoleId,
-                        principalSchema: "Identity",
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_User_Societys_SocietyId",
                         column: x => x.SocietyId,
                         principalSchema: "Identity",
@@ -416,6 +362,96 @@ namespace ComplantSystem.Migrations
                         principalTable: "SubDirectorates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoles_User_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_User_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                schema: "Identity",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_User_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                schema: "Identity",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_User_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -486,102 +522,6 @@ namespace ComplantSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserClaims",
-                schema: "Identity",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserClaims_User_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserClaims_User_UserId1",
-                        column: x => x.UserId1,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserLogins",
-                schema: "Identity",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_UserLogins_User_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserLogins_User_UserId1",
-                        column: x => x.UserId1,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                schema: "Identity",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalSchema: "Identity",
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_User_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_User_UserId1",
-                        column: x => x.UserId1,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UsersCommunications",
                 schema: "Identity",
                 columns: table => new
@@ -643,33 +583,66 @@ namespace ComplantSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTokens",
+                name: "AspNetRoleClaims",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalSchema: "Identity",
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
                 schema: "Identity",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_UserTokens_User_UserId",
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalSchema: "Identity",
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_User_UserId",
                         column: x => x.UserId,
                         principalSchema: "Identity",
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserTokens_User_UserId1",
-                        column: x => x.UserId1,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Identity",
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ApplicationUserId", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "1d12aac5-6622-468a-bd94-6a1f1e264513", null, "2ec3b4f0-a10a-4bc2-8260-48f2d7f3aa64", "Beneficiarie", "BENEFICIARIE" },
+                    { "62a6fdfc-f64b-48d6-bbdf-3dd3bbe4b739", null, "7192b327-7f98-4a22-9475-0f5b5d3635b3", "AdminDirectorate", "ADMINDIRECTORATE" },
+                    { "e945b436-56ee-4a9c-bba5-02762fe7ecad", null, "656d2990-f9d9-45ea-b235-29879eed9559", "AdminGovernorate", "ADMINGOVERNORATE" },
+                    { "709c5293-a1f7-4b46-8197-aa47a4ff614d", null, "eb2fbf7e-26e1-45cc-936e-07c3fea0dd04", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
+                    { "4db4c664-9e3f-4310-8b7f-6db756d8cf8b", null, "cbe6d7b7-4b65-4ed4-8ffa-a4f352ec75a0", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" }
                 });
 
             migrationBuilder.InsertData(
@@ -685,27 +658,13 @@ namespace ComplantSystem.Migrations
 
             migrationBuilder.InsertData(
                 schema: "Identity",
-                table: "Roles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "1348e966-f92d-4c01-80f3-7768c3725dfc", "09f738d2-261a-427d-bc3c-b8b31a6138f5", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
-                    { "a4334f84-558b-455e-ae08-db88897450bf", "9817bc62-ee47-4dd9-9c17-2edc0f5cfba4", "AdminGovernorate", "ADMINGOVERNORATE" },
-                    { "7a5b297f-7989-4cee-80eb-68d04836a75d", "9b0fcfd6-019f-4119-b16c-28a916fe0770", "AdminDirectorate", "ADMINDIRECTORATE" },
-                    { "3e6b1595-b065-484b-bf0a-0f7ee885e30c", "c00302ad-70f7-4471-bada-0650201bfc99", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" },
-                    { "3ad4fca3-105f-41bb-8fcb-c7d04d06d163", "9cc6fb27-18be-4671-948c-4943d3c75c3c", "AdminVillages", "ADMINVILLAGES" },
-                    { "0998c30c-2bdd-42ba-b5e8-55aef13fdf67", "14c5b9ef-f926-4610-b34e-8d7134b80de2", "Beneficiarie", "BENEFICIARIE" }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "Identity",
                 table: "Societys",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
                     { 2, "جمعية الالبان" },
-                    { 3, "جمعية الحبوب" },
-                    { 1, "جمعية البن" }
+                    { 1, "جمعية البن" },
+                    { 3, "جمعية الحبوب" }
                 });
 
             migrationBuilder.InsertData(
@@ -726,10 +685,10 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "جديدة" },
                     { 2, "محلولة" },
+                    { 4, "معلقة" },
                     { 3, "مرفوضة" },
-                    { 4, "معلقة" }
+                    { 1, "جديدة" }
                 });
 
             migrationBuilder.InsertData(
@@ -738,8 +697,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "83a7ee8d-0f24-408b-9e91-a880a615451a", new DateTime(2022, 9, 7, 2, 9, 18, 847, DateTimeKind.Local).AddTicks(6678), "تماطل", null, "قيمة افتراضية من النضام" },
-                    { "a473b5c4-e77e-4ff2-a009-417ad7eb250a", new DateTime(2022, 9, 7, 2, 9, 18, 847, DateTimeKind.Local).AddTicks(7416), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" }
+                    { "2a1c4eda-9f01-45f3-bd09-65254ccdf577", new DateTime(2022, 9, 8, 15, 38, 20, 970, DateTimeKind.Local).AddTicks(9176), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" },
+                    { "766e2d95-8e10-4ebb-93a0-adb8d2ae89fd", new DateTime(2022, 9, 8, 15, 38, 20, 970, DateTimeKind.Local).AddTicks(8541), "تماطل", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -748,8 +707,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "1d4d8b5b-b14a-4a3a-b773-97c3b2029647", new DateTime(2022, 9, 7, 2, 9, 18, 849, DateTimeKind.Local).AddTicks(2185), "زراعية", null, "قيمة افتراضية من النضام" },
-                    { "4c353df8-1a7d-4dfd-ac36-ef6987c8fb50", new DateTime(2022, 9, 7, 2, 9, 18, 849, DateTimeKind.Local).AddTicks(3036), "فساد", null, "قيمة افتراضية من النضام" }
+                    { "aa6107bf-9f33-4eca-8be2-0c7be6c1d0b9", new DateTime(2022, 9, 8, 15, 38, 20, 971, DateTimeKind.Local).AddTicks(5705), "زراعية", null, "قيمة افتراضية من النضام" },
+                    { "51b31d9f-5310-4489-9bcf-f7a4ab8fc561", new DateTime(2022, 9, 8, 15, 38, 20, 971, DateTimeKind.Local).AddTicks(6119), "فساد", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -776,6 +735,44 @@ namespace ComplantSystem.Migrations
                     { 1, 1, " القفاعة" },
                     { 2, 1, " المخلاف" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                schema: "Identity",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoles_ApplicationUserId",
+                schema: "Identity",
+                table: "AspNetRoles",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                schema: "Identity",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                schema: "Identity",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                schema: "Identity",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                schema: "Identity",
+                table: "AspNetUserRoles",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Communication_Counter_BenefCommunicationsId",
@@ -812,26 +809,6 @@ namespace ComplantSystem.Migrations
                 schema: "Identity",
                 table: "Directorates",
                 column: "GovernorateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleClaims_RoleId",
-                schema: "Identity",
-                table: "RoleClaims",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoleClaims_RoleId1",
-                schema: "Identity",
-                table: "RoleClaims",
-                column: "RoleId1");
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                schema: "Identity",
-                table: "Roles",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubDirectorates_DirectorateId",
@@ -894,12 +871,6 @@ namespace ComplantSystem.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_ApplicationRoleId",
-                schema: "Identity",
-                table: "User",
-                column: "ApplicationRoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_User_DirectorateId",
                 schema: "Identity",
                 table: "User",
@@ -932,42 +903,6 @@ namespace ComplantSystem.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserClaims_UserId",
-                schema: "Identity",
-                table: "UserClaims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserClaims_UserId1",
-                schema: "Identity",
-                table: "UserClaims",
-                column: "UserId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserLogins_UserId",
-                schema: "Identity",
-                table: "UserLogins",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserLogins_UserId1",
-                schema: "Identity",
-                table: "UserLogins",
-                column: "UserId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                schema: "Identity",
-                table: "UserRoles",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId1",
-                schema: "Identity",
-                table: "UserRoles",
-                column: "UserId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UsersCommunications_DirectorateId",
                 schema: "Identity",
                 table: "UsersCommunications",
@@ -996,16 +931,30 @@ namespace ComplantSystem.Migrations
                 schema: "Identity",
                 table: "UsersCommunications",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserTokens_UserId1",
-                schema: "Identity",
-                table: "UserTokens",
-                column: "UserId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AspNetRoleClaims",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens",
+                schema: "Identity");
+
             migrationBuilder.DropTable(
                 name: "Communication_Counter",
                 schema: "Identity");
@@ -1027,27 +976,11 @@ namespace ComplantSystem.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "RoleClaims",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
-                name: "UserClaims",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
-                name: "UserLogins",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
-                name: "UserRoles",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
                 name: "UsersCommunications",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "UserTokens",
+                name: "AspNetRoles",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
@@ -1076,10 +1009,6 @@ namespace ComplantSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "TypeComplaints",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
-                name: "Roles",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

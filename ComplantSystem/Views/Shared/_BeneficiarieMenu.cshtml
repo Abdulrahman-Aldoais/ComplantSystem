@@ -1,7 +1,7 @@
 ﻿<ul style="font-family: 'Cairo'; font-size:18px" class="menu-inner py-1">
     <!-- الرئيسة -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text"> قائمة النظام</span></li>
-    <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="Index"?"active":"")" " >
+    <li class="menu-item  " >
         <a asp-action="Index" class="menu-link">
             <i class="fa fa-home" aria-hidden="true"></i>
             <div data-i18n="الرئيسية" style="margin-right: 14px;">الرئيسية</div>
@@ -9,28 +9,36 @@
     </li>
     <!-- الشكاوي -->
 
-    <li class="menu-item ">
+    <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="الشكاوي"?"open":"")
+                            @(ViewContext.RouteData.Values["Action"].ToString()=="Index"?"open":"")
+                            @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"open":"")
+                            @(ViewContext.RouteData.Values["Action"].ToString()=="ViewResolvedComplaints"?"open ":"")
+                            @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintDetails"?"open ":"")
+                            @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?"open ":"")
+                            @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintSolutionDetails"?"open ":"")">
+
+
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="fa fa-indent" aria-hidden="true"></i>
             <div data-i18n="الشكاوي" style="margin-right: 14px;">الشكاوي</div>
         </a>
         <ul class="menu-sub">
-
-            <li class="menu-item"  >
-                <a  href="/Beneficiarie/Index"   class="menu-link">
-                    <div data-i18n="المرفوعة">المرفوعة</div>
+            <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="Index"?"active":"")
+                @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintDetails"?"active":"") ">
+                <a href="/Beneficiarie/Index" class="menu-link">
+                    <div>عرض كافة الشكاوي </div>
                 </a>
             </li>
-
-            <li class="menu-item" >
-                <a asp-controller="Beneficiarie" asp-action="ViewResolvedComplaints" class="menu-link">
-                    <div data-i18n="المحلولة">المحلولة</div>
+            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"active":"")
+                @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?" active":"")">
+                <a href="/Beneficiarie/ViewRejectedComplaints" class="menu-link">
+                    <div>المرفوضة</div>
                 </a>
             </li>
-            <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"active":"")
-                                                                                        @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintDetails"?"active":"")" >
-                <a asp-controller="Beneficiarie" asp-action="ViewRejectedComplaints" class="menu-link">
-                    <div data-i18n="المرفوضة">المرفوضة</div>
+            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewResolvedComplaints"?"active":"")
+                @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintSolutionDetails"?"active ":"")">
+                <a href="/Beneficiarie/ViewResolvedComplaints" class="menu-link">
+                    <div>المحلولة</div>
                 </a>
             </li>
         </ul>
@@ -38,23 +46,22 @@
 
     <!-- البلاغات -->
     <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="البلاغات"?"open":"")
-                        @(ViewContext.RouteData.Values["Action"].ToString()=="إضافة_بلاغ_على_الموظف"?"open active":"")
-                                                @(ViewContext.RouteData.Values["Action"].ToString()=="عرض_بلاغ"?"open active":"")
-
-                        ">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="fa fa-flag" aria-hidden="true"></i>                <div data-i18n="البلاغات" style="margin-right: 14px;">البلاغات</div>
+                         @(ViewContext.RouteData.Values["Action"].ToString()=="AllCommunication"?"open":"")
+        @(ViewContext.RouteData.Values["Action"].ToString()=="AddCommunication"?"open":"")">
+        <a class="menu-link menu-toggle">
+            <i class="fa fa-flag" aria-hidden="true"></i>
+            <div data-i18n="البلاغات" style="margin-right: 14px;">البلاغات</div>
         </a>
 
         <ul class="menu-sub">
-            <li class="menu-item ">
-                <a asp-controller="Beneficiarie" asp-action="AllCommunication" class="menu-link">
-                    <div  style="margin-right: 14px;">البلاغات</div>
+            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AllCommunication"?"active":"")">
+                <a href="/Beneficiarie/AllCommunication" class="menu-link">
+                    <div data-i18n="البلاغات" style="margin-right: 14px;">البلاغات</div>
                 </a>
             </li>
-            <li class="menu-item " >
-                <a asp-controller="Beneficiarie" asp-action="AddCommunication" class="menu-link">
-                    <div > إضافة بلاغ على موظف</div>
+            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AddCommunication"?"active":"")">
+                <a href="/Beneficiarie/AddCommunication" class="menu-link">
+                    <div data-i18n="إضافة بلاغ على موظف"> إضافة بلاغ على موظف</div>
                 </a>
             </li>
 

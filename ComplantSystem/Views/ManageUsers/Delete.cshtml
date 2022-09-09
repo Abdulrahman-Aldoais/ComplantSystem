@@ -178,7 +178,7 @@
         @section scripts{
            
         
-                <script type="text/javascript">
+                @*<script type="text/javascript">
                     function deleteOrder(Id) {
                         debugger;
                         swal({
@@ -215,7 +215,7 @@
                                     });
                             });
                     }
-                </script>
+                </script>*@
 
         <script>
                 $(function () {
@@ -258,27 +258,5 @@
                     return false;
                 }
             </script>
-            <script type="text/javascript">
-                //this is only display bootstrap modal pop up dialog
-                var deleteConfirm = function (val) {
-                    $('#deletedValueName').text(val);
-                    $('#delete-conformation').modal('show');
-                }
-                //call this function after click on confirm delete button
-                var deleteData = function () {
-                    $('#divLoading').show();
-                    var id = $('#DeleteModal').val();
-                    $.ajax({
-                        type: "POST",
-                        url: "/ManageUsers/Delete",
-                        data: { id: id },
-                        success: function (result) {
-                            $("#delete-conformation").modal('hide');
-                        },
-                        error: function () {
-                            $("#delete-conformation").modal('hide');
-                        }
-                    });
-                }
-            </script>
+
         }

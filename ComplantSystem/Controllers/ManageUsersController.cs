@@ -17,14 +17,14 @@ using System.Threading.Tasks;
 
 namespace ComplantSystem.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "AdminGeneralFederation,AdminGovernorate,AdminDirectorate,AdminSubDirectorate")]
     public class ManageUsersController : Controller
     {
 
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ICompalintRepository _compalintService;
         private readonly ILocationRepo<Governorate> governorate;
         private readonly AppCompalintsContextDB _context;
@@ -35,7 +35,7 @@ namespace ComplantSystem.Controllers
             IUserService userService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager,
+            RoleManager<IdentityRole> roleManager,
             ICompalintRepository compalintService,
             ILocationRepo<Governorate> governorate,
             AppCompalintsContextDB context,
@@ -68,45 +68,9 @@ namespace ComplantSystem.Controllers
 
 
 
-        [Authorize(Roles = "AdminGeneralFederation,AdminGovernorate,AdminDirectorate,AdminSubDirectorate")]
-
-        public async Task<IActionResult> ViewUsers()
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var currentIdUser = currentUser.IdentityNumber;
 
 
 
-            var result = await _userService.GetAllAsync(currentIdUser);
-
-
-            int totalUsers = result.Count();
-
-            ViewBag.totalUsers = totalUsers;
-
-
-
-
-
-            //return View(await PaginatedList<ApplicationUser>.CreateAsync(result.AsNoTracking(), pageNumber ?? 1, pageSize));
-            return View(result.ToList());
-
-        }
-
-
-
-        public async Task<IActionResult> BeneficiariesAccount()
-        {
-            var result = await _userService.GetAllBenefAsync();
-
-            int totalUsers = result.Count();
-
-            ViewBag.totalUsers = totalUsers;
-
-
-            return View(result.ToList());
-
-        }
 
 
 
@@ -158,7 +122,7 @@ namespace ComplantSystem.Controllers
 
                 await _userService.AddAsync(model, currentName, currentId);
 
-                return RedirectToAction(nameof(ViewUsers));
+                return RedirectToAction("ViewUsers");
             }
             return View(model);
         }
@@ -181,18 +145,16 @@ namespace ComplantSystem.Controllers
         public async Task<IActionResult> Edit(string id)
         {
 
-            var users = await _userService.GetAllAsync();
-            ViewBag.UserCount = users.Count();
             var user = await _userService.GetByIdAsync(id);
 
             if (user == null)
             {
                 return NotFound();
             }
+
             var newUser = new EditUserViewModel
             {
                 GovernoratesList = await _context.Governorates.ToListAsync(),
-
 
                 FullName = user.FullName,
                 PhoneNumber = user.PhoneNumber,
@@ -203,10 +165,6 @@ namespace ComplantSystem.Controllers
                 DirectorateId = user.Directorate.Id,
                 SubDirectorateId = user.SubDirectorate.Id,
                 UserRoles = user.RoleId,
-
-
-                //userRoles = user.UserRoles,
-
 
             };
             ViewBag.ViewGover = newUser.GovernoratesList.ToArray();
@@ -236,7 +194,7 @@ namespace ComplantSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(ViewUsers));
+                return RedirectToAction("ViewUsers");
             }
             return View();
         }
@@ -310,7 +268,7 @@ namespace ComplantSystem.Controllers
             if (user != null)
             {
                 await _compalintService.DeleteAsync(Id);
-                return RedirectToAction(nameof(ViewUsers));
+                return RedirectToAction("ViewUsers");
             }
 
             return View(user);
@@ -322,7 +280,7 @@ namespace ComplantSystem.Controllers
         public async Task<IActionResult> DeleteConfirmed(string Id)
         {
             await _userService.DeleteAsync(Id);
-            return RedirectToAction(nameof(ViewUsers));
+            return RedirectToAction("ViewUsers");
         }
 
 
@@ -418,7 +376,7 @@ namespace ComplantSystem.Controllers
         public async Task<IActionResult> DisbleOrEnableUser(string id)
         {
             await _userService.EnableAndDisbleUser(id);
-            return RedirectToAction(nameof(ViewUsers));
+            return RedirectToAction("ViewUsers");
 
 
         }

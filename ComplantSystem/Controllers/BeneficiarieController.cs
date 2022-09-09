@@ -342,12 +342,7 @@ namespace ComplantSystem
         }
 
 
-        [AllowAnonymous]
-        public async Task<IActionResult> RejectedComplaints()
-        {
-            var allCompalints = await _service.GetAllAsync(n => n.StatusCompalintId == 2);
-            return View(allCompalints);
-        }
+
 
 
 

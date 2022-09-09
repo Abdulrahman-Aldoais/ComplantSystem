@@ -16,7 +16,7 @@ namespace ComplantSystem.Controllers
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ICompalintRepository _compalintService;
         private readonly IRegionsRepo _regions;
         private readonly AppCompalintsContextDB context;
@@ -26,7 +26,7 @@ namespace ComplantSystem.Controllers
             IUserService userService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<ApplicationRole> roleManager,
+            RoleManager<IdentityRole> roleManager,
             ICompalintRepository compalintService,
             IRegionsRepo regions,
             AppCompalintsContextDB context,

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComplantSystem.Migrations
 {
     [DbContext(typeof(AppCompalintsContextDB))]
-    [Migration("20220906230920_new")]
-    partial class @new
+    [Migration("20220908123821_nwe")]
+    partial class nwe
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -61,106 +61,6 @@ namespace ComplantSystem.Migrations
                     b.ToTable("Compalints_Solutions");
                 });
 
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1348e966-f92d-4c01-80f3-7768c3725dfc",
-                            ConcurrencyStamp = "09f738d2-261a-427d-bc3c-b8b31a6138f5",
-                            Name = "AdminGeneralFederation",
-                            NormalizedName = "ADMINGENERALFEDERATION"
-                        },
-                        new
-                        {
-                            Id = "a4334f84-558b-455e-ae08-db88897450bf",
-                            ConcurrencyStamp = "9817bc62-ee47-4dd9-9c17-2edc0f5cfba4",
-                            Name = "AdminGovernorate",
-                            NormalizedName = "ADMINGOVERNORATE"
-                        },
-                        new
-                        {
-                            Id = "7a5b297f-7989-4cee-80eb-68d04836a75d",
-                            ConcurrencyStamp = "9b0fcfd6-019f-4119-b16c-28a916fe0770",
-                            Name = "AdminDirectorate",
-                            NormalizedName = "ADMINDIRECTORATE"
-                        },
-                        new
-                        {
-                            Id = "3e6b1595-b065-484b-bf0a-0f7ee885e30c",
-                            ConcurrencyStamp = "c00302ad-70f7-4471-bada-0650201bfc99",
-                            Name = "AdminSubDirectorate",
-                            NormalizedName = "ADMINSUBDIRECTORATE"
-                        },
-                        new
-                        {
-                            Id = "3ad4fca3-105f-41bb-8fcb-c7d04d06d163",
-                            ConcurrencyStamp = "9cc6fb27-18be-4671-948c-4943d3c75c3c",
-                            Name = "AdminVillages",
-                            NormalizedName = "ADMINVILLAGES"
-                        },
-                        new
-                        {
-                            Id = "0998c30c-2bdd-42ba-b5e8-55aef13fdf67",
-                            ConcurrencyStamp = "14c5b9ef-f926-4610-b34e-8d7134b80de2",
-                            Name = "Beneficiarie",
-                            NormalizedName = "BENEFICIARIE"
-                        });
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationRoleClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("RoleId1");
-
-                    b.ToTable("RoleClaims");
-                });
-
             modelBuilder.Entity("ComplantSystem.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -168,9 +68,6 @@ namespace ComplantSystem.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<string>("ApplicationRoleId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -257,8 +154,6 @@ namespace ComplantSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationRoleId");
-
                     b.HasIndex("DirectorateId");
 
                     b.HasIndex("GovernorateId");
@@ -276,106 +171,6 @@ namespace ComplantSystem.Migrations
                     b.HasIndex("SubDirectorateId");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationUserClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("UserClaims");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationUserLogin", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("UserLogins");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationUserRole", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationUserToken", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("ComplantSystem.Models.BenefCommunication", b =>
@@ -772,15 +567,15 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "83a7ee8d-0f24-408b-9e91-a880a615451a",
-                            CreatedDate = new DateTime(2022, 9, 7, 2, 9, 18, 847, DateTimeKind.Local).AddTicks(6678),
+                            Id = "766e2d95-8e10-4ebb-93a0-adb8d2ae89fd",
+                            CreatedDate = new DateTime(2022, 9, 8, 15, 38, 20, 970, DateTimeKind.Local).AddTicks(8541),
                             Type = "تماطل",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         },
                         new
                         {
-                            Id = "a473b5c4-e77e-4ff2-a009-417ad7eb250a",
-                            CreatedDate = new DateTime(2022, 9, 7, 2, 9, 18, 847, DateTimeKind.Local).AddTicks(7416),
+                            Id = "2a1c4eda-9f01-45f3-bd09-65254ccdf577",
+                            CreatedDate = new DateTime(2022, 9, 8, 15, 38, 20, 970, DateTimeKind.Local).AddTicks(9176),
                             Type = "تلاعب بالحلول",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         });
@@ -813,15 +608,15 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1d4d8b5b-b14a-4a3a-b773-97c3b2029647",
-                            CreatedDate = new DateTime(2022, 9, 7, 2, 9, 18, 849, DateTimeKind.Local).AddTicks(2185),
+                            Id = "aa6107bf-9f33-4eca-8be2-0c7be6c1d0b9",
+                            CreatedDate = new DateTime(2022, 9, 8, 15, 38, 20, 971, DateTimeKind.Local).AddTicks(5705),
                             Type = "زراعية",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         },
                         new
                         {
-                            Id = "4c353df8-1a7d-4dfd-ac36-ef6987c8fb50",
-                            CreatedDate = new DateTime(2022, 9, 7, 2, 9, 18, 849, DateTimeKind.Local).AddTicks(3036),
+                            Id = "51b31d9f-5310-4489-9bcf-f7a4ab8fc561",
+                            CreatedDate = new DateTime(2022, 9, 8, 15, 38, 20, 971, DateTimeKind.Local).AddTicks(6119),
                             Type = "فساد",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         });
@@ -971,6 +766,179 @@ namespace ComplantSystem.Migrations
                     b.ToTable("UsersCommunications");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "709c5293-a1f7-4b46-8197-aa47a4ff614d",
+                            ConcurrencyStamp = "eb2fbf7e-26e1-45cc-936e-07c3fea0dd04",
+                            Name = "AdminGeneralFederation",
+                            NormalizedName = "ADMINGENERALFEDERATION"
+                        },
+                        new
+                        {
+                            Id = "e945b436-56ee-4a9c-bba5-02762fe7ecad",
+                            ConcurrencyStamp = "656d2990-f9d9-45ea-b235-29879eed9559",
+                            Name = "AdminGovernorate",
+                            NormalizedName = "ADMINGOVERNORATE"
+                        },
+                        new
+                        {
+                            Id = "62a6fdfc-f64b-48d6-bbdf-3dd3bbe4b739",
+                            ConcurrencyStamp = "7192b327-7f98-4a22-9475-0f5b5d3635b3",
+                            Name = "AdminDirectorate",
+                            NormalizedName = "ADMINDIRECTORATE"
+                        },
+                        new
+                        {
+                            Id = "4db4c664-9e3f-4310-8b7f-6db756d8cf8b",
+                            ConcurrencyStamp = "cbe6d7b7-4b65-4ed4-8ffa-a4f352ec75a0",
+                            Name = "AdminSubDirectorate",
+                            NormalizedName = "ADMINSUBDIRECTORATE"
+                        },
+                        new
+                        {
+                            Id = "1d12aac5-6622-468a-bd94-6a1f1e264513",
+                            ConcurrencyStamp = "2ec3b4f0-a10a-4bc2-8260-48f2d7f3aa64",
+                            Name = "Beneficiarie",
+                            NormalizedName = "BENEFICIARIE"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
             modelBuilder.Entity("ComplantSystem.Compalints_Solution", b =>
                 {
                     b.HasOne("ComplantSystem.Models.UploadsComplainte", "CompalintsHasSolution")
@@ -987,27 +955,8 @@ namespace ComplantSystem.Migrations
                     b.Navigation("UserAddSolution");
                 });
 
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationRoleClaim", b =>
-                {
-                    b.HasOne("ComplantSystem.Models.ApplicationRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComplantSystem.Models.ApplicationRole", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId1");
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("ComplantSystem.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("ComplantSystem.Models.ApplicationRole", null)
-                        .WithMany("Users")
-                        .HasForeignKey("ApplicationRoleId");
-
                     b.HasOne("ComplantSystem.Models.Directorate", "Directorate")
                         .WithMany("Users")
                         .HasForeignKey("DirectorateId")
@@ -1037,74 +986,6 @@ namespace ComplantSystem.Migrations
                     b.Navigation("Societies");
 
                     b.Navigation("SubDirectorate");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationUserClaim", b =>
-                {
-                    b.HasOne("ComplantSystem.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComplantSystem.Models.ApplicationUser", "User")
-                        .WithMany("Claims")
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationUserLogin", b =>
-                {
-                    b.HasOne("ComplantSystem.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComplantSystem.Models.ApplicationUser", "User")
-                        .WithMany("Logins")
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationUserRole", b =>
-                {
-                    b.HasOne("ComplantSystem.Models.ApplicationRole", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComplantSystem.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComplantSystem.Models.ApplicationUser", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationUserToken", b =>
-                {
-                    b.HasOne("ComplantSystem.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComplantSystem.Models.ApplicationUser", "User")
-                        .WithMany("Tokens")
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ComplantSystem.Models.Communication_Counter", b =>
@@ -1253,24 +1134,69 @@ namespace ComplantSystem.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ComplantSystem.Models.ApplicationRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Navigation("UserRoles");
+                    b.HasOne("ComplantSystem.Models.ApplicationUser", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ApplicationUserId");
+                });
 
-                    b.Navigation("Users");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("ComplantSystem.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("ComplantSystem.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ComplantSystem.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("ComplantSystem.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ComplantSystem.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Claims");
-
                     b.Navigation("Compalints_Solutions");
 
                     b.Navigation("ComplaintsRejecteds");
-
-                    b.Navigation("Logins");
-
-                    b.Navigation("Tokens");
 
                     b.Navigation("UserRoles");
 

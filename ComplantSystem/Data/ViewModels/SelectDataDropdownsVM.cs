@@ -11,7 +11,7 @@ namespace ComplantSystem.Models.Data.ViewModels
         
             TypeComplaints = new List<TypeComplaint>();
             StatusCompalints = new List<StatusCompalint>();
-            //identityRoles = new List<ApplicationRole>();
+            //identityRoles = new List<IdentityRole>();
 
 
         }
@@ -21,6 +21,6 @@ namespace ComplantSystem.Models.Data.ViewModels
       
         public List<TypeComplaint> TypeComplaints { get; set;}
         public List<StatusCompalint> StatusCompalints { get; set; }
-        //public List<ApplicationRole> identityRoles { get; set; }
+        //public List<IdentityRole> identityRoles { get; set; }
     }
 }

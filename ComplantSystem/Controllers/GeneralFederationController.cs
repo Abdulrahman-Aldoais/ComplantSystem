@@ -211,7 +211,38 @@ namespace ComplantSystem
 
         }
 
+        public async Task<IActionResult> ViewUsers()
+        {
 
+
+            var result = await _context.Users
+                .Include(s => s.Governorate)
+                .Include(g => g.Directorate)
+                .Include(d => d.SubDirectorate)
+                .ToListAsync();
+
+
+            int totalUsers = result.Count();
+
+            ViewBag.totalUsers = totalUsers;
+
+
+            //return View(await PaginatedList<ApplicationUser>.CreateAsync(result.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(result.ToList());
+
+        }
+
+        public async Task<IActionResult> AccountRestriction()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentIdUser = currentUser.IdentityNumber;
+            var result = _userService.GetAllUserBlockedAsync(currentIdUser);
+
+
+
+            return View(result.ToList());
+
+        }
 
         public async Task<IActionResult> ChaingStatusComp(string id)
         {
@@ -670,7 +701,23 @@ namespace ComplantSystem
 
         }
 
+        public async Task<IActionResult> BeneficiariesAccount()
+        {
 
+            var result = await _context.Users.Where(r => r.RoleId == 5)
+                .Include(g => g.Governorate)
+                .Include(g => g.Directorate)
+                .Include(g => g.SubDirectorate)
+                .ToListAsync();
+
+            int totalUsers = result.Count();
+
+            ViewBag.totalUsers = totalUsers;
+
+
+            return View(result.ToList());
+
+        }
         [HttpGet]
         public async Task<IActionResult> Download(string id)
         {

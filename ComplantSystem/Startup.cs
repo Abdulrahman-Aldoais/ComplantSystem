@@ -37,11 +37,8 @@ namespace ComplantSystem
             services.AddDbContext<AppCompalintsContextDB>(
         b => b.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
               //.UseLazyLoadingProxies()
-              )
-              .AddIdentity<ApplicationUser, ApplicationRole>()
-              .AddDefaultUI()
-              .AddEntityFrameworkStores<AppCompalintsContextDB>()
-              .AddDefaultTokenProviders();
+              );
+
 
 
 
@@ -55,6 +52,8 @@ namespace ComplantSystem
             services.AddScoped<ILocationRepo<Directorate>, DirectorateRepo>();
             services.AddScoped<ILocationRepo<SubDirectorate>, SubDirectorateRepo>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppCompalintsContextDB>().AddDefaultTokenProviders();
 
             services.AddAdminServices();
 
@@ -65,26 +64,13 @@ namespace ComplantSystem
 
             services.AddAutoMapper(typeof(Startup));
 
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.LoginPath = "/Identity/Account/Login";
-            //});
+
 
             services.AddMemoryCache();
             services.AddSession();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
-
-            //services.AddAuthorization(options =>
-            //{
-
-            //    options.AddPolicy("Beneficiarie",
-            //        authBuilder =>
-            //        {
-            //            authBuilder.RequireRole("Beneficiarie");
-            //        });
-
-            //});
 
 
 
@@ -111,23 +97,26 @@ namespace ComplantSystem
             app.UseStaticFiles();
 
 
-            app.UseSession();
+            //app.UseSession();
+
 
             //Authentication & Authorization
 
-            //Jwt >> JOSN Web TOKEN. 
+
+
             app.UseAuthentication();
             //Account/Login            >> Url , Route.
-            //Posts/Detials/8/9/2022
+            //Posts/Detials/5/11/2020
             app.UseRouting();
 
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Account}/{action=Login}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
 
