@@ -541,10 +541,10 @@
         <div class="offcanvas offcanvas-end" id="sendInvoiceOffcanvas" aria-hidden="true">
             <div class="offcanvas-header border-bottom">
                 <h6 class="offcanvas-title"> رفع الشكوى</h6>
-                <button type="button" asp-action="UpCompalint"></button>
+                <button type="button" asp-action="UpCompalint" asp-controller="GeneralFederation"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
-                <form asp-action="UpCompalint" method="post">
+                <form asp-action="UpCompalint" asp-controller="GeneralFederation" method="post">
 
 
                     <div class="mb-3">
@@ -566,10 +566,10 @@
         <div class="offcanvas offcanvas-end" id="complaintResolution" aria-hidden="true">
             <div class="offcanvas-header border-bottom">
                 <h6 class="offcanvas-title"> حل الشكوى</h6>
-                <button type="button" asp-action="AddSolutions" asp-controller="ManageComplaints"></button>
+                <button type="button" asp-action="AddSolutions" asp-controller="GeneralFederation"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
-                <form asp-action="AddSolutions" method="post">
+                <form asp-action="AddSolutions" asp-controller="GeneralFederation" method="post">
 
 
                     <div class="mb-3">
@@ -595,7 +595,7 @@
                 <button type="button" asp-action="RejectedThisComplaint" asp-controller="GeneralFederation"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
-                <form asp-action="RejectedThisComplaint" asp-controller="ManageComplaints" method="post">
+                <form asp-action="RejectedThisComplaint" asp-controller="GeneralFederation" method="post">
 
 
                     <div class="mb-3">
@@ -638,7 +638,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-nowrap">@Model.AddSolution.ContentSolution</td>
+                                        <td class="text-nowrap">
+                                            @Model.AddSolution.ContentSolution
+                                        </td>
 
                                     </tr>
 
@@ -657,6 +659,7 @@
     </div>
 
 </div>
+
 @section Scripts{
     <script>
 

@@ -17,7 +17,7 @@
 
     <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="الشكاوي"?"open":"")
                             @(ViewContext.RouteData.Values["Action"].ToString()=="Index"?"open":"")
-                            @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"open":"")
+                            @(ViewContext.RouteData.Values["Action"].ToString()=="RejectedComplaints"?"open":"")
 
 
                         @(ViewContext.RouteData.Values["Action"].ToString()=="SolutionComplaints"?"open ":"")
@@ -36,8 +36,8 @@
                     <div>عرض كافة الشكاوي </div>
                 </a>
             </li>
-            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"active":"")  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?" active":"")">
-                <a href="/SubManageComplaints/ViewRejectedComplaints" class="menu-link">
+            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="RejectedComplaints"?"active":"")  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?" active":"")">
+                <a href="/SubManageComplaints/RejectedComplaints" class="menu-link">
                     <div>المرفوضة</div>
                 </a>
             </li>

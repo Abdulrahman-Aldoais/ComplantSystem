@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -76,14 +77,133 @@ namespace ComplantSystem.Controllers
         }
 
 
+        public async Task<IActionResult> Report()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+
+
+            //-------------أحصائيات بالمستخدمين التابعين لنفس مديرية الموضف--------------------//
+
+
+            List<UsersIn> usersIn = new List<UsersIn>();
+            usersIn = ViewBag.totalUserSubDir;
+
+            List<ApplicationUser> applicationUsers = await _context.Users
+                .Where(s => s.GovernorateId == currentUser.GovernorateId && s.RoleId == 3 || s.RoleId == 5)
+                .Include(su => su.SubDirectorate).ToListAsync();
+
+            //Totalcountuser
+            int TotalUsers = applicationUsers.Count();
+
+            ViewBag.Users = TotalUsers;
+
+            //total Govermentuser
+            ViewBag.totalUserSubDir = applicationUsers.GroupBy(j => j.SubDirectorateId).Select(g => new UsersIn
+            {
+                Name = g.First().SubDirectorate.Name,
+                totalUsers = g.Count().ToString(),
+                Users = (g.Count() * 100) / TotalUsers
+
+
+            }).ToList();
+
+
+
+            //------------- نـــــهاية أحصائيات بالمستخدمين التابعين لنفس مديرية الموضف--------------------//
+
+
+            //-------------أحصائيات انواع الشكاوى المقدمة لنفس مديرية الموضف--------------------//
+
+
+
+            List<UploadsComplainte> compalints = await _context.UploadsComplaintes
+                .Where(s => s.GovernorateId == currentUser.GovernorateId)
+                .Include(su => su.TypeComplaint).ToListAsync();
+            List<TypeCompalints> typeCompalints = new List<TypeCompalints>();
+            typeCompalints = ViewBag.GrapComplanrType;
+
+            int totalcomplant = compalints.Count();
+            ViewBag.Totalcomplant = totalcomplant;
+
+            ViewBag.GrapComplanrType = compalints.GroupBy(x => x.TypeComplaintId).Select(g => new TypeCompalints
+            {
+                Name = g.First().TypeComplaint.Type,
+                TotalCount = g.Count().ToString(),
+                TypeComp = (g.Count() * 100) / totalcomplant
+            }).ToList();
+
+
+
+
+            //------------- نهاية أحصائيات انواع الشكاوى المقدمة لنفس مديرية الموضف--------------------//
+
+
+            //-------------أحصائيات حالات الشكاوى المقدمة لنفس مديرية الموضف--------------------//
+
+
+            List<UploadsComplainte> stutuscompalints = await _context.UploadsComplaintes
+                .Where(s => s.GovernorateId == currentUser.GovernorateId)
+                .Include(su => su.StatusCompalint).ToListAsync();
+            List<StutusCompalints> stutusCompalints = new List<StutusCompalints>();
+            stutusCompalints = ViewBag.GrapComplanrStutus;
+
+            int totalStutuscomplant = stutuscompalints.Count();
+            ViewBag.TotalStutusComplant = totalStutuscomplant;
+
+            ViewBag.GrapComplanrStutus = stutuscompalints.GroupBy(s => s.StatusCompalintId).Select(g => new StutusCompalints
+            {
+                Name = g.First().StatusCompalint.Name,
+                TotalCountStutus = g.Count().ToString(),
+                stutus = (g.Count() * 100) / totalStutuscomplant
+            }).ToList();
+
+
+
+
+
+
+            //------------- نهاية أحصائيات حالات الشكاوى المقدمة لنفس مديرية الموضف--------------------//
+            return View();
+        }
+
+
+        public class TypeCompalints
+        {
+            public string Name { get; set; }
+
+            public string TotalCount { get; set; }
+            public double TypeComp { get; set; }
+
+        }
+
+        public class StutusCompalints
+        {
+            public string Name { get; set; }
+
+            public string TotalCountStutus { get; set; }
+            public double stutus { get; set; }
+
+        }
+
+        public class UsersIn
+        {
+
+            public string Name { get; set; }
+
+            public string totalUsers { get; set; }
+            public double Users { get; set; }
+
+        }
         public async Task<IActionResult> ViewUsers()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var currentIdUser = currentUser.IdentityNumber;
-
-
-
-            var result = await _userService.GetAllAsync(currentIdUser);
+            var result = await _context.Users.Where(d => d.UserId == currentUser.IdentityNumber)
+                 .OrderByDescending(d => d.CreatedDate)
+                 .Include(g => g.Governorate)
+                 .Include(g => g.Directorate)
+                 .Include(g => g.SubDirectorate)
+                 .ToListAsync();
 
 
             int totalUsers = result.Count();

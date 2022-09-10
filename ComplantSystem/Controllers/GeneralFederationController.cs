@@ -1,5 +1,7 @@
-﻿using ComplantSystem.Data.Base;
+﻿using ComplantSystem.Const;
+using ComplantSystem.Data.Base;
 using ComplantSystem.Data.ViewModels;
+using ComplantSystem.Hubs;
 using ComplantSystem.Models;
 using ComplantSystem.Service;
 using ComplantSystem.Service.Helpers;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,6 +29,7 @@ namespace ComplantSystem
         private readonly ICompalintRepository _compReop;
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHubContext<NotefcationHub> notificationHub;
         private readonly IWebHostEnvironment _env;
         private readonly ICategoryService _service;
         private readonly AppCompalintsContextDB _context;
@@ -36,6 +40,7 @@ namespace ComplantSystem
             ICompalintRepository compReop,
             IUserService userService,
             UserManager<ApplicationUser> userManager,
+            IHubContext<NotefcationHub> notificationHub,
 
             IWebHostEnvironment env,
 
@@ -45,6 +50,7 @@ namespace ComplantSystem
             _compReop = compReop;
             _userService = userService;
             _userManager = userManager;
+            this.notificationHub = notificationHub;
             _service = service;
             _context = context;
             _env = env;
@@ -177,7 +183,7 @@ namespace ComplantSystem
 
         public async Task<IActionResult> RejectedComplaints()
         {
-            var allComp = _compReop.GetAll();
+            var allComp = _compReop.GetAll().Where(s => s.StatusCompalintId == 3); ;
             var totaleComp = allComp.Count(); ;
             ViewBag.totaleComp = totaleComp;
             return View(allComp);
@@ -185,37 +191,38 @@ namespace ComplantSystem
 
         public async Task<IActionResult> SolutionComplaints()
         {
-            var allComp = _compReop.GetAll();
+            var allComp = _compReop.GetAll().Where(s => s.StatusCompalintId == 2);
             var totaleComp = allComp.Count(); ;
             ViewBag.totaleComp = totaleComp;
             return View(allComp);
         }
 
-        public async Task<IActionResult> UpCompalint(string id, UploadsComplainte complainte)
-        {
+        //public async Task<IActionResult> UpCompalint(string id, UploadsComplainte complainte)
+        //{
 
-            var upComp = await _compReop.FindAsync(id);
-            var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
-            if (dbComp != null)
-            {
+        //    var upComp = await _compReop.FindAsync(id);
+        //    var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+        //    if (dbComp != null)
+        //    {
 
-                dbComp.Id = complainte.Id;
-                dbComp.StagesComplaintId = dbComp.StagesComplaintId + 1;
+        //        dbComp.Id = complainte.Id;
+        //        dbComp.StagesComplaintId = dbComp.StagesComplaintId + 1;
 
 
-                await _context.SaveChangesAsync();
-            }
+        //        await _context.SaveChangesAsync();
+        //    }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(AllComplaints));
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(AllComplaints));
 
-        }
+        //}
 
         public async Task<IActionResult> ViewUsers()
         {
 
 
-            var result = await _context.Users
+            var result = await _context.Users.Where(r => r.RoleId != 5)
+                .OrderByDescending(d => d.CreatedDate)
                 .Include(s => s.Governorate)
                 .Include(g => g.Directorate)
                 .Include(d => d.SubDirectorate)
@@ -231,6 +238,137 @@ namespace ComplantSystem
             return View(result.ToList());
 
         }
+
+        // GET: Users/Create
+        public async Task<IActionResult> Create()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentName = currentUser.FullName;
+            var model = new AddUserViewModel()
+            {
+
+                GovernoratesList = await _context.Governorates.ToListAsync()
+            };
+            ViewBag.ViewGover = model.GovernoratesList.ToArray();
+            return View(model);
+        }
+
+        [HttpPost]
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AddUserViewModel model)
+        {
+            model.GovernoratesList = await _context.Governorates.ToListAsync();
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentName = currentUser.FullName;
+            var currentId = currentUser.IdentityNumber;
+
+            if (ModelState.IsValid)
+            {
+                var userIdentity = await _userManager.FindByEmailAsync(model.IdentityNumber);
+                if (userIdentity != null)
+                {
+                    ModelState.AddModelError("Email", "email aoset");
+                    model.GovernoratesList = await _context.Governorates.ToListAsync();
+                    ViewBag.ViewGover = model.GovernoratesList.ToArray();
+                    return View(model);
+                }
+                if (_userService.returntype == 1)
+                {
+                    TempData["Error"] = _userService.Error;
+                    return View(model);
+                }
+                else if (_userService.returntype == 2)
+                {
+                    TempData["Error"] = _userService.Error;
+                    return View(model);
+                }
+
+
+                await _userService.AddAsync(model, currentName, currentId);
+
+                return RedirectToAction("ViewUsers");
+            }
+            return View(model);
+        }
+        // GET: Users/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            var users = await _userService.GetAllAsync();
+            ViewBag.UserCount = users.Count();
+
+            var user = await _userService.GetByIdAsync((string)id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // GET: Users/Edit/5
+        public async Task<IActionResult> Edit(string id)
+        {
+
+            var user = await _userService.GetByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var newUser = new EditUserViewModel
+            {
+                GovernoratesList = await _context.Governorates.ToListAsync(),
+
+                FullName = user.FullName,
+                PhoneNumber = user.PhoneNumber,
+                IdentityNumber = user.IdentityNumber,
+                IsBlocked = user.IsBlocked,
+                DateOfBirth = user.DateOfBirth,
+                GovernorateId = user.Governorate.Id,
+                DirectorateId = user.Directorate.Id,
+                SubDirectorateId = user.SubDirectorate.Id,
+                UserRoles = user.RoleId,
+
+            };
+            ViewBag.ViewGover = newUser.GovernoratesList.ToArray();
+            return View(newUser);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, EditUserViewModel user)
+        {
+            var users = await _userService.GetAllAsync();
+            ViewBag.UserCount = users.Count();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _userService.UpdateAsync(id, user);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("ViewUsers");
+            }
+            return View();
+        }
+
+        private bool UserExists(string id)
+        {
+            return string.IsNullOrEmpty(_userService.GetByIdAsync(id).ToString());
+        }
+
 
         public async Task<IActionResult> AccountRestriction()
         {
@@ -643,9 +781,15 @@ namespace ComplantSystem
         }
 
 
-        public IActionResult AllCirculars()
+        public async Task<IActionResult> AllCirculars()
         {
-            return View();
+            var adminUsers = await _userManager.GetUsersInRoleAsync(UserRoles.AdminSubDirectorate);
+            var adminIds = adminUsers.Select(user => user.Id);
+            if (adminIds.Any())
+            {
+                await notificationHub.Clients.Users(adminIds).SendAsync("ReceiveNotification", "WOOOOOOOOOOOOO");
+            }
+            return RedirectToAction();
         }
 
         public IActionResult AddCirculars()

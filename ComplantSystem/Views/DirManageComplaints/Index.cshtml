@@ -1,8 +1,9 @@
 ﻿
 @model IEnumerable<ComplantSystem.Models.UploadsComplainte>
 
-@{ ViewData["Title"] = "إدارة الشكاوى في الاتحاد";
-    ViewData["SubTitle"] = "إدارة النظام ";
+@{  
+    ViewData["Title"] = "إدارة الشكاوى في المديرية";
+    ViewData["SubTitle"] = "المديرية";
     ViewData["SubTitle2"] = "إدارة الشكاوى  ";
 
 }
@@ -13,7 +14,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="breadcrumb-wrapper py-3 mb-4">
-                <span class="text-muted fw-light">الشكاوي    /</span> الشكاوي
+                <span class="text-muted fw-light">@ViewData["SubTitle2"]/</span> @ViewData["SubTitle"]
             </h4>
 
             <div class="card">
@@ -21,7 +22,7 @@
                     <div class="row mx-2  ">
                         <div class="col-md-6">
                             <div class="t-d">
-                                <h5 class="card-header title-t"> الشكاوي</h5>
+                                <h4 class="card-header title-t">كافةالشكاوى</h4>
                             </div>
 
                         </div>
@@ -78,9 +79,9 @@
 
                                         <div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
                                             <div class="me-3 table-type search-paddind">
-                                                <span class="table-span">بحث</span>
+
                                                 <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                                    <label><input type="search" id="CustomSearchTextField" class="form-controls" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
+                                                    <label><input type="search" id="CustomSearchTextField" class="form-control" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
                                                 </div>
                                             </div>
                                         </div>

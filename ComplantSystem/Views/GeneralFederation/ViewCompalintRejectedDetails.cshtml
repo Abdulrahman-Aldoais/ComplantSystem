@@ -190,7 +190,7 @@
                                             <div class="accordion-body">
                                                 @if (Model.compalint.StatusCompalint?.Name == "مرفوضة")
                                                 {
-                                                    <span class="badge bg-danger text-white"> @Model.compalint.TypeComplaint?.Type</span>
+                                                    <span class="badge bg-danger text-white"> @Model.compalint.StatusCompalint?.Name</span>
 
                                                 }
                                                 else
@@ -230,7 +230,7 @@
 
 
 
-                    <!-- Bordered Table -->
+                    <!-- الحلول المقدمة للشكوى-->
 
 
 
@@ -270,7 +270,7 @@
                                                 {
                                                     <tr>
                                                         <td colspan="3" style="color:red">
-                                                            لا يوجد نتائج
+                                                            لا يوجد بعد حلول لهذه الشكوى
                                                         </td>
                                                     </tr>
                                                 }
@@ -374,7 +374,7 @@
                     </div>
 
                     <hr class="container-m-nx my-2" />
-                    <!--/ Bordered Table -->
+                    <!--/ الحلول المقدمة للشكوى -->
 
                     <hr />
                     <!-- Accordion -->
@@ -485,16 +485,137 @@
                                         </div>
                                         @*<p class="card-text"></p>*@
                                         <p class="card-text"><small class="text-muted">@Model.compalint.UploadDate</small></p>
-                                        <div class="text-right">
+                                        <div class="text-right ">
                                             <a asp-action="Download" asp-controller="GeneralFederation" asp-route-id="@Model.compalint.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
+                        <!-- الحلول المقدمة للشكوى-->
+
+
+
+                        <hr class="container-m-nx my-2" />
+                        <div class="card">
+                            <h5 class="card-header bx-font-color" style="color:red;"> الموضف الرافض لهذه الشكوى</h5>
+                            <div class="card-body">
+                                <div class="table-responsive text-nowrap">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+
+                                        <div class="table-responsive text-nowrap">
+
+                                            <table id="example" class="table table-bordered table table-bordered">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th class="row-cols-md-4">
+                                                            الموضف الذي قام برفضها
+                                                        </th>
+
+                                                        <th class="col-sm-1">
+                                                            سبب الرفض
+                                                        </th>
+                                                        <th class="col-sm-2">
+                                                            الصلاحية
+                                                        </th>
+                                                        <th class="col-sm-1">
+                                                            تاريخ الرفض
+                                                        </th>
+
+
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @if (Model.Compalints_SolutionList.Count() == 0)
+                                                    {
+                                                        <tr>
+                                                            <td colspan="3" style="color:red">
+                                                                لم يتم رفض هذه الشكوى من قبل اي موضف
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        @foreach (var item in Model.ComplaintsRejectedList)
+                                                        {
+                                                            <tr>
+                                                                <td class="width content">
+                                                                    @Html.DisplayFor(modelItem => item.RejectedProvName)
+                                                                </td>
+                                                                <td>
+                                                                    <div class="row demo-vertical-spacing">
+                                                                        <div class="d-inline-block">
+                                                                            <button type="button"
+                                                                                    class="btn btn-secondary text-nowrap"
+                                                                                    data-bs-toggle="popover"
+                                                                                    data-bs-offset="0,14"
+                                                                                    data-bs-placement="top"
+                                                                                    data-bs-html="true"
+                                                                                    data-bs-content="<p> @Html.DisplayFor(modelItem => item.reume)</p> <div class='d-flex justify-content-between'><button type='button' class='btn btn-sm btn-label-secondary'>تخطي</button><button type='button' class='btn btn-sm btn-primary'>إقراء المزيد </button></div>"
+                                                                                    title="الحل المقترح">
+                                                                                انقر هنا لعرض الحل
+                                                                            </button>
+                                                                            <button type="button"
+                                                                                    asp-route-id="@item.Id"
+                                                                                    class="btn btn-primary"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#modalScrollable"
+                                                                                    title="الحل المقترح">
+
+                                                                                انقر هنا لعرض الحل
+                                                                            </button>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+
+
+
+
+                                                                <td>
+                                                                    @if (@item.Role == "AdminGeneralFederation")
+                                                                    {
+                                                                        <span class="badge bg-label-success">مدير اتحاد</span>
+                                                                    }
+                                                                    else if (@item.Role == "AdminGovernorate")
+                                                                    {
+                                                                        <span class="badge bg-label-warning"> مدير محافظة</span>
+                                                                    }
+                                                                    else if (@item.Role == "AdminDirectorate")
+                                                                    {
+                                                                        <span class="badge bg-label-warning"> مدير مديرة</span>
+                                                                    }
+                                                                    else if (@item.Role == "AdminSubDirectorate")
+                                                                    {
+                                                                        <span class="badge bg-label-warning"> مدير عزلة</span>
+                                                                    }
+                                                                <td>
+                                                                    @Html.DisplayFor(modelItem => item.DateSolution)
+                                                                </td>
+
+                                                            </tr>
+                                                        }
+                                                    }
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="container-m-nx my-2" />
+                        <!--/ الحلول المقدمة للشكوى -->
                     </div>
-                    <hr />
-                   
+
 
                 </div>
             </div>
@@ -508,20 +629,18 @@
         <div class="invoice-actions col-12 col-lg-3">
             <div class="card mb-4">
                 <div class="card-body">
-                    <button class="btn btn-primary d-grid w-100"
+
+
+                    <button class="btn btn-primary mb-2 mt-2  d-grid w-100"
                             data-bs-toggle="offcanvas"
-                            data-bs-target="#sendInvoiceOffcanvas">
-                        <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>رفع الشكوى</span>
-                    </button>
-                    <div class="d-flex my-3">
-                        <a href="./app-invoice-preview.html" class="btn btn-label-secondary w-100 me-3">خروج</a>
-                        <button type="button" class="btn btn-label-secondary w-100">إلغاء</button>
-                    </div>
-                    <button class="btn btn-primary d-grid w-100"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#sendInvoiceOffcanvas">
+                            data-bs-target="#complaintResolution">
                         <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i> حل الشكوى</span>
                     </button>
+
+                    <div class="d-flex my-3">
+                        <a asp-action="AllComplaints" asp-controller="GeneralFederation" class="btn btn-label-secondary w-100 me-3">خروج</a>
+                        <button type="button" class="btn btn-label-secondary w-100">إلغاء</button>
+                    </div>
                 </div>
             </div>
             <div>
@@ -532,17 +651,17 @@
         </div>
         <!-- /Invoice Actions -->
         <!-- حل الشكوى -->
-        <div class="offcanvas offcanvas-end" id="sendInvoiceOffcanvas" aria-hidden="true">
+        <div class="offcanvas offcanvas-end" id="complaintResolution" aria-hidden="true">
             <div class="offcanvas-header border-bottom">
-                <h6 class="offcanvas-title"> رفع الشكوى</h6>
-                <button type="button" asp-action="UpCompalint"></button>
+                <h6 class="offcanvas-title"> حل الشكوى</h6>
+                <button type="button" asp-action="AddSolutions" asp-controller="GeneralFederation"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
-                <form asp-action="AddSolutions" method="post">
+                <form asp-action="AddSolutions" asp-controller="GeneralFederation" method="post">
 
 
                     <div class="mb-3">
-                        <label for="invoice-message" class="form-label">سبب رفع الشكوى</label>
+                        <label for="invoice-message" class="form-label"> الحل المقدم لهذه الشكوى</label>
                         <input type="hidden" asp-for="@Model.AddSolution.UploadsComplainteId" />
                         <textarea asp-for="@Model.AddSolution.ContentSolution" class="form-control" cols="3" rows="4"></textarea>
                         <span class="text-danger" asp-validation-for="@Model.AddSolution.ContentSolution"></span>
@@ -556,6 +675,7 @@
             </div>
         </div>
         <!-- /حل الشكوى -->
+      
         <!-- Form with Image horizontal Modal -->
         <div class="modal-onboarding modal fade animate__animated" id="onboardHorizontalImageModal" tabindex="-1"
              aria-hidden="true">
@@ -579,7 +699,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-nowrap">@Model.AddSolution.ContentSolution</td>
+                                        <td class="text-nowrap">
+                                            @Model.AddSolution.ContentSolution
+                                        </td>
 
                                     </tr>
 
@@ -590,24 +712,31 @@
                     </div>
 
                 </div>
+
             </div>
         </div>
 
         <!--/ Form with Image horizontal Modal -->
     </div>
+
 </div>
+
+
+
+
+
 @section Scripts{
     <script>
 
 
-'use strict';
+        'use strict';
 
-(function () {
-  const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-  const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl, { html: true, sanitize: false });
-  });
-})();
+        (function () {
+            const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl, { html: true, sanitize: false });
+            });
+        })();
 
     </script>
 }

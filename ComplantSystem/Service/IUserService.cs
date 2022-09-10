@@ -12,7 +12,7 @@ namespace ComplantSystem.Service
     {
         public string Error { get; set; }
         public int returntype { get; set; }
-        Task<IEnumerable<ApplicationUser>> GetAllAsync(string identityUser);
+        Task<IEnumerable<ApplicationUser>> GetAllAsync(string identityUser, int gorId, int dirId, int subId);
         Task<IEnumerable<ApplicationUser>> GetAllBenefAsync();
         Task<IEnumerable<ApplicationUser>> GetAllBenefAsync(params Expression<Func<ApplicationUser, object>>[] includeProperties);
         Task AddBenefAsync(AddUserViewModel entity, string originatorName, string CurrentUserLoginId);

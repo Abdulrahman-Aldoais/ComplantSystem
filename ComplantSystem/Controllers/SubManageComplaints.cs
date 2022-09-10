@@ -77,7 +77,7 @@ namespace ComplantSystem
             return View(compBy.ToList());
         }
 
-        public async Task<IActionResult> ViewRejectedComplaints()
+        public async Task<IActionResult> RejectedComplaints()
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
@@ -126,6 +126,31 @@ namespace ComplantSystem
             };
             return View(VM);
         }
+
+        public async Task<IActionResult> ViewCompalintRejectedDetails(string id)
+        {
+            var ComplantList = await _compReop.FindAsync(id);
+            AddSolutionVM addsoiationView = new AddSolutionVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ComplaintsRejectedVM rejectView = new ComplaintsRejectedVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ProvideSolutionsVM VM = new ProvideSolutionsVM
+            {
+                compalint = ComplantList,
+                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                RejectedComplaintVM = rejectView,
+                AddSolution = addsoiationView
+            };
+            return View(VM);
+        }
+
         public async Task<IActionResult> SolutionComplaints()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -163,7 +188,7 @@ namespace ComplantSystem
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(ViewRejectedComplaints));
+            return RedirectToAction(nameof(RejectedComplaints));
 
         }
         //-------------نــــهـــــــايـــة عرض الشكاوى المحلولة والمرفوضه والمرفوعه --------------------
@@ -175,9 +200,12 @@ namespace ComplantSystem
             var currentUser = await _userManager.GetUserAsync(User);
             var currentIdUser = currentUser.IdentityNumber;
 
+            var gov = currentUser.GovernorateId;
+            var dir = currentUser.DirectorateId;
+            var sub = currentUser.SubDirectorateId;
 
 
-            var result = await _userService.GetAllAsync(currentIdUser);
+            var result = await _userService.GetAllAsync(currentIdUser, gov, dir, sub);
 
 
             int totalUsers = result.Count();
@@ -266,7 +294,7 @@ namespace ComplantSystem
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("AllComplaints");
+                return RedirectToAction("Index");
 
             }
 
@@ -291,7 +319,7 @@ namespace ComplantSystem
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("AllComplaints");
+            return RedirectToAction("Index");
 
         }
 

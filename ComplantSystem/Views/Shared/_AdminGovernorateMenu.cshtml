@@ -5,8 +5,8 @@
 <ul style="font-family: 'Cairo'; font-size:18px" class="menu-inner py-1">
     <!-- الرئيسة -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text"> قائمة النظام</span></li>
-    <li class="menu-item">
-        <a asp-controller="ContentManagementsGeneralFederation" asp-action="Index" class="menu-link">
+    <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="Report"?"active":"")">
+        <a asp-controller="GovManageComplaints" asp-action="Report" class="menu-link">
             <i class="fa fa-home" aria-hidden="true"></i>
             <div data-i18n="الرئيسية" style="margin-right: 14px;">الرئيسية</div>
         </a>

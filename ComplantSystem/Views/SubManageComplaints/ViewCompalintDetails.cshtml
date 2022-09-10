@@ -647,7 +647,7 @@
                         @* <a asp-action="RejectedThisComplaint" asp-controller="GeneralFederation" asp-route-id="@Model.compalint.Id" class="btn btn-outline-danger"> رفض هذه الشكوى</a>*@
                     </button>
                     <div class="d-flex my-3">
-                        <a asp-action="AllComplaints" asp-controller="GeneralFederation" class="btn btn-label-secondary w-100 me-3">خروج</a>
+                        <a asp-action="AllComplaints" asp-controller="SubManageComplaints" class="btn btn-label-secondary w-100 me-3">خروج</a>
                         <button type="button" class="btn btn-label-secondary w-100">إلغاء</button>
                     </div>
                 </div>
@@ -663,7 +663,7 @@
         <div class="offcanvas offcanvas-end" id="sendInvoiceOffcanvas" aria-hidden="true">
             <div class="offcanvas-header border-bottom">
                 <h6 class="offcanvas-title"> رفع الشكوى</h6>
-                <button type="button" asp-action="UpCompalint"></button>
+                <button type="button" asp-action="UpCompalint" asp-controller="SubManageComplaints"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
                 <form asp-action="UpCompalint" method="post">
@@ -688,7 +688,7 @@
         <div class="offcanvas offcanvas-end" id="complaintResolution" aria-hidden="true">
             <div class="offcanvas-header border-bottom">
                 <h6 class="offcanvas-title"> حل الشكوى</h6>
-                <button type="button" asp-action="AddSolutions" asp-controller="ManageComplaints"></button>
+                <button type="button" asp-action="AddSolutions" asp-controller="SubManageComplaints"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
                 <form asp-action="AddSolutions" method="post">
@@ -714,10 +714,10 @@
         <div class="offcanvas offcanvas-end" id="rejectComplaint" aria-hidden="true">
             <div class="offcanvas-header border-bottom">
                 <h6 class="offcanvas-title"> رفض الشكوى</h6>
-                <button type="button" asp-action="RejectedThisComplaint" asp-controller="GeneralFederation"></button>
+                <button type="button" asp-action="RejectedThisComplaint" asp-controller="SubManageComplaints"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
-                <form asp-action="RejectedThisComplaint" asp-controller="ManageComplaints" method="post">
+                <form asp-action="RejectedThisComplaint" asp-controller="SubManageComplaints" method="post">
 
 
                     <div class="mb-3">
@@ -773,7 +773,7 @@
                     </div>
 
                 </div>
-
+                
             </div>
         </div>
 
@@ -781,51 +781,6 @@
     </div>
 
 </div>
-
-
-<!-- Modal Scroll long content -->
-<div class="col-md-3 col-lg-4">
-    <small class="text-light fw-semibold">Scrolling long content</small>
-
-    <div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalScrollableTitle">الحل المقدم لهذه الشكوى</h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        @Html.DisplayFor(modelItem => Model.ComplaintsRejectedList.First().reume)
-
-                    </p>
-                   
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary fa-angle-right" data-bs-dismiss="modal">
-                        إغلاق
-                    </button>
-                    @*<button type="button" class="btn btn-primary">Save changes</button>*@
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--<div class="demo-inline-spacing">-->
-        <!-- Button trigger modal -->
-        <!-- Button ModalScrollable -->
-        <!--<button type="button"
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#modalScrollable">
-            Option 2
-        </button>
-    </div>-->
-</div>
-
-<!-- Modal Backdrop -->
 
 
 @section Scripts{

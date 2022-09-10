@@ -375,10 +375,9 @@ namespace ComplantSystem.Service
             return null;
         }
 
-        public async Task<IEnumerable<ApplicationUser>> GetAllAsync(string identityUser)
+        public async Task<IEnumerable<ApplicationUser>> GetAllAsync(string identityUser, int govId, int dirId, int subId)
         {
-
-            return await context.Set<ApplicationUser>().Where(i => i.UserId == identityUser)
+            return await context.Set<ApplicationUser>().Where(i => i.UserId == identityUser || i.GovernorateId == govId || i.DirectorateId == dirId || i.SubDirectorateId == subId)
                 .OrderByDescending(d => d.CreatedDate)
                 .Include(g => g.Governorate)
                 .Include(g => g.Directorate)

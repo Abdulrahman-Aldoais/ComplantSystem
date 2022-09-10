@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace ComplantSystem
            ICategoryService service,
             ICompalintRepository compReop,
             IUserService userService,
+
             UserManager<ApplicationUser> userManager,
 
             IWebHostEnvironment env,
@@ -63,7 +65,7 @@ namespace ComplantSystem
             var currentUser = await _userManager.GetUserAsync(User);
 
             var allCompalintsVewi = await _compReop.GetAllAsync(g => g.Governorate, d => d.Directorate, b => b.SubDirectorate);
-            var compBy = allCompalintsVewi.Where(g => g.DirectorateId == currentUser.DirectorateId && g.StagesComplaintId == 2);
+            var compBy = allCompalintsVewi.Where(g => g.SubDirectorateId == currentUser.SubDirectorateId && g.StagesComplaintId == 2);
             var compalintDropdownsData = await _compReop.GetNewCompalintsDropdownsValues();
             ViewBag.StatusCompalints = new SelectList(compalintDropdownsData.StatusCompalints, "Id", "Name");
             ViewBag.TypeComplaints = new SelectList(compalintDropdownsData.TypeComplaints, "Id", "Type");
@@ -74,6 +76,127 @@ namespace ComplantSystem
 
             return View(compBy.ToList());
         }
+
+        public async Task<IActionResult> Report()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+
+
+            //-------------أحصائيات بالمستخدمين التابعين لنفس مديرية الموضف--------------------//
+
+
+            List<UsersIn> usersIn = new List<UsersIn>();
+            usersIn = ViewBag.totalUserSubDir;
+
+            List<ApplicationUser> applicationUsers = await _context.Users
+                .Where(s => s.DirectorateId == currentUser.DirectorateId && s.RoleId == 4 || s.RoleId == 5)
+                .Include(su => su.SubDirectorate).ToListAsync();
+
+            //Totalcountuser
+            int TotalUsers = applicationUsers.Count();
+
+            ViewBag.Users = TotalUsers;
+
+            //total Govermentuser
+            ViewBag.totalUserSubDir = applicationUsers.GroupBy(j => j.SubDirectorateId).Select(g => new UsersIn
+            {
+                Name = g.First().SubDirectorate.Name,
+                totalUsers = g.Count().ToString(),
+                Users = (g.Count() * 100) / TotalUsers
+
+
+            }).ToList();
+
+
+
+            //------------- نـــــهاية أحصائيات بالمستخدمين التابعين لنفس مديرية الموضف--------------------//
+
+
+            //-------------أحصائيات انواع الشكاوى المقدمة لنفس مديرية الموضف--------------------//
+
+
+
+            List<UploadsComplainte> compalints = await _context.UploadsComplaintes
+                .Where(s => s.DirectorateId == currentUser.DirectorateId)
+                .Include(su => su.TypeComplaint).ToListAsync();
+            List<TypeCompalints> typeCompalints = new List<TypeCompalints>();
+            typeCompalints = ViewBag.GrapComplanrType;
+
+            int totalcomplant = compalints.Count();
+            ViewBag.Totalcomplant = totalcomplant;
+
+            ViewBag.GrapComplanrType = compalints.GroupBy(x => x.TypeComplaintId).Select(g => new TypeCompalints
+            {
+                Name = g.First().TypeComplaint.Type,
+                TotalCount = g.Count().ToString(),
+                TypeComp = (g.Count() * 100) / totalcomplant
+            }).ToList();
+
+
+
+
+            //------------- نهاية أحصائيات انواع الشكاوى المقدمة لنفس مديرية الموضف--------------------//
+
+
+            //-------------أحصائيات حالات الشكاوى المقدمة لنفس مديرية الموضف--------------------//
+
+
+            List<UploadsComplainte> stutuscompalints = await _context.UploadsComplaintes
+                .Where(s => s.DirectorateId == currentUser.DirectorateId)
+                .Include(su => su.StatusCompalint).ToListAsync();
+            List<StutusCompalints> stutusCompalints = new List<StutusCompalints>();
+            stutusCompalints = ViewBag.GrapComplanrStutus;
+
+            int totalStutuscomplant = stutuscompalints.Count();
+            ViewBag.TotalStutusComplant = totalStutuscomplant;
+
+            ViewBag.GrapComplanrStutus = stutuscompalints.GroupBy(s => s.StatusCompalintId).Select(g => new StutusCompalints
+            {
+                Name = g.First().StatusCompalint.Name,
+                TotalCountStutus = g.Count().ToString(),
+                stutus = (g.Count() * 100) / totalStutuscomplant
+            }).ToList();
+
+
+
+
+
+
+            //------------- نهاية أحصائيات حالات الشكاوى المقدمة لنفس مديرية الموضف--------------------//
+            return View();
+        }
+
+
+        public class TypeCompalints
+        {
+            public string Name { get; set; }
+
+            public string TotalCount { get; set; }
+            public double TypeComp { get; set; }
+
+        }
+
+        public class StutusCompalints
+        {
+            public string Name { get; set; }
+
+            public string TotalCountStutus { get; set; }
+            public double stutus { get; set; }
+
+        }
+
+        public class UsersIn
+        {
+
+            public string Name { get; set; }
+
+            public string totalUsers { get; set; }
+            public double Users { get; set; }
+
+        }
+
+
 
 
 
@@ -127,11 +250,14 @@ namespace ComplantSystem
         public async Task<IActionResult> ViewUsers()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var currentIdUser = currentUser.IdentityNumber;
 
-
-
-            var result = await _userService.GetAllAsync(currentIdUser);
+            //var result = await _userService.GetAllAsync(currentIdUser, gov, dir, sub);
+            var result = await _context.Users.Where(d => d.UserId == currentUser.IdentityNumber && d.EmailConfirmed != false && d.RoleId != 5)
+                .OrderByDescending(d => d.CreatedDate)
+                .Include(g => g.Governorate)
+                .Include(g => g.Directorate)
+                .Include(g => g.SubDirectorate)
+                .ToListAsync();
 
 
             int totalUsers = result.Count();
@@ -152,7 +278,7 @@ namespace ComplantSystem
         public async Task<IActionResult> BeneficiariesAccount()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var result = await _context.Users.Where(r => r.RoleId == 6 && r.DirectorateId == currentUser.DirectorateId)
+            var result = await _context.Users.Where(r => r.RoleId == 5 && r.DirectorateId == currentUser.DirectorateId)
                 .Include(g => g.Governorate)
                 .Include(g => g.Directorate)
                 .Include(g => g.SubDirectorate)
@@ -171,12 +297,145 @@ namespace ComplantSystem
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var currentIdUser = currentUser.IdentityNumber;
-            var result = _userService.GetAllUserBlockedAsync(currentIdUser);
-
+            var result = await _context.Users.Where(u => u.EmailConfirmed == false && u.UserId == currentUser.IdentityNumber)
+                .OrderByDescending(d => d.CreatedDate)
+                .Include(s => s.Governorate)
+                .Include(g => g.Directorate)
+                .Include(d => d.SubDirectorate).ToListAsync();
 
 
             return View(result.ToList());
 
+        }
+
+        // GET: Users/Create
+        public async Task<IActionResult> Create()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentName = currentUser.FullName;
+            var model = new AddUserViewModel()
+            {
+
+                GovernoratesList = await _context.Governorates.ToListAsync()
+            };
+            ViewBag.ViewGover = model.GovernoratesList.ToArray();
+            return View(model);
+        }
+
+        [HttpPost]
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AddUserViewModel model)
+        {
+            model.GovernoratesList = await _context.Governorates.ToListAsync();
+            var currentUser = await _userManager.GetUserAsync(User);
+            var currentName = currentUser.FullName;
+            var currentId = currentUser.IdentityNumber;
+
+            if (ModelState.IsValid)
+            {
+                var userIdentity = await _userManager.FindByEmailAsync(model.IdentityNumber);
+                if (userIdentity != null)
+                {
+                    ModelState.AddModelError("Email", "email aoset");
+                    model.GovernoratesList = await _context.Governorates.ToListAsync();
+                    ViewBag.ViewGover = model.GovernoratesList.ToArray();
+                    return View(model);
+                }
+                if (_userService.returntype == 1)
+                {
+                    TempData["Error"] = _userService.Error;
+                    return View(model);
+                }
+                else if (_userService.returntype == 2)
+                {
+                    TempData["Error"] = _userService.Error;
+                    return View(model);
+                }
+
+
+                await _userService.AddAsync(model, currentName, currentId);
+
+                return RedirectToAction("ViewUsers");
+            }
+            return View(model);
+        }
+        // GET: Users/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            var users = await _userService.GetAllAsync();
+            ViewBag.UserCount = users.Count();
+
+            var user = await _userService.GetByIdAsync((string)id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // GET: Users/Edit/5
+        public async Task<IActionResult> Edit(string id)
+        {
+
+            var user = await _userService.GetByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var newUser = new EditUserViewModel
+            {
+                GovernoratesList = await _context.Governorates.ToListAsync(),
+
+                FullName = user.FullName,
+                PhoneNumber = user.PhoneNumber,
+                IdentityNumber = user.IdentityNumber,
+                IsBlocked = user.IsBlocked,
+                DateOfBirth = user.DateOfBirth,
+                GovernorateId = user.Governorate.Id,
+                DirectorateId = user.Directorate.Id,
+                SubDirectorateId = user.SubDirectorate.Id,
+                UserRoles = user.RoleId,
+
+            };
+            ViewBag.ViewGover = newUser.GovernoratesList.ToArray();
+            return View(newUser);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, EditUserViewModel user)
+        {
+            var users = await _userService.GetAllAsync();
+            ViewBag.UserCount = users.Count();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _userService.UpdateAsync(id, user);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("ViewUsers");
+            }
+            return View();
+        }
+
+        private bool UserExists(string id)
+        {
+            return string.IsNullOrEmpty(_userService.GetByIdAsync(id).ToString());
         }
 
         public async Task<IActionResult> ViewCompalintDetails(string id)
@@ -397,6 +656,34 @@ namespace ComplantSystem
                 return RedirectToAction("AllCommunication");
             }
             return View(communication);
+        }
+        public async Task<IActionResult> AllCommunication()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var UserId = currentUser.Id;
+            var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues();
+
+            ViewBag.TypeCommunication = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Name");
+
+            var result = _context.UsersCommunications.Where(u => u.UserId == currentUser.Id)
+            .OrderByDescending(d => d.CreateDate)
+            .Include(s => s.User)
+            .Include(s => s.TypeCommunication)
+            .Include(g => g.Governorate)
+            .Include(d => d.Directorate)
+            .Include(su => su.SubDirectorate);
+
+
+            //List<ApplicationUser> meeting = _context.Users.Where(m => m.Id == ).ToList<ApplicationUser>();
+
+
+
+
+            int totalCompalints = result.Count();
+
+            ViewBag.totalCompalints = totalCompalints;
+
+            return View(result.ToList());
         }
         public IActionResult AllCirculars()
         {

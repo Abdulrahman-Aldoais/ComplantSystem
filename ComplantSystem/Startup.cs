@@ -2,6 +2,7 @@
 using AutoMapper;
 using ComplantSystem.Configuration;
 using ComplantSystem.Data.Base;
+using ComplantSystem.Hubs;
 using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using ComplantSystem.Service;
@@ -57,6 +58,7 @@ namespace ComplantSystem
                 .AddEntityFrameworkStores<AppCompalintsContextDB>().AddDefaultTokenProviders();
 
             services.AddAdminServices();
+            services.AddSignalR();
 
 
             // Add services to the container.
@@ -121,6 +123,7 @@ namespace ComplantSystem
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<NotefcationHub>("/notefy");
             });
 
             UsersConfiguration.SeedUsersAndRolesAsync(app).Wait();

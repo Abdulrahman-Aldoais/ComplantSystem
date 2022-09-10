@@ -7,6 +7,7 @@
 @{
     ViewData["Title"] = "حسابات الموضفين";
     ViewData["subTitle"] = " المديرية";
+
 }
 
 <div class="content-wrapper">
@@ -187,7 +188,7 @@
                                                 </button>
 
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" asp-action="Details" asp-route-id="@user.Id">عرض</a></li>
+                                                    <li><a class="dropdown-item" asp-action="Details" asp-controller="ManageUsers" asp-route-id="@user.Id">عرض</a></li>
 
                                                     <li>
 
@@ -199,11 +200,11 @@
                                                     <li>
                                                         @if (user.EmailConfirmed)
                                                         {
-                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">توقيف</a>
+                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-controller="ManageUsers" asp-route-id="@user.Id">توقيف</a>
                                                         }
                                                         else
                                                         {
-                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">تنشيط</a>
+                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-controller="ManageUsers" asp-route-id="@user.Id">تنشيط</a>
 
                                                         }
 
@@ -214,7 +215,7 @@
                                                 </ul>
 
                                             </div>
-                                            <a class="btn btn-sm btn-icon item-edit" asp-action="Edit" asp-route-id="@user.Id"><i class="bx bxs-edit"></i></a>
+                                            <a class="btn btn-sm btn-icon item-edit" asp-action="Edit" asp-controller="ManageUsers" asp-route-id="@user.Id"><i class="bx bxs-edit"></i></a>
                                         </td>
                                     </tr>
                                 }

@@ -500,7 +500,7 @@
 
                         <hr class="container-m-nx my-2" />
                         <div class="card">
-                            <h5 class="card-header bx-font-color" style="color:red; font:600"> الموضف الرافض لهذه الشكوى</h5>
+                            <h5 class="card-header bx-font-color" style="color:red;"> الموضف الرافض لهذه الشكوى</h5>
                             <div class="card-body">
                                 <div class="table-responsive text-nowrap">
                                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -629,11 +629,7 @@
         <div class="invoice-actions col-12 col-lg-3">
             <div class="card mb-4">
                 <div class="card-body">
-                    <button class="btn btn-primary mb-2 mt-1  d-grid w-100"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#sendInvoiceOffcanvas">
-                        <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>رفع الشكوى</span>
-                    </button>
+                  
 
                     <button class="btn btn-primary mb-2 mt-2  d-grid w-100"
                             data-bs-toggle="offcanvas"
@@ -659,39 +655,15 @@
             </div>
         </div>
         <!-- /Invoice Actions -->
-        <!-- رفع الشكوى -->
-        <div class="offcanvas offcanvas-end" id="sendInvoiceOffcanvas" aria-hidden="true">
-            <div class="offcanvas-header border-bottom">
-                <h6 class="offcanvas-title"> رفع الشكوى</h6>
-                <button type="button" asp-action="UpCompalint"></button>
-            </div>
-            <div class="offcanvas-body flex-grow-1">
-                <form asp-action="UpCompalint" method="post">
-
-
-                    <div class="mb-3">
-                        <label for="invoice-message" class="form-label">سبب رفع الشكوى</label>
-                        <input type="hidden" asp-for="@Model.AddSolution.UploadsComplainteId" />
-                        <textarea asp-for="@Model.AddSolution.ContentSolution" class="form-control" cols="3" rows="4"></textarea>
-                        <span class="text-danger" asp-validation-for="@Model.AddSolution.ContentSolution"></span>
-                    </div>
-
-                    <div class="d-flex flex-wrap mb-3">
-                        <button type="submit" class="btn btn-primary me-3" data-bs-dismiss="offcanvas">إرسال</button>
-                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">إالغاء</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!-- /رفع الشكوى -->
+        
         <!-- حل الشكوى -->
         <div class="offcanvas offcanvas-end" id="complaintResolution" aria-hidden="true">
             <div class="offcanvas-header border-bottom">
                 <h6 class="offcanvas-title"> حل الشكوى</h6>
-                <button type="button" asp-action="AddSolutions" asp-controller="ManageComplaints"></button>
+                <button type="button" asp-action="AddSolutions" asp-controller="GeneralFederation"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
-                <form asp-action="AddSolutions" method="post">
+                <form asp-action="AddSolutions"asp-controller="GeneralFederation" method="post">
 
 
                     <div class="mb-3">
@@ -717,7 +689,7 @@
                 <button type="button" asp-action="RejectedThisComplaint" asp-controller="GeneralFederation"></button>
             </div>
             <div class="offcanvas-body flex-grow-1">
-                <form asp-action="RejectedThisComplaint" asp-controller="ManageComplaints" method="post">
+                <form asp-action="RejectedThisComplaint" asp-controller="GeneralFederation" method="post">
 
 
                     <div class="mb-3">
@@ -783,49 +755,7 @@
 </div>
 
 
-<!-- Modal Scroll long content -->
-<div class="col-md-3 col-lg-4">
-    <small class="text-light fw-semibold">Scrolling long content</small>
 
-    <div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalScrollableTitle">الحل المقدم لهذه الشكوى</h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        @Html.DisplayFor(modelItem => Model.ComplaintsRejectedList.First().reume)
-
-                    </p>
-                   
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary fa-angle-right" data-bs-dismiss="modal">
-                        إغلاق
-                    </button>
-                    @*<button type="button" class="btn btn-primary">Save changes</button>*@
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--<div class="demo-inline-spacing">-->
-        <!-- Button trigger modal -->
-        <!-- Button ModalScrollable -->
-        <!--<button type="button"
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#modalScrollable">
-            Option 2
-        </button>
-    </div>-->
-</div>
-
-<!-- Modal Backdrop -->
 
 
 @section Scripts{

@@ -125,7 +125,7 @@ namespace ComplantSystem.Controllers
                         }
                         else if (User.IsInRole(UserRoles.AdminDirectorate))
                         {
-                            return RedirectToAction("Index", "DirManageComplaints");
+                            return RedirectToAction("Report", "DirManageComplaints");
 
                         }
                         else if (User.IsInRole(UserRoles.AdminSubDirectorate))
@@ -143,6 +143,7 @@ namespace ComplantSystem.Controllers
                     }
 
                 }
+
 
             }
             return View(model);
