@@ -72,7 +72,7 @@
         </ul>
     </li>
     <!-- التعميمات -->
-    <li class="menu-item   @(ViewContext.RouteData.Values["Action"].ToString()=="البلاغات"?"open":"")
+    @*<li class="menu-item   @(ViewContext.RouteData.Values["Action"].ToString()=="البلاغات"?"open":"")
                          @(ViewContext.RouteData.Values["Action"].ToString()=="AllCommunication"?"open":"")">
         <a class="menu-link menu-toggle">
             <i class="fa fa-flag" aria-hidden="true"></i>
@@ -92,7 +92,7 @@
             </li>
 
         </ul>
-    </li>
+    </li>*@
 
 
 
@@ -150,17 +150,17 @@
                          @(ViewContext.RouteData.Values["Action"].ToString()=="AddCategory"?"open":"")">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-layout"></i>
-            <div>الاصناف</div>
+            <div>الانواع</div>
         </a>
         <ul class="menu-sub ">
             <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="AllCategoriesCommunications"?"active":"")">
                 <a href="/GeneralFederation/AllCategoriesCommunications"  class="menu-link">
-                    <div>اصناف البلاغات</div>
+                    <div>انواع البلاغات</div>
                 </a>
             </li>
             <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="AllCategoriesComplaints"?"active":"")">
                 <a href="/GeneralFederation/AllCategoriesComplaints" class="menu-link">
-                    <div> اصناف الشكوى </div>
+                    <div> انواع الشكوى </div>
                 </a>
             </li>
 

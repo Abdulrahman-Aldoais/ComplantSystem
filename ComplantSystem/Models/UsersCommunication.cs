@@ -28,7 +28,8 @@ namespace ComplantSystem.Models
         public string NameUserId { get; set; }
         public virtual ApplicationUser User { get; set; }
         public string UserName { get; set; }
-        public string TypeCommuncationId { get; set; }
+        public virtual string TypeCommuncationId { get; set; }
+        [ForeignKey("TypeCommuncationId")]
         public virtual TypeCommunication TypeCommunication { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now;
         public string Titile { get; set; }

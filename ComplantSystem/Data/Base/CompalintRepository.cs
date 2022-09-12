@@ -40,10 +40,6 @@ namespace ComplantSystem.Data.Base
         }
 
 
-
-
-
-
         public IQueryable<UploadsComplainte> GetAllRejectedComplaints(string identity)
         {
             var result = _context.UploadsComplaintes.Where(j => j.StatusCompalintId == 3 && j.UserId == identity)
@@ -97,10 +93,6 @@ namespace ComplantSystem.Data.Base
                 || u.DescComplaint == term);
             return result;
         }
-
-
-
-
 
         public Task UpdateAsync(string id, TypeComplaint typeComplaint)
         {
@@ -163,7 +155,6 @@ namespace ComplantSystem.Data.Base
         }
 
 
-
         public async Task<UploadsComplainte> GetCompalintById(string id)
         {
             var compalintDetails = _context.UploadsComplaintes
@@ -217,8 +208,6 @@ namespace ComplantSystem.Data.Base
             await _context.UsersCommunications.AddAsync(mappedObj);
             await _context.SaveChangesAsync();
         }
-
-
         public async Task DeleteAsync(string id)
         {
             var DeletedUser = await _userManager.FindByIdAsync(id);

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ComplantSystem.Migrations
 {
-    public partial class nwe : Migration
+    public partial class New : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -114,6 +114,22 @@ namespace ComplantSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StutusCompalintStatistics",
+                schema: "Identity",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalCountStutus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    stutus = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StutusCompalintStatistics", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TypeCommunications",
                 schema: "Identity",
                 columns: table => new
@@ -130,6 +146,22 @@ namespace ComplantSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TypeCompalintStatistics",
+                schema: "Identity",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalCount = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypeComp = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TypeCompalintStatistics", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TypeComplaints",
                 schema: "Identity",
                 columns: table => new
@@ -143,6 +175,22 @@ namespace ComplantSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TypeComplaints", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UsersInStatistics",
+                schema: "Identity",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    totalUsers = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Users = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersInStatistics", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -536,8 +584,7 @@ namespace ComplantSystem.Migrations
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     NameUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TypeCommuncationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TypeCommunicationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TypeCommuncationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Titile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     reason = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -567,8 +614,8 @@ namespace ComplantSystem.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UsersCommunications_TypeCommunications_TypeCommunicationId",
-                        column: x => x.TypeCommunicationId,
+                        name: "FK_UsersCommunications_TypeCommunications_TypeCommuncationId",
+                        column: x => x.TypeCommuncationId,
                         principalSchema: "Identity",
                         principalTable: "TypeCommunications",
                         principalColumn: "Id",
@@ -638,11 +685,11 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "ApplicationUserId", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1d12aac5-6622-468a-bd94-6a1f1e264513", null, "2ec3b4f0-a10a-4bc2-8260-48f2d7f3aa64", "Beneficiarie", "BENEFICIARIE" },
-                    { "62a6fdfc-f64b-48d6-bbdf-3dd3bbe4b739", null, "7192b327-7f98-4a22-9475-0f5b5d3635b3", "AdminDirectorate", "ADMINDIRECTORATE" },
-                    { "e945b436-56ee-4a9c-bba5-02762fe7ecad", null, "656d2990-f9d9-45ea-b235-29879eed9559", "AdminGovernorate", "ADMINGOVERNORATE" },
-                    { "709c5293-a1f7-4b46-8197-aa47a4ff614d", null, "eb2fbf7e-26e1-45cc-936e-07c3fea0dd04", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
-                    { "4db4c664-9e3f-4310-8b7f-6db756d8cf8b", null, "cbe6d7b7-4b65-4ed4-8ffa-a4f352ec75a0", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" }
+                    { "c2ad7ca8-6452-4f89-832e-201321094762", null, "304f8e56-e167-4243-b43b-2ed99d9b0308", "Beneficiarie", "BENEFICIARIE" },
+                    { "6db4062c-512f-4842-bc61-14b924c56020", null, "b9b445f8-1b5a-419b-b36c-f7830b991730", "AdminDirectorate", "ADMINDIRECTORATE" },
+                    { "bd3be5a5-d612-4253-97a0-a36b5683d1df", null, "2667e5f3-780e-4fbf-8133-a7ea04d466f8", "AdminGovernorate", "ADMINGOVERNORATE" },
+                    { "cfd23ce8-c1f4-4848-9e69-6f298938d6bb", null, "94b8f2f7-5dab-43e3-afae-159de774fe4f", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
+                    { "f4c40998-7ee0-4132-97bc-41ee6f7fa3ee", null, "582406f9-2fcc-4b1c-aae9-68a361559543", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" }
                 });
 
             migrationBuilder.InsertData(
@@ -697,8 +744,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "2a1c4eda-9f01-45f3-bd09-65254ccdf577", new DateTime(2022, 9, 8, 15, 38, 20, 970, DateTimeKind.Local).AddTicks(9176), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" },
-                    { "766e2d95-8e10-4ebb-93a0-adb8d2ae89fd", new DateTime(2022, 9, 8, 15, 38, 20, 970, DateTimeKind.Local).AddTicks(8541), "تماطل", null, "قيمة افتراضية من النضام" }
+                    { "0785737f-776c-4dd9-871c-64abe3eedcc6", new DateTime(2022, 9, 11, 2, 18, 55, 335, DateTimeKind.Local).AddTicks(4660), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" },
+                    { "9d506f47-1725-4b41-bb6f-739a4c15e588", new DateTime(2022, 9, 11, 2, 18, 55, 335, DateTimeKind.Local).AddTicks(4153), "تماطل", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -707,8 +754,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "aa6107bf-9f33-4eca-8be2-0c7be6c1d0b9", new DateTime(2022, 9, 8, 15, 38, 20, 971, DateTimeKind.Local).AddTicks(5705), "زراعية", null, "قيمة افتراضية من النضام" },
-                    { "51b31d9f-5310-4489-9bcf-f7a4ab8fc561", new DateTime(2022, 9, 8, 15, 38, 20, 971, DateTimeKind.Local).AddTicks(6119), "فساد", null, "قيمة افتراضية من النضام" }
+                    { "3ef0d8e9-e7a0-4f87-b258-0eb074f87825", new DateTime(2022, 9, 11, 2, 18, 55, 336, DateTimeKind.Local).AddTicks(2592), "زراعية", null, "قيمة افتراضية من النضام" },
+                    { "5e037fbe-0c78-48ca-b609-14337d491055", new DateTime(2022, 9, 11, 2, 18, 55, 336, DateTimeKind.Local).AddTicks(3090), "فساد", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -921,10 +968,10 @@ namespace ComplantSystem.Migrations
                 column: "SubDirectorateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsersCommunications_TypeCommunicationId",
+                name: "IX_UsersCommunications_TypeCommuncationId",
                 schema: "Identity",
                 table: "UsersCommunications",
-                column: "TypeCommunicationId");
+                column: "TypeCommuncationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersCommunications_UserId",
@@ -976,7 +1023,19 @@ namespace ComplantSystem.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
+                name: "StutusCompalintStatistics",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "TypeCompalintStatistics",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
                 name: "UsersCommunications",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "UsersInStatistics",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

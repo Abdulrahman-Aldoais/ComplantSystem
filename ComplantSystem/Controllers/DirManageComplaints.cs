@@ -1,6 +1,7 @@
 ﻿using ComplantSystem.Data.Base;
 using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
+using ComplantSystem.Models.Statistics;
 using ComplantSystem.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -19,8 +20,6 @@ namespace ComplantSystem
     [Authorize(Roles = "AdminDirectorate")]
     public class DirManageComplaintsController : Controller
     {
-
-
         private readonly IUserService _userService;
         private readonly ICompalintRepository _compReop;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -79,6 +78,7 @@ namespace ComplantSystem
 
         public async Task<IActionResult> Report()
         {
+
             var currentUser = await _userManager.GetUserAsync(User);
 
 
@@ -86,7 +86,7 @@ namespace ComplantSystem
             //-------------أحصائيات بالمستخدمين التابعين لنفس مديرية الموضف--------------------//
 
 
-            List<UsersIn> usersIn = new List<UsersIn>();
+            List<UsersInStatistic> usersIn = new List<UsersInStatistic>();
             usersIn = ViewBag.totalUserSubDir;
 
             List<ApplicationUser> applicationUsers = await _context.Users
@@ -99,7 +99,7 @@ namespace ComplantSystem
             ViewBag.Users = TotalUsers;
 
             //total Govermentuser
-            ViewBag.totalUserSubDir = applicationUsers.GroupBy(j => j.SubDirectorateId).Select(g => new UsersIn
+            ViewBag.totalUserSubDir = applicationUsers.GroupBy(j => j.SubDirectorateId).Select(g => new UsersInStatistic
             {
                 Name = g.First().SubDirectorate.Name,
                 totalUsers = g.Count().ToString(),
@@ -120,13 +120,13 @@ namespace ComplantSystem
             List<UploadsComplainte> compalints = await _context.UploadsComplaintes
                 .Where(s => s.DirectorateId == currentUser.DirectorateId)
                 .Include(su => su.TypeComplaint).ToListAsync();
-            List<TypeCompalints> typeCompalints = new List<TypeCompalints>();
+            List<TypeCompalintStatistic> typeCompalints = new List<TypeCompalintStatistic>();
             typeCompalints = ViewBag.GrapComplanrType;
 
             int totalcomplant = compalints.Count();
             ViewBag.Totalcomplant = totalcomplant;
 
-            ViewBag.GrapComplanrType = compalints.GroupBy(x => x.TypeComplaintId).Select(g => new TypeCompalints
+            ViewBag.GrapComplanrType = compalints.GroupBy(x => x.TypeComplaintId).Select(g => new TypeCompalintStatistic
             {
                 Name = g.First().TypeComplaint.Type,
                 TotalCount = g.Count().ToString(),
@@ -145,19 +145,29 @@ namespace ComplantSystem
             List<UploadsComplainte> stutuscompalints = await _context.UploadsComplaintes
                 .Where(s => s.DirectorateId == currentUser.DirectorateId)
                 .Include(su => su.StatusCompalint).ToListAsync();
-            List<StutusCompalints> stutusCompalints = new List<StutusCompalints>();
+            List<StutusCompalintStatistic> stutusCompalints = new List<StutusCompalintStatistic>();
             stutusCompalints = ViewBag.GrapComplanrStutus;
 
             int totalStutuscomplant = stutuscompalints.Count();
             ViewBag.TotalStutusComplant = totalStutuscomplant;
 
-            ViewBag.GrapComplanrStutus = stutuscompalints.GroupBy(s => s.StatusCompalintId).Select(g => new StutusCompalints
+            ViewBag.GrapComplanrStutus = stutuscompalints.GroupBy(s => s.StatusCompalintId).Select(g => new StutusCompalintStatistic
             {
                 Name = g.First().StatusCompalint.Name,
                 TotalCountStutus = g.Count().ToString(),
                 stutus = (g.Count() * 100) / totalStutuscomplant
             }).ToList();
-
+            foreach (var item in ViewBag.GrapComplanrStutus)
+            {
+                StutusCompalintStatistic stutus = new StutusCompalintStatistic()
+                {
+                    Name = item.Name,
+                    stutus = item.stutus,
+                    TotalCountStutus = item?.TotalCountStutus?.ToString(),
+                };
+                stutusCompalints.Add(stutus);
+                _context.SaveChangesAsync();
+            }
 
 
 
@@ -166,39 +176,6 @@ namespace ComplantSystem
             //------------- نهاية أحصائيات حالات الشكاوى المقدمة لنفس مديرية الموضف--------------------//
             return View();
         }
-
-
-        public class TypeCompalints
-        {
-            public string Name { get; set; }
-
-            public string TotalCount { get; set; }
-            public double TypeComp { get; set; }
-
-        }
-
-        public class StutusCompalints
-        {
-            public string Name { get; set; }
-
-            public string TotalCountStutus { get; set; }
-            public double stutus { get; set; }
-
-        }
-
-        public class UsersIn
-        {
-
-            public string Name { get; set; }
-
-            public string totalUsers { get; set; }
-            public double Users { get; set; }
-
-        }
-
-
-
-
 
         public async Task<IActionResult> ViewRejectedComplaints(int? page)
         {

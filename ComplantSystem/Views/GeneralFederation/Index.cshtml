@@ -1,4 +1,4 @@
-﻿   <!-- Content -->
+﻿<!-- Content -->
 @{
     ViewData["Title"] = "الإحصائات";
 
@@ -84,12 +84,13 @@
 
     <div class="row mb-5">
 
+
         <!--user all-->
         <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mb-xl-0">
             <div class="card h-100">
                 <div class="card-header">
                     <h5 class="card-title mb-2">إجمالي المستخدمين</h5>
-                    <h1 class="display-6 fw-normal mb-0">@ViewBag.TotalCount </h1>
+                    <h1 class="display-6 fw-normal mb-0">@ViewBag.Users </h1>
                 </div>
                 <div class="card-body">
                     <span class="d-block mb-2">الاحصائات الحالية</span>
@@ -108,8 +109,8 @@
                                     <span class="badge badge-dot bg-success me-2"></span> @item.Name
                                 </div>
                                 <div class="gap-3 d-flex">
-                                    <span>@item.TotalCount</span>
-                                    <span class="fw-semibold">%   @(Math.Round(@item.nr,2))</span>
+                                    <span>@item.totalUsers</span>
+                                    <span class="fw-semibold">%   @(Math.Round(@item.Users, 2))</span>
                                 </div>
                             </li>
 
@@ -127,7 +128,7 @@
             <div class="card h-100">
                 <div class="card-header">
                     <h5 class="card-title mb-2"> احصائيات انواع الموضفين</h5>
-                    <h1 class="display-6 fw-normal mb-0">@ViewBag.TotalCount </h1>
+                    <h1 class="display-6 fw-normal mb-0">@ViewBag.TotalCountByRoles </h1>
                 </div>
                 <div class="card-body">
                     <span class="d-block mb-2">الاحصائات الحالية</span>
@@ -139,7 +140,7 @@
                         <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <ul class="p-0 m-0">
-                        @foreach (var item in ViewBag.totalRoles)
+                        @foreach (var item in ViewBag.totalUserByRoles)
                         {
                             <li class="d-flex justify-content-between mb-3">
                                 <div class="lh-1 d-flex align-items-center me-3">
@@ -147,7 +148,7 @@
                                 </div>
                                 <div class="gap-3 d-flex">
                                     <span>@item.TotalCount</span>
-                                    <span class="fw-semibold">%@(Math.Round(@item.nu,2))</span>
+                                    <span class="fw-semibold">%@(Math.Round(@item.RolsTot, 2))</span>
                                 </div>
                             </li>
 
@@ -164,8 +165,8 @@
         <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mb-xl-0">
             <div class="card h-100">
                 <div class="card-header">
-                    <h5 class="card-title mb-2">إجمالي الشكاوى</h5>
-                    <h1 class="display-6 fw-normal mb-0">@ViewBag.comtot</h1>
+                    <h5 class="card-title mb-2"> احصائيات انواع الشكاوى</h5>
+                    <h1 class="display-6 fw-normal mb-0">@ViewBag.Totalcomplant </h1>
                 </div>
                 <div class="card-body">
                     <span class="d-block mb-2">الاحصائات الحالية</span>
@@ -185,7 +186,84 @@
                                 </div>
                                 <div class="gap-3 d-flex">
                                     <span>@item.TotalCount</span>
-                                    <span class="fw-semibold">%@item.mm</span>
+                                    <span class="fw-semibold">%@(Math.Round(@item.TypeComp, 2))</span>
+                                </div>
+                            </li>
+
+                        }
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--user all-->
+        <!--user all-->
+        <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mt-4 mb-xl-0 ">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-2">حالات الشكاوى</h5>
+                    <h1 class="display-6 fw-normal mb-0">@ViewBag.TotalStutusComplant</h1>
+                </div>
+                <div class="card-body">
+
+                    @*<span class="d-block mb-2">الاحصائات الحالية</span>*@
+                    <div class="progress progress-stacked mb-3 mb-xl-5" style="height: 8px">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <ul class="p-0 m-0">
+                        @foreach (var item in ViewBag.GrapComplanrStutus)
+                        {
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="lh-1 d-flex align-items-center me-3">
+                                    <span class="badge badge-dot bg-success me-2"></span> @item.Name
+                                </div>
+                                <div class="gap-3 d-flex">
+                                    <span>@item.TotalCountStutus</span>
+                                    <span class="fw-semibold">%@item.stutus</span>
+                                </div>
+                            </li>
+
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!--user all-->
+        <!--user all-->
+        <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mt-4 mb-xl-0 ">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-2"> البلاغات</h5>
+                    <h1 class="display-6 fw-normal mb-0">@ViewBag.Commun</h1>
+                </div>
+                <div class="card-body">
+                    <span class="d-block mb-2"> البلاغات من المحافظات</span>
+                    <div class="progress progress-stacked mb-3 mb-xl-5" style="height: 8px">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <ul class="p-0 m-0">
+                        @foreach (var item in ViewBag.totalcommunications)
+                        {
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="lh-1 d-flex align-items-center me-3">
+                                    <span class="badge badge-dot bg-success me-2"></span> @item.Name
+                                </div>
+                                <div class="gap-3 d-flex">
+                                    <span>@item.TotalCount</span>
+                                    <span class="fw-semibold">%@item.TypeComp</span>
                                 </div>
                             </li>
 
@@ -197,145 +275,314 @@
         </div>
 
         <!--user all-->
-    </div>
-    <!--/ Referral, conversion, impression & income charts -->
-    <!-- Activity -->
-    <div class="row g-4 mb-4">
-        <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
-            <div class="card">
+        <!--user all-->
+        <div class="col-md-6 col-lg-6 col-xl-4 mb-4 mt-4 mb-xl-0 ">
+            <div class="card h-100">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">النشاطات</h5>
+                    <h5 class="card-title mb-2"> انواع البلاغات</h5>
+                    <h1 class="display-6 fw-normal mb-0">@ViewBag.typeCommun</h1>
                 </div>
                 <div class="card-body">
+
+                    @*<span class="d-block mb-2">الاحصائات الحالية</span>*@
+                    <div class="progress progress-stacked mb-3 mb-xl-5" style="height: 8px">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
                     <ul class="p-0 m-0">
-                        <li class="d-flex pb-2 mb-4">
-                            <div class="avatar avatar-sm flex-shrink-0 me-3">
-                                <span class="avatar-initial bg-label-primary rounded-circle">
-                                    <i class="bx bx-cube"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column w-100">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span> الشكاوي المرفوعة</span>
-                                    <span class="text-muted">@ViewBag.totalUsers</span>
+                        @foreach (var item in ViewBag.TypeCommuncations)
+                        {
+                            <li class="d-flex justify-content-between mb-3">
+                                <div class="lh-1 d-flex align-items-center me-3">
+                                    <span class="badge badge-dot bg-success me-2"></span> @item.Name
                                 </div>
-                                <div class="progress" style="height: 6px">
-                                    <div class="progress-bar bg-primary"
-                                         style="width: 40%"
-                                         role="progressbar"
-                                         aria-valuenow="40"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
+                                <div class="gap-3 d-flex">
+                                    <span>@item.TotalCount</span>
+                                    <span class="fw-semibold">%@item.TypeComp</span>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="d-flex pb-2 mb-4">
-                            <div class="avatar avatar-sm flex-shrink-0 me-3">
-                                <span class="avatar-initial bg-label-success rounded-circle">
-                                    <i class="bx bx-dollar"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column w-100">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>البلاغات على الموظف</span>
-                                    <span class="text-muted">@ViewBag.totalcompSolv</span>
-                                </div>
-                                <div class="progress" style="height: 6px">
-                                    <div class="progress-bar bg-success"
-                                         style="width: 80%"
-                                         role="progressbar"
-                                         aria-valuenow="80"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex pb-2 mb-4">
-                            <div class="avatar avatar-sm flex-shrink-0 me-3">
-                                <span class="avatar-initial bg-label-warning rounded-circle">
-                                    <i class="bx bx-trending-up"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column w-100">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>الشكاوي المرفوعة</span>
-                                    <span class="text-muted">55</span>
-                                </div>
-                                <div class="progress" style="height: 6px">
-                                    <div class="progress-bar bg-warning"
-                                         style="width: 80%"
-                                         role="progressbar"
-                                         aria-valuenow="80"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-2">
-                            <div class="avatar avatar-sm flex-shrink-0 me-3">
-                                <span class="avatar-initial bg-label-danger rounded-circle">
-                                    <i class="bx bx-check"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex flex-column w-100">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>عدد البلاغات</span>
-                                    <span class="text-muted">12</span>
-                                </div>
-                                <div class="progress" style="height: 6px">
-                                    <div class="progress-bar bg-danger"
-                                         style="width: 25%"
-                                         role="progressbar"
-                                         aria-valuenow="25"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+
+                        }
+
                     </ul>
                 </div>
             </div>
         </div>
 
+        <!--user all-->
 
+    </div>
 
-        <div class="col-xxl-3 col-md-6 col-lg-6 col-xl-6 mb-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">  اجمالي الشكاوى حسب المحافظة</h5>
-                    </div>
+    <!--/ Referral, conversion, impression & income charts -->
+    <!-- Activity -->
+</div>
+
+<div class="card  border-bottom  m-4">
+    <div class="card card-headerText" style="margin-bottom: 2px;">
+        <div class="card-header border-bottom  ">
+
+            <div class="row ">
+                <div class=" col-md-11">
+                    <i class="menu-icon tf-icons bx bx-carousel"></i>    تقارير النظام
                 </div>
-                <div class="card-body text-center">
-                    <div class="dropdown mb-4">
 
-                        <div class="dropdown mb-4">
-                            <select id="FilterType"
-                                    name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
-                                    class="select2 form-select select2-hidden-accessible"
-                                    tabindex="-1" aria-hidden="true" data-select2-id="10">
-                                <option value="0" data-select2-id="12">المحافظة</option>
-                                <option value="جديدة">جديدة</option>
-                                <option value="محلولة">محلولة</option>
-                                <option value="غير محلولة">غير محلولة</option>
-                                <option value="مرفوعة">مرفوعة</option>
-                            </select>
-                        </div>
-                        <p>21</p>
-                    </div>
-                    <div id="growthRadialChart"></div>
-                    <h6 class="mt-5 mb-0">عدد الشكاوي المرفوعة</h6>
+                <div class="card-header border-bottom cardhead">
+                    <div class=" "><button class="btn btn-primary btnPrint"><i class="bx bx-printer me-2"></i>طباعة</button></div>
+
                 </div>
             </div>
         </div>
     </div>
+    <div class="reporthead " style="padding:0  1.375rem 0 1.375rem  ">
+        <div class="row gap-3 gap-md-0 d-flex justify-content-between align-items-center py-3">
+
+            <div class="  col-md-3">
+
+                <p>الجمهورية اليمنية</p>
+                <p>وزارة الزراعة</p>
+                <p>"" </p>
+            </div>
+            <div class="col-md-3" align="center">
+                <img src="~/assets/img/pages/login-light.png" style="width:170px;" class="img-thumbnail" alt="Icons" />
+            </div>
+            <div class="col-md-3">
+                <div class="mb-2">
+                    <span>التاريخ:</span>
+                    <span class="fw-semibold">@DateTime.Now</span>
+                </div>
+                <div class="mb-2">
+                    <span>رقم المرجع:</span>
+                    <span class="fw-semibold">2</span>
+                </div>
+                <div class="mb-2">
+                    <span>المرفقات:</span>
+                    <span class="fw-semibold">3</span>
+                </div>
 
 
+            </div>
+
+        </div>
+
+        <div class="row py-2" style="background:#eccd8c">
+
+            <h5 class="ReportHeaders" align="center"> </h5>
+        </div>
+
+    </div>
+    <div class="p-4 ">
+        <h3 class="card-title mb-2"> إحصائات عدد المستخدمين في المحافظات</h3>
+        <div class="table-responsive text-nowrap mt-4 mb-4">
+            <table class="table table-bordered table table-bordered">
+                <thead>
+                    <tr>
+
+                        <th> المحافظة</th>
+                        <th>العدد </th>
+                        <th> النسبة </th>
+                        @*<th> المحافظة </th>
+                        <th> البلاغات </th>
+                        <th> العدد </th>
+                        <th> النسبة </th>*@
+
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in ViewBag.totalGovermentuser)
+                    {
+                        <tr>
+                            <td>@item.Name </td>
+                            <td>@item.totalUsers</td>
+
+                            <td>% @(Math.Round(@item.Users, 2))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="p-4 ">
+        <h3 class="card-title mb-2">  احصائيات انواع الموضفين</h3>
+        <div class="table-responsive text-nowrap mt-4 mb-4">
+            <table class="table table-bordered table table-bordered">
+                <thead>
+                    <tr>
+                        <th> نوع الصلاحية</th>
+                        <th>العدد </th>
+                        <th> النسبة المؤوية</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in ViewBag.totalUserByRoles)
+                    {
+                        <tr>
+                            <td>@item.RoleName </td>
+                            <td>@item.TotalCount</td>
+
+                            <td>%@(Math.Round(@item.RolsTot, 2))</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="p-4 ">
+        <h3 class="card-title mb-2">  احصائيات انواع الشكاوى</h3>
+        <div class="table-responsive text-nowrap mt-4 mb-4">
+            <table class="table table-bordered table table-bordered">
+                <thead>
+                    <tr>
+
+                        <th> نوع الشكوى</th>
+                        <th>العدد </th>
+                        <th> النسبة المؤوية</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in ViewBag.GrapComplanrType)
+                    {
+                        <tr>
+
+                            <td>@item.Name </td>
+                            <td>@item.TotalCount</td>
+
+                            <td>%@(Math.Round(@item.TypeComp, 2))</td>
+
+
+                        </tr>
+
+                    }
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="p-4 ">
+        <h3 class="card-title mb-2">  احصائيات حالات الشكاوى</h3>
+        <div class="table-responsive text-nowrap mt-4 mb-4">
+            <table class="table table-bordered table table-bordered">
+                <thead>
+                    <tr>
+
+                        <th>  الحالة</th>
+                        <th>العدد </th>
+                        <th> النسبة المؤوية</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in ViewBag.GrapComplanrStutus)
+                    {
+                        <tr>
+
+                            <td>@item.Name </td>
+                            <td>@item.TotalCountStutus</td>
+
+                            <td>%@(Math.Round(@item.stutus, 2))</td>
+
+
+                        </tr>
+
+                    }
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="p-4 ">
+        <h3 class="card-title mb-2">  احصائيات البلاغات</h3>
+        <div class="table-responsive text-nowrap mt-4 mb-4">
+            <table class="table table-bordered table table-bordered">
+                <thead>
+                    <tr>
+
+                        <th>  البلاغ</th>
+                        <th>العدد </th>
+                        <th> النسبة المؤوية</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in ViewBag.totalcommunications)
+                    {
+                        <tr>
+
+                            <td>@item.Name </td>
+                            <td>@item.TotalCount</td>
+
+                            <td>%@(Math.Round(@item.TypeComp, 2))</td>
+
+
+                        </tr>
+
+                    }
+
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
 
     <!-- / Content -->
     <script src="~/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script>
+
+
+
+        $(".card-datatable").hide();
+        $(".reporthead").hide();
+
+        $(".btnPrint").click
+            (function () {
+
+                $(".card-datatable").show();
+                $(".reporthead").show();
+
+                $(".container-fluid").hide();
+
+                $(".content-footer").hide();
+                //$(".layout-navbar ").hide();
+
+
+
+                $(".FilterReport").hide();
+
+
+                //$('.table').DataTable({
+                //});
+
+                $(".table").removeClass('dataTable');
+
+                window.print();
+
+                $(".container-fluid").show();
+                $(".table").addClass('dataTable');
+                $(".content-footer").show();
+                $(".FilterReport").show();
+
+                //$(".layout-navbar").show();
+            })();
+
+    </script>
     <script>
 
         function radialChart() {
@@ -620,12 +867,5 @@
 
 
         })();
-
-
-
-//
-
-
-
 
     </script>

@@ -36,7 +36,8 @@ namespace ComplantSystem
             ICompalintRepository compalintRepository,
             IWebHostEnvironment env,
               UserManager<ApplicationUser> userManager,
-            AppCompalintsContextDB context)
+            AppCompalintsContextDB context
+            )
         {
 
 
@@ -112,8 +113,6 @@ namespace ComplantSystem
 
             var rejectedComplaints = _service.GetAllRejectedComplaints(Identity);
 
-
-
             return View(rejectedComplaints.ToList());
 
         }
@@ -140,11 +139,7 @@ namespace ComplantSystem
         {
             var currentUser = await userManager.GetUserAsync(User);
             var currentName = currentUser.FullName;
-
-
-
             var compalintDropdownsData = await _service.GetNewCompalintsDropdownsValues();
-
             ViewBag.TypeComplaints = new SelectList(compalintDropdownsData.TypeComplaints, "Id", "Type");
             ViewBag.StatusCompalints = new SelectList(compalintDropdownsData.StatusCompalints, "Id", "Name");
 

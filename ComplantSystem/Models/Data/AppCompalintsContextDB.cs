@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using ComplantSystem.Models.Statistics;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ComplantSystem.Models
@@ -72,8 +73,8 @@ namespace ComplantSystem.Models
                 .OnDelete(DeleteBehavior.Restrict);
 
                 c.HasOne(e => e.Directorate)
-              .WithMany(e => e.Users)
-              .OnDelete(DeleteBehavior.Restrict);
+                  .WithMany(e => e.Users)
+                  .OnDelete(DeleteBehavior.Restrict);
 
                 c.HasOne(e => e.SubDirectorate)
               .WithMany(e => e.Users)
@@ -85,20 +86,20 @@ namespace ComplantSystem.Models
             modelBuilder.Entity<UploadsComplainte>(u =>
             {
                 u.HasOne(e => e.Governorate)
+                  .WithMany(e => e.UploadsComplaintes)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+                u.HasOne(e => e.Directorate)
                 .WithMany(e => e.UploadsComplaintes)
                 .OnDelete(DeleteBehavior.Restrict);
 
-                u.HasOne(e => e.Directorate)
-             .WithMany(e => e.UploadsComplaintes)
-             .OnDelete(DeleteBehavior.Restrict);
-
                 u.HasOne(e => e.SubDirectorate)
-             .WithMany(e => e.UploadsComplaintes)
-             .OnDelete(DeleteBehavior.Restrict);
+                .WithMany(e => e.UploadsComplaintes)
+                .OnDelete(DeleteBehavior.Restrict);
 
                 u.HasOne(e => e.TypeComplaint)
-              .WithMany(e => e.UploadsComplainte)
-              .OnDelete(DeleteBehavior.Restrict);
+                .WithMany(e => e.UploadsComplainte)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
 
@@ -124,12 +125,12 @@ namespace ComplantSystem.Models
                  .OnDelete(DeleteBehavior.Restrict);
 
                 u.HasOne(e => e.Directorate)
-             .WithMany(e => e.UsersCommunications)
-             .OnDelete(DeleteBehavior.Restrict);
+                 .WithMany(e => e.UsersCommunications)
+                 .OnDelete(DeleteBehavior.Restrict);
 
                 u.HasOne(e => e.SubDirectorate)
-             .WithMany(e => e.UsersCommunications)
-             .OnDelete(DeleteBehavior.Restrict);
+                 .WithMany(e => e.UsersCommunications)
+                 .OnDelete(DeleteBehavior.Restrict);
 
             });
 
@@ -189,6 +190,9 @@ namespace ComplantSystem.Models
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<UploadsComplainte> UploadsComplaintes { get; set; }
         public DbSet<TypeCommunication> TypeCommunications { get; set; }
+        public DbSet<UsersInStatistic> UsersInStatistics { get; set; }
+        public DbSet<StutusCompalintStatistic> StutusCompalintStatistics { get; set; }
+        public DbSet<TypeCompalintStatistic> TypeCompalintStatistics { get; set; }
 
 
 

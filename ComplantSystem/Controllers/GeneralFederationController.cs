@@ -3,6 +3,7 @@ using ComplantSystem.Data.Base;
 using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Hubs;
 using ComplantSystem.Models;
+using ComplantSystem.Models.Statistics;
 using ComplantSystem.Service;
 using ComplantSystem.Service.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -81,26 +82,116 @@ namespace ComplantSystem
             ViewBag.totalComp = totalComp;
 
 
-            //***********************************//
 
-            List<ApplicationUser> applicationUsers = await _context.Users.Include(x => x.Governorate).ToListAsync();
-            List<ApplicationUser> UsersRoles = await _context.Users.Include(x => x.UserRoles).ToListAsync();
+
+            //------------- أحصائيات بالمستخدمين في كل محافظة --------------------//
+
+
+            List<UsersInStatistic> usersIn = new List<UsersInStatistic>();
+            usersIn = ViewBag.totalGovermentuser;
+
+            List<ApplicationUser> applicationUsers = await _context.Users
+
+                .Include(su => su.Governorate).ToListAsync();
 
             //Totalcountuser
-            int TotalCount = applicationUsers.Count();
+            int TotalUsers = applicationUsers.Count();
 
-            ViewBag.TotalCount = TotalCount;
+            ViewBag.Users = TotalUsers;
 
             //total Govermentuser
-            ViewBag.totalGovermentuser = applicationUsers.GroupBy(j => j.GovernorateId).Select(g => new gtsg
+            ViewBag.totalGovermentuser = applicationUsers.GroupBy(j => j.GovernorateId).Select(g => new UsersInStatistic
             {
                 Name = g.First().Governorate.Name,
-                TotalCount = g.Count().ToString(),
-                nr = (g.Count() * 100) / TotalCount
+                totalUsers = g.Count().ToString(),
+                Users = (g.Count() * 100) / TotalUsers
 
 
             }).ToList();
 
+
+
+            //------------- نـــــهاية أحصائيات بالمستخدمين --------------------//
+
+
+            //-------------أحصائيات انواع الشكاوى --------------------//
+
+
+
+            List<UploadsComplainte> compalints = await _context.UploadsComplaintes
+                .Include(su => su.TypeComplaint).ToListAsync();
+            List<TypeCompalintStatistic> typeCompalints = new List<TypeCompalintStatistic>();
+            typeCompalints = ViewBag.GrapComplanrType;
+
+            int totalcomplant = compalints.Count();
+            ViewBag.Totalcomplant = totalcomplant;
+
+            ViewBag.GrapComplanrType = compalints.GroupBy(x => x.TypeComplaintId).Select(g => new TypeCompalintStatistic
+            {
+                Name = g.First().TypeComplaint.Type,
+                TotalCount = g.Count().ToString(),
+                TypeComp = (g.Count() * 100) / totalcomplant
+            }).ToList();
+
+
+
+
+            //------------- نهاية أحصائيات انواع الشكاوى --------------------//
+
+
+            //-------------أحصائيات حالات الشكاوى --------------------//
+
+
+            List<UploadsComplainte> stutuscompalints = await _context.UploadsComplaintes
+                .Include(su => su.StatusCompalint).ToListAsync();
+            List<StutusCompalintStatistic> stutusCompalints = new List<StutusCompalintStatistic>();
+            stutusCompalints = ViewBag.GrapComplanrStutus;
+
+            int totalStutuscomplant = stutuscompalints.Count();
+            ViewBag.TotalStutusComplant = totalStutuscomplant;
+
+            ViewBag.GrapComplanrStutus = stutuscompalints.GroupBy(s => s.StatusCompalintId).Select(g => new StutusCompalintStatistic
+            {
+                //id = 
+                Name = g.First().StatusCompalint.Name,
+                TotalCountStutus = g.Count().ToString(),
+                stutus = (g.Count() * 100) / totalStutuscomplant
+            }).ToList();
+
+
+            //StutusCompalintStatistic stutus = new StutusCompalintStatistic()
+            //    {
+            //        Name = item.Name,
+            //        stutus = item.stutus,
+            //        TotalCountStutus = item?.TotalCountStutus?.ToString(),
+            //    };
+
+            //List<StutusCompalintStatistic> parts = new List<StutusCompalintStatistic>();
+
+            //foreach (var item in ViewBag.GrapComplanrStutus)
+            //{
+            //    var list = parts.Add(item);
+            //    _context.Add(list);
+            //    _context.SaveChangesAsync();
+            //}
+
+
+
+
+
+            //------------- نهاية أحصائيات حالات الشكاوى --------------------//
+
+
+
+            //-------------  أحصائيات عدد المستخدمين حسب الصلاحيات--------------------//
+
+            List<ApplicationUser> UsersRoles = await _context.Users.Include(x => x.UserRoles).ToListAsync();
+
+
+            //Totalcountuser
+            int totalCountByRole = applicationUsers.Count();
+
+            ViewBag.TotalCountByRoles = totalCountByRole;
 
             // show Name Role Rether Than Id
             var Roles = _context.Roles.ToList();
@@ -114,63 +205,77 @@ namespace ComplantSystem
                     };
 
             //total Users By Role
-            ViewBag.totalRoles = x.GroupBy(j => j.RoleName).Select(g => new gtus
+            ViewBag.totalUserByRoles = x.GroupBy(j => j.RoleName).Select(g => new UserByRolesStatistic
             {
                 RoleName = g.First().RoleName,
                 TotalCount = g.Count().ToString(),
-                nu = (g.Count() * 100) / TotalCount
+                RolsTot = (g.Count() * 100) / totalCountByRole
 
 
             }).ToList();
 
 
-            List<gtus> gtus = new List<gtus>();
-            gtus = ViewBag.totalRoles;
-
-            List<gtsg> gtsg = new List<gtsg>();
-            gtsg = ViewBag.totalGovermentuser;
+            List<UserByRolesStatistic> gtus = new List<UserByRolesStatistic>();
+            gtus = ViewBag.totalUserByRoles;
 
 
-            List<UploadsComplainte> compalints = await _context.UploadsComplaintes.Include(r => r.TypeComplaint).ToListAsync();
+            //------------------ نهاية أحصائيات عدد المستخدمين حسب الصلاحيات--------------------//
 
-            int totalcomplant = compalints.Count();
-            ViewBag.comtot = totalcomplant;
 
-            ViewBag.GrapComplanrType = compalints.GroupBy(x => x.TypeComplaintId).Select(g => new Type
+            //-------------  أحصائيات انواع اليلاغات    --------------------//
+
+
+
+            List<UsersCommunication> communcations = await _context.UsersCommunications
+                .Include(su => su.TypeCommunication).ToListAsync();
+            List<TypeCommunicationStatistic> TotalTypeCommuncations = new List<TypeCommunicationStatistic>();
+
+            int totalCommunication = communcations.Count();
+
+            TotalTypeCommuncations = ViewBag.typeCommun;
+
+            ViewBag.TypeCommuncations = communcations.GroupBy(x => x.TypeCommunication).Select(g => new TypeCommunicationStatistic
             {
-                Name = g.First().TypeComplaint.Type,
-                TotalCount = g.Count(),
-                mm = (g.Count() * 100) / totalcomplant
+                Name = g.First().TypeCommunication.Type,
+                TotalCount = g.Count().ToString(),
+                TypeComp = (g.Count() * 100) / totalCommunication
             }).ToList();
+
+
+
+
+            //------------- نهاية أحصائيات انواع اليلاغات --------------------//
+
+
+            //-------------  أحصائيات عدد اليلاغات    --------------------//
+
+
+            List<TotalCommunicationStatistic> communicationsIn = new List<TotalCommunicationStatistic>();
+            communicationsIn = ViewBag.totalcommunications;
+
+            List<UsersCommunication> communications = await _context.UsersCommunications
+
+                .Include(su => su.Governorate).ToListAsync();
+
+            //Totalcountuser
+            int TotalCommun = communications.Count();
+
+            ViewBag.Commun = TotalCommun;
+
+            //total Govermentuser
+            ViewBag.totalcommunications = communications.GroupBy(j => j.GovernorateId).Select(g => new TotalCommunicationStatistic
+            {
+                Name = g.First().Governorate.Name,
+                TotalCount = g.Count().ToString(),
+                TypeComp = (g.Count() * 100) / TotalUsers
+
+            }).ToList();
+
+            //------------- نهاية أحصائيات عدد اليلاغات --------------------//
+
             return View();
         }
 
-        public class gtsg
-        {
-            public string Name { get; set; }
-
-            public string TotalCount { get; set; }
-            public double nr { get; set; }
-
-        }
-
-        public class gtus
-        {
-            public string RoleName { get; set; }
-
-            public string TotalCount { get; set; }
-            public double nu { get; set; }
-
-        }
-
-        public class Type
-        {
-            public string Name { get; set; }
-            public double TotalCount { get; set; }
-            public double mm { get; set; }
-
-
-        }
 
 
         public async Task<IActionResult> AllComplaints()
@@ -197,25 +302,25 @@ namespace ComplantSystem
             return View(allComp);
         }
 
-        //public async Task<IActionResult> UpCompalint(string id, UploadsComplainte complainte)
-        //{
+        public async Task<IActionResult> UpCompalint(string id, UploadsComplainte complainte)
+        {
 
-        //    var upComp = await _compReop.FindAsync(id);
-        //    var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
-        //    if (dbComp != null)
-        //    {
+            var upComp = await _compReop.FindAsync(id);
+            var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+            if (dbComp != null)
+            {
 
-        //        dbComp.Id = complainte.Id;
-        //        dbComp.StagesComplaintId = dbComp.StagesComplaintId + 1;
+                dbComp.Id = complainte.Id;
+                dbComp.StagesComplaintId = dbComp.StagesComplaintId + 1;
 
 
-        //        await _context.SaveChangesAsync();
-        //    }
+                await _context.SaveChangesAsync();
+            }
 
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(AllComplaints));
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AllComplaints));
 
-        //}
+        }
 
         public async Task<IActionResult> ViewUsers()
         {

@@ -4,7 +4,6 @@
     {
 
         public string UploadsComplainteId { get; set; }
-
         public string reume { get; set; }
     }
 }
