@@ -22,7 +22,8 @@
                           @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintDetails"?"open ":"")
                           @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?"open ":"")
                           @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintSolutionDetails"?"open ":"")
-
+                       @(ViewContext.RouteData.Values["Action"].ToString()=="AllUpComplaints"?"open ":"")
+               @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintUpDetails"?"open ":"")
 ">
         <a class="menu-link menu-toggle">
             <i class="fa fa-indent" aria-hidden="true"></i>
@@ -37,6 +38,11 @@
             <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewRejectedComplaints"?"active":"")  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?" active":"")">
                 <a href="/DirManageComplaints/ViewRejectedComplaints" class="menu-link">
                     <div>المرفوضة</div>
+                </a>
+            </li>
+            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AllUpComplaints"?"active":"")  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?" active":"")">
+                <a href="/DirManageComplaints/AllUpComplaints" class="menu-link">
+                    <div>المرفوعه</div>
                 </a>
             </li>
             <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="SolutionComplaints"?"active":"")    @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintSolutionDetails"?"active ":"")">

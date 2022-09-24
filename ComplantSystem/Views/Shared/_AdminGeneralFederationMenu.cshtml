@@ -22,6 +22,8 @@
                @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintDetails"?"open ":"")
                @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?"open ":"")
                @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintSolutionDetails"?"open ":"")
+                       @(ViewContext.RouteData.Values["Action"].ToString()=="AllUpComplaints"?"open ":"")
+               @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintUpDetails"?"open ":"")
 
 ">
         <a class="menu-link menu-toggle">
@@ -38,6 +40,11 @@
             <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="RejectedComplaints"?"active":"")  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?" active":"")">
                 <a href="/GeneralFederation/RejectedComplaints" class="menu-link">
                     <div>المرفوضة</div>
+                </a>
+            </li>
+            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AllUpComplaints"?"active":"")  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintRejectedDetails"?" active":"")">
+                <a href="/GeneralFederation/AllUpComplaints" class="menu-link">
+                    <div>المرفوعه</div>
                 </a>
             </li>
             <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="SolutionComplaints"?"active":"")    @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintSolutionDetails"?"active ":"")">
@@ -63,36 +70,48 @@
                     <div data-i18n="البلاغات" style="margin-right: 14px;">البلاغات</div>
                 </a>
             </li>
-            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AddCommunication"?"active":"")">
-                <a href="/GeneralFederation/AddCommunication" class="menu-link">
-                    <div data-i18n="إضافة بلاغ على موظف"> إضافة بلاغ على موظف</div>
-                </a>
-            </li>
+            @*<li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AddCommunication"?"active":"")">
+                    <a href="/GeneralFederation/AddCommunication" class="menu-link">
+                        <div data-i18n="إضافة بلاغ على موظف"> إضافة بلاغ على موظف</div>
+                    </a>
+                </li>*@
 
         </ul>
     </li>
+
+
+
+   
+    <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="PrintReports"?"active":"")">
+    <a href="/GeneralFederation/PrintReports" class="menu-link">
+    <div data-i18n="التقارير" style="margin-right: 14px;">التقارير</div>
+    </a>
+    </li>
+
+
+    
     <!-- التعميمات -->
     @*<li class="menu-item   @(ViewContext.RouteData.Values["Action"].ToString()=="البلاغات"?"open":"")
-                         @(ViewContext.RouteData.Values["Action"].ToString()=="AllCommunication"?"open":"")">
-        <a class="menu-link menu-toggle">
-            <i class="fa fa-flag" aria-hidden="true"></i>
-            <div data-i18n="التعميمات" style="margin-right: 14px;">التعميمات</div>
+                             @(ViewContext.RouteData.Values["Action"].ToString()=="AllCommunication"?"open":"")">
+            <a class="menu-link menu-toggle">
+                <i class="fa fa-flag" aria-hidden="true"></i>
+                <div data-i18n="التعميمات" style="margin-right: 14px;">التعميمات</div>
 
-        </a>
-        <ul class="menu-sub">
-            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AllCirculars"?"active":"")">
-                <a href="/GeneralFederation/AllCirculars" class="menu-link">
-                    <div data-i18n="البلاغات" style="margin-right: 14px;">التعميمات</div>
-                </a>
-            </li>
-            <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AddCirculars"?"active":"")">
-                <a href="/GeneralFederation/AddCirculars" class="menu-link">
-                    <div data-i18n="إضافة بلاغ على موظف"> إضافة تعميم</div>
-                </a>
-            </li>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AllCirculars"?"active":"")">
+                    <a href="/GeneralFederation/AllCirculars" class="menu-link">
+                        <div data-i18n="البلاغات" style="margin-right: 14px;">التعميمات</div>
+                    </a>
+                </li>
+                <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AddCirculars"?"active":"")">
+                    <a href="/GeneralFederation/AddCirculars" class="menu-link">
+                        <div data-i18n="إضافة بلاغ على موظف"> إضافة تعميم</div>
+                    </a>
+                </li>
 
-        </ul>
-    </li>*@
+            </ul>
+        </li>*@
 
 
 
@@ -129,7 +148,7 @@
             </li>
 
             <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="AccountRestriction"?"active":"")">
-                <a href="/ManageUsers/AccountRestriction" class="menu-link">
+                <a href="/GeneralFederation/AccountRestriction" class="menu-link">
                     <div>الحسابات المقيدة </div>
                 </a>
             </li>
@@ -154,7 +173,7 @@
         </a>
         <ul class="menu-sub ">
             <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="AllCategoriesCommunications"?"active":"")">
-                <a href="/GeneralFederation/AllCategoriesCommunications"  class="menu-link">
+                <a href="/GeneralFederation/AllCategoriesCommunications" class="menu-link">
                     <div>انواع البلاغات</div>
                 </a>
             </li>

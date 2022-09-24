@@ -47,7 +47,7 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                        <form asp-controller="ManageUsers" asp-action="Edit" id="EditUser">
+                        <form asp-controller="GeneralFederation" asp-action="Edit" id="EditUser">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="FullName" class="form-label">الاسم </label>
@@ -81,10 +81,10 @@
                                     </label>
                                 </div>
                                 <div class="form-group form-password-toggle">
-                                    <label asp-for="UserRoles" class="control-label"></label>
+                                    <label asp-for="RoleId" class="control-label"></label>
                                     @if (User.IsInRole("AdminGeneralFederation"))
                                     {
-                                        <select asp-for="UserRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+                                        <select asp-for="RoleId" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
                                       {   new SelectListItem { Selected = true, Text = "قم بإختيار الصلاحية الممنوحة"},
                                           new SelectListItem { Selected = false, Text = "مدير إتحاد عام", Value = 1.ToString() },
                                           new SelectListItem { Selected = false, Text = " مدير محافظة", Value = 2.ToString() },
@@ -96,7 +96,7 @@
                                     else if (User.IsInRole("AdminGovernorate"))
                                     {
 
-                                        <select asp-for="UserRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+                                        <select asp-for="RoleId" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
                                       {   new SelectListItem { Selected = true, Text = "قم بإختيار الصلاحية الممنوحة"},
 
                                           new SelectListItem { Selected = false, Text = " مدير مديرية", Value = 3.ToString() },
@@ -109,7 +109,7 @@
                                     else if (User.IsInRole("AdminDirectorate"))
                                     {
 
-                                        <select asp-for="UserRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+                                        <select asp-for="RoleId" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
                                       {   new SelectListItem { Selected = true, Text = "قم بإختيار الصلاحية الممنوحة"},
 
                                            new SelectListItem { Selected = false, Text = " مدير عزلة", Value = 4.ToString() },
@@ -119,14 +119,14 @@
                                     }
                                     else if (User.IsInRole("AdminSubDirectorate"))
                                     {
-                                        <select asp-for="UserRoles" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+                                        <select asp-for="RoleId" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
                                       {   new SelectListItem { Selected = true, Text = "قم بإختيار الصلاحية الممنوحة"},
 
 
                                           new SelectListItem { Selected = false, Text = " مزارع ", Value = 5.ToString() } } , "Value", "Text", 5))"> </select>
 
                                     }
-                                    <span asp-validation-for="UserRoles" class="text-danger"></span>
+                                    <span asp-validation-for="RoleId" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-4 mb-4">
                                     <label class="col-form-label">المحافظة</label>

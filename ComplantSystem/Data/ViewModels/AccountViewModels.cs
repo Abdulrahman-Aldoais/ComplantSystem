@@ -61,9 +61,16 @@ namespace ComplantSystem
         [Required(ErrorMessage = "اختر العزلة")]
         public int SubDirectorateId { get; set; }
         public byte[] ProfilePicture { get; set; }
+        //[DataType(DataType.Password)]
+        //[Required(ErrorMessage = "يرجى ادخال كلمة المرور"), RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "صيغة يجب ان تكون كلمة السر ارقام و حروف و رموز")]
+        //public string Password { get; set; }
+        //[DataType(DataType.Password)]
+        //[Required(ErrorMessage = "يرجى اعادة ادخال كلمة المرور"), Compare("Password", ErrorMessage = "كلمة المرور غير متطابقة")]
+        //public string PasswordConfirm { get; set; }
         public bool IsBlocked { get; set; }
+        [Required(ErrorMessage = "اختر الصلاحية الممنوحة")]
         [Display(Name = "نوع المستخدم")]
-        public int UserRoles { get; set; }
+        public int RoleId { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }

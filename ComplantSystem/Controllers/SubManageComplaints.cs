@@ -65,7 +65,8 @@ namespace ComplantSystem
 
 
             var allCompalintsVewi = await _compReop.GetAllAsync(g => g.Governorate, d => d.Directorate, b => b.SubDirectorate);
-            var compBy = allCompalintsVewi.Where(g => g.SubDirectorateId == currentUser.SubDirectorateId && g.StagesComplaintId == 1);
+            var compBy = allCompalintsVewi.Where(g => g.SubDirectorateId == currentUser.SubDirectorateId && g.StagesComplaintId == 1)
+                .OrderByDescending(d => d.UploadDate);
             var compalintDropdownsData = await _compReop.GetNewCompalintsDropdownsValues();
             ViewBag.StatusCompalints = new SelectList(compalintDropdownsData.StatusCompalints, "Id", "Name");
             ViewBag.TypeComplaints = new SelectList(compalintDropdownsData.TypeComplaints, "Id", "Type");
@@ -116,18 +117,60 @@ namespace ComplantSystem
                 UploadsComplainteId = id,
 
             };
+            UpComplaintVM UpView = new UpComplaintVM()
+            {
+                UploadsComplainteId = id,
+
+            };
             ProvideSolutionsVM VM = new ProvideSolutionsVM
             {
                 compalint = ComplantList,
                 Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
                 ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
                 RejectedComplaintVM = rejectView,
-                AddSolution = addsoiationView
+                AddSolution = addsoiationView,
+                UpComplaintCauseList = await _context.UpComplaintCauses.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                UpComplaint = UpView,
             };
             return View(VM);
         }
 
         public async Task<IActionResult> ViewCompalintRejectedDetails(string id)
+        {
+            var ComplantList = await _compReop.FindAsync(id);
+            AddSolutionVM addsoiationView = new AddSolutionVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ComplaintsRejectedVM rejectView = new ComplaintsRejectedVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ProvideSolutionsVM VM = new ProvideSolutionsVM
+            {
+                compalint = ComplantList,
+                Compalints_SolutionList = await _context.Compalints_Solutions
+                .Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                ComplaintsRejectedList = await _context.ComplaintsRejecteds
+                .Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                RejectedComplaintVM = rejectView,
+                AddSolution = addsoiationView
+            };
+            return View(VM);
+        }
+        public async Task<IActionResult> AllUpComplaints()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var allComp = _compReop.GetAll().Where(g => g.UserId == currentUser.UserId
+            && g.StatusCompalint.Id == 5); ;
+            var totaleComp = allComp.Count(); ;
+            ViewBag.totaleComp = totaleComp;
+            return View(allComp);
+        }
+
+        public async Task<IActionResult> ViewCompalintUpDetails(string id)
         {
             var ComplantList = await _compReop.FindAsync(id);
             AddSolutionVM addsoiationView = new AddSolutionVM()
@@ -150,7 +193,6 @@ namespace ComplantSystem
             };
             return View(VM);
         }
-
         public async Task<IActionResult> SolutionComplaints()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -160,8 +202,9 @@ namespace ComplantSystem
                 s => s.SubDirectorate,
                 n => n.StatusCompalint,
                 st => st.StagesComplaint);
-            var Getrejected = rejectedComplaints.Where(g => g.Directorate.Id == currentUser.DirectorateId
-            && g.StatusCompalint.Id == 2 && g.StagesComplaint.Id == 1);
+            var Getrejected = rejectedComplaints
+                .Where(g => g.Directorate.Id == currentUser.DirectorateId
+                && g.StatusCompalint.Id == 2 && g.StagesComplaint.Id == 1);
             var compalintDropdownsData = await _compReop.GetNewCompalintsDropdownsValues();
             ViewBag.StatusCompalints = new SelectList(compalintDropdownsData.StatusCompalints, "Id", "Name");
             ViewBag.TypeComplaints = new SelectList(compalintDropdownsData.TypeComplaints, "Id", "Type");
@@ -303,24 +346,51 @@ namespace ComplantSystem
 
         }
         // رفع الشكوى مع سبب الرفع للإدارة العلياء 
-        public async Task<IActionResult> UpCompalint(string id, UploadsComplainte complainte)
+        public async Task<IActionResult> UpCompalint(string id, ProvideSolutionsVM model)
         {
-
-            var upComp = await _compReop.FindAsync(id);
-            var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
-            if (dbComp != null)
+            if (ModelState.IsValid)
             {
+                var currentUser = await _userManager.GetUserAsync(User);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var role = claimsIdentity.FindFirst(ClaimTypes.Role);
+                string userRole = role.Value;
+                string UserId = claim.Value;
+                var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+                var idComp = model.UpComplaint.UploadsComplainteId;
+                var upComplaint = new UpComplaintCause()
+                {
+                    UserId = subuser.Id,
+                    UpProvName = subuser.FullName,
+                    UploadsComplainteId = model.UpComplaint.UploadsComplainteId,
+                    UpUserProvIdentity = subuser.IdentityNumber,
+                    Cause = model.UpComplaint.Cause,
+                    DateUp = DateTime.Now,
+                    Role = userRole,
 
-                dbComp.Id = complainte.Id;
-                dbComp.StagesComplaintId = dbComp.StagesComplaintId + 1;
 
+                };
+
+                _context.UpComplaintCauses.Add(upComplaint);
+                await _context.SaveChangesAsync();
+
+
+                var upComp = await _compReop.FindAsync(idComp);
+                var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+                if (dbComp != null)
+                {
+                    //dbComp.StatusCompalintId = 2;
+                    dbComp.StagesComplaintId = upComp.StagesComplaintId + 1;
+                    await _context.SaveChangesAsync();
+                }
 
                 await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+
+
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-
+            return NotFound();
         }
 
         [HttpPost]
@@ -381,7 +451,8 @@ namespace ComplantSystem
 
             var currentUser = await _userManager.GetUserAsync(User);
             var currentName = currentUser.FullName;
-            var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues();
+            int SubDirctoty = currentUser.SubDirectorateId;
+            var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues(SubDirctoty);
             ViewBag.typeCommun = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Type");
             ViewBag.UsersName = new SelectList(communicationDropdownsData.ApplicationUsers, "Id", "FullName");
 
@@ -395,7 +466,8 @@ namespace ComplantSystem
             if (ModelState.IsValid)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
-                var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues();
+                int SubDirctoty = currentUser.SubDirectorateId;
+                var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues(SubDirctoty);
                 ViewBag.typeCommun = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Type");
                 ViewBag.UsersName = new SelectList(communicationDropdownsData.ApplicationUsers, "Id", "Name");
 
@@ -432,6 +504,30 @@ namespace ComplantSystem
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Download(string id)
+        {
+            var selectedFile = await _compReop.FindAsync(id);
+            if (selectedFile == null)
+            {
+                return NotFound();
+            }
+
+            //await _compService.IncreamentDownloadCount(id);
+
+            var path = "~/Uploads/" + selectedFile.FileName;
+            Response.Headers.Add("Expires", DateTime.Now.AddDays(-3).ToLongDateString());
+            Response.Headers.Add("Cache-Control", "no-cache");
+            return File(path, selectedFile.ContentType, selectedFile.OriginalFileName);
+        }
+
+        public async Task<IActionResult> DisbleOrEnableUser(string id)
+        {
+            await _userService.EnableAndDisbleUser(id);
+            return RedirectToAction("ViewUsers");
+
+
+        }
 
 
     }

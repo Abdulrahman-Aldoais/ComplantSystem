@@ -13,6 +13,7 @@ namespace ComplantSystem.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -25,6 +26,7 @@ namespace ComplantSystem.Controllers
             RoleManager<IdentityRole> roleManager,
             ICompalintRepository compalintService,
             IRegionsRepo regions,
+
             IMapper mapper)
         {
             _userService = userService;
@@ -142,8 +144,10 @@ namespace ComplantSystem.Controllers
 
                     }
 
-                }
 
+                }
+                TempData["Error"] = " تاكد من صحة كتابة رقم البطاقة او كلمة المرور";
+                return View(model);
 
             }
             return View(model);

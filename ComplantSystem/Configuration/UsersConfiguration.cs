@@ -66,7 +66,7 @@ namespace ComplantSystem.Configuration
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
                         CreatedDate = DateTime.Now,
-                        RoleId = 6,
+                        RoleId = 5,
                     };
                     await userManager.CreateAsync(newAppUser, "B@ww11");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.Beneficiarie);

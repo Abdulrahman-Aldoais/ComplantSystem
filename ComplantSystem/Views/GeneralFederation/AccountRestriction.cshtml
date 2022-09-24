@@ -58,19 +58,19 @@
                                                 class="select2 form-select select2-hidden-accessible"
                                                 tabindex="-1" aria-hidden="true" data-select2-id="10">
                                             <option value="0" data-select2-id="12">عرض</option>
-                                            <option value="جديدة">جديدة</option>
-                                            <option value="محلولة">محلولة</option>
-                                            <option value="غير محلولة">غير محلولة</option>
-                                            <option value="مرفوعة">مرفوعة</option>
+                                            <option value="مزارع">مزارع</option>
+                                            <option value="مدير عزلة">مدير عزلة</option>
+                                            <option value="مدير مديرية">مدير مديرية</option>
+                                            <option value="مدير محافظة">مدير محافظة</option>
                                         </select>
                                     </div>
 
 
                                     <div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
                                         <div class="me-3 table-type search-paddind">
-                                            <span class="table-span">بحث</span>
+
                                             <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                                <label><input type="search" id="CustomSearchTextField" style="display: block; width: 100%; padding: 0.469rem 0.735rem; font-size: 0.9375rem; font-weight: 400; line-height: 1.4; color: #a1b0cb; background-color: #283144; background-clip: padding-box; border: 1px solid #546990; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0.25rem; transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
+                                                <label><input type="search" id="CustomSearchTextField" class="form-control" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -81,11 +81,7 @@
                             </div>
 
 
-                            <div class=" col-12 justify-content-between">
-                                <button style="float:left; border:1px solid green;" class="btn btn-primary me-1" onclick="location.href='@Url.Action("Create", "ManageUsers")'">
-                                    اضــــافة مستخدم  +
-                                </button>
-                            </div>
+                          
                         </div>
 
 
@@ -102,8 +98,8 @@
                                     <th> الصلاحية </th>
                                     <th>تاريخ الانشاء </th>
                                     <th>الفعالية</th>
-                                    <th>تغير الحالة</th>
                                     <th> إجراء</th>
+                                    @*<th>تغير الحالة</th>*@
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
@@ -114,7 +110,7 @@
                                         <td>@user.FullName </td>
                                         <td>
                                             @*@foreach (Governorate gov  in Model.)
-                                                {*@
+                                {*@
                                             @user.Governorate.Name
                                         </td>
 
@@ -129,16 +125,16 @@
                                             }
                                             else if (await UserManager.IsInRoleAsync(user, UserRoles.AdminDirectorate))
                                             {
-                                                <span class="badge bg-label-warning"> مدير مديرة</span>
+                                                <span class="badge bg-label-warning">مدير مديرية</span>
                                             }
                                             else if (await UserManager.IsInRoleAsync(user, UserRoles.AdminSubDirectorate))
                                             {
                                                 <span class="badge bg-label-warning"> مدير عزلة</span>
                                             }
-                                            
+
                                             else if (await UserManager.IsInRoleAsync(user, UserRoles.Beneficiarie))
                                             {
-                                                <span class="badge bg-label-warning">مستخدم عادي</span>
+                                                <span class="badge bg-label-warning"> مزارع</span>
                                             }
                                         </td>
 
@@ -146,38 +142,28 @@
 
                                         <td>@user.CreatedDate</td>
 
-                                        @if (user.IsBlocked == true)
+
+                                        @if (user.EmailConfirmed)
                                         {
 
 
                                             <td>
-                                                <span class="badge bg-danger text-white@(user.IsBlocked)">
+                                                <span class="badge bg-success text-white@(user.EmailConfirmed)">
 
-                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.IsBlocked ?"مقيد": "نشط")</i>
+                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.EmailConfirmed ? "نشط": "مقيد")</i>
                                                 </span>
                                             </td>
                                         }
                                         else
                                         {
                                             <td>
-                                                <span class="badge bg-success text-white@(user.IsBlocked)">
 
-                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.IsBlocked ?"مقيد": "نشط")</i>
+                                                <span class="badge bg-danger text-white@(user.EmailConfirmed)">
+
+                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.EmailConfirmed ? "نشط" : "مقيد")</i>
                                                 </span>
                                             </td>
                                         }
-
-
-                                        <td>
-                                            <form asp-action="ChaingeStatus" id="Status-Form-@user.Id">
-                                                <input type="hidden" name="Id" value="@user.Id" />
-                                                <select class="form-select " onchange="document.getElementById('Status-Form-@user.Id').submit()" name="IsBlocked">
-                                                    <option value="">اختر</option>
-                                                    <option value="false">تنشيط</option>
-                                                    <option value="true">توقيف</option>
-                                                </select>
-                                            </form>
-                                        </td>
 
                                         <td style="">
                                             <div class="d-inline-block">
@@ -233,10 +219,10 @@
             language: {
                 "loadingRecords": "جارٍ التحميل...",
                 "lengthMenu": "أظهر _MENU_ مدخلات",
-                "zeroRecords": "لم يعثر على أي شكوى",
+                "zeroRecords": " لا يوجد أي حساب مقيد",
                 "info": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
                 "search": "ابحث:",
-                "searchPlaceholder": "بحث عن شكوى",
+                "searchPlaceholder": "بحث عن مستخدم",
                 "paginate": {
                     "first": "الأول",
                     "previous": "السابق",

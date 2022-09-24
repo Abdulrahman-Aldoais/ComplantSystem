@@ -60,8 +60,9 @@ namespace ComplantSystem.Service
 
         }
 
-
-
-
+        public Task GetNewCompalintsDropdownsValues()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

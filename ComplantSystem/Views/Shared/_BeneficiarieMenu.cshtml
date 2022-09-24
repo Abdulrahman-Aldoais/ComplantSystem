@@ -2,7 +2,7 @@
     <!-- الرئيسة -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text"> قائمة النظام</span></li>
     <li class="menu-item  " >
-        <a asp-action="Index" class="menu-link">
+        <a asp-action="Index" asp-controller="Beneficiarie" class="menu-link">
             <i class="fa fa-home" aria-hidden="true"></i>
             <div data-i18n="الرئيسية" style="margin-right: 14px;">الرئيسية</div>
         </a>
@@ -35,6 +35,7 @@
                     <div>المرفوضة</div>
                 </a>
             </li>
+
             <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewResolvedComplaints"?"active":"")
                                   @(ViewContext.RouteData.Values["Action"].ToString()=="ViewCompalintSolutionDetails"?"active ":"")">
                 <a href="/Beneficiarie/ViewResolvedComplaints" class="menu-link">

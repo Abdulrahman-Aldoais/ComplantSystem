@@ -40,6 +40,7 @@ namespace ComplantSystem.Models
         public DateTime DateOfBirth { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
+
         public int RoleId { get; set; }
         [NotMapped]
         public string RoleName { get; set; }

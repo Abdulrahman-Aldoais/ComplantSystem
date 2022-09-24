@@ -42,11 +42,11 @@
                                             </li>
                                             <li class="mb-3">
                                                 <span class="fw-bold me-2">الحالة:</span>
-                                                @if (Model.IsBlocked == true)
+                                                @if (Model.IsBlocked == false)
                                                 {
                                                     <span class="badge bg-danger text-white@(Model.IsBlocked)">
 
-                                                        <i class="fa fa-circle" aria-hidden="true"> @(Model.IsBlocked ?"مقيد": "نشط")</i>
+                                                        <i class="fa fa-circle" aria-hidden="true"> @(Model.IsBlocked ? "نشط" : "مقيد")</i>
                                                     </span>
 
                                                 }
@@ -55,7 +55,7 @@
 
                                                     <span class="badge bg-success text-white@(Model.IsBlocked)">
 
-                                                        <i class="fa fa-circle" aria-hidden="true"> @(Model.IsBlocked ?"مقيد": "نشط")</i>
+                                                        <i class="fa fa-circle" aria-hidden="true"> @(Model.IsBlocked ?"نشط": "مقيد")</i>
                                                     </span>
 
                                                 }
@@ -87,7 +87,7 @@
                                                     }
                                                     else if (await UserManager.IsInRoleAsync(Model, "AdminDirectorate"))
                                                     {
-                                                        <span class="badge bg-label-warning"> مدير مديرة</span>
+                                                        <span class="badge bg-label-warning"> مدير مديرية</span>
                                                     }
                                                     else if (await UserManager.IsInRoleAsync(Model, "AdminSubDirectorate"))
                                                     {

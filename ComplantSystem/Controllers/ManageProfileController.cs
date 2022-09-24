@@ -148,9 +148,9 @@ namespace ComplantSystem.Controllers
                     var result = await _userManager.ChangePasswordAsync(currentUser, changePassword.CurrentPassword, changePassword.NewPassword);
                     if (result.Succeeded)
                     {
-                        //TempData["Success"] = stringLocalizer["ChangePasswordMessage"]?.Value;
+
                         await _signInManager.SignOutAsync();
-                        return RedirectToAction("Login");
+                        return RedirectToAction("Account", "Login");
                     }
 
                     foreach (var error in result.Errors)
@@ -163,7 +163,7 @@ namespace ComplantSystem.Controllers
             {
                 return NotFound();
             }
-            return View("Login", mapper.Map<ChangePasswordViewModel>(currentUser));
+            return View("/Views/ManageUsers/ChangePassword.cshtml", mapper.Map<ChangePasswordViewModel>(currentUser));
 
 
         }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComplantSystem.Migrations
 {
     [DbContext(typeof(AppCompalintsContextDB))]
-    [Migration("20220910231856_New")]
-    partial class New
+    [Migration("20220924141304_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -630,15 +630,15 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9d506f47-1725-4b41-bb6f-739a4c15e588",
-                            CreatedDate = new DateTime(2022, 9, 11, 2, 18, 55, 335, DateTimeKind.Local).AddTicks(4153),
+                            Id = "106f08d7-704d-47ef-afe1-83959bac0345",
+                            CreatedDate = new DateTime(2022, 9, 24, 17, 13, 3, 461, DateTimeKind.Local).AddTicks(9080),
                             Type = "تماطل",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         },
                         new
                         {
-                            Id = "0785737f-776c-4dd9-871c-64abe3eedcc6",
-                            CreatedDate = new DateTime(2022, 9, 11, 2, 18, 55, 335, DateTimeKind.Local).AddTicks(4660),
+                            Id = "edc7c758-b763-425f-8766-3458268a5fd0",
+                            CreatedDate = new DateTime(2022, 9, 24, 17, 13, 3, 461, DateTimeKind.Local).AddTicks(9627),
                             Type = "تلاعب بالحلول",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         });
@@ -671,18 +671,54 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3ef0d8e9-e7a0-4f87-b258-0eb074f87825",
-                            CreatedDate = new DateTime(2022, 9, 11, 2, 18, 55, 336, DateTimeKind.Local).AddTicks(2592),
+                            Id = "91c43602-78e3-46d5-9ea6-c8b8550bdb97",
+                            CreatedDate = new DateTime(2022, 9, 24, 17, 13, 3, 462, DateTimeKind.Local).AddTicks(8862),
                             Type = "زراعية",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         },
                         new
                         {
-                            Id = "5e037fbe-0c78-48ca-b609-14337d491055",
-                            CreatedDate = new DateTime(2022, 9, 11, 2, 18, 55, 336, DateTimeKind.Local).AddTicks(3090),
+                            Id = "9dbbf52e-378a-4039-b8e0-ab434ea7ee30",
+                            CreatedDate = new DateTime(2022, 9, 24, 17, 13, 3, 462, DateTimeKind.Local).AddTicks(9491),
                             Type = "فساد",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         });
+                });
+
+            modelBuilder.Entity("ComplantSystem.Models.UpComplaintCause", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Cause")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateUp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpProvName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpUserProvIdentity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UploadsComplainteId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UploadsComplainteId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UpComplaintCauses");
                 });
 
             modelBuilder.Entity("ComplantSystem.Models.UploadsComplainte", b =>
@@ -740,6 +776,9 @@ namespace ComplantSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("TypeComplaintId2")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("UploadDate")
                         .HasColumnType("datetime2");
 
@@ -763,6 +802,8 @@ namespace ComplantSystem.Migrations
                     b.HasIndex("TypeCommunicationId");
 
                     b.HasIndex("TypeComplaintId");
+
+                    b.HasIndex("TypeComplaintId2");
 
                     b.ToTable("UploadsComplaintes");
                 });
@@ -860,36 +901,36 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cfd23ce8-c1f4-4848-9e69-6f298938d6bb",
-                            ConcurrencyStamp = "94b8f2f7-5dab-43e3-afae-159de774fe4f",
+                            Id = "9f120bfa-d84e-4b42-94b0-52917963ea36",
+                            ConcurrencyStamp = "e4239bd8-26a7-444a-a937-d768259d893e",
                             Name = "AdminGeneralFederation",
                             NormalizedName = "ADMINGENERALFEDERATION"
                         },
                         new
                         {
-                            Id = "bd3be5a5-d612-4253-97a0-a36b5683d1df",
-                            ConcurrencyStamp = "2667e5f3-780e-4fbf-8133-a7ea04d466f8",
+                            Id = "7b5594f7-13a5-48cf-8a6c-1b2e424a32dd",
+                            ConcurrencyStamp = "f0b6ce6b-d3a9-4f67-9d7a-eac807f27c1f",
                             Name = "AdminGovernorate",
                             NormalizedName = "ADMINGOVERNORATE"
                         },
                         new
                         {
-                            Id = "6db4062c-512f-4842-bc61-14b924c56020",
-                            ConcurrencyStamp = "b9b445f8-1b5a-419b-b36c-f7830b991730",
+                            Id = "38efefbc-95e4-4fe9-b3c4-419e5f9100c2",
+                            ConcurrencyStamp = "deae4682-c543-499d-a4aa-fc21caf3df85",
                             Name = "AdminDirectorate",
                             NormalizedName = "ADMINDIRECTORATE"
                         },
                         new
                         {
-                            Id = "f4c40998-7ee0-4132-97bc-41ee6f7fa3ee",
-                            ConcurrencyStamp = "582406f9-2fcc-4b1c-aae9-68a361559543",
+                            Id = "a970a69c-8f4c-4047-95af-a61e3858945c",
+                            ConcurrencyStamp = "14a6d96c-4bc7-4040-ad5c-8469fc74c454",
                             Name = "AdminSubDirectorate",
                             NormalizedName = "ADMINSUBDIRECTORATE"
                         },
                         new
                         {
-                            Id = "c2ad7ca8-6452-4f89-832e-201321094762",
-                            ConcurrencyStamp = "304f8e56-e167-4243-b43b-2ed99d9b0308",
+                            Id = "c26e4567-332f-4150-91ea-6d7fe80315f9",
+                            ConcurrencyStamp = "7800f2ee-0137-4284-b9c5-7edb359e7093",
                             Name = "Beneficiarie",
                             NormalizedName = "BENEFICIARIE"
                         });
@@ -1094,6 +1135,21 @@ namespace ComplantSystem.Migrations
                     b.Navigation("Directorate");
                 });
 
+            modelBuilder.Entity("ComplantSystem.Models.UpComplaintCause", b =>
+                {
+                    b.HasOne("ComplantSystem.Models.UploadsComplainte", "CompalintUp")
+                        .WithMany()
+                        .HasForeignKey("UploadsComplainteId");
+
+                    b.HasOne("ComplantSystem.Models.ApplicationUser", "UserUpComplaint")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("CompalintUp");
+
+                    b.Navigation("UserUpComplaint");
+                });
+
             modelBuilder.Entity("ComplantSystem.Models.UploadsComplainte", b =>
                 {
                     b.HasOne("ComplantSystem.Models.Directorate", "Directorate")
@@ -1135,10 +1191,15 @@ namespace ComplantSystem.Migrations
                         .HasForeignKey("TypeCommunicationId");
 
                     b.HasOne("ComplantSystem.Models.TypeComplaint", "TypeComplaint")
-                        .WithMany("UploadsComplainte")
+                        .WithMany()
                         .HasForeignKey("TypeComplaintId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ComplantSystem.Models.TypeComplaint", null)
+                        .WithMany("UploadsComplaintes")
+                        .HasForeignKey("TypeComplaintId2")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Directorate");
 
@@ -1323,7 +1384,7 @@ namespace ComplantSystem.Migrations
 
             modelBuilder.Entity("ComplantSystem.Models.TypeComplaint", b =>
                 {
-                    b.Navigation("UploadsComplainte");
+                    b.Navigation("UploadsComplaintes");
                 });
 
             modelBuilder.Entity("ComplantSystem.Models.UploadsComplainte", b =>

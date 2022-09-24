@@ -42,7 +42,6 @@ namespace ComplantSystem
             IUserService userService,
             UserManager<ApplicationUser> userManager,
             IHubContext<NotefcationHub> notificationHub,
-
             IWebHostEnvironment env,
 
             AppCompalintsContextDB context)
@@ -55,7 +54,6 @@ namespace ComplantSystem
             _service = service;
             _context = context;
             _env = env;
-
         }
 
 
@@ -67,6 +65,10 @@ namespace ComplantSystem
             }
         }
 
+        //public void OnGet()
+        //{
+
+        //}
         public async Task<IActionResult> Index()
         {
             var allComp = await _compReop.GetAllAsync(h => h.Governorate);
@@ -81,6 +83,175 @@ namespace ComplantSystem
             ViewBag.totalUsers = totalUsers;
             ViewBag.totalComp = totalComp;
 
+            //------------- أحصائيات بالمستخدمين في كل محافظة --------------------//
+
+
+            List<UsersInStatistic> usersIn = new List<UsersInStatistic>();
+            usersIn = ViewBag.totalGovermentuser;
+
+            List<ApplicationUser> applicationUsers = await _context.Users
+
+                .Include(su => su.Governorate).ToListAsync();
+
+            //Totalcountuser
+            int TotalUsers = applicationUsers.Count();
+
+            ViewBag.Users = TotalUsers;
+
+            //total Govermentuser
+            ViewBag.totalGovermentuser = applicationUsers.GroupBy(j => j.GovernorateId).Select(g => new UsersInStatistic
+            {
+                Name = g.First().Governorate.Name,
+                totalUsers = g.Count().ToString(),
+                Users = (g.Count() * 100) / TotalUsers
+
+
+            }).ToList();
+
+
+
+            //------------- نـــــهاية أحصائيات بالمستخدمين --------------------//
+
+
+            //-------------أحصائيات انواع الشكاوى --------------------//
+
+            List<UploadsComplainte> compalints = await _context.UploadsComplaintes
+                .Include(su => su.TypeComplaint).ToListAsync();
+            List<TypeCompalintStatistic> typeCompalints = new List<TypeCompalintStatistic>();
+            typeCompalints = ViewBag.GrapComplanrType;
+
+            int totalcomplant = compalints.Count();
+            ViewBag.Totalcomplant = totalcomplant;
+
+            ViewBag.GrapComplanrType = compalints.GroupBy(x => x.TypeComplaintId).Select(g => new TypeCompalintStatistic
+            {
+                Name = g.First().TypeComplaint.Type,
+                TotalCount = g.Count().ToString(),
+                TypeComp = (g.Count() * 100) / totalcomplant
+            }).ToList();
+
+
+
+
+            //------------- نهاية أحصائيات انواع الشكاوى --------------------//
+
+
+            //-------------أحصائيات حالات الشكاوى --------------------//
+
+
+            List<UploadsComplainte> stutuscompalints = await _context.UploadsComplaintes
+                .Include(su => su.StatusCompalint).ToListAsync();
+            List<StutusCompalintStatistic> stutusCompalints = new List<StutusCompalintStatistic>();
+            stutusCompalints = ViewBag.GrapComplanrStutus;
+
+            int totalStutuscomplant = stutuscompalints.Count();
+            ViewBag.TotalStutusComplant = totalStutuscomplant;
+
+            ViewBag.GrapComplanrStutus = stutuscompalints.GroupBy(s => s.StatusCompalintId).Select(g => new StutusCompalintStatistic
+            {
+                //id = 
+                Name = g.First().StatusCompalint.Name,
+                TotalCountStutus = g.Count().ToString(),
+                stutus = (g.Count() * 100) / totalStutuscomplant
+            }).ToList();
+
+            //------------- نهاية أحصائيات حالات الشكاوى --------------------//
+
+
+
+            //-------------  أحصائيات عدد المستخدمين حسب الصلاحيات--------------------//
+
+            List<ApplicationUser> UsersRoles = await _context.Users.Include(x => x.UserRoles).ToListAsync();
+
+
+            //Totalcountuser
+            int totalCountByRole = applicationUsers.Count();
+
+            ViewBag.TotalCountByRoles = totalCountByRole;
+
+            // show Name Role Rether Than Id
+            var Roles = _context.Roles.ToList();
+            var x = from r in Globals.RolesLists
+                    join u in UsersRoles
+                    on r.Id equals u.RoleId
+                    select new ApplicationUser
+                    {
+                        RoleName = r.Name,
+                        UserRoles = u.UserRoles
+                    };
+
+            //total Users By Role
+            ViewBag.totalUserByRoles = x.GroupBy(j => j.RoleName).Select(g => new UserByRolesStatistic
+            {
+                RoleName = g.First().RoleName,
+                TotalCount = g.Count().ToString(),
+                RolsTot = (g.Count() * 100) / totalCountByRole
+
+
+            }).ToList();
+
+
+            List<UserByRolesStatistic> gtus = new List<UserByRolesStatistic>();
+            gtus = ViewBag.totalUserByRoles;
+
+
+            //------------------ نهاية أحصائيات عدد المستخدمين حسب الصلاحيات--------------------//
+
+
+            //-------------  أحصائيات انواع اليلاغات    --------------------//
+
+
+
+            List<UsersCommunication> communcations = await _context.UsersCommunications
+                .Include(su => su.TypeCommunication).ToListAsync();
+            List<TypeCommunicationStatistic> TotalTypeCommuncations = new List<TypeCommunicationStatistic>();
+
+            int totalCommunication = communcations.Count();
+
+            TotalTypeCommuncations = ViewBag.typeCommun;
+
+            ViewBag.TypeCommuncations = communcations.GroupBy(x => x.TypeCommunication).Select(g => new TypeCommunicationStatistic
+            {
+                Name = g.First().TypeCommunication.Type,
+                TotalCount = g.Count().ToString(),
+                TypeComp = (g.Count() * 100) / totalCommunication
+            }).ToList();
+
+            //------------- نهاية أحصائيات انواع اليلاغات --------------------//
+
+
+            //-------------  أحصائيات عدد اليلاغات    --------------------//
+
+
+            List<TotalCommunicationStatistic> communicationsIn = new List<TotalCommunicationStatistic>();
+            communicationsIn = ViewBag.totalcommunications;
+
+            List<UsersCommunication> communications = await _context.UsersCommunications
+
+                .Include(su => su.Governorate).ToListAsync();
+
+            //Totalcountuser
+            int TotalCommun = communications.Count();
+
+            ViewBag.Commun = TotalCommun;
+
+            //total Govermentuser
+            ViewBag.totalcommunications = communications.GroupBy(j => j.GovernorateId).Select(g => new TotalCommunicationStatistic
+            {
+                Name = g.First().Governorate.Name,
+                TotalCount = g.Count().ToString(),
+                TypeComp = (g.Count() * 100) / TotalUsers
+
+            }).ToList();
+
+            //------------- نهاية أحصائيات عدد اليلاغات --------------------//
+
+            return View();
+        }
+
+
+        public async Task<IActionResult> PrintReports()
+        {
 
 
 
@@ -159,26 +330,6 @@ namespace ComplantSystem
             }).ToList();
 
 
-            //StutusCompalintStatistic stutus = new StutusCompalintStatistic()
-            //    {
-            //        Name = item.Name,
-            //        stutus = item.stutus,
-            //        TotalCountStutus = item?.TotalCountStutus?.ToString(),
-            //    };
-
-            //List<StutusCompalintStatistic> parts = new List<StutusCompalintStatistic>();
-
-            //foreach (var item in ViewBag.GrapComplanrStutus)
-            //{
-            //    var list = parts.Add(item);
-            //    _context.Add(list);
-            //    _context.SaveChangesAsync();
-            //}
-
-
-
-
-
             //------------- نهاية أحصائيات حالات الشكاوى --------------------//
 
 
@@ -186,7 +337,6 @@ namespace ComplantSystem
             //-------------  أحصائيات عدد المستخدمين حسب الصلاحيات--------------------//
 
             List<ApplicationUser> UsersRoles = await _context.Users.Include(x => x.UserRoles).ToListAsync();
-
 
             //Totalcountuser
             int totalCountByRole = applicationUsers.Count();
@@ -211,7 +361,6 @@ namespace ComplantSystem
                 TotalCount = g.Count().ToString(),
                 RolsTot = (g.Count() * 100) / totalCountByRole
 
-
             }).ToList();
 
 
@@ -223,8 +372,6 @@ namespace ComplantSystem
 
 
             //-------------  أحصائيات انواع اليلاغات    --------------------//
-
-
 
             List<UsersCommunication> communcations = await _context.UsersCommunications
                 .Include(su => su.TypeCommunication).ToListAsync();
@@ -272,12 +419,8 @@ namespace ComplantSystem
             }).ToList();
 
             //------------- نهاية أحصائيات عدد اليلاغات --------------------//
-
             return View();
         }
-
-
-
         public async Task<IActionResult> AllComplaints()
         {
             var allComp = _compReop.GetAll();
@@ -286,7 +429,17 @@ namespace ComplantSystem
             return View(allComp);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> RejectedComplaints()
+        {
+            var allComp = _compReop.GetAll().Where(s => s.StatusCompalintId == 3);
+            var totaleComp = allComp.Count();
+            ViewBag.totaleComp = totaleComp;
+            return View(allComp);
+        }
+
+        public async Task<IActionResult> AllUpComplaints()
         {
             var allComp = _compReop.GetAll().Where(s => s.StatusCompalintId == 3); ;
             var totaleComp = allComp.Count(); ;
@@ -294,6 +447,29 @@ namespace ComplantSystem
             return View(allComp);
         }
 
+        public async Task<IActionResult> ViewCompalintUpDetails(string id)
+        {
+            var ComplantList = await _compReop.FindAsync(id);
+            AddSolutionVM addsoiationView = new AddSolutionVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ComplaintsRejectedVM rejectView = new ComplaintsRejectedVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ProvideSolutionsVM VM = new ProvideSolutionsVM
+            {
+                compalint = ComplantList,
+                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                RejectedComplaintVM = rejectView,
+                AddSolution = addsoiationView
+            };
+            return View(VM);
+        }
         public async Task<IActionResult> SolutionComplaints()
         {
             var allComp = _compReop.GetAll().Where(s => s.StatusCompalintId == 2);
@@ -302,37 +478,61 @@ namespace ComplantSystem
             return View(allComp);
         }
 
-        public async Task<IActionResult> UpCompalint(string id, UploadsComplainte complainte)
-        {
+        //public async Task<IActionResult> UpCompalint(string id, ProvideSolutionsVM model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var currentUser = await _userManager.GetUserAsync(User);
+        //        var claimsIdentity = (ClaimsIdentity)User.Identity;
+        //        var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+        //        var role = claimsIdentity.FindFirst(ClaimTypes.Role);
+        //        string userRole = role.Value;
+        //        string UserId = claim.Value;
+        //        var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+        //        var idComp = model.UpComplaint.UploadsComplainteId;
+        //        var upComplaint = new UpComplaintCause()
+        //        {
+        //            UserId = subuser.Id,
+        //            UpProvName = subuser.FullName,
+        //            UploadsComplainteId = model.UpComplaint.UploadsComplainteId,
+        //            UpUserProvIdentity = subuser.IdentityNumber,
+        //            Cause = model.UpComplaint.Cause,
+        //            DateUp = DateTime.Now,
+        //            Role = userRole,
 
-            var upComp = await _compReop.FindAsync(id);
-            var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
-            if (dbComp != null)
-            {
 
-                dbComp.Id = complainte.Id;
-                dbComp.StagesComplaintId = dbComp.StagesComplaintId + 1;
+        //        };
+
+        //        _context.UpComplaintCauses.Add(upComplaint);
+        //        await _context.SaveChangesAsync();
 
 
-                await _context.SaveChangesAsync();
-            }
+        //        var upComp = await _compReop.FindAsync(idComp);
+        //        var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
+        //        if (dbComp != null)
+        //        {
+        //            dbComp.StatusCompalintId = 2;
+        //            dbComp.StagesComplaintId = 4;
+        //            await _context.SaveChangesAsync();
+        //        }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(AllComplaints));
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(AllComplaints));
 
-        }
 
+
+        //    }
+        //    return NotFound();
+        //}
+        // عرض المستخدمين من غير المزارعين
         public async Task<IActionResult> ViewUsers()
         {
-
-
             var result = await _context.Users.Where(r => r.RoleId != 5)
                 .OrderByDescending(d => d.CreatedDate)
                 .Include(s => s.Governorate)
                 .Include(g => g.Directorate)
                 .Include(d => d.SubDirectorate)
                 .ToListAsync();
-
 
             int totalUsers = result.Count();
 
@@ -351,7 +551,6 @@ namespace ComplantSystem
             var currentName = currentUser.FullName;
             var model = new AddUserViewModel()
             {
-
                 GovernoratesList = await _context.Governorates.ToListAsync()
             };
             ViewBag.ViewGover = model.GovernoratesList.ToArray();
@@ -392,10 +591,11 @@ namespace ComplantSystem
 
                 await _userService.AddAsync(model, currentName, currentId);
 
-                return RedirectToAction("ViewUsers");
+                return RedirectToAction(nameof(ViewUsers));
             }
             return View(model);
         }
+
         // GET: Users/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -421,10 +621,13 @@ namespace ComplantSystem
             {
                 return NotFound();
             }
-
+            List<Governorate> GovernorateList = new List<Governorate>();
+            GovernorateList = (from d in _context.Governorates select d).ToList();
+            GovernorateList.Insert(0, new Governorate { Id = 0, Name = "حدد المحافظة" });
+            ViewBag.ViewGover = GovernorateList;
             var newUser = new EditUserViewModel
             {
-                GovernoratesList = await _context.Governorates.ToListAsync(),
+                //GovernoratesList = await _context.Governorates.ToListAsync(),
 
                 FullName = user.FullName,
                 PhoneNumber = user.PhoneNumber,
@@ -434,10 +637,11 @@ namespace ComplantSystem
                 GovernorateId = user.Governorate.Id,
                 DirectorateId = user.Directorate.Id,
                 SubDirectorateId = user.SubDirectorate.Id,
-                UserRoles = user.RoleId,
+                RoleId = user.RoleId,
 
             };
-            ViewBag.ViewGover = newUser.GovernoratesList.ToArray();
+
+            //ViewBag.ViewGover = newUser.GovernoratesList.ToArray();
             return View(newUser);
         }
 
@@ -445,8 +649,9 @@ namespace ComplantSystem
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, EditUserViewModel user)
         {
-            var users = await _userService.GetAllAsync();
-            ViewBag.UserCount = users.Count();
+            //var users = await _userService.GetAllAsync();
+            //ViewBag.UserCount = users.Count();
+
             if (ModelState.IsValid)
             {
                 try
@@ -464,7 +669,7 @@ namespace ComplantSystem
                         throw;
                     }
                 }
-                return RedirectToAction("ViewUsers");
+                return RedirectToAction(nameof(ViewUsers));
             }
             return View();
         }
@@ -516,6 +721,8 @@ namespace ComplantSystem
                 string userRole = role.Value;
                 string UserId = claim.Value;
                 var subuser = await _context.Users.Where(a => a.Id == UserId).FirstOrDefaultAsync();
+
+
                 var idComp = model.AddSolution.UploadsComplainteId;
                 var solution = new Compalints_Solution()
                 {
@@ -526,7 +733,6 @@ namespace ComplantSystem
                     ContentSolution = model.AddSolution.ContentSolution,
                     DateSolution = DateTime.Now,
                     Role = userRole,
-
 
                 };
 
@@ -586,7 +792,7 @@ namespace ComplantSystem
             await _context.TypeCommunications.AddAsync(type);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(AllCategoriesComplaints));
+            return RedirectToAction(nameof(AllCategoriesCommunications));
 
         }
 
@@ -629,6 +835,10 @@ namespace ComplantSystem
             return RedirectToAction(nameof(AllCategoriesComplaints));
 
         }
+
+
+
+
         public async Task<IActionResult> ViewCompalintDetails(string id)
         {
             var ComplantList = await _compReop.FindAsync(id);
@@ -745,7 +955,8 @@ namespace ComplantSystem
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var UserId = currentUser.Id;
-            var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues();
+            int SubDirctoty = currentUser.SubDirectorateId;
+            var communicationDropdownsData = await _compReop.GetAddCommunicationDropdownsValues(SubDirctoty);
 
             ViewBag.TypeCommunication = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Name");
 
@@ -950,6 +1161,45 @@ namespace ComplantSystem
 
         }
 
+        public async Task<IActionResult> UserReport(string Id)
+        {
+            var comSolution = _context.Compalints_Solutions.Where(u => u.UserId == Id)
+                             .GroupBy(c => c.UploadsComplainteId);
+            //.Select(r => new
+            //{
+
+            //});
+
+            var AcceptSolution = _context.Compalints_Solutions.Where(u => u.UserId == Id)
+                             .GroupBy(c => c.UploadsComplainteId, a => a.IsAccept);
+            var ComplaintsRejecteds = _context.ComplaintsRejecteds.Where(u => u.UserId == Id)
+                             .GroupBy(c => c.UploadsComplainteId);
+            var user = await _userService.GetByIdAsync(Id);
+
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = new UserReportVM
+            {
+                UserId = user.Id,
+                TotlSolutionComp = comSolution.Count(),
+                TotlRejectComp = ComplaintsRejecteds.Count(),
+                TotlAcceptSolution = AcceptSolution.Count(),
+                //Orders = userGroup,
+                FullName = user.FullName,
+                Gov = user.Governorate.Name,
+                Dir = user.Directorate.Name,
+                Role = user.RoleName,
+                PhonNumber = user.PhoneNumber,
+                CreatedDate = user.CreatedDate
+            };
+
+
+            return View(result);
+        }
         public async Task<IActionResult> BeneficiariesAccount()
         {
 
@@ -990,70 +1240,31 @@ namespace ComplantSystem
             return View();
         }
 
-
-        public JsonResult headSumitionjson(int type)
+        [HttpGet]
+        public async Task<IActionResult> GetDirectorateies(int id)
         {
-            var c1 = "c8145422-a2d6-4c6f-b324-a095232d438f";
-            var c2 = "e42ffb08-a972-49de-acd6-ea287ea66aca";
-            var c3 = 0;
-            var c4 = 0;
-            var c5 = 0;
-            var c6 = 0;
-            var c7 = 0;
-            var c8 = 0;
-            switch (type)
-            {
-                case 1: c1 = "c8145422-a2d6-4c6f-b324-a095232d438f"; c2 = "e42ffb08-a972-49de-acd6-ea287ea66aca"; c3 = 3; c4 = 4; c5 = 2; c6 = 1; c7 = 1; break;
-                case 2: c1 = "c8145422-a2d6-4c6f-b324-a095232d438f"; c2 = "e42ffb08-a972-49de-acd6-ea287ea66aca"; c3 = 6; c4 = 10; c5 = 7; c6 = 6; c7 = 9; break;
-                case 3: c1 = "c8145422-a2d6-4c6f-b324-a095232d438f"; c2 = "e42ffb08-a972-49de-acd6-ea287ea66aca"; c3 = 12; c4 = 14; c5 = 13; c6 = 11; c7 = 11; break;
-                case 4: c1 = "c8145422-a2d6-4c6f-b324-a095232d438f"; c2 = "e42ffb08-a972-49de-acd6-ea287ea66aca"; c3 = 16; c4 = 18; c5 = 17; c6 = 15; c7 = 15; break;
-            }
+            List<Directorate> directorate = new List<Directorate>();
+            directorate = await _context.Directorates.Where(m => m.GovernorateId == id).ToListAsync();
+            return Json(new SelectList(directorate, "Id", "Name"));
+        }
 
-            //الكود الخاص بالحصائيات
-            float compRecord = _context.UploadsComplaintes.Where(c => c.TypeComplaint.Id == c1).Count();
-            float constraint = _context.UploadsComplaintes.Where(c => c.TypeComplaint.Id == c2).Count();
-            //float comppunsit = detiltranreps.List().Where(c => c.TransaFID.TransType == c4).Count();
-            //float compInvdSucs = detiltranreps.List().Where(c => c.TransaFID.TransType == c5).Count();
+        [HttpGet]
+        public async Task<IActionResult> GetSubDirectorate(int id)
+        {
+            List<SubDirectorate> subdirectorate = new List<SubDirectorate>();
+            subdirectorate = await _context.SubDirectorates.Where(m => m.DirectorateId == id).ToListAsync();
+            return Json(new SelectList(subdirectorate, "Id", "Name"));
+        }
 
-            ////عدد المحاضر والتقارير
 
-            //float InvesPreparCount = InvesPreparRepos.List().Count();
-            //float InvesReportCount = InvesReportsRepos.List().Count();
-            ////الكود الخاص بالنسب 
+        public async Task<IActionResult> DisbleOrEnableUser(string id)
+        {
+            await _userService.EnableAndDisbleUser(id);
+            return RedirectToAction("ViewUsers");
 
-            ////نسبة الواردة
-            //float compRecordRate = compRecord / (compRecord + constraint + comppunsit + compInvdSucs) * 100;
-            //compRecordRate.ToString("0.00");
-            ////end
-            ////نسبة المقيدة
-            //float constraintRate = constraint / (compRecord + constraint + comppunsit + compInvdSucs) * 100;
-
-            ////end
-            ////نسبة المحالة
-            //float compPunsitRate = comppunsit / (compRecord + constraint + comppunsit + compInvdSucs) * 100;
-            //compPunsitRate.ToString("");
-            ////end
-            ////نسبة المنجزة
-            //float compInvdSucsRate = compInvdSucs / (compRecord + constraint + comppunsit + compInvdSucs) * 100;
-            //compInvdSucsRate.ToString("0.00");
-            ////end
-            return Json(new
-            {
-                a = compRecord,
-                b = constraint,
-                //c = comppunsit,
-                //d = compInvdSucs,
-                //Aa =
-                //compRecordRate.ToString("0.00"),
-                //Bb = constraintRate.ToString("0.00"),
-                //Cc = compPunsitRate.ToString("0.00"),
-                //Dd = compInvdSucsRate.ToString("0.00"),
-                //PrCount = InvesPreparCount,
-                //ReCount = InvesReportCount
-
-            });
 
         }
+
 
     }
 }

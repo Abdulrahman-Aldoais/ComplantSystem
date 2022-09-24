@@ -164,7 +164,7 @@
                                                     data-bs-target="#accordionWithIcon-1"
                                                     aria-expanded="false">
                                                 <i class="bx bx-bar-chart-alt-2 me-2"></i>
-                                                صنف الشكوى :
+                                                نوع الشكوى :
                                             </button>
                                         </h2>
 
@@ -450,6 +450,7 @@
 
                         <!--/ Accordion Header Color -->
                         <hr />
+                     
                         <div class="card-body  col-lg-12 ">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
@@ -486,14 +487,12 @@
                                         @*<p class="card-text"></p>*@
                                         <p class="card-text"><small class="text-muted">@Model.compalint.UploadDate</small></p>
                                         <div class="text-right ">
-                                            <a asp-action="Download" asp-controller="GeneralFederation" asp-route-id="@Model.compalint.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
+                                            <a asp-action="Download" asp-controller="SubManageComplaints" asp-route-id="@Model.compalint.Id" class="btn btn-outline-primary">تنزيل المرفق</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                         <!-- الحلول المقدمة للشكوى-->
 
 
@@ -565,10 +564,10 @@
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#modalScrollable"
                                                                                     title="الحل المقترح">
-                                                                              
+
                                                                                 انقر هنا لعرض الحل
                                                                             </button>
-                                                                            
+
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -671,9 +670,9 @@
 
                     <div class="mb-3">
                         <label for="invoice-message" class="form-label">سبب رفع الشكوى</label>
-                        <input type="hidden" asp-for="@Model.AddSolution.UploadsComplainteId" />
-                        <textarea asp-for="@Model.AddSolution.ContentSolution" class="form-control" cols="3" rows="4"></textarea>
-                        <span class="text-danger" asp-validation-for="@Model.AddSolution.ContentSolution"></span>
+                        <input type="hidden" asp-for="@Model.UpComplaint.UploadsComplainteId" />
+                        <textarea asp-for="@Model.UpComplaint.Cause" class="form-control" cols="3" rows="4"></textarea>
+                        <span class="text-danger" asp-validation-for="@Model.UpComplaint.Cause"></span>
                     </div>
 
                     <div class="d-flex flex-wrap mb-3">

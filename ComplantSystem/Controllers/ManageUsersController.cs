@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ComplantSystem.Data.Base;
+using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using ComplantSystem.Service;
@@ -144,7 +145,6 @@ namespace ComplantSystem.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-
             var user = await _userService.GetByIdAsync(id);
 
             if (user == null)
@@ -155,7 +155,6 @@ namespace ComplantSystem.Controllers
             var newUser = new EditUserViewModel
             {
                 GovernoratesList = await _context.Governorates.ToListAsync(),
-
                 FullName = user.FullName,
                 PhoneNumber = user.PhoneNumber,
                 IdentityNumber = user.IdentityNumber,
@@ -164,7 +163,7 @@ namespace ComplantSystem.Controllers
                 GovernorateId = user.Governorate.Id,
                 DirectorateId = user.Directorate.Id,
                 SubDirectorateId = user.SubDirectorate.Id,
-                UserRoles = user.RoleId,
+                RoleId = user.RoleId,
 
             };
             ViewBag.ViewGover = newUser.GovernoratesList.ToArray();
@@ -175,8 +174,9 @@ namespace ComplantSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, EditUserViewModel user)
         {
-            var users = await _userService.GetAllAsync();
-            ViewBag.UserCount = users.Count();
+            //var users = await _userService.GetAllAsync();
+            //ViewBag.UserCount = users.Count();
+            user.GovernoratesList = await _context.Governorates.ToListAsync();
             if (ModelState.IsValid)
             {
                 try
@@ -373,13 +373,37 @@ namespace ComplantSystem.Controllers
             return RedirectToAction("ViewUsers");
         }
 
-        public async Task<IActionResult> DisbleOrEnableUser(string id)
+
+        public async Task<IActionResult> UserReport(string userId)
         {
-            await _userService.EnableAndDisbleUser(id);
-            return RedirectToAction("ViewUsers");
+            var comSolution = _context.Compalints_Solutions.Where(u => u.UserId == userId)
+                             .GroupBy(c => c.UploadsComplainteId);
+            var ComplaintsRejecteds = _context.Compalints_Solutions.Where(u => u.UserId == userId)
+                             .GroupBy(c => c.UploadsComplainteId);
+            var user = await _userService.GetByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = new UserReportVM
+            {
+                UserId = user.Id,
+                TotlSolutionComp = comSolution.Count(),
+                TotlRejectComp = ComplaintsRejecteds.Count(),
+                //Orders = userGroup,
+                FullName = user.FullName,
+                Gov = user.Governorate.Name,
+                Dir = user.Directorate.Name,
+                Role = user.RoleName,
+
+            };
 
 
+            return View(result);
         }
+
 
 
     }

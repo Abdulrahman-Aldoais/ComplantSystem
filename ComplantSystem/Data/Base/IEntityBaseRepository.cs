@@ -14,7 +14,7 @@ namespace ComplantSystem.Models.Data.Base
         Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeproperties);
         Task<T> GetByIdAsync(string id);
         Task<SelectDataDropdownsVM> GetNewCompalintsDropdownsValues();
-        Task<SelectDataCommuncationDropdownsVM> GetAddCommunicationDropdownsValues();
+        Task<SelectDataCommuncationDropdownsVM> GetAddCommunicationDropdownsValues(int SubDirctoty);
 
         Task<ApplicationUser> FindIdentityNumber(string identity);
         Task<ApplicationUser> FindPhoneNumber(string phone);

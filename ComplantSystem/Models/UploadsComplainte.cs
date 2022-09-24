@@ -18,7 +18,7 @@ namespace ComplantSystem.Models
         public string TitleComplaint { get; set; }
 
         [Required(ErrorMessage = "يجب ان تقوم بكتابة هذه الحقل ")]
-        public string TypeComplaintId { get; set; }
+        public virtual string TypeComplaintId { get; set; }
         [ForeignKey("TypeComplaintId")]
         public virtual TypeComplaint TypeComplaint { get; set; }
         [Required(ErrorMessage = "يجب ان تقوم بكتابة هذه الحقل ")]

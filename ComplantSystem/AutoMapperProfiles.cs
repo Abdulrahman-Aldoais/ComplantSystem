@@ -31,6 +31,8 @@ namespace ComplantSystem
 
             CreateMap<ApplicationUser, UserProfileEditVM>();
             CreateMap<ApplicationUser, UserViewModels>();
+            CreateMap<ApplicationUser, ChangePasswordViewModel>();
+
 
 
 

@@ -22,6 +22,7 @@ namespace ComplantSystem.Service
         Task<ApplicationUser> GetByIdAsync(string id, params Expression<Func<ApplicationUser, object>>[] includeProperties);
 
         Task UpdateAsync(string id, EditUserViewModel entity);
+        Task UpdateAsync(string id, EditUserViewModel entity, string CurrentUserLoginId);
 
         //Task<IEnumerable<ApplicationUser>> GetAllAsync(params Expression<Func<ApplicationUser, object>>[] includeproperties);
         IQueryable<ApplicationUser> GetAllUserBlockedAsync(string byuserId);

@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using ComplantSystem.Const;
 using ComplantSystem.Data;
 using ComplantSystem.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,6 +22,8 @@ namespace ComplantSystem.Service
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppCompalintsContextDB context;
+        private readonly IHttpContextAccessor httpContextAccessor;
+
         public string Error { get; set; }
         public int returntype { get; set; }
 
@@ -30,7 +33,8 @@ namespace ComplantSystem.Service
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
-            AppCompalintsContextDB _context
+            AppCompalintsContextDB _context,
+             IHttpContextAccessor httpContextAccessor
             )
         {
             this.contex = contex;
@@ -39,6 +43,8 @@ namespace ComplantSystem.Service
             _roleManager = roleManager;
             _signInManager = signInManager;
             context = _context;
+            //this.httpContextAccessor = httpContextAccessor;
+            var user = httpContextAccessor.HttpContext.User;
         }
 
 
@@ -181,7 +187,7 @@ namespace ComplantSystem.Service
 
 
         }
-
+        // انشاء مستخدم جديد
         public async Task AddAsync(AddUserViewModel userVM, string currentName, string currentId)
         {
 
@@ -280,7 +286,7 @@ namespace ComplantSystem.Service
 
         public IQueryable<ApplicationUser> GetAllUserBlockedAsync(string byuserId)
         {
-            var result = contex.Users.Where(u => u.IsBlocked && u.UserId == byuserId)
+            var result = contex.Users.Where(u => u.IsBlocked == false && u.UserId == byuserId)
                 .Include(s => s.Governorate)
                 .Include(g => g.Directorate)
                 .Include(d => d.SubDirectorate);
@@ -377,7 +383,11 @@ namespace ComplantSystem.Service
 
         public async Task<IEnumerable<ApplicationUser>> GetAllAsync(string identityUser, int govId, int dirId, int subId)
         {
-            return await context.Set<ApplicationUser>().Where(i => i.UserId == identityUser || i.GovernorateId == govId || i.DirectorateId == dirId || i.SubDirectorateId == subId)
+            return await context.Set<ApplicationUser>().Where(i => i.UserId == identityUser
+            || i.GovernorateId == govId
+            || i.DirectorateId == dirId
+            || i.SubDirectorateId == subId
+            )
                 .OrderByDescending(d => d.CreatedDate)
                 .Include(g => g.Governorate)
                 .Include(g => g.Directorate)
@@ -394,8 +404,9 @@ namespace ComplantSystem.Service
 
         public async Task<ApplicationUser> GetByIdAsync(string id) => await context.Set<ApplicationUser>()
             .Include(g => g.Governorate)
-            .Include(g => g.Directorate)
-            .Include(g => g.SubDirectorate)
+            .Include(d => d.Directorate)
+            .Include(su => su.SubDirectorate)
+            .Include(r => r.UserRoles)
             .FirstOrDefaultAsync(n => n.Id == id);
 
         public async Task<ApplicationUser> GetByIdAsync(string id, params Expression<Func<ApplicationUser, object>>[] includeProperties)
@@ -420,45 +431,70 @@ namespace ComplantSystem.Service
                 updatedUser.GovernorateId = entity.GovernorateId;
                 updatedUser.DirectorateId = entity.DirectorateId;
                 updatedUser.SubDirectorateId = entity.SubDirectorateId;
-                updatedUser.RoleId = entity.UserRoles;
+                updatedUser.RoleId = entity.RoleId;
                 updatedUser.CreatedDate = DateTime.Now;
                 updatedUser.DateOfBirth = entity.DateOfBirth;
+
                 await _userManager.UpdateAsync(updatedUser);
 
-                if (entity.UserRoles == 1)
+                if (entity.RoleId == 1)
                 {
                     await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
                     await _userManager.AddToRoleAsync(updatedUser, UserRoles.AdminGeneralFederation);
                 }
-                else if (entity.UserRoles == 2)
+                else if (entity.RoleId == 2)
                 {
                     await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
                     await _userManager.AddToRoleAsync(updatedUser, UserRoles.AdminGovernorate);
                 }
-                else if (entity.UserRoles == 3)
+                else if (entity.RoleId == 3)
                 {
                     await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
                     await _userManager.AddToRoleAsync(updatedUser, UserRoles.AdminDirectorate);
                 }
-                else if (entity.UserRoles == 4)
+                else if (entity.RoleId == 4)
                 {
                     await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
                     await _userManager.AddToRoleAsync(updatedUser, UserRoles.AdminSubDirectorate);
                 }
-                else if (entity.UserRoles == 5)
+                else if (entity.RoleId == 5)
                 {
                     await _userManager.RemoveFromRolesAsync(updatedUser, roleId);
                     await _userManager.AddToRoleAsync(updatedUser, UserRoles.Beneficiarie);
                 }
 
                 //Change password 
-                await _userManager.RemovePasswordAsync(updatedUser);
-                //await _userManager.AddPasswordAsync(updatedUser, entity.);
+                //await _userManager.RemovePasswordAsync(updatedUser);
+                //await _userManager.AddPasswordAsync(updatedUser, entity.Password);
 
             }
 
             await context.SaveChangesAsync();
         }
+        public async Task UpdateAsync(string id, EditUserViewModel entity, string CurrentUserLoginId)
+        {
+            var currentuser = _userManager.Users.First(u => u.Id == CurrentUserLoginId);
+            var updatedUser = await _userManager.FindByIdAsync(id);
+            var roleId = await _userManager.GetRolesAsync(updatedUser);
+            if (updatedUser == null)
+                return;
+            else
+            {
+
+                updatedUser.PhoneNumber = entity.PhoneNumber;
+                updatedUser.IsBlocked = entity.IsBlocked;
+                updatedUser.EmailConfirmed = entity.IsBlocked;
+                updatedUser.CreatedDate = DateTime.Now;
+                await _userManager.UpdateAsync(updatedUser);
+                //Change password 
+                //await _userManager.RemovePasswordAsync(updatedUser);
+                //await _userManager.AddPasswordAsync(updatedUser, entity.Password);
+
+            }
+
+            await context.SaveChangesAsync();
+        }
+
 
         public Task InitializeAsync()
         {
@@ -467,7 +503,7 @@ namespace ComplantSystem.Service
 
         public async Task<IEnumerable<ApplicationUser>> GetAllBenefAsync()
         {
-            return await context.Set<ApplicationUser>().Where(b => b.RoleId == 6)
+            return await context.Set<ApplicationUser>().Where(b => b.RoleId == 5)
                 .Include(g => g.Governorate)
                 .Include(g => g.Directorate)
                 .Include(g => g.SubDirectorate)

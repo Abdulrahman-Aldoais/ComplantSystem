@@ -166,7 +166,7 @@
 
     </div>
     <!-- /Account -->
-</div>
+
 
 
 
@@ -177,6 +177,35 @@
 
     @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
     <partial name="_ValidationScriptsPartial" />
+
+    @*<script>
+        'use strict';
+        (function () {
+            const createButton = document.querySelector('#createButton');
+            // Alert With Functional Confirm Cancel Button
+            if (createButton) {
+                createButton.onclick = function () {
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+        }
+    </script>*@
+
     <script>
         'use strict';
         (function () {
@@ -205,8 +234,9 @@
                             },
                         });
                     Swal.fire({
+                       
                         title: 'هل انت متأكد من حفظ المستخدم؟',
-                        //text: "لن تتمكن من العوده الى المستخدم !",
+                        text: "لن تتمكن من العوده الى المستخدم !",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'نعم, حفظ !',
@@ -219,14 +249,20 @@
                     }).then(function (result) {
                         if (result.value) {
                             Swal.fire({
+                                type: "POST", //HTTP POST Method
+                                url: "GeneralFederation/ViewUsers", // Controller/View
                                 icon: 'success',
                                 title: 'تم الحفظ بنجاح !',
                                 text: 'تم الحفظ في  جدول المستخدمين.   ',
                                 customClass: {
-                                    confirmButton: 'btn btn-success'
+                                    confirmButton: 'btn btn-success',
+                                  
                                 },
-                                url: 'ManageUsers/ViewUsers/', 
+                              
+                               
+                               
                             });
+                            
                         } else if (result.dismiss === Swal.DismissReason.cancel) {
                             Swal.fire({
                                 title: 'الغاء الحفظ',

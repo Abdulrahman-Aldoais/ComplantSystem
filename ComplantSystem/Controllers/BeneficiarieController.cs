@@ -1,4 +1,5 @@
-﻿using ComplantSystem.Data.Base;
+﻿using AutoMapper;
+using ComplantSystem.Data.Base;
 using ComplantSystem.Data.ViewModels;
 using ComplantSystem.Models;
 using ComplantSystem.Service;
@@ -27,7 +28,9 @@ namespace ComplantSystem
         private readonly ICompalintRepository compalintRepository;
         private readonly IWebHostEnvironment _env;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly AppCompalintsContextDB _context;
+        private readonly IMapper mapper;
 
         public BeneficiarieController(
 
@@ -36,7 +39,9 @@ namespace ComplantSystem
             ICompalintRepository compalintRepository,
             IWebHostEnvironment env,
               UserManager<ApplicationUser> userManager,
-            AppCompalintsContextDB context
+              SignInManager<ApplicationUser> signInManager,
+            AppCompalintsContextDB context,
+             IMapper mapper
             )
         {
 
@@ -45,8 +50,10 @@ namespace ComplantSystem
             this.userService = userService;
             this.compalintRepository = compalintRepository;
             _context = context;
+            this.mapper = mapper;
             _env = env;
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
 
@@ -161,14 +168,14 @@ namespace ComplantSystem
                 ViewBag.StatusCompalints = new SelectList(compalintDropdownsData.StatusCompalints, "Id", "Name");
 
                 var newName = Guid.NewGuid().ToString(); //rre-rewrwerwer-gwgrg-grgr
-                var extension = Path.GetExtension(model.File.FileName);
+                var extension = Path.GetExtension(model.File?.FileName);
                 var fileName = string.Concat(newName, extension); // newName + extension
                 var root = _env.WebRootPath;
                 var path = Path.Combine(root, "Uploads", fileName);
 
                 using (var fs = System.IO.File.Create(path))
                 {
-                    await model.File.CopyToAsync(fs);
+                    await model.File?.CopyToAsync(fs);
                 }
 
 
@@ -200,10 +207,10 @@ namespace ComplantSystem
         {
             var currentUser = await userManager.GetUserAsync(User);
             var UserId = currentUser.Id;
-            var communicationDropdownsData = await _service.GetAddCommunicationDropdownsValues();
+            int SubDirctoty = currentUser.SubDirectorateId;
+            var communicationDropdownsData = await _service.GetAddCommunicationDropdownsValues(SubDirctoty);
 
             ViewBag.TypeCommunication = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Name");
-
 
             var result = _service.GetCommunicationBy(UserId);
 
@@ -220,7 +227,8 @@ namespace ComplantSystem
 
             var currentUser = await userManager.GetUserAsync(User);
             var currentName = currentUser.FullName;
-            var communicationDropdownsData = await _service.GetAddCommunicationDropdownsValues();
+            int SubDirctoty = currentUser.SubDirectorateId;
+            var communicationDropdownsData = await _service.GetAddCommunicationDropdownsValues(SubDirctoty);
             ViewBag.typeCommun = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Type");
             ViewBag.UsersName = new SelectList(communicationDropdownsData.ApplicationUsers, "Id", "FullName");
 
@@ -234,9 +242,12 @@ namespace ComplantSystem
             if (ModelState.IsValid)
             {
                 var currentUser = await userManager.GetUserAsync(User);
-                var communicationDropdownsData = await _service.GetAddCommunicationDropdownsValues();
+                int SubDirctoty = currentUser.SubDirectorateId;
+
+                var communicationDropdownsData = await _service.GetAddCommunicationDropdownsValues(SubDirctoty);
                 ViewBag.typeCommun = new SelectList(communicationDropdownsData.TypeCommunications, "Id", "Type");
-                ViewBag.UsersName = new SelectList(communicationDropdownsData.ApplicationUsers, "Id", "Name");
+                ViewBag.UsersName = new SelectList(communicationDropdownsData.ApplicationUsers, "Id", "FullName");
+
 
 
                 var currentName = currentUser.FullName;
@@ -369,7 +380,7 @@ namespace ComplantSystem
                 return NotFound();
             }
 
-
+            //await _compService.IncreamentDownloadCount(id);
 
             var path = "~/Uploads/" + selectedFile.FileName;
             Response.Headers.Add("Expires", DateTime.Now.AddDays(-3).ToLongDateString());
@@ -430,7 +441,127 @@ namespace ComplantSystem
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> Profile(UserViewModels model)
+        {
+
+            var currentUser = await userManager.GetUserAsync(User);
+            var userId = currentUser.Id;
+            var user = await userService.GetByIdAsync((string)userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(model);
+        }
+
+
+
+        public async Task<IActionResult> EditMyProfile()
+        {
+            var currentUser = await userManager.GetUserAsync(User);
+            if (currentUser != null)
+            {
+                var model = mapper.Map<UserProfileEditVM>(currentUser);
+
+                return View(model);
+            }
+            return NotFound();
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditMyProfile(UserProfileEditVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    currentUser.IdentityNumber = model.IdentityNumber;
+                    currentUser.FullName = model.FullName;
+                    currentUser.PhoneNumber = model.PhoneNumber;
+
+
+                    var result = await userManager.UpdateAsync(currentUser);
+                    if (result.Succeeded)
+                    {
+
+                        return RedirectToAction("Profile");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                else
+                {
+                    return View("Empty");
+                }
+            }
+            return View(model);
+        }
+
+
+
+
+
+
+        private bool UserExists(string id)
+        {
+            return string.IsNullOrEmpty(userService.GetByIdAsync(id).ToString());
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePassword)
+        {
+            var currentUser = await userManager.GetUserAsync(User);
+            if (currentUser != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    var result = await userManager.ChangePasswordAsync(currentUser, changePassword.CurrentPassword, changePassword.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        //TempData["Success"] = stringLocalizer["ChangePasswordMessage"]?.Value;
+                        await signInManager.SignOutAsync();
+                        return RedirectToAction("Login");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+            return View("Login", mapper.Map<ChangePasswordViewModel>(currentUser));
+
+
+        }
+
+
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+
+        }
+
+
 
 
     }
+
+
+
 }
+

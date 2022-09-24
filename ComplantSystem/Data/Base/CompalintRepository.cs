@@ -101,6 +101,7 @@ namespace ComplantSystem.Data.Base
 
         public IQueryable<UploadsComplainte> GetAll()
         {
+
             var result = _context.UploadsComplaintes
             .OrderByDescending(u => u.UploadDate)
             .Include(s => s.StatusCompalint)
@@ -109,7 +110,7 @@ namespace ComplantSystem.Data.Base
             .Include(g => g.Governorate)
             .Include(d => d.Directorate)
             .Include(su => su.SubDirectorate);
-
+            //Task.WhenAll((System.Collections.Generic.IEnumerable<Task>)result);
             return result;
 
 
@@ -128,6 +129,7 @@ namespace ComplantSystem.Data.Base
             return result;
         }
 
+        // جلب الشكاوى المقدمة من المزارع الخاصة به وعرضها له
         public IQueryable<UploadsComplainte> GetBy(string Identity)
         {
             var result = _context.UploadsComplaintes.Where(u => u.UserId == Identity)
@@ -164,9 +166,6 @@ namespace ComplantSystem.Data.Base
                 .Include(d => d.Directorate)
                 .Include(su => su.SubDirectorate)
                 .Include(st => st.StagesComplaint)
-                //.Include(so => so.HoUser.UserName)
-                //.Include(cs => cs.Compalints_Solutions)
-                //.ThenInclude(a => a.UserAddSolution)
                 .FirstOrDefaultAsync(c => c.Id == id);
             //var compalintDetails = from m in _context.UploadsComplainte select m;
             return await compalintDetails;
@@ -185,9 +184,6 @@ namespace ComplantSystem.Data.Base
                 .Include(d => d.Directorate)
                 .Include(su => su.SubDirectorate)
                 .Include(st => st.StagesComplaint)
-                //.Include(so => so.HoUser.UserName)
-                //.Include(cs => cs.Compalints_Solutions)
-                //.ThenInclude(a => a.UserAddSolution)
                 .FirstOrDefaultAsync(c => c.Id == id);
                 //var compalintDetails = from m in _context.UploadsComplainte select m;
                 return await compalintDetails;

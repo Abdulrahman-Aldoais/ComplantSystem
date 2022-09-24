@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ComplantSystem.Migrations
 {
-    public partial class New : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -282,7 +282,8 @@ namespace ComplantSystem.Migrations
                     Size = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TypeCommunicationId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    TypeCommunicationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TypeComplaintId2 = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -339,6 +340,13 @@ namespace ComplantSystem.Migrations
                     table.ForeignKey(
                         name: "FK_UploadsComplaintes_TypeComplaints_TypeComplaintId",
                         column: x => x.TypeComplaintId,
+                        principalSchema: "Identity",
+                        principalTable: "TypeComplaints",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UploadsComplaintes_TypeComplaints_TypeComplaintId2",
+                        column: x => x.TypeComplaintId2,
                         principalSchema: "Identity",
                         principalTable: "TypeComplaints",
                         principalColumn: "Id",
@@ -570,6 +578,39 @@ namespace ComplantSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UpComplaintCauses",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UploadsComplainteId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpProvName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpUserProvIdentity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cause = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateUp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UpComplaintCauses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UpComplaintCauses_UploadsComplaintes_UploadsComplainteId",
+                        column: x => x.UploadsComplainteId,
+                        principalSchema: "Identity",
+                        principalTable: "UploadsComplaintes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UpComplaintCauses_User_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UsersCommunications",
                 schema: "Identity",
                 columns: table => new
@@ -685,11 +726,11 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "ApplicationUserId", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "c2ad7ca8-6452-4f89-832e-201321094762", null, "304f8e56-e167-4243-b43b-2ed99d9b0308", "Beneficiarie", "BENEFICIARIE" },
-                    { "6db4062c-512f-4842-bc61-14b924c56020", null, "b9b445f8-1b5a-419b-b36c-f7830b991730", "AdminDirectorate", "ADMINDIRECTORATE" },
-                    { "bd3be5a5-d612-4253-97a0-a36b5683d1df", null, "2667e5f3-780e-4fbf-8133-a7ea04d466f8", "AdminGovernorate", "ADMINGOVERNORATE" },
-                    { "cfd23ce8-c1f4-4848-9e69-6f298938d6bb", null, "94b8f2f7-5dab-43e3-afae-159de774fe4f", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
-                    { "f4c40998-7ee0-4132-97bc-41ee6f7fa3ee", null, "582406f9-2fcc-4b1c-aae9-68a361559543", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" }
+                    { "c26e4567-332f-4150-91ea-6d7fe80315f9", null, "7800f2ee-0137-4284-b9c5-7edb359e7093", "Beneficiarie", "BENEFICIARIE" },
+                    { "38efefbc-95e4-4fe9-b3c4-419e5f9100c2", null, "deae4682-c543-499d-a4aa-fc21caf3df85", "AdminDirectorate", "ADMINDIRECTORATE" },
+                    { "7b5594f7-13a5-48cf-8a6c-1b2e424a32dd", null, "f0b6ce6b-d3a9-4f67-9d7a-eac807f27c1f", "AdminGovernorate", "ADMINGOVERNORATE" },
+                    { "9f120bfa-d84e-4b42-94b0-52917963ea36", null, "e4239bd8-26a7-444a-a937-d768259d893e", "AdminGeneralFederation", "ADMINGENERALFEDERATION" },
+                    { "a970a69c-8f4c-4047-95af-a61e3858945c", null, "14a6d96c-4bc7-4040-ad5c-8469fc74c454", "AdminSubDirectorate", "ADMINSUBDIRECTORATE" }
                 });
 
             migrationBuilder.InsertData(
@@ -744,8 +785,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "0785737f-776c-4dd9-871c-64abe3eedcc6", new DateTime(2022, 9, 11, 2, 18, 55, 335, DateTimeKind.Local).AddTicks(4660), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" },
-                    { "9d506f47-1725-4b41-bb6f-739a4c15e588", new DateTime(2022, 9, 11, 2, 18, 55, 335, DateTimeKind.Local).AddTicks(4153), "تماطل", null, "قيمة افتراضية من النضام" }
+                    { "edc7c758-b763-425f-8766-3458268a5fd0", new DateTime(2022, 9, 24, 17, 13, 3, 461, DateTimeKind.Local).AddTicks(9627), "تلاعب بالحلول", null, "قيمة افتراضية من النضام" },
+                    { "106f08d7-704d-47ef-afe1-83959bac0345", new DateTime(2022, 9, 24, 17, 13, 3, 461, DateTimeKind.Local).AddTicks(9080), "تماطل", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -754,8 +795,8 @@ namespace ComplantSystem.Migrations
                 columns: new[] { "Id", "CreatedDate", "Type", "UserId", "UsersNameAddType" },
                 values: new object[,]
                 {
-                    { "3ef0d8e9-e7a0-4f87-b258-0eb074f87825", new DateTime(2022, 9, 11, 2, 18, 55, 336, DateTimeKind.Local).AddTicks(2592), "زراعية", null, "قيمة افتراضية من النضام" },
-                    { "5e037fbe-0c78-48ca-b609-14337d491055", new DateTime(2022, 9, 11, 2, 18, 55, 336, DateTimeKind.Local).AddTicks(3090), "فساد", null, "قيمة افتراضية من النضام" }
+                    { "91c43602-78e3-46d5-9ea6-c8b8550bdb97", new DateTime(2022, 9, 24, 17, 13, 3, 462, DateTimeKind.Local).AddTicks(8862), "زراعية", null, "قيمة افتراضية من النضام" },
+                    { "9dbbf52e-378a-4039-b8e0-ab434ea7ee30", new DateTime(2022, 9, 24, 17, 13, 3, 462, DateTimeKind.Local).AddTicks(9491), "فساد", null, "قيمة افتراضية من النضام" }
                 });
 
             migrationBuilder.InsertData(
@@ -864,6 +905,18 @@ namespace ComplantSystem.Migrations
                 column: "DirectorateId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UpComplaintCauses_UploadsComplainteId",
+                schema: "Identity",
+                table: "UpComplaintCauses",
+                column: "UploadsComplainteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UpComplaintCauses_UserId",
+                schema: "Identity",
+                table: "UpComplaintCauses",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UploadsComplaintes_DirectorateId",
                 schema: "Identity",
                 table: "UploadsComplaintes",
@@ -910,6 +963,12 @@ namespace ComplantSystem.Migrations
                 schema: "Identity",
                 table: "UploadsComplaintes",
                 column: "TypeComplaintId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UploadsComplaintes_TypeComplaintId2",
+                schema: "Identity",
+                table: "UploadsComplaintes",
+                column: "TypeComplaintId2");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -1028,6 +1087,10 @@ namespace ComplantSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "TypeCompalintStatistics",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "UpComplaintCauses",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

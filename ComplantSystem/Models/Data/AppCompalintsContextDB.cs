@@ -34,38 +34,6 @@ namespace ComplantSystem.Models
                 entity.ToTable(name: "User");
             });
 
-            //modelBuilder.Entity<IdentityRole>(entity =>
-            //{
-            //    entity.ToTable(name: "Roles");
-            //});
-            //modelBuilder.Entity<ApplicationUserRole>(entity =>
-            //{
-            //    entity.ToTable("UserRoles");
-            //});
-
-            //modelBuilder.Entity<ApplicationUserClaim>(entity =>
-            //{
-            //    entity.ToTable("UserClaims");
-            //});
-
-            //modelBuilder.Entity<ApplicationUserLogin>(entity =>
-            //{
-            //    entity.ToTable("UserLogins");
-            //});
-
-            //modelBuilder.Entity<IdentityRoleClaim>(entity =>
-            //{
-            //    entity.ToTable("RoleClaims");
-
-            //});
-
-            //modelBuilder.Entity<ApplicationUserToken>(entity =>
-            //{
-            //    entity.ToTable("UserTokens");
-            //});
-
-
-
             modelBuilder.Entity<ApplicationUser>(c =>
             {
                 c.HasOne(e => e.Governorate)
@@ -98,25 +66,28 @@ namespace ComplantSystem.Models
                 .OnDelete(DeleteBehavior.Restrict);
 
                 u.HasOne(e => e.TypeComplaint)
-                .WithMany(e => e.UploadsComplainte)
+                .WithMany(e => e.UploadsComplaintes)
                 .OnDelete(DeleteBehavior.Restrict);
 
 
 
+
+            });
+
+            modelBuilder.Entity<TypeComplaint>(u =>
+            {
+                u.HasMany(e => e.UploadsComplaintes)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Compalints_Solution>(u =>
-            {
-                u.HasOne(e => e.CompalintsHasSolution)
-                .WithMany(e => e.Compalints_Solutions)
-                .OnDelete(DeleteBehavior.Cascade);
+        {
+            u.HasOne(e => e.CompalintsHasSolution)
+            .WithMany(e => e.Compalints_Solutions)
+            .OnDelete(DeleteBehavior.Cascade);
 
-            });
-
-
-
-
-
+        });
 
             modelBuilder.Entity<UsersCommunication>(u =>
             {
@@ -166,15 +137,7 @@ namespace ComplantSystem.Models
 
 
         public DbSet<ApplicationUser> Users { get; set; }
-        //public DbSet<IdentityRole> Roles { get; set; }
-        //public DbSet<ApplicationUserRole> UserRoles { get; set; }
-        //public DbSet<ApplicationUserToken> UserTokens { get; set; }
-        //public DbSet<ApplicationUserClaim> UserClaims { get; set; }
-        //public DbSet<IdentityRoleClaim> RoleClaims { get; set; }
-        //public DbSet<ApplicationUserLogin> UserLogins { get; set; }
         public DbSet<TypeComplaint> TypeComplaints { get; set; }
-        //public DbSet<TypeBeneficiari> TypeBeneficiaris { get; set; }
-        //public DbSet<Beneficiarie> Beneficiaries { get; set; }
         public DbSet<Governorate> Governorates { get; set; }
         public DbSet<Directorate> Directorates { get; set; }
         public DbSet<SubDirectorate> SubDirectorates { get; set; }
@@ -183,7 +146,7 @@ namespace ComplantSystem.Models
         public DbSet<UsersCommunication> UsersCommunications { get; set; }
         public DbSet<Compalints_Solution> Compalints_Solutions { get; set; }
         public DbSet<ComplaintsRejected> ComplaintsRejecteds { get; set; }
-
+        public DbSet<UpComplaintCause> UpComplaintCauses { get; set; }
         public DbSet<Society> Societys { get; set; }
         public DbSet<StagesComplaint> StagesComplaints { get; set; }
         public DbSet<StatusCompalint> StatusCompalints { get; set; }
@@ -193,12 +156,6 @@ namespace ComplantSystem.Models
         public DbSet<UsersInStatistic> UsersInStatistics { get; set; }
         public DbSet<StutusCompalintStatistic> StutusCompalintStatistics { get; set; }
         public DbSet<TypeCompalintStatistic> TypeCompalintStatistics { get; set; }
-
-
-
-
-
-
 
 
     }

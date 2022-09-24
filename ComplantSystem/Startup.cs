@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 
 namespace ComplantSystem
 {
@@ -35,13 +35,31 @@ namespace ComplantSystem
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddControllersWithViews()
+               .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+
 
             services.AddDbContext<AppCompalintsContextDB>(
         b => b.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
               //.UseLazyLoadingProxies()
               );
 
+            //services.Configure<IdentityOptions>(opts =>
+            //{
+            //    opts.User.RequireUniqueEmail = true;
+            //    opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz";
+            //    opts.Password.RequiredLength = 8;
+            //    opts.Password.RequireNonAlphanumeric = true;
+            //    opts.Password.RequireLowercase = false;
+            //    opts.Password.RequireUppercase = true;
+            //    opts.Password.RequireDigit = true;
 
+            //    //opts.SignIn.RequireConfirmedEmail = true;
+
+            //    opts.Lockout.AllowedForNewUsers = true;
+            //    opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+            //    opts.Lockout.MaxFailedAccessAttempts = 3;
+            //});
 
 
             // Add services to the container.
@@ -54,7 +72,9 @@ namespace ComplantSystem
             services.AddScoped<ILocationRepo<Directorate>, DirectorateRepo>();
             services.AddScoped<ILocationRepo<SubDirectorate>, SubDirectorateRepo>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<ApplicationUser, IdentityRole>(
+                options => options.SignIn.RequireConfirmedAccount = true)
+
                 .AddEntityFrameworkStores<AppCompalintsContextDB>()
                 .AddDefaultTokenProviders();
 
@@ -112,8 +132,8 @@ namespace ComplantSystem
             //Account/Login            >> Url , Route.
             //Posts/Detials/5/11/2020
 
-            app.UseMiddleware<GetRoutingMiddleware>();
             app.UseRouting();
+            app.UseMiddleware<GetRoutingMiddleware>();
 
             app.UseAuthorization();
 

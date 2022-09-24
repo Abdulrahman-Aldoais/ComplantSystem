@@ -8,7 +8,7 @@
 
 <ul class="dropdown-menu dropdown-menu-end">
     <li>
-        <a class="dropdown-item" asp-controller="ManageProfile" asp-action="Profile">
+        <a class="dropdown-item" >
             <div class="d-flex">
                 <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
@@ -77,19 +77,19 @@
         </a>
     </li>
 
-    <li>
+    @*<li>
         <a class="dropdown-item"  asp-controller="ManageProfile" asp-action="EditeMyProfile">
             <i class="bx bx-cog me-2"></i>
             <span class="align-middle">الاعدادات</span>
         </a>
-    </li>
+    </li>*@
     <li>
 
         <div class="dropdown-divider"></div>
     </li>
     <li>
 
-        <a class="dropdown-item" asp-controller="Account" asp-action="LogOut">
+        <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="LogOut">
             <i class="bx bx-power-off me-2"></i>
             <span class="align-middle">تسجيل الخروج</span>
         </a>

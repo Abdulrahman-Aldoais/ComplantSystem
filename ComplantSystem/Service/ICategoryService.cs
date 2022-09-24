@@ -14,7 +14,6 @@ namespace ComplantSystem.Service
         Task AddCategoruComm(TypeCommunication entity);
         Task<IEnumerable<TypeComplaint>> GetAllGategoryCompAsync();
         Task<IEnumerable<TypeCommunication>> GetAllGategoryCommAsync();
-
-
+        Task GetNewCompalintsDropdownsValues();
     }
 }

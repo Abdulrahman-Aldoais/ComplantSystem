@@ -7,14 +7,6 @@ namespace ComplantSystem.Models
     public class SubDirectorate
     {
 
-        public SubDirectorate()
-        {
-            //SubDirectorateId = Guid.NewGuid().ToString();
-
-
-            //Beneficiaries = new List<Beneficiarie>();
-            //UploadsComplainte = new List<Compalint>();
-        }
 
         [Key]
 
