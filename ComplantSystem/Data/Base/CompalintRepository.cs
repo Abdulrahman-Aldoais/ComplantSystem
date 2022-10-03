@@ -103,13 +103,13 @@ namespace ComplantSystem.Data.Base
         {
 
             var result = _context.UploadsComplaintes
-            .OrderByDescending(u => u.UploadDate)
             .Include(s => s.StatusCompalint)
             .Include(f => f.TypeComplaint)
             .Include(st => st.StagesComplaint)
             .Include(g => g.Governorate)
             .Include(d => d.Directorate)
-            .Include(su => su.SubDirectorate);
+            .Include(su => su.SubDirectorate)
+            .OrderByDescending(u => u.UploadDate);
             //Task.WhenAll((System.Collections.Generic.IEnumerable<Task>)result);
             return result;
 

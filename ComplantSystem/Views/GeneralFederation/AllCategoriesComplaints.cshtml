@@ -1,196 +1,282 @@
 ﻿@model IEnumerable<TypeComplaint>
 
 
-<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="breadcrumb-wrapper py-3 mb-4">
-        <span class="text-muted fw-light">الأصناف /</span> أصناف الشكاوى
-    </h4>
-    <div class="card">
-        <div class="card-body">
-            <div class="card-body text-center">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">اصناف الشكوى</h5>
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="breadcrumb-wrapper py-3 mb-4">
+                <span class="text-muted fw-light">الإنواع    /</span>  انواع الشكاوى
+            </h4>
+
+
+            <div class="card">
+                <div class="row mx-2  ">
+                    <div class="col-md-6">
+                        <div class="t-d">
+                            <h5 class="card-header title-t"> الإنواع </h5>
+                        </div>
+
+                    </div>
+
+
                 </div>
-            </div>
-            <div class="d-flex col-12 justify-content-between">
-                <button  type="button"
-                        class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#basicModal">
-                    <span class="bx bx-plus me-0 me-lg-2">اضــــافة صنف </span>
-                </button>
-            </div>
-            <br />
-            <div class="table-responsive text-nowrap">
-                <div class="card-datatable text-nowrap">
-                    <table class="table table-bordered table table-bordered" id="dataTable" style="border-radius: 0.25rem;">
 
-                        <thead>
-                            <tr>
+                <div class="card-datatable table-responsive">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
 
-                                <th>
-                                    اسم الصنف
-                                </th>
-                                <th>
-                                    تاريخ الاضافة
-                                </th>
-                                <th>
-                                    اسم مضيف الصنف
-                                </th>
-                                <th>تعديل</th>
-                                <th>إجراء</th>
-                            </tr>
-                        </thead>
+                        <div class="row mx-2 border-bottom ">
 
-                        <tbody>
-                            @if (Model.Count() == 0)
-                            {
+                            <div class="d-flex col-12 justify-content-between">
+                                <button type="button"
+                                        class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#basicModal">
+                                    <span class="bx bx-plus me-0 me-lg-2">    اضــــافة نوع  + </span>
+                                </button>
+                            </div>
+                        </div>
+                        @*<div class="row align-items-start">
+                                <div class="col-12 col-md-6  d-flex mb-4 justify-content-center justify-content-md-start">
+                                    <div class="col-12 col-md-6  d-flex mb-4 justify-content-center align-content-lg-center justify-content-md-center">
+                                        <div class="me-3 table-type search-paddind">
+
+                                            <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                                <label><input type="search" id="CustomSearchTextField" class="form-control" placeholder="البحث" aria-controls="DataTables_Table_0"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+
+
+                    <div class="table-responsive text-nowrap">
+                        <table id="example" class="datatables-users table border-top ">
+                            <thead>
                                 <tr>
-                                    <td colspan="3" style="color:red">
-                                        لا يوجد نتائج
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
 
-                                @foreach (var item in Model)
+                                    <th>
+                                        اسم النوع
+                                    </th>
+                                    <th>
+                                        تاريخ الاضافة
+                                    </th>
+                                    <th>
+                                        اسم مضيف النوع
+                                    </th>
+                                    <th>تعديل</th>
+                                    <th>إجراء</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @if (Model.Count() == 0)
                                 {
                                     <tr>
-
-                                        <td> @Html.DisplayFor(modelItem => item.Type)</td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                                        <td colspan="3" style="color:red">
+                                            لا يوجد نتائج
                                         </td>
-                                        <td> @Html.DisplayFor(modelItem => item.UsersNameAddType)</td>
-                                        <td>
-                                            <a class="btn btn-sm btn-icon item-edit" asp-action="Edit" asp-route-id="@item.Id"><i class="bx bxs-edit"></i></a>
-                                        </td>
-                                        <td style="">
-                                            <div class="d-inline-block">
-                                                <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li>
-                                                        <a class="dropdown-item" asp-action="DetailsCategoriesComplaints" asp-route-id="@item.Id">
-                                                            <i class="bi bi-eye icon-padding icon-color"></i>
-
-                                                            عرض
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="btn btn-sm btn-icon item-edit" asp-action="Edit" asp-route-id="@item.Id">تعديل</a>
-                                                    </li>
-                                                    <li>
-                                                        <form class="dropdown-item text-danger delete-record" id="del" method="post" type="submut" asp-action="DeleteCategoryComplainty" asp-for="Id" asp-route-id="@item.Id" onclick="return functionConfirm(this)">حذف</form>
-                                                    </li>
-
-                                                </ul>
-
-                                            </div>
-
-                                        </td>
-
                                     </tr>
                                 }
-                            }
+                                else
+                                {
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+
+                                            <td> @Html.DisplayFor(modelItem => item.Type)</td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CreatedDate)
+                                            </td>
+                                            <td> @Html.DisplayFor(modelItem => item.UsersNameAddType)</td>
+                                            <td>
+                                                <a class="btn btn-sm btn-icon item-edit" asp-action="Edit" asp-route-id="@item.Id"><i class="bx bxs-edit"></i></a>
+                                            </td>
+                                            <td style="">
+                                                <div class="d-inline-block">
+                                                    <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                        <li>
+                                                            <a class="dropdown-item" asp-action="DetailsCategoriesComplaints" asp-route-id="@item.Id">
+                                                                <i class="bi bi-eye icon-padding icon-color"></i>
+
+                                                                عرض
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="btn btn-sm btn-icon item-edit" asp-action="Edit" asp-route-id="@item.Id">تعديل</a>
+                                                        </li>
+                                                        <li>
+                                                             <form asp-action="DeleteConfirmedCategoryComplaint" asp-route-id="@item.Id"type="submit"  onclick="return functionConfirm(this)" method="post">
+                                                                <button type="submit"  onclick="return functionConfirm(this)">
+                                                                    حذف
+                                                                </button>
+                                                            </form>
+                                                          
+                                                        </li>
+
+                                                    </ul>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+                                    }
+                                }
 
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+
             </div>
-
-
         </div>
     </div>
-</div>
-@using (Html.BeginForm("AddCategory", "GeneralFederation"))
-{
-    <!-- Default Modal -->
-    <div class="col-md-6 col-lg-4">
-     
-        <div class="mt-3">
-            <!-- Button trigger modal -->
-            <!-- Modal -->
-            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel1"> إضافة صنف</h5>
-                            <button type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
+    @using (Html.BeginForm("AddCategory", "GeneralFederation"))
+    {
+        <!-- Default Modal -->
+        <div class="col-md-6 col-lg-4">
 
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="nameBasic" class="form-label">اسم الصنف</label>
-                                    @*<input type="text" id="nameBasic" class="form-control" placeholder="الكتب اسم الصنف الجديد " />*@
-                                    @* @Html.LabelFor(model => model.First().Type, "Type", htmlAttributes: new { @class = "form-control col-md-2" })*@
-                                    <input type="text" id="nameBasic" class="form-control" placeholder="الكتب اسم الصنف الجديد " asp-for="@Model.First().Type" />
-                                </div>
+            <div class="mt-3">
+                <!-- Button trigger modal -->
+                <!-- Modal -->
+                <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel1"> إضافة صنف</h5>
+                                <button type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                             </div>
 
-                        </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col mb-3">
+                                        <label for="nameBasic" class="form-label">اسم الصنف</label>
+                                        @*<input type="text" id="nameBasic" class="form-control" placeholder="الكتب اسم الصنف الجديد " />*@
+                                        @* @Html.LabelFor(model => model.First().Type, "Type", htmlAttributes: new { @class = "form-control col-md-2" })*@
+                                        <input type="text" id="nameBasic" class="form-control" placeholder="الكتب اسم الصنف الجديد " asp-for="@Model.First().Type" />
+                                    
+                                    </div>
+                                </div>
+
+                            </div>
 
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                                إغلاق
-                            </button>
-                            <button type="submit" asp-action="AddCategory" value="AddCategory" class="btn btn-primary">حفظ </button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                    إغلاق
+                                </button>
+                                <button type="submit" asp-action="AddCategory" value="AddCategory" class="btn btn-primary">حفظ </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-}
+    }
+    @section Scripts {
+        <script>
+ 
+        
+           
+    
 
-<script>
-    function functionConfirm(event) {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false
-        })
-
-        swalWithBootstrapButtons.fire({
-            title: 'هل انت متأكد من الحذف ؟',
-            text: "سيتم حذف الصنف بشكل نهائي  !",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'نعم  !',
-            cancelButtonText: 'الغاء ',
-            reverseButtons: true,
-            timer: 10000
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $("#del").submit();
+            function functionConfirm(event) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
 
                 swalWithBootstrapButtons.fire({
-                    title: 'تم الحذف !',
-                    text: 'تمت عملية الحذف بنجاح .',
-                    icon: 'success',
-                    timer: '200000'
-                }
-                )
-            } else if (
-                /* Read more about handling dismissals below */
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
-                swalWithBootstrapButtons.fire(
-                    ' تم إلغاء الحذف',
-                    '',
-                    'error'
-                )
+                    title: 'هل انت متأكد من الحذف ؟',
+                    text: "سيتم حذف هذا النوع بشكل نهائي  !",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'نعم  !',
+                    cancelButtonText: 'الغاء ',
+                    reverseButtons: true,
+                    timer: 40000
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("form").submit();
+
+                        swalWithBootstrapButtons.fire({
+                            title: 'تم الحذف !',
+                            text: 'تمت عملية الحذف بنجاح .',
+                            icon: 'success',
+                            timer: '400000'
+                        }
+                        )
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            ' تم إلغاء الحذف',
+                            '',
+                            'error'
+                        )
+                    }
+                })
             }
-        })
+        </script>
+        <script>
+
+
+            $('#CustomSearchTextField').keyup(function () {
+
+                oTable.search($(this).val()).draw();
+
+            });
+
+            var oTable = $('#example').DataTable({
+
+                language: {
+                    "loadingRecords": "جارٍ التحميل...",
+                    "lengthMenu": "أظهر _MENU_ مدخلات",
+                    "zeroRecords": "لم يعثر على أي بيانات",
+                    "info": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "search": "ابحث:",
+                    "searchPlaceholder": "بحث عن شكوى",
+                    "paginate": {
+                        "first": "الأول",
+                        "previous": "السابق",
+                        "next": "التالي",
+                        "last": "الأخير"
+                    }
+
+                },
+
+                "paging": true,
+                "lengthChange": false,
+                /*"searching": true,*/
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
+                "responsive": false,
+                "searching": true,
+                //dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                displayLength: 4,
+
+            });   //using Capital D, which is mandatory to retrieve "api" datatables' object, latest jquery Datatable
+
+
+
+
+
+        </script>
     }
-</script>

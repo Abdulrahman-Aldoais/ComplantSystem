@@ -15,18 +15,10 @@
                 <div class="card mb-4">
                     <h5 class="card-header">تقديم الاقتراح  </h5>
                     <!-- Account -->
-                    <div class="card-body">
-                        <div class="gap-4 d-flex align-items-start align-items-sm-center">
-
-                            <div class="button-wrapper">
-
-
-                            </div>
-                        </div>
-                    </div>
+                  
                     <hr class="my-0" />
                     <div class="card-body">
-                        <form asp-action="AddProposals" id="formAccountSettings">
+                        <form asp-action="AddProposals"  method="post" >
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName" class="form-label">عنوان الاقتراح</label>
@@ -35,6 +27,7 @@
                                            id="TatileProposal"
                                            autofocus
                                            placeholder="عنوان الاقتراح" />
+                                    <span asp-validation-for="TitileProposal" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="lastName" class="form-label">محتوى الاقتراح</label>
@@ -46,7 +39,14 @@
 
                             </div>
                             <div class="mt-2">
-                                <button type="submit" value="AddProposals" class="btn btn-primary me-2">إضافة الاقتراح </button>
+                         
+                                <button type="submit" value="Create" id="proposalForm" class="btn btn-primary me-2">
+                                    <span class="d-flex justify-content-center align-items-center text-nowrap">
+                                        <i class=""></i>
+                                        إضافة الاقتراح
+                                    </span>
+                                </button>
+
                                 <button type="reset" class="btn btn-label-secondary">إلغاء</button>
                             </div>
                         </form>
@@ -58,4 +58,77 @@
 </div>
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        'use strict';
+        (function () {
+            const proposalForm = document.querySelector('#proposalForm');
+            // Alert With Functional Confirm Cancel Button
+            if (proposalForm) {
+                proposalForm.onclick = function () {
+                    var inputData = $('form').serializeArray();
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "AddProposals", // Controller/View
+                            data: inputData,
+                            error: function () {
+                                Swal.fire({
+                                    title: 'خطأ!',
+                                    text: ' يرجى ادخال بيانات المستخدم بشكل كامل!',
+                                    icon: 'error',
+                                    customClass: {
+                                        confirmButton: 'btn btn-primary'
+                                    },
+                                    buttonsStyling: false
+                                });
+                                // Error Alert
+
+                            },
+                        });
+                    Swal.fire({
+
+                        title: 'هل انت متأكد من حفظ المستخدم؟',
+                        text: "لن تتمكن من العوده الى المستخدم !",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'نعم, حفظ !',
+                        CancelButtonText: 'إلغاء',
+                        customClass: {
+                            confirmButton: 'btn btn-primary me-3',
+                            cancelButton: 'btn btn-label-secondary'
+                        },
+                        buttonsStyling: false
+                    }).then(function (result) {
+                        if (result.value) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'تم الحفظ بنجاح !',
+                                text: 'تم الحفظ في  جدول المستخدمين.   ',
+                                customClass: {
+                                    confirmButton: 'btn btn-success',
+
+                                },
+
+
+
+                            });
+
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            Swal.fire({
+                                title: 'الغاء الحفظ',
+                                text: 'لا زال المستخدم قيد التعديل :)',
+                                icon: 'error',
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            });
+                        }
+                    });
+                };
+            }
+        })();
+
+         
+        
+    </script>
 }

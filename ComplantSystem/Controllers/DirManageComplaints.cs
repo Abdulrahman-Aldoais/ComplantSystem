@@ -165,8 +165,8 @@ namespace ComplantSystem
         public async Task<IActionResult> AllUpComplaints()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var allComp = _compReop.GetAll().Where(g => g.SubDirectorate.Id == currentUser.SubDirectorateId
-            && g.StatusCompalint.Id == 5 && g.StagesComplaint.Id == 2); ;
+            var allComp = _compReop.GetAll().Where(g => g.SubDirectorateId == currentUser.SubDirectorateId
+            && g.StatusCompalintId == 5 && g.StagesComplaintId == 2); ;
             var totaleComp = allComp.Count(); ;
             ViewBag.totaleComp = totaleComp;
             return View(allComp);
@@ -174,6 +174,7 @@ namespace ComplantSystem
 
         public async Task<IActionResult> ViewCompalintUpDetails(string id)
         {
+
             var ComplantList = await _compReop.FindAsync(id);
             AddSolutionVM addsoiationView = new AddSolutionVM()
             {
@@ -185,12 +186,17 @@ namespace ComplantSystem
                 UploadsComplainteId = id,
 
             };
+            UpComplaintVM upComplaint = new UpComplaintVM()
+            {
+                UploadsComplainteId = id,
+            };
             ProvideSolutionsVM VM = new ProvideSolutionsVM
             {
                 compalint = ComplantList,
                 Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
                 ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
                 RejectedComplaintVM = rejectView,
+                UpComplaintCauseList = await _context.UpComplaintCauses.Where(a => a.UploadsComplainteId == id).ToListAsync(),
                 AddSolution = addsoiationView
             };
             return View(VM);
@@ -258,10 +264,6 @@ namespace ComplantSystem
             int totalUsers = result.Count();
 
             ViewBag.totalUsers = totalUsers;
-
-
-
-
 
             //return View(await PaginatedList<ApplicationUser>.CreateAsync(result.AsNoTracking(), pageNumber ?? 1, pageSize));
             return View(result.ToList());
@@ -466,6 +468,7 @@ namespace ComplantSystem
             {
 
                 dbComp.Id = complainte.Id;
+                dbComp.StatusCompalintId = 5;
                 dbComp.StagesComplaintId += dbComp.StagesComplaintId;
 
 

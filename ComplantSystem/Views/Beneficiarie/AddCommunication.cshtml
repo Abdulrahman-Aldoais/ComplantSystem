@@ -25,33 +25,39 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                        <form asp-action="AddCommunication" method="POST" >
+                        <form asp-action="AddCommunication" method="POST">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName" class="form-label">عنوان البلاغ</label>
-                                    <input asp-for="Titile" class="form-control" type="text"  />
+                                    <input asp-for="Titile" class="form-control" type="text" />
+                                    <span asp-validation-for="Titile" class="text-danger"></span>
+
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="lastName" class="form-label">محتوى البلاغ </label>
-                                    <input asp-for="reason" class="form-control" type="text"  />
+                                    <input asp-for="reason" class="form-control" type="text" />
+                                    <span asp-validation-for="reason" class="text-danger"></span>
+
                                 </div>
 
 
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label"> الموضف المراد التبليغ علية</label>
-
-                                    <select asp-for="NameUserId" asp-items="ViewBag.UsersName" 
+                                    <select asp-for="NameUserId" asp-items="ViewBag.UsersName"
                                             class="select2 form-select select2-hidden-accessible"
-                                                tabindex="-1" aria-hidden="true" data-select2-id="10">
+                                            tabindex="-1" aria-hidden="true" data-select2-id="10">
+                                        <option value="">حدد الموضف</option>
                                     </select>
                                     <span asp-validation-for="NameUserId" class="text-danger"></span>
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" >نوع البلاغ</label>
-                                    <select asp-for="TypeCommuncationId" asp-items="ViewBag.typeCommun"   
+                                    <label class="form-label">نوع البلاغ</label>
+                                    <select asp-for="TypeCommuncationId" asp-items="ViewBag.typeCommun"
                                             class="select2 form-select select2-hidden-accessible"
-                                                tabindex="-1" aria-hidden="true" data-select2-id="10">
+                                            tabindex="-1" aria-hidden="true" data-select2-id="10">
+                                        <option value=""> اختر نوع البلاغ</option>
                                     </select>
                                     <span asp-validation-for="TypeCommuncationId" class="text-danger"></span>
                                 </div>

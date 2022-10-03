@@ -78,12 +78,12 @@
         </ul>
     </li>
     <!-- التعميمات -->
-    <li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="AllCirculars"?"active":"")">
+    @*<li class="menu-item @(ViewContext.RouteData.Values["Action"].ToString()=="AllCirculars"?"active":"")">
         <a href="/DirManageComplaints/AllCirculars" class="menu-link">
 
             <div>التعميمات</div>
         </a>
-    </li>
+    </li>*@
 
 
     <!-- الحسابات -->
@@ -109,7 +109,7 @@
             </li>
             <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="ViewUsers"?"active":"")">
                 <a href="/DirManageComplaints/ViewUsers" class="menu-link">
-                    <div>حسابات الموضفين</div>
+                    <div>حسابات الموظفين</div>
                 </a>
             </li>
             <li class="menu-item  @(ViewContext.RouteData.Values["Action"].ToString()=="Create"?"active":"")">

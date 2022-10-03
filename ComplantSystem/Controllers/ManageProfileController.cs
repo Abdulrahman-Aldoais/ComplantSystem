@@ -150,7 +150,7 @@ namespace ComplantSystem.Controllers
                     {
 
                         await _signInManager.SignOutAsync();
-                        return RedirectToAction("Account", "Login");
+                        return RedirectToAction("Login", "Account");
                     }
 
                     foreach (var error in result.Errors)

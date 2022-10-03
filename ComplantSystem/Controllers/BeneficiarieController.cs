@@ -91,7 +91,29 @@ namespace ComplantSystem
             return View(result.ToList());
 
         }
+        public async Task<IActionResult> ViewCompalintRejectedDetails(string id)
+        {
+            var ComplantList = await _service.FindAsync(id);
+            AddSolutionVM addsoiationView = new AddSolutionVM()
+            {
+                UploadsComplainteId = id,
 
+            };
+            ComplaintsRejectedVM rejectView = new ComplaintsRejectedVM()
+            {
+                UploadsComplainteId = id,
+
+            };
+            ProvideSolutionsVM VM = new ProvideSolutionsVM
+            {
+                compalint = ComplantList,
+                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                RejectedComplaintVM = rejectView,
+                AddSolution = addsoiationView
+            };
+            return View(VM);
+        }
 
         public async Task<IActionResult> ViewResolvedComplaints()
         {
@@ -400,11 +422,6 @@ namespace ComplantSystem
         }
 
 
-        public async Task AddProposalAsync(Proposal proposal)
-        {
-            await _context.Proposals.AddAsync(proposal);
-            await _context.SaveChangesAsync();
-        }
 
 
 
@@ -415,14 +432,16 @@ namespace ComplantSystem
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddProposals([Bind("TitileProposal,DescProposal")] Proposal proposal)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(proposal);
+                await _context.Proposals.AddAsync(proposal);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(AllProposals));
             }
-            await AddProposalAsync(proposal);
-            return RedirectToAction(nameof(Index));
+            return View(proposal);
         }
         public async Task<IEnumerable<Proposal>> GetAllProposalsAsync() => await _context.Proposals.ToListAsync();
 
@@ -554,6 +573,18 @@ namespace ComplantSystem
         {
             return View();
 
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var proposalDetails = await _context.Proposals.FirstOrDefaultAsync(n => n.Id == id);
+            if (proposalDetails != null)
+            {
+                _context.Proposals.Remove(proposalDetails);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(AllProposals));
         }
 
 

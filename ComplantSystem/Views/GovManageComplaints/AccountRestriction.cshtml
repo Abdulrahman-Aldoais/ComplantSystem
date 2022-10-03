@@ -81,11 +81,11 @@
                             </div>
 
 
-                            <div class=" col-12 justify-content-between">
+                            @*<div class=" col-12 justify-content-between">
                                 <button style="float:left; border:1px solid green;" class="btn btn-primary me-1" onclick="location.href='@Url.Action("Create", "ManageUsers")'">
                                     اضــــافة مستخدم  +
                                 </button>
-                            </div>
+                            </div>*@
                         </div>
 
 
@@ -102,7 +102,7 @@
                                     <th> الصلاحية </th>
                                     <th>تاريخ الانشاء </th>
                                     <th>الفعالية</th>
-                                    <th>تغير الحالة</th>
+                               
                                     <th> إجراء</th>
                                 </tr>
                             </thead>
@@ -114,7 +114,7 @@
                                         <td>@user.FullName </td>
                                         <td>
                                             @*@foreach (Governorate gov  in Model.)
-                                                {*@
+            {*@
                                             @user.Governorate.Name
                                         </td>
 
@@ -135,7 +135,7 @@
                                             {
                                                 <span class="badge bg-label-warning"> مدير عزلة</span>
                                             }
-                                            
+
                                             else if (await UserManager.IsInRoleAsync(user, UserRoles.Beneficiarie))
                                             {
                                                 <span class="badge bg-label-warning">مستخدم عادي</span>
@@ -146,29 +146,31 @@
 
                                         <td>@user.CreatedDate</td>
 
-                                        @if (user.IsBlocked == true)
+                                        @if (user.EmailConfirmed)
                                         {
 
 
                                             <td>
-                                                <span class="badge bg-danger text-white@(user.IsBlocked)">
+                                                <span class="badge bg-success text-white@(user.EmailConfirmed)">
 
-                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.IsBlocked ?"مقيد": "نشط")</i>
+                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.EmailConfirmed ? "نشط": "مقيد")</i>
                                                 </span>
                                             </td>
                                         }
                                         else
                                         {
                                             <td>
-                                                <span class="badge bg-success text-white@(user.IsBlocked)">
 
-                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.IsBlocked ?"مقيد": "نشط")</i>
+                                                <span class="badge bg-danger text-white@(user.EmailConfirmed)">
+
+                                                    <i class="fa fa-circle" aria-hidden="true"> @(user.EmailConfirmed ? "نشط" : "مقيد")</i>
                                                 </span>
                                             </td>
                                         }
 
 
-                                        <td>
+
+                                        @*<td>
                                             <form asp-action="ChaingeStatus" id="Status-Form-@user.Id">
                                                 <input type="hidden" name="Id" value="@user.Id" />
                                                 <select class="form-select " onchange="document.getElementById('Status-Form-@user.Id').submit()" name="IsBlocked">
@@ -177,7 +179,7 @@
                                                     <option value="true">توقيف</option>
                                                 </select>
                                             </form>
-                                        </td>
+                                        </td>*@
 
                                         <td style="">
                                             <div class="d-inline-block">
@@ -189,6 +191,21 @@
 
                                                     <li>
                                                         <a class="dropdown-item text-danger delete-record" asp-action="Delete" asp-route-id="@user.Id">حذف</a>
+                                                    </li>
+                                                    <li>
+                                                        @if (user.EmailConfirmed)
+                                                        {
+                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">توقيف</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">تنشيط</a>
+
+                                                        }
+
+
+
+
                                                     </li>
                                                 </ul>
 
@@ -233,7 +250,7 @@
             language: {
                 "loadingRecords": "جارٍ التحميل...",
                 "lengthMenu": "أظهر _MENU_ مدخلات",
-                "zeroRecords": "لم يعثر على أي شكوى",
+                "zeroRecords": "لم يعثر على أي بيانات",
                 "info": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
                 "search": "ابحث:",
                 "searchPlaceholder": "بحث عن شكوى",

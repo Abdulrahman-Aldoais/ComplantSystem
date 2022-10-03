@@ -28,7 +28,7 @@
                     <!-- /Logo -->
 
 
-                    <form id="formAuthentication" class="mb-3 fv-plugins-bootstrap5 fv-plugins-framework" asp-action="AddCategory" method="POST">
+                    <form asp-action="AddCategory" id="studentForm" class="mb-3 fv-plugins-bootstrap5 fv-plugins-framework"  method="POST">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="col-md-12 mb-6">
                             <label for="Type" class="form-label"> صنف الشكوى</label>
@@ -41,7 +41,7 @@
 
                         <div class="d-flex col-12 justify-content-between mt-3">
 
-                            <button type="submit" value="AddCategory" class="btn btn-success ">إضافة</button>
+                            <button type="submit"id="btnSave" value="AddCategory"  class="btn btn-success ">إضافة</button>
                             <button type="reset" class="btn btn-label-secondary">
                                 إلغاء
                             </button>
@@ -59,4 +59,34 @@
 
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+        $(function () {
+            $("#btnSave").click(function (e) {
+                e.preventDefault();
+                swal({
+                    title: "Save Changes?",
+                    text: "",
+                    type: "info",
+                    showCancelButton: true,
+                    cancelButtonClass: 'btn-secondary waves-effect',
+                    confirmButtonClass: 'btn-success waves-effect waves-light',
+                    confirmButtonText: "Yes",
+                    closeOnConfirm: false
+                })
+                    .then(val => {
+                        if (!val) throw null;
+                        swal("Saved!", "Your record has been saved.", "success")
+                            .then((confirm) => {
+                                $("#studentForm").submit();
+                            })
+                    });
+            });
+
+            $("#studentForm").on('submit', function () {
+                alert('form POST');
+            })
+        });
+    </script>
 }

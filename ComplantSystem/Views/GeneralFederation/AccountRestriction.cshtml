@@ -171,9 +171,16 @@
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" asp-action="Details" asp-route-id="@user.Id">عرض</a></li>
 
                                                     <li>
+                                                        <a class="dropdown-item" asp-action="Details" asp-route-id="@user.Id">عرض</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" asp-action="DisbleOrEnableUser" asp-route-id="@user.Id">تنشيط</a>
+                                                    </li>
+
+                                                    <li>
+
                                                         <a class="dropdown-item text-danger delete-record" asp-action="Delete" asp-route-id="@user.Id">حذف</a>
                                                     </li>
                                                 </ul>

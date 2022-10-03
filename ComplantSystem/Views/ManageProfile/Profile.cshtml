@@ -50,23 +50,28 @@
                                             </li>
                                             <li class="mb-3">
                                                 <span class="fw-bold me-2">الحالة:</span>
-                                                @if (Model.IsBlocked == true)
+                                                @if (Model.IsBlocked == false)
                                                 {
-                                                    <span class="badge bg-danger text-white@(Model.IsBlocked)">
 
-                                                        <i class="fa fa-circle" aria-hidden="true"> @(Model.IsBlocked ?"مقيد": "نشط")</i>
-                                                    </span>
 
+                                                 
+                                                        <span class="badge bg-success text-white@(Model.IsBlocked)">
+
+                                                            <i class="fa fa-circle" aria-hidden="true"> @(Model.IsBlocked ? "مقيد": "نشط")</i>
+                                                        </span>
+                                                   
                                                 }
                                                 else
                                                 {
+                                                   
 
-                                                    <span class="badge bg-success text-white@(Model.IsBlocked)">
+                                                        <span class="badge bg-danger text-white@(Model.IsBlocked)">
 
-                                                        <i class="fa fa-circle" aria-hidden="true"> @(Model.IsBlocked ?"مقيد": "نشط")</i>
-                                                    </span>
-
+                                                            <i class="fa fa-circle" aria-hidden="true"> @(Model.IsBlocked ? "مقيد" : "نشط")</i>
+                                                        </span>
+                                                  
                                                 }
+
 
                                             </li>
                                             <li class="mb-3">
@@ -97,13 +102,13 @@
                                             <hr />
 
                                             @*<li class="mb-3">
-                                                <span class="fw-bold me-2">اسم منشئ هذا الحساب:</span>
-                                                <span>@Html.DisplayFor(model => model.originatorName)</span>
-                                            </li>*@
+            <span class="fw-bold me-2">اسم منشئ هذا الحساب:</span>
+            <span>@Html.DisplayFor(model => model.originatorName)</span>
+        </li>*@
                                             @*<li class="mb-3">
-                                                <span class="fw-bold me-2">رقم منشئ هذا الحساب:</span>
-                                                <span>@Html.DisplayFor(model => model.UserId)</span>
-                                            </li>*@
+            <span class="fw-bold me-2">رقم منشئ هذا الحساب:</span>
+            <span>@Html.DisplayFor(model => model.UserId)</span>
+        </li>*@
 
                                         </ul>
 

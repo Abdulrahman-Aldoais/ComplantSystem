@@ -57,25 +57,23 @@ namespace ComplantSystem
         }
 
         //------------- عرض الشكاوى المحلولة والمرفوضه والمرفوعه--------------------
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index()
         {
 
             var currentUser = await _userManager.GetUserAsync(User);
             //var Gov = currentUser?.Governorates.Id;
 
 
-            var allCompalintsVewi = await _compReop.GetAllAsync(g => g.Governorate, d => d.Directorate, b => b.SubDirectorate);
-            var compBy = allCompalintsVewi.Where(g => g.SubDirectorateId == currentUser.SubDirectorateId && g.StagesComplaintId == 1)
-                .OrderByDescending(d => d.UploadDate);
+            var allCompalintsVewi = _compReop.GetAll().Where(g => g.SubDirectorateId == currentUser.SubDirectorateId && g.StagesComplaintId == 1).ToList();
             var compalintDropdownsData = await _compReop.GetNewCompalintsDropdownsValues();
             ViewBag.StatusCompalints = new SelectList(compalintDropdownsData.StatusCompalints, "Id", "Name");
             ViewBag.TypeComplaints = new SelectList(compalintDropdownsData.TypeComplaints, "Id", "Type");
             ViewBag.Status = ViewBag.StatusCompalints;
-            int totalCompalints = compBy.Count();
-            ViewBag.TotalCompalints = Convert.ToInt32(page == 0 ? "false" : totalCompalints);
+            int totalCompalints = allCompalintsVewi.Count();
+
             ViewBag.totalCompalints = totalCompalints;
 
-            return View(compBy.ToList());
+            return View(allCompalintsVewi);
         }
 
         public async Task<IActionResult> RejectedComplaints()
@@ -135,6 +133,7 @@ namespace ComplantSystem
             return View(VM);
         }
 
+
         public async Task<IActionResult> ViewCompalintRejectedDetails(string id)
         {
             var ComplantList = await _compReop.FindAsync(id);
@@ -151,15 +150,14 @@ namespace ComplantSystem
             ProvideSolutionsVM VM = new ProvideSolutionsVM
             {
                 compalint = ComplantList,
-                Compalints_SolutionList = await _context.Compalints_Solutions
-                .Where(a => a.UploadsComplainteId == id).ToListAsync(),
-                ComplaintsRejectedList = await _context.ComplaintsRejecteds
-                .Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                Compalints_SolutionList = await _context.Compalints_Solutions.Where(a => a.UploadsComplainteId == id).ToListAsync(),
+                ComplaintsRejectedList = await _context.ComplaintsRejecteds.Where(a => a.UploadsComplainteId == id).ToListAsync(),
                 RejectedComplaintVM = rejectView,
                 AddSolution = addsoiationView
             };
             return View(VM);
         }
+
         public async Task<IActionResult> AllUpComplaints()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -196,15 +194,15 @@ namespace ComplantSystem
         public async Task<IActionResult> SolutionComplaints()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var rejectedComplaints = await _compReop.GetAllAsync(
-                 g => g.Governorate,
+            var SolutionComplaints = await _compReop.GetAllAsync(
+                g => g.Governorate,
                 d => d.Directorate,
                 s => s.SubDirectorate,
                 n => n.StatusCompalint,
                 st => st.StagesComplaint);
-            var Getrejected = rejectedComplaints
-                .Where(g => g.Directorate.Id == currentUser.DirectorateId
-                && g.StatusCompalint.Id == 2 && g.StagesComplaint.Id == 1);
+            var Getrejected = SolutionComplaints
+                .Where(g => g.SubDirectorateId == currentUser.SubDirectorateId
+                && g.StatusCompalintId == 2 && g.StagesComplaintId == 4);
             var compalintDropdownsData = await _compReop.GetNewCompalintsDropdownsValues();
             ViewBag.StatusCompalints = new SelectList(compalintDropdownsData.StatusCompalints, "Id", "Name");
             ViewBag.TypeComplaints = new SelectList(compalintDropdownsData.TypeComplaints, "Id", "Type");
@@ -225,6 +223,7 @@ namespace ComplantSystem
 
                 dbComp.Id = complainte.Id;
                 dbComp.StatusCompalintId = 3;
+                dbComp.StagesComplaintId = 4;
 
 
                 await _context.SaveChangesAsync();
@@ -337,7 +336,7 @@ namespace ComplantSystem
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(SolutionComplaints));
 
             }
 
@@ -379,13 +378,13 @@ namespace ComplantSystem
                 var dbComp = await _context.UploadsComplaintes.FirstOrDefaultAsync(n => n.Id == upComp.Id);
                 if (dbComp != null)
                 {
-                    //dbComp.StatusCompalintId = 2;
+                    dbComp.StatusCompalintId = 5;
                     dbComp.StagesComplaintId = upComp.StagesComplaintId + 1;
                     await _context.SaveChangesAsync();
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(AllUpComplaints));
 
 
 
@@ -435,7 +434,7 @@ namespace ComplantSystem
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("AllComplaints");
+                return RedirectToAction(nameof(RejectedComplaints));
 
             }
 

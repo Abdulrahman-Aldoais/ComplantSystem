@@ -94,7 +94,7 @@ namespace ComplantSystem.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             TempData["Error"] = null;
             if (ModelState.IsValid)
@@ -106,11 +106,13 @@ namespace ComplantSystem.Controllers
                     var user = await _userManager.FindByEmailAsync(model.Email);
                     if (await _userManager.IsEmailConfirmedAsync(user))
                     {
-                        if (!string.IsNullOrEmpty(returnUrl))
-                        {
-                            return LocalRedirect(returnUrl);
-                        }
-                        else if (User.IsInRole(UserRoles.AdminGeneralFederation))
+                        //if (!string.IsNullOrEmpty(returnUrl))
+                        //{
+                        //    return LocalRedirect(returnUrl);
+                        //}
+                        //else 
+
+                        if (User.IsInRole(UserRoles.AdminGeneralFederation))
                         {
                             return RedirectToAction("Index", "GeneralFederation");
 
@@ -146,9 +148,9 @@ namespace ComplantSystem.Controllers
 
 
                 }
+
                 TempData["Error"] = " تاكد من صحة كتابة رقم البطاقة او كلمة المرور";
                 return View(model);
-
             }
             return View(model);
         }

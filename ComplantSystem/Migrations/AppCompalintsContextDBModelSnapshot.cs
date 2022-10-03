@@ -333,28 +333,6 @@ namespace ComplantSystem.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ComplantSystem.Models.LimitationOrder", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Reason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserResponsibleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LimitationOrders");
-                });
-
             modelBuilder.Entity("ComplantSystem.Models.Proposal", b =>
                 {
                     b.Property<string>("Id")
@@ -394,7 +372,7 @@ namespace ComplantSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Societys");
+                    b.ToTable("Society");
 
                     b.HasData(
                         new
@@ -451,69 +429,6 @@ namespace ComplantSystem.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ComplantSystem.Models.Statistics.StutusCompalintStatistic", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TotalCountStutus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("stutus")
-                        .HasColumnType("float");
-
-                    b.HasKey("id");
-
-                    b.ToTable("StutusCompalintStatistics");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.Statistics.TypeCompalintStatistic", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TotalCount")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TypeComp")
-                        .HasColumnType("float");
-
-                    b.HasKey("id");
-
-                    b.ToTable("TypeCompalintStatistics");
-                });
-
-            modelBuilder.Entity("ComplantSystem.Models.Statistics.UsersInStatistic", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Users")
-                        .HasColumnType("float");
-
-                    b.Property<string>("totalUsers")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("UsersInStatistics");
-                });
-
             modelBuilder.Entity("ComplantSystem.Models.StatusCompalint", b =>
                 {
                     b.Property<int>("Id")
@@ -548,6 +463,11 @@ namespace ComplantSystem.Migrations
                         {
                             Id = 4,
                             Name = "معلقة"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "مرفوعة"
                         });
                 });
 
@@ -628,15 +548,15 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "106f08d7-704d-47ef-afe1-83959bac0345",
-                            CreatedDate = new DateTime(2022, 9, 24, 17, 13, 3, 461, DateTimeKind.Local).AddTicks(9080),
+                            Id = "e6d36452-e5c4-494c-bf0a-62090af7075f",
+                            CreatedDate = new DateTime(2022, 9, 30, 22, 49, 2, 224, DateTimeKind.Local).AddTicks(2288),
                             Type = "تماطل",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         },
                         new
                         {
-                            Id = "edc7c758-b763-425f-8766-3458268a5fd0",
-                            CreatedDate = new DateTime(2022, 9, 24, 17, 13, 3, 461, DateTimeKind.Local).AddTicks(9627),
+                            Id = "396bc3ed-f113-4848-ad8c-b97981ecca57",
+                            CreatedDate = new DateTime(2022, 9, 30, 22, 49, 2, 224, DateTimeKind.Local).AddTicks(2848),
                             Type = "تلاعب بالحلول",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         });
@@ -669,15 +589,15 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "91c43602-78e3-46d5-9ea6-c8b8550bdb97",
-                            CreatedDate = new DateTime(2022, 9, 24, 17, 13, 3, 462, DateTimeKind.Local).AddTicks(8862),
+                            Id = "e416a3f8-d060-4e16-8a42-c545fb838329",
+                            CreatedDate = new DateTime(2022, 9, 30, 22, 49, 2, 225, DateTimeKind.Local).AddTicks(922),
                             Type = "زراعية",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         },
                         new
                         {
-                            Id = "9dbbf52e-378a-4039-b8e0-ab434ea7ee30",
-                            CreatedDate = new DateTime(2022, 9, 24, 17, 13, 3, 462, DateTimeKind.Local).AddTicks(9491),
+                            Id = "6ced5fb5-3629-4ae4-9c66-aab2e19d1cfb",
+                            CreatedDate = new DateTime(2022, 9, 30, 22, 49, 2, 225, DateTimeKind.Local).AddTicks(1404),
                             Type = "فساد",
                             UsersNameAddType = "قيمة افتراضية من النضام"
                         });
@@ -899,36 +819,36 @@ namespace ComplantSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9f120bfa-d84e-4b42-94b0-52917963ea36",
-                            ConcurrencyStamp = "e4239bd8-26a7-444a-a937-d768259d893e",
+                            Id = "1e6bda9a-58d1-4b12-b08e-bf8a0aea5d8a",
+                            ConcurrencyStamp = "4a89e06e-f5ae-4e41-a974-8fb22c7caa23",
                             Name = "AdminGeneralFederation",
                             NormalizedName = "ADMINGENERALFEDERATION"
                         },
                         new
                         {
-                            Id = "7b5594f7-13a5-48cf-8a6c-1b2e424a32dd",
-                            ConcurrencyStamp = "f0b6ce6b-d3a9-4f67-9d7a-eac807f27c1f",
+                            Id = "051ef3ae-d523-486c-94ec-f513d738291a",
+                            ConcurrencyStamp = "e4457249-349e-4450-b6c1-f8270cbc0867",
                             Name = "AdminGovernorate",
                             NormalizedName = "ADMINGOVERNORATE"
                         },
                         new
                         {
-                            Id = "38efefbc-95e4-4fe9-b3c4-419e5f9100c2",
-                            ConcurrencyStamp = "deae4682-c543-499d-a4aa-fc21caf3df85",
+                            Id = "c30e1991-b767-4fc9-a000-fbfcb450a5a3",
+                            ConcurrencyStamp = "d24d2ec4-5178-4b44-a026-f0ba3ade4850",
                             Name = "AdminDirectorate",
                             NormalizedName = "ADMINDIRECTORATE"
                         },
                         new
                         {
-                            Id = "a970a69c-8f4c-4047-95af-a61e3858945c",
-                            ConcurrencyStamp = "14a6d96c-4bc7-4040-ad5c-8469fc74c454",
+                            Id = "dd63a368-b120-4c2d-b24d-adb2eb166c33",
+                            ConcurrencyStamp = "95c5253a-0032-4f4c-bedf-7e07f21fc0fa",
                             Name = "AdminSubDirectorate",
                             NormalizedName = "ADMINSUBDIRECTORATE"
                         },
                         new
                         {
-                            Id = "c26e4567-332f-4150-91ea-6d7fe80315f9",
-                            ConcurrencyStamp = "7800f2ee-0137-4284-b9c5-7edb359e7093",
+                            Id = "5fec1157-1cc5-438a-9e11-45709224633b",
+                            ConcurrencyStamp = "ca82b8f2-3449-4a49-9224-75665185a7a8",
                             Name = "Beneficiarie",
                             NormalizedName = "BENEFICIARIE"
                         });

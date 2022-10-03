@@ -1,7 +1,6 @@
 ﻿using ComplantSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace ComplantSystem.Configuration
 {
@@ -12,9 +11,9 @@ namespace ComplantSystem.Configuration
             builder.HasData(
                     new StatusCompalint
                     {
-                        Id =1,
+                        Id = 1,
                         Name = "جديدة",
-                        
+
                     },
                     new StatusCompalint
                     {
@@ -31,7 +30,12 @@ namespace ComplantSystem.Configuration
                        {
                            Id = 4,
                            Name = "معلقة",
-                       }
+                       },
+                        new StatusCompalint
+                        {
+                            Id = 5,
+                            Name = "مرفوعة",
+                        }
                 );
         }
 

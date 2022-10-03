@@ -1,5 +1,4 @@
-﻿using ComplantSystem.Models.Statistics;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ComplantSystem.Models
@@ -142,20 +141,20 @@ namespace ComplantSystem.Models
         public DbSet<Directorate> Directorates { get; set; }
         public DbSet<SubDirectorate> SubDirectorates { get; set; }
         //public DbSet<Village> Villages { get; set; }
-        public DbSet<LimitationOrder> LimitationOrders { get; set; }
+        //public DbSet<LimitationOrder> LimitationOrders { get; set; }
         public DbSet<UsersCommunication> UsersCommunications { get; set; }
         public DbSet<Compalints_Solution> Compalints_Solutions { get; set; }
         public DbSet<ComplaintsRejected> ComplaintsRejecteds { get; set; }
         public DbSet<UpComplaintCause> UpComplaintCauses { get; set; }
-        public DbSet<Society> Societys { get; set; }
+        //public DbSet<Society> Societys { get; set; }
         public DbSet<StagesComplaint> StagesComplaints { get; set; }
         public DbSet<StatusCompalint> StatusCompalints { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<UploadsComplainte> UploadsComplaintes { get; set; }
         public DbSet<TypeCommunication> TypeCommunications { get; set; }
-        public DbSet<UsersInStatistic> UsersInStatistics { get; set; }
-        public DbSet<StutusCompalintStatistic> StutusCompalintStatistics { get; set; }
-        public DbSet<TypeCompalintStatistic> TypeCompalintStatistics { get; set; }
+        //public DbSet<UsersInStatistic> UsersInStatistics { get; set; }
+        //public DbSet<StutusCompalintStatistic> StutusCompalintStatistics { get; set; }
+        //public DbSet<TypeCompalintStatistic> TypeCompalintStatistics { get; set; }
 
 
     }

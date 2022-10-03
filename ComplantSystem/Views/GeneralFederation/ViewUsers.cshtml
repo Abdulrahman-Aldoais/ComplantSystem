@@ -23,7 +23,7 @@
                 <div class="row mx-2  ">
                     <div class="col-md-6">
                         <div class="t-d">
-                            <h5 class="card-header title-t"> الشكاوي</h5>
+                            <h5 class="card-header title-t"> الحسابات </h5>
                         </div>
 
                     </div>
@@ -191,8 +191,8 @@
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li><a class="dropdown-item" asp-action="Details" asp-route-id="@user.Id">عرض</a></li>
 
-                                                    <li><a class="dropdown-item" asp-action="UserReport" asp-route-id="@user.Id">تقرير</a></li>
-                                                    @*asp-controller="ManageUsers"*@
+                                                    <li><a class="dropdown-item" asp-action="UserReportAsPDF" asp-route-id="@user.Id" >تقرير</a></li>
+                                               
                                                     <li>
 
                                                         @*<form class="dropdown-item text-danger delete-record" type="submit" asp-for="@user.Id" asp-action="Delete" onclick="return functionConfirm(this)">حذف</form>*@
@@ -337,7 +337,6 @@
             $('#CustomSearchTextField').keyup(function () {
 
                 oTable.search($(this).val()).draw();
-
             });
 
             var oTable = $('#example').DataTable({

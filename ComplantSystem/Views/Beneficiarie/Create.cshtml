@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label asp-for="PropBeneficiarie" class="form-label"> الحل المقترح</label>
-                            <input asp-for="PropBeneficiarie" class="form-control" type="text" id="PropBeneficiarie" placeholder="وصف الشكوى" />
+                            <input asp-for="PropBeneficiarie" class="form-control" type="text" id="PropBeneficiarie" placeholder="اكتب حلا تراه مناسبا لما تريد ان وجد " />
                             <span asp-validation-for="PropBeneficiarie" class="text-danger"></span>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -55,22 +55,22 @@
 
 
                         @*<div class="col-md-6">
-                                <label class="col-form-label">المحافظة</label>
-                                <select class="form-control governorate" asp-for="GovernorateId" asp-items="@(new SelectList(Model.Governorates,"Id","Name"))"></select>
-                                <label class="col-form-label">المديرية</label>
-                                <select class="form-control directorate"></select>
-                                <label class="col-form-label">العزل</label>
-                                <select class="form-control subdirectorate"></select>
-                            </div>*@
+                        <label class="col-form-label">المحافظة</label>
+                        <select class="form-control governorate" asp-for="GovernorateId" asp-items="@(new SelectList(Model.Governorates,"Id","Name"))"></select>
+                        <label class="col-form-label">المديرية</label>
+                        <select class="form-control directorate"></select>
+                        <label class="col-form-label">العزل</label>
+                        <select class="form-control subdirectorate"></select>
+                    </div>*@
 
                         <div class="col-md-6 mb-3">
                             <div class="custom-file">
-                                <label class="form-label"> إرفاق صورة ان وجد</label>
+
                                 <input asp-for="File" onchange="fileChange()" type="file" class="custom-file-input" id="customFile">
-                                <label asp-for="File" id="custom-file-label" class="custom-file-label btn-outline-primary" for="customFile">اختر ملف </label>
+                                <label asp-for="File" id="custom-file-label" class="custom-file-label btn-outline-primary" for="customFile">اختر ملف ان وجد </label>
                                 <span asp-validation-for="File" class="text-danger"></span>
+                                @*<div class="form-group">
                             </div>
-                            @*<div class="form-group">
                                     <div class="custom-file">
                                         <input asp-for="File" onchange="fileChange()" type="file" class="custom-file-input" id="customFile">
                                         <label asp-for="File" id="custom-file-label" class="custom-file-label btn-outline-primary" for="customFile">إرفاق ملف ان وجد</label>
@@ -78,21 +78,22 @@
                                     </div>
                                 </div>*@
 
+                            </div>
+
                         </div>
 
-                    </div>
+                        <div class="col-md-4 offset-4 text-center">
+                            <img width="100%" id="AnnexPreview" />
+                        </div>
 
-                    <div class="col-md-4 offset-4 text-center">
-                        <img width="100%" id="AnnexPreview" />
-                    </div>
-
-                    <div class="mt-2">
-                        <button type="submit" value="Upload" class="btn btn-primary me-2">إضافة الشكوى </button>
-                        <button type="reset" class="btn btn-label-secondary">إلغاء</button>
-                    </div>
+                        <div class="mt-2">
+                            <button type="submit" value="Upload" class="btn btn-primary me-2">إضافة الشكوى </button>
+                            <button type="reset" class="btn btn-label-secondary">إلغاء</button>
+                        </div>
                 </form>
 
             </div>
+        </div>
 
             <!-- / Content -->
 

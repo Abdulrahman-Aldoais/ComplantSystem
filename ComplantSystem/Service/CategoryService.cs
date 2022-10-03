@@ -50,6 +50,18 @@ namespace ComplantSystem.Service
 
         }
 
+        public async Task DeleteCommAsync(string id)
+        {
+            var selectedCategory = await _context.TypeCommunications.FirstOrDefaultAsync(n => n.Id == id);
+            if (selectedCategory != null)
+            {
+                _context.TypeCommunications.Remove(selectedCategory);
+                await _context.SaveChangesAsync();
+            }
+
+
+        }
+
 
 
         public async Task UpdateAsync(string id, TypeComplaint entity)

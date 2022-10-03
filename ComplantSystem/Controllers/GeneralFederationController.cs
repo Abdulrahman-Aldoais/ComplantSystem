@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
+using Rotativa.AspNetCore.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ComplantSystem
-
 {
 
     [Authorize(Roles = "AdminGeneralFederation")]
@@ -437,6 +438,7 @@ namespace ComplantSystem
             var totaleComp = allComp.Count();
             ViewBag.totaleComp = totaleComp;
             return View(allComp);
+
         }
 
         public async Task<IActionResult> AllUpComplaints()
@@ -972,8 +974,6 @@ namespace ComplantSystem
             //List<ApplicationUser> meeting = _context.Users.Where(m => m.Id == ).ToList<ApplicationUser>();
 
 
-
-
             int totalCompalints = result.Count();
 
             ViewBag.totalCompalints = totalCompalints;
@@ -996,36 +996,35 @@ namespace ComplantSystem
 
 
         //Get: Category/Delete/1
-        [HttpPost]
-        public async Task<IActionResult> DeleteCategoryComplainty(string id)
-        {
 
-            var actorDetails = await _service.GetByIdAsync(id);
-            if (actorDetails == null) return View("Empty");
-
-            await _service.DeleteAsync(id);
-
-
-            return RedirectToAction(nameof(AllCategoriesComplaints));
-
-        }
-        //[HttpPost]
-        //[ActionName("DeleteCategoryComplainty")]
-        //public async Task<IActionResult> DeleteConfirmedCategoryComplaint(string id)
+        //public async Task<IActionResult> DeleteCategoryComplainty(string id)
         //{
+
         //    try
         //    {
         //        var actorDetails = await _service.GetByIdAsync(id);
         //        if (actorDetails == null) return View("Empty");
 
-        //        await _compReop.DeleteAsync(id);
+        //        await _service.DeleteAsync(id);
         //    }
         //    catch
         //    {
 
         //    }
         //    return RedirectToAction(nameof(AllCategoriesComplaints));
+
         //}
+
+
+        public async Task<IActionResult> DeleteConfirmedCategoryComplaint(string id)
+        {
+            var actorDetails = await _service.GetByIdAsync(id);
+            if (actorDetails == null) return View("Empty");
+
+            await _service.DeleteAsync(id);
+
+            return RedirectToAction(nameof(AllCategoriesComplaints));
+        }
         //Get: Category/Delete/1
 
         public async Task<IActionResult> DetailsCategoriesComm(string id)
@@ -1039,33 +1038,17 @@ namespace ComplantSystem
 
             return View(type);
         }
+
+
         public async Task<IActionResult> DeleteCategoryComm(string id)
         {
-            var selectedCategory = await _service.GetCommunicationByIdAsync(id);
-            if (selectedCategory == null)
-            {
-                return NotFound();
-            }
 
+            var CategoryDetails = await _service.GetCommunicationByIdAsync(id);
+            if (CategoryDetails == null) return View("Empty");
 
-            return View(selectedCategory);
+            await _service.DeleteCommAsync(id);
 
-        }
-        [ActionName("DeleteCategoryComm")]
-        public async Task<IActionResult> DeleteConfirmedCategoryComm(string id)
-        {
-            try
-            {
-                var actorDetails = await _service.GetCommunicationByIdAsync(id);
-                if (actorDetails == null) return View("Empty");
-
-                await _service.DeleteAsync(id);
-            }
-            catch
-            {
-
-            }
-            return RedirectToAction(nameof(AllCategoriesComplaints));
+            return RedirectToAction(nameof(AllCategoriesCommunications));
         }
         //Get: Category/Edit/1
         public async Task<IActionResult> EditCategoryComm(string id)
@@ -1153,7 +1136,7 @@ namespace ComplantSystem
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(AllComplaints));
+                return RedirectToAction(nameof(RejectedComplaints));
 
             }
 
@@ -1161,7 +1144,7 @@ namespace ComplantSystem
 
         }
 
-        public async Task<IActionResult> UserReport(string Id)
+        public async Task<IActionResult> UserReportAsPDF(string Id)
         {
             var comSolution = _context.Compalints_Solutions.Where(u => u.UserId == Id)
                              .GroupBy(c => c.UploadsComplainteId);
@@ -1198,7 +1181,13 @@ namespace ComplantSystem
             };
 
 
-            return View(result);
+            return new ViewAsPdf("UserReportAsPDF", result)
+            {
+                PageOrientation = Orientation.Portrait,
+                MinimumFontSize = 25,
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                CustomSwitches = " --print-media-type --no-background --footer-line --header-line --page-offset 0 --footer-center [page] --footer-font-size 8 --footer-right \"page [page] from [topage]\"  "
+            };
         }
         public async Task<IActionResult> BeneficiariesAccount()
         {

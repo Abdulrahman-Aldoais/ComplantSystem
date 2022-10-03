@@ -7,6 +7,7 @@ using ComplantSystem.Models;
 using ComplantSystem.Models.Data.Base;
 using ComplantSystem.Service;
 using ComplantSystem.Service.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Rotativa.AspNetCore;
+using System;
+using System.Net;
 
 namespace ComplantSystem
 {
@@ -35,6 +39,23 @@ namespace ComplantSystem
         public void ConfigureServices(IServiceCollection services)
         {
 
+
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(60);
+                //options.ExcludedHosts.Add("example.com");
+                //options.ExcludedHosts.Add("www.example.com");
+            });
+
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+                options.HttpsPort = 5001;
+            });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
             services.AddControllersWithViews()
                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
 
@@ -121,7 +142,7 @@ namespace ComplantSystem
             app.UseStaticFiles();
 
 
-            //app.UseSession();
+            app.UseSession();
 
 
             //Authentication & Authorization
@@ -150,7 +171,7 @@ namespace ComplantSystem
             UsersConfiguration.SeedUsersAndRolesAsync(app).Wait();
 
 
-
+            RotativaConfiguration.Setup("wwwroot");
 
 
 

@@ -1,7 +1,7 @@
 ﻿
 @model IEnumerable<ComplantSystem.Models.UploadsComplainte>
 
-@{ ViewData["Title"] = "إدارة الشكاوى في الاتحاد";
+@{ ViewData["Title"] = "إدارة الشكاوى في العزلة";
     ViewData["SubTitle"] = "إدارة الشكاوى ";
     ViewData["SubTitle2"] = " المرفوضة  ";
 
@@ -145,12 +145,12 @@
 
 
                                                     <td data-title="الاجراءات :">
-                                                        <a href="@Url.Action("ViewCompalintRejectedDetails", "Beneficiarie", new { id = item.Id })"
+                                                        <a href="@Url.Action("ViewCompalintRejectedDetails", "SubManageComplaints", new { id = item.Id })"
                                                            class="btn btn-info"
                                                            style="padding: 0px; margin: 0px 2px 0px 2px">
                                                             <i class="material-icons" style="padding: 4px;">عرض</i>
                                                         </a>
-                                                        <a href="@Url.Action("ViewCompalintRejectedDetails", "Beneficiarie", new { id = item.Id })"
+                                                        <a href="@Url.Action("ViewCompalintRejectedDetails", "SubManageComplaints", new { id = item.Id })"
                                                            class="btn btn-danger"
                                                            style="padding: 0px; margin: 0px 2px 0px 2px">
                                                             <i class="material-icons" style="padding: 4px">حذف</i>

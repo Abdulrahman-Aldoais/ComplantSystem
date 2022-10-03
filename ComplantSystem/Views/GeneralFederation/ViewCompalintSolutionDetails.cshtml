@@ -260,6 +260,7 @@
                                                     <th class="col-sm-1">
                                                         تاريخ الحل
                                                     </th>
+                                                    <th> الحالة</th>
 
                                                     <th class="col-sm-1">اجراء</th>
                                                 </tr>
@@ -323,7 +324,18 @@
                                                                 @Html.DisplayFor(modelItem => item.DateSolution)
                                                             </td>
 
+                                                            <td>
+                                                                @if (item.IsAccept == true)
+                                                                {
+                                                                    <span class="badge bg-danger text-white">مقبول</span>
 
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    <span class="badge bg-success text-white"> مرفوض</span>
+                                                                }
+                                                            </td>
 
                                                             <td data-title="الاجراءات :">
 

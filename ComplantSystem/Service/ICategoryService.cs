@@ -10,6 +10,7 @@ namespace ComplantSystem.Service
         Task<TypeCommunication> GetCommunicationByIdAsync(string id);
         Task UpdateAsync(string id, TypeComplaint entity);
         Task DeleteAsync(string id);
+        Task DeleteCommAsync(string id);
         Task AddCategoruComp(TypeComplaint entity);
         Task AddCategoruComm(TypeCommunication entity);
         Task<IEnumerable<TypeComplaint>> GetAllGategoryCompAsync();

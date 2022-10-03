@@ -44,91 +44,107 @@
                             <div class="card-body">
                                 <div class="user-avatar-section">
 
-                                <h5 style="font-family:Cairo;font-size:18px" class="border-bottom pb-2 mb-4">البيانات</h5>
-                                <div class="info-container">
+                                    <h5 style="font-family:Cairo;font-size:18px" class="border-bottom pb-2 mb-4">البيانات</h5>
                                     <div class="info-container">
-                                        <form asp-action="EditMyProfile" asp-controller="ManageProfile" method="post">
-                                            <ul class="list-unstyled">
-                                                <li class="mb-3">
-                                                    <span class="fw-bold me-2">اسم المستخدم:</span>
+                                        <div class="info-container">
+                                            <form asp-action="EditMyProfile" id="EditForm" method="post">
+                                                <ul class="list-unstyled">
+                                                    <li class="mb-3">
+                                                        <span class="fw-bold me-2">اسم المستخدم:</span>
 
-                                                    <div class="form-group">
-                                                        <input type="text" asp-for="FullName" class="form-control" placeholder="" id="name" required>
-                                                        <span asp-validation-for="FullName"></span>
-                                                    </div>
-                                                </li>
-
-
-                                                <li class="mb-3">
-
-                                                    <div class="form-group">
-                                                        <span class="fw-bold me-2">تاريخ الميلاد:</span>
-                                                        <input type="text" asp-for="DateOfBirth" class="form-control" placeholder="" id="name" required>
-                                                        <span asp-validation-for="DateOfBirth"></span>
-                                                    </div>
-                                                </li>
-
-                                                <li class="mb-3">
-                                                    <span class="fw-bold me-2">رقم الهاتف:</span>
-                                                    <div class="form-group">
-
-                                                        <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="" id="name" required>
-                                                        <span asp-validation-for="PhoneNumber"></span>
-                                                    </div>
-                                                </li>
-
-                                                @*<li class="mb-3">
-                <span class="fw-bold me-2">المحافظة:</span>
-                <span>@Html.DisplayFor(model => model.Governorates.Name)</span>
-            </li>
-            <li class="mb-3">
-                <span class="fw-bold me-2">المديرية:</span>
-                <span>@Html.DisplayFor(model => model.Directorates.Name)</span>
-            </li>
-            <li class="mb-3">
-                <span class="fw-bold me-2">العزلة:</span>
-                <span>@Html.DisplayFor(model => model.SubDirectorate.Name)</span>
-            </li>*@
+                                                        <div class="form-group">
+                                                            <input type="text" asp-for="FullName" class="form-control" placeholder="" id="name" required>
+                                                            <span asp-validation-for="FullName"></span>
+                                                        </div>
+                                                    </li>
 
 
-                                            </ul>
-                                           
-                                            <button onclick="location.href='@Url.Action("EditMyProfile", "ManageProfile")'" class="btn btn-label-success d-grid w-100 mb-3">
-                                                <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>حفظ التغير</span>
-                                            </button>
-                                            <button onclick="location.href='@Url.Action("Profile", "ManageProfile")'" class="btn btn-danger d-grid w-100 mb-3">
-                                                <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>خروج</span>
-                                            </button>
-                                        </form>
+                                                    <li class="mb-3">
 
+                                                        <div class="form-group">
+                                                            <span class="fw-bold me-2">تاريخ الميلاد:</span>
+                                                            <input type="text" asp-for="DateOfBirth" class="form-control" placeholder="" id="name" required>
+                                                            <span asp-validation-for="DateOfBirth"></span>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="mb-3">
+                                                        <span class="fw-bold me-2">رقم الهاتف:</span>
+                                                        <div class="form-group">
+
+                                                            <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="" id="name" required>
+                                                            <span asp-validation-for="PhoneNumber"></span>
+                                                        </div>
+                                                    </li>
+
+
+
+                                                </ul>
+
+                                                @*<button onclick="location.href='@Url.Action("EditMyProfile", "ManageProfile")'" id="btnSave" class="btn btn-label-success d-grid w-100 mb-3">
+                                                    <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>حفظ التغير</span>
+                                                </button>*@
+                                                <button type="submit" onclick="location.href='@Url.Action("EditMyProfile", "ManageProfile")'" id="btnSave" class="btn btn-label-success d-grid w-100 mb-3">
+                                                    <span class="d-flex justify-content-center align-items-center text-nowrap">
+                                                        <i class=""></i>
+                                                        حفظ التغير
+                                                    </span>
+                                                </button>
+                                                <button onclick="location.href='@Url.Action("Profile", "ManageProfile")'" class="btn btn-danger d-grid w-100 mb-3">
+                                                    <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>خروج</span>
+                                                </button>
+                                            </form>
+
+
+                                        </div>
 
                                     </div>
-
                                 </div>
                             </div>
                         </div>
+                        <!-- /Invoice Add-->
+                        <!-- Invoice Actions -->
+                        @*<div class="invoice-actions col-12 col-lg-3">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <button onclick="location.href='@Url.Action("Index", "ManageProfile")'" class="btn btn-primary d-grid w-100 mb-3">
+                                            <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>خروج</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                            </div>*@
+                        <!-- /Invoice Actions -->
                     </div>
-                    <!-- /Invoice Add-->
-                    <!-- Invoice Actions -->
-                    @*<div class="invoice-actions col-12 col-lg-3">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <button onclick="location.href='@Url.Action("Index", "ManageProfile")'" class="btn btn-primary d-grid w-100 mb-3">
-                                    <span class="d-flex justify-content-center align-items-center text-nowrap"><i class=""></i>خروج</span>
-                                </button>
 
-                            </div>
-                        </div>
-
-                    </div>*@
-                    <!-- /Invoice Actions -->
                 </div>
+                <!-- / Content -->
 
+                <div class="content-backdrop fade"></div>
             </div>
-            <!-- / Content -->
 
-            <div class="content-backdrop fade"></div>
         </div>
-
     </div>
-</div>
+    @section Scripts{
+
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <script>
+            $(function () {
+                $("#btnSave").click(function (e) {
+                    e.preventDefault();
+                    u
+                    swal.fire("Saved!", "تم الحفظ بنجاح.", "success")
+                        .then((confirm) => {
+                            $("#EditForm").submit();
+
+                        })
+                });
+
+            });
+
+
+
+        </script>
+    }
